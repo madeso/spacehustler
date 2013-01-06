@@ -21,6 +21,7 @@ public:
 	Bitmap(Size width, Size height, Type type);
 	~Bitmap();
 
+	void paintPixel(Size x, Size y, const Color& c);
 	void setPixel(Size x, Size y, const Color& c);
 	const Color getPixel(Size x, Size y) const;
 

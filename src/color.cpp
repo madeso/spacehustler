@@ -15,3 +15,8 @@ Color::Color(float R, float G, float B, float A)
 	: r(R), g(G), b(B), a(A)
 {
 }
+
+Color::Color(const Color& c, float A)
+	: r(c.r), g(c.g), b(c.b), a(A)
+{
+}

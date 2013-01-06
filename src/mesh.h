@@ -9,8 +9,12 @@
 class Mesh
 {
 public:
-	void addPoint(float x, float y, float z, float u, float v);
-	std::vector<float> vertices;
+	Mesh();
+
+	void addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
+	std::vector<GLfloat> vertices;
+
+	int points;
 };
 
 class Vao
@@ -51,6 +55,8 @@ public:
 private:
 	Vao vao;
 	Vbo vbo;
+
+	int points;
 };
 
 #endif

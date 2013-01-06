@@ -2,15 +2,23 @@
 #include <cassert>
 #include "shader.h"
 
-void Mesh::addPoint(float x, float y, float z, float u, float v)
+Mesh::Mesh()
+	: points(0)
+{
+}
+
+void Mesh::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v)
 {
 	assert(this);
 
 	vertices.push_back(x);
 	vertices.push_back(y);
 	vertices.push_back(z);
+
 	vertices.push_back(u);
 	vertices.push_back(v);
+
+	++points;
 }
 
 /////////////////////////
@@ -103,20 +111,21 @@ void Vbo::unbind()
 /////////////////////////
 
 CompiledMesh::CompiledMesh(const Mesh& mesh, const Program& prog)
+	: points(mesh.points)
 {
 	vao.bind();
 	vbo.bind();
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
 
-	const GLsizei stride = 5 * sizeof(float);
-	const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(float));
+	const GLsizei stride = 5 * sizeof(GLfloat);
+	const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
 
 	glEnableVertexAttribArray(prog.attrib("vert"));
 	glVertexAttribPointer(prog.attrib("vert"), 3, GL_FLOAT, GL_FALSE, stride, NULL);
 
 	glEnableVertexAttribArray(prog.attrib("vertuv"));
-	glVertexAttribPointer(prog.attrib("vertuv"), 3, GL_FLOAT, GL_TRUE, stride, uvoffset);
+	glVertexAttribPointer(prog.attrib("vertuv"), 2, GL_FLOAT, GL_TRUE, stride, uvoffset);
 
 	vbo.unbind();
 	vao.unbind();
@@ -129,6 +138,6 @@ CompiledMesh::~CompiledMesh()
 void CompiledMesh::render()
 {
 	vao.bind();
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, points);
 	vao.unbind();
 }
