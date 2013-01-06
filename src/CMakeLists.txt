@@ -6,14 +6,29 @@ set ( src_glew
 	../external/glew/GL/wglew.h
 )
 
+set ( src_soil
+	../external/soil/SOIL.c
+	../external/soil/SOIL.h
+	../external/soil/image_DXT.c
+	../external/soil/image_DXT.h
+	../external/soil/image_helper.c
+	../external/soil/image_helper.h
+	../external/soil/stb_image_aug.c
+	../external/soil/stb_image_aug.h
+	../external/soil/stbi_DDS_aug.h
+	../external/soil/stbi_DDS_aug_c.h
+)
+
 source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
+# source_group(soil FILES ${src_soil})
 
-add_executable(main WIN32 ${game_src} ${src_glew})
+add_executable(main WIN32 ${game_src} ${src_glew} ) #${src_soil})
 
 message(STATUS "Boost is ${Boost_LIBRARIES}")
 message(STATUS "Sfml is ${SFML_LIBRARIES}")
 
+# "../external/soil" 
 include_directories("../external/glew" ${SFML_INCLUDE_DIR})
 
 target_link_libraries(main ${OPENGL_LIBRARIES} ${Boost_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES})

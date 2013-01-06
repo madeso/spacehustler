@@ -171,10 +171,31 @@ Program::~Program()
 	glDeleteProgram(program);
 }
 
+namespace
+{
+	const Program*& CurrentBoundProgram()
+	{
+		static const Program* prog = 0;
+		return prog;
+	}
+}
+
+void Program::setUniform(const std::string& name, int i) const
+{
+	assert(this);
+	assert(program != 0);
+	assert(CurrentBoundProgram() == this);
+
+	glUniform1i(program, i);
+}
+
 void Program::bind() const
 {
 	assert(this);
 	assert(program != 0);
+
+	assert(CurrentBoundProgram() == 0);
+	CurrentBoundProgram() = this;
 
 	glUseProgram(program);
 }
@@ -183,6 +204,9 @@ void Program::unbind() const
 {
 	assert(this);
 	assert(program != 0);
+
+	assert(CurrentBoundProgram() == this);
+	CurrentBoundProgram() = 0;
 
 	glUseProgram(0);
 }

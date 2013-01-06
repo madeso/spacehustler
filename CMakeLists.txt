@@ -25,6 +25,10 @@ else(WIN32)
 	message(STATUS "using non-static libraries")
 endif(WIN32)
 
+IF(WIN32)
+	ADD_DEFINITIONS(/D _CRT_SECURE_NO_WARNINGS)
+ENDIF(WIN32)
+
 # force visual studio and the like to only have debug and release builds
 if(CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_CONFIGURATION_TYPES Debug Release)

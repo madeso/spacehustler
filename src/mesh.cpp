@@ -2,13 +2,15 @@
 #include <cassert>
 #include "shader.h"
 
-void Mesh::addPoint(float x, float y, float z)
+void Mesh::addPoint(float x, float y, float z, float u, float v)
 {
 	assert(this);
 
 	vertices.push_back(x);
 	vertices.push_back(y);
 	vertices.push_back(z);
+	vertices.push_back(u);
+	vertices.push_back(v);
 }
 
 /////////////////////////
@@ -107,8 +109,14 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, const Program& prog)
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
 
+	const GLsizei stride = 5 * sizeof(float);
+	const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(float));
+
 	glEnableVertexAttribArray(prog.attrib("vert"));
-	glVertexAttribPointer(prog.attrib("vert"), 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(prog.attrib("vert"), 3, GL_FLOAT, GL_FALSE, stride, NULL);
+
+	glEnableVertexAttribArray(prog.attrib("vertuv"));
+	glVertexAttribPointer(prog.attrib("vertuv"), 3, GL_FLOAT, GL_TRUE, stride, uvoffset);
 
 	vbo.unbind();
 	vao.unbind();

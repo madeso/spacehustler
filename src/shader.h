@@ -4,8 +4,11 @@
 #include <vector>
 #include "opengl.h"
 #include <boost/shared_ptr.hpp>
+#include <boost/noncopyable.hpp>
 
 class Shader
+	: boost::noncopyable
+
 {
 public:
 	enum Type { Vertex, Fragment };
@@ -28,6 +31,7 @@ public:
 };
 
 class Program
+	: boost::noncopyable
 {
 public:
 	static boost::shared_ptr<Program> FromShaderList(const ShaderList& shaders);
@@ -37,6 +41,8 @@ public:
 
 	GLint attrib(const std::string& name) const;
 	GLint uniform(const std::string& name) const;
+
+	void setUniform(const std::string& name, int i) const;
 
 	void bind() const;
 	void unbind() const;

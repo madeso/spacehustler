@@ -9,7 +9,7 @@
 class Mesh
 {
 public:
-	void addPoint(float x, float y, float z);
+	void addPoint(float x, float y, float z, float u, float v);
 	std::vector<float> vertices;
 };
 

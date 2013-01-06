@@ -10,26 +10,65 @@
 
 #include "shader.h"
 #include "mesh.h"
+#include "bitmap.h"
+#include "texture.h"
+#include "color.h"
 
 const char* const kVertexShaderSource =
    "#version 150"									"\n"
    "	"											"\n"
    "in vec4 vert;"									"\n"
+   "in vec2 vertuv;"								"\n"
+   "out vec2 fraguv;"								"\n"
    "	"											"\n"
    "void main() {"									"\n"
-   "    // does not alter the verticies at all"	"\n"
+   "    fraguv = vertuv;"							"\n"
    "    gl_Position = vert;"						"\n"
    "}"												"\n";
 
 const char* const kFragmentShaderSource =
    "#version 150"									"\n"
    ""												"\n"
+   "uniform sampler2D tex;"							"\n"
+   "in vec2 fraguv;"								"\n"
    "out vec4 finalColor;"							"\n"
    ""												"\n"
    "void main() {"									"\n"
    "    //set every drawn pixel to white"			"\n"
-   "    finalColor = vec4(1.0, 1.0, 1.0, 1.0);"	"\n"
+   "    finalColor = texture(tex, fraguv);"			"\n"
    "}"												"\n";
+
+float RandomFloat()
+{
+	return rand() / static_cast<float>(RAND_MAX);
+}
+
+Color RandomColor()
+{
+	return Color(RandomFloat(), RandomFloat(), RandomFloat());
+}
+
+boost::shared_ptr<Bitmap> RandomBitmap(int width, int height)
+{
+	boost::shared_ptr<Bitmap> bitmap( new Bitmap(width, height, Bitmap::Rgb) );
+	for(int x=0; x<width; ++x)
+	{
+		for(int y=0; y<height; ++y)
+		{
+			bitmap->setPixel(x, y, RandomColor() );
+		}
+	}
+
+	//bitmap->save();
+	return bitmap;
+}
+
+boost::shared_ptr<Texture> RandomTexture(int width, int height)
+{
+	boost::shared_ptr<Bitmap> bitmap = RandomBitmap(width, height);
+	boost::shared_ptr<Texture> tex(new Texture(*bitmap.get(), Texture::Type_CompressedRgb, Texture::Wrap_ClampToEdge, Texture::Filter_Nearest) );
+	return tex;
+}
 
 void logic()
 {
@@ -55,18 +94,18 @@ void logic()
 		throw "System not supporting opengl 3.2";
 	}*/
 
+	Mesh data;
+	data.addPoint(0.0f, 0.8f, 0.0f,   0.5f, 1.0f);
+	data.addPoint(-0.8f,-0.8f, 0.0f,   0.0f, 1.0f);
+	data.addPoint(0.8f,-0.8f, 0.0f,   1.0f, 0.0f);
+
 	boost::shared_ptr<Program> program = Program::FromShaderList(
 	                                        ShaderList()
 	                                        (Shader::FromSource(kVertexShaderSource, Shader::Vertex))
 	                                        (Shader::FromSource(kFragmentShaderSource, Shader::Fragment))
 	                                     );
-
-	Mesh data;
-	data.addPoint(0.0f, 0.8f, 0.0f);
-	data.addPoint(-0.8f, -0.8f, 0.0f);
-	data.addPoint(0.8f, -0.8f, 0.0f);
-
 	CompiledMesh cmesh(data, *program.get());
+	boost::shared_ptr<Texture> tex = RandomTexture(1024, 1024);
 
 	window.setVisible(true);
 	bool running = true;
@@ -81,6 +120,8 @@ void logic()
 
 
 			program->bind();
+			tex->bind(0);
+			program->setUniform("tex", 0);
 			cmesh.render();
 			program->unbind();
 
