@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <string>
 
+#include "ogldebug.h"
+
 #include <boost/scoped_array.hpp>
 #include <boost/bind.hpp>
 
@@ -185,8 +187,8 @@ void Program::setUniform(const std::string& name, int i) const
 	assert(this);
 	assert(program != 0);
 	assert(CurrentBoundProgram() == this);
-
-	glUniform1i(program, i);
+	const GLint uni = uniform(name);
+	glUniform1i(uni, i);
 }
 
 void Program::bind() const

@@ -13,7 +13,10 @@ So - faster, simpler, created by the same designers 10 years later, and produces
 Rng::Rng(int seed)
 	: index(0)
 {
-	for(int i=0; i<16; ++i) state[i] = seed * i;
+	for(int i = 0; i < 16; ++i)
+	{
+		state[i] = seed * i;
+	}
 }
 
 unsigned long Rng::operator()()
@@ -25,15 +28,15 @@ unsigned long Rng::next()
 {
 	unsigned long a, b, c, d;
 	a = state[index];
-	c = state[(index+13)&15];
-	b = a^c^(a<<16)^(c<<15);
-	c = state[(index+9)&15];
-	c ^= (c>>11);
-	a = state[index] = b^c;
-	d = a^((a<<5)&0xDA442D20UL);
-	index = (index + 15)&15;
+	c = state[(index + 13) & 15];
+	b = a ^ c ^ (a << 16) ^ (c << 15);
+	c = state[(index + 9) & 15];
+	c ^= (c >> 11);
+	a = state[index] = b ^ c;
+	d = a ^ ((a << 5) & 0xDA442D20UL);
+	index = (index + 15) & 15;
 	a = state[index];
-	state[index] = a^b^d^(a<<2)^(b<<18)^(c<<28);
+	state[index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
 	return state[index];
 }
 

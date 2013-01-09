@@ -69,22 +69,22 @@ void Bitmap::paintPixel(Size x, Size y, const Color& c)
 	assert(x < width);
 	assert(y < height);
 
-	assert(c.a >= 0 );
-	assert(c.a <= 1 );
+	assert(c.a >= 0);
+	assert(c.a <= 1);
 
 	const Size bitsperpixel = type == Rgba ? 4 : 3;
 	Bitmap::Size index = GetIndex(x, y, width) * bitsperpixel;
 
 	const float a = c.a;
-	const float a1 = 1- c.a;
+	const float a1 = 1 - c.a;
 
 	Bitmap::Byte& r = pixels[index + 0];
 	Bitmap::Byte& g = pixels[index + 1];
 	Bitmap::Byte& b = pixels[index + 2];
 
-	r = C(c.r*a + C(r)*a1);
-	g = C(c.g*a + C(g)*a1);
-	b = C(c.b*a + C(b)*a1);
+	r = C(c.r * a + C(r) * a1);
+	g = C(c.g * a + C(g) * a1);
+	b = C(c.b * a + C(b) * a1);
 
 	if(type == Rgba)
 	{

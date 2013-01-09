@@ -14,6 +14,7 @@
 #include "texture.h"
 #include "color.h"
 #include "rng.h"
+#include "ogldebug.h"
 
 const char* const kVertexShaderSource =
    "#version 150"									"\n"
@@ -52,12 +53,12 @@ Color RandomColor()
 
 boost::shared_ptr<Bitmap> RandomBitmap(int width, int height)
 {
-	boost::shared_ptr<Bitmap> bitmap( new Bitmap(width, height, Bitmap::Rgb) );
-	for(int x=0; x<width; ++x)
+	boost::shared_ptr<Bitmap> bitmap(new Bitmap(width, height, Bitmap::Rgb));
+	for(int x = 0; x < width; ++x)
 	{
-		for(int y=0; y<height; ++y)
+		for(int y = 0; y < height; ++y)
 		{
-			bitmap->setPixel(x, y, RandomColor() );
+			bitmap->setPixel(x, y, RandomColor());
 		}
 	}
 
@@ -74,21 +75,33 @@ void PlaceDot(boost::shared_ptr<Bitmap> bitmap, int dx, int dy, const Color& c, 
 {
 	const int rr = radius * radius;
 	assert(radius != 0);
-	for(int x = dx-radius; x < dx+radius; ++x)
+	for(int x = dx - radius; x < dx + radius; ++x)
 	{
-		for(int y=dy-radius; y<dy+radius; ++y)
+		for(int y = dy - radius; y < dy + radius; ++y)
 		{
-			if( x < 0 ) continue;
-			if( y < 0 ) continue;
-			if( x >= bitmap->getWidth() ) continue;
-			if( y >= bitmap->getHeight() ) continue;
+			if(x < 0)
+			{
+				continue;
+			}
+			if(y < 0)
+			{
+				continue;
+			}
+			if(x >= bitmap->getWidth())
+			{
+				continue;
+			}
+			if(y >= bitmap->getHeight())
+			{
+				continue;
+			}
 			const int xx = dx - x;
 			const int yy = dy - y;
-			const int ll = xx*xx + yy*yy;
-			if( ll <= rr )
+			const int ll = xx * xx + yy * yy;
+			if(ll <= rr)
 			{
-				const Color nc(c, 1-(ll/static_cast<float>(rr)));
-				bitmap->paintPixel(x,y, nc);
+				const Color nc(c, 1 - (ll / static_cast<float>(rr)));
+				bitmap->paintPixel(x, y, nc);
 			}
 		}
 	}
@@ -97,18 +110,18 @@ void PlaceDot(boost::shared_ptr<Bitmap> bitmap, int dx, int dy, const Color& c, 
 boost::shared_ptr<Bitmap> ArtyBitmap(int width, int height, unsigned int dots, int dotsize)
 {
 	// create white bitmap
-	boost::shared_ptr<Bitmap> bitmap( new Bitmap(width, height, Bitmap::Rgb) );
-	for(int x=0; x<width; ++x)
+	boost::shared_ptr<Bitmap> bitmap(new Bitmap(width, height, Bitmap::Rgb));
+	for(int x = 0; x < width; ++x)
 	{
-		for(int y=0; y<height; ++y)
+		for(int y = 0; y < height; ++y)
 		{
-			bitmap->setPixel(x, y, Color(1.0f) );
+			bitmap->setPixel(x, y, Color(1.0f));
 		}
 	}
 
-	for(unsigned int i=0; i<dots; ++i)
+	for(unsigned int i = 0; i < dots; ++i)
 	{
-		PlaceDot(bitmap, RandomInt(width), RandomInt(height), RandomColor(), 1+RandomInt(dotsize));
+		PlaceDot(bitmap, RandomInt(width), RandomInt(height), RandomColor(), 1 + RandomInt(dotsize));
 	}
 
 	//bitmap->save();
@@ -117,7 +130,7 @@ boost::shared_ptr<Bitmap> ArtyBitmap(int width, int height, unsigned int dots, i
 
 boost::shared_ptr<Texture> CreateTexture(boost::shared_ptr<Bitmap> bitmap)
 {
-	boost::shared_ptr<Texture> tex(new Texture(*bitmap.get(), Texture::Type_CompressedRgb, Texture::Wrap_MirrorRepeat, Texture::Filter_Nearest) );
+	boost::shared_ptr<Texture> tex(new Texture(*bitmap.get(), Texture::Type_CompressedRgb, Texture::Wrap_MirrorRepeat, Texture::Filter_Nearest));
 	return tex;
 }
 
@@ -142,6 +155,8 @@ void logic()
 		throw msg;
 	}
 
+	OglDebug ogldebug(OglDebug::IsSupported());
+
 	/*if(!GLEW_VERSION_3_2)
 	{
 		throw "System not supporting opengl 3.2";
@@ -149,17 +164,21 @@ void logic()
 
 	Mesh data;
 	data.addPoint(0.0f, 0.8f, 0.0f,   0.5f, 1.0f);
-	data.addPoint(-0.8f,-0.8f, 0.0f,   0.0f, 0.0f);
-	data.addPoint(0.8f,-0.8f, 0.0f,   1.0f, 0.0f);
+	data.addPoint(-0.8f, -0.8f, 0.0f,   0.0f, 0.0f);
+	data.addPoint(0.8f, -0.8f, 0.0f,   1.0f, 0.0f);
 
 	boost::shared_ptr<Program> program = Program::FromShaderList(
-											ShaderList()
-											(Shader::FromSource(kVertexShaderSource, Shader::Vertex))
-											(Shader::FromSource(kFragmentShaderSource, Shader::Fragment))
-										 );
+	                                        ShaderList()
+	                                        (Shader::FromSource(kVertexShaderSource, Shader::Vertex))
+	                                        (Shader::FromSource(kFragmentShaderSource, Shader::Fragment))
+	                                     );
+
 	CompiledMesh cmesh(data, *program.get());
+
 	boost::shared_ptr<Texture> tex = //CreateTexture(RandomBitmap(1024, 1024));
-		CreateTexture( ArtyBitmap(512, 512, 100, 300) );
+	   CreateTexture(ArtyBitmap(512, 512, 100, 300));
+
+	OglDebug::Verify();
 
 	window.setVisible(true);
 	bool running = true;
@@ -169,9 +188,10 @@ void logic()
 		sf::Event event;
 		while(window.pollEvent(event))
 		{
+			OglDebug::Verify();
+
 			glClearColor(0, 0, 0, 1); // black
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
 			program->bind();
 			tex->bind(0);
