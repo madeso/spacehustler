@@ -146,7 +146,6 @@ void logic()
 	settings.minorVersion = 1;
 
 	sf::Window window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
-	window.setVisible(false);
 
 	const GLenum err = glewInit();
 	if(err != GLEW_OK)
@@ -177,10 +176,8 @@ void logic()
 
 	boost::shared_ptr<Texture> tex = //CreateTexture(RandomBitmap(1024, 1024));
 	   CreateTexture(ArtyBitmap(512, 512, 100, 300));
-
 	OglDebug::Verify();
 
-	window.setVisible(true);
 	bool running = true;
 	while(running)
 	{
