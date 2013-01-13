@@ -19,15 +19,15 @@
 void OglDebug::Verify()
 {
 	const GLenum err = glGetError();
-	if( err != GL_NO_ERROR )
+	if(err != GL_NO_ERROR)
 	{
 		std::string name = "unknown gl error";
 
 		switch(err)
 		{
 #define ERR(x) case x: name = #x
-		ERR(GL_INVALID_OPERATION);
-		ERR(GL_INVALID_VALUE);
+				ERR(GL_INVALID_OPERATION);
+				ERR(GL_INVALID_VALUE);
 #undef ERR
 		};
 
