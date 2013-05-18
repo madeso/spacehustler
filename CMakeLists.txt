@@ -35,7 +35,8 @@ if(CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING "Reset the configurations to what we need" FORCE)
  endif()
 
-find_package(Boost COMPONENTS filesystem program_options serialization system REQUIRED)
+# COMPONENTS filesystem program_options serialization system 
+find_package(Boost REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets REQUIRED core base)
 include( "${wxWidgets_USE_FILE}" )
@@ -56,5 +57,7 @@ include_directories(inc)
 include_directories(external)
 include_directories(external/cml-1_0_2)
 include_directories(${Boost_INCLUDE_DIRS})
+
+message(STATUS "Boost include is ${Boost_INCLUDE_DIRS}")
 
 add_subdirectory(src)
