@@ -62,6 +62,9 @@
 #    ctor(s?), dtor, friend declarations, methods, member vars)
 #
 
+# Modifications:
+# - added glob support for linting directories
+
 """Does google-lint on c++ files.
 
 The goal of this script is to identify places in the code that *may*
@@ -85,7 +88,7 @@ import sre_compile
 import string
 import sys
 import unicodedata
-
+import glob
 
 _USAGE = """
 Syntax: cpplint.py [--verbose=#] [--output=vs7] [--filter=-x,+y,...]
@@ -4009,8 +4012,9 @@ def main():
                                          'replace')
 
   _cpplint_state.ResetErrorCounts()
-  for filename in filenames:
-    ProcessFile(filename, _cpplint_state.verbose_level)
+  for dir in filenames:
+    for filename in glob.glob(dir):
+      ProcessFile(filename, _cpplint_state.verbose_level)
   _cpplint_state.PrintErrorCounts()
 
   sys.exit(_cpplint_state.error_count > 0)
