@@ -25,8 +25,14 @@ source_group(glew FILES ${src_glew})
 
 add_executable(main WIN32 ${game_src} ${src_glew} ) #${src_soil})
 
-message(STATUS "Boost is ${Boost_LIBRARIES}")
-message(STATUS "Sfml is ${SFML_LIBRARIES}")
+add_custom_command(TARGET main
+                   PRE_BUILD
+                   COMMAND cpplint.py ARGS --output=vs7 --filter=-legal/copyright ${game_src}
+				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                   COMMENT "Running CppLint")
+
+message(STATUS "Boost lib is ${Boost_LIBRARIES}")
+message(STATUS "Sfml lib is ${SFML_LIBRARIES}")
 
 # "../external/soil" 
 include_directories("../external/glew" ${SFML_INCLUDE_DIR})
