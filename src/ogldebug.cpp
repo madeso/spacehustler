@@ -31,7 +31,7 @@ void OglDebug::Verify()
 #undef ERR
 		};
 
-		throw "gl error occured";
+		throw "gl error occurred";
 	}
 }
 
