@@ -7,12 +7,14 @@
 --indent-classes
 --indent-namespaces
 --add-brackets
---align-pointer=type
 --unpad-paren
 --pad-oper
 --indent-preprocessor
 --indent-col1-comments
 --indent-labels
 --indent-switches
---align-reference=type
 --max-code-length=80
+
+#change this?
+--align-reference=type
+--align-pointer=type
