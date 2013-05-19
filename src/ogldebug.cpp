@@ -9,8 +9,7 @@
 #define GLEW_CALLBACK_DEFINED
 #  if defined(__MINGW32__) || defined(__CYGWIN__)
 #    define CALLBACK __attribute__ ((__stdcall__))
-#  elif (defined(_M_MRX000) || defined(_M_IX86) || defined(_M_ALPHA) \
-  || defined(_M_PPC)) && !defined(MIDL_PASS)
+#  elif (defined(_M_MRX000) || defined(_M_IX86) || defined(_M_ALPHA) || defined(_M_PPC))&&  !defined(MIDL_PASS)  // NOLINT
 #    define CALLBACK __stdcall
 #  else
 #    define CALLBACK
