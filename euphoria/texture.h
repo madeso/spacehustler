@@ -2,7 +2,7 @@
 #define EUPHORIA_TEXTURE_H_
 
 #include <boost/noncopyable.hpp>
-#include "opengl.h"
+#include "euphoria/opengl.h"
 
 namespace internal {
   class TextureObject

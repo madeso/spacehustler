@@ -1,6 +1,6 @@
-#include "mesh.h"
+#include "euphoria/mesh.h"
 #include <cassert>
-#include "shader.h"
+#include "euphoria/shader.h"
 
 Mesh::Mesh()
   : points(0) {

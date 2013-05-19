@@ -1,7 +1,7 @@
 #include <cassert>
 
-#include "bitmap.h"
-#include "color.h"
+#include "euphoria/bitmap.h"
+#include "euphoria/color.h"
 
 // #include "SOIL.h"
 

@@ -1,6 +1,6 @@
-#include "texture.h"
+#include "euphoria/texture.h"
 
-#include "bitmap.h"
+#include "euphoria/bitmap.h"
 #include <cassert>
 
 namespace internal {

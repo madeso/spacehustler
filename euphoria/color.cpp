@@ -1,4 +1,4 @@
-#include "color.h"
+#include "euphoria/color.h"
 
 
 Color::Color(float gray)

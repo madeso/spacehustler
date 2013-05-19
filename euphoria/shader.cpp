@@ -1,9 +1,9 @@
-#include "shader.h"
+#include "euphoria/shader.h"
 #include <cassert>
 #include <algorithm>
 #include <string>
 
-#include "ogldebug.h"
+#include "euphoria/ogldebug.h"
 
 #include <boost/scoped_array.hpp>
 #include <boost/bind.hpp>

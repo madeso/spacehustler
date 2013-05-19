@@ -6,7 +6,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
-#include "opengl.h"
+#include "euphoria/opengl.h"
 
 class Shader
     : boost::noncopyable {

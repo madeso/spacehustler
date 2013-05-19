@@ -1,4 +1,4 @@
-#include "rng.h"
+#include "euphoria/rng.h"
 #include <limits>
 
 

@@ -1,7 +1,7 @@
 #include <string>
 
-#include "ogldebug.h"
-#include "opengl.h"
+#include "euphoria/ogldebug.h"
+#include "euphoria/opengl.h"
 
 // definitions shamelessly stolen from glew headers
 /* <winnt.h> */

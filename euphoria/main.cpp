@@ -8,15 +8,15 @@
 #include <wx/wx.h>
 #endif
 
-#include "opengl.h"
+#include "euphoria/opengl.h"
 
-#include "shader.h"
-#include "mesh.h"
-#include "bitmap.h"
-#include "texture.h"
-#include "color.h"
-#include "rng.h"
-#include "ogldebug.h"
+#include "euphoria/shader.h"
+#include "euphoria/mesh.h"
+#include "euphoria/bitmap.h"
+#include "euphoria/texture.h"
+#include "euphoria/color.h"
+#include "euphoria/rng.h"
+#include "euphoria/ogldebug.h"
 
 const char* const kVertexShaderSource =
   "#version 150"                                   "\n"

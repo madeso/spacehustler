@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "opengl.h"
-#include "shader.h"
+#include "euphoria/opengl.h"
+#include "euphoria/shader.h"
 
 class Mesh {
   public:
