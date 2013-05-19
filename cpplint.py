@@ -67,6 +67,7 @@
 # - updated vs7 output to display errors and a human readable message
 #   for confidence
 # - added catch to allowed controlstructures
+# - printing headername found when the order is wrong
 
 """Does google-lint on c++ files.
 
@@ -499,7 +500,7 @@ class _IncludeState(dict):
     self._last_header = canonical_header
     return True
 
-  def CheckNextIncludeOrder(self, header_type):
+  def CheckNextIncludeOrder(self, includefile, header_type):
     """Returns a non-empty error message if the next header is out of order.
 
     This function also updates the internal state to be ready to check
@@ -513,8 +514,9 @@ class _IncludeState(dict):
       error message describing what's wrong.
 
     """
-    error_message = ('Found %s after %s' %
+    error_message = ('Found %s(%s) after %s' %
                      (self._TYPE_NAMES[header_type],
+                      includefile,
                       self._SECTION_NAMES[self._section]))
 
     last_section = self._section
@@ -3067,7 +3069,7 @@ def CheckIncludeLine(filename, clean_lines, linenum, include_state, error):
       # track of the highest type seen, and complains if we see a
       # lower type after that.
       error_message = include_state.CheckNextIncludeOrder(
-          _ClassifyInclude(fileinfo, include, is_system))
+          include, _ClassifyInclude(fileinfo, include, is_system))
       if error_message:
         error(filename, linenum, 'build/include_order', 4,
               '%s. Should be: %s.h, c system, c++ system, other.' %
