@@ -1,5 +1,5 @@
 #include "rng.h"
-#include <climits>
+#include <limits>
 
 
 /*
@@ -10,37 +10,32 @@ So - faster, simpler, created by the same designers 10 years later, and produces
 // http://stackoverflow.com/questions/1046714/what-is-a-good-random-number-generator-for-a-game
 // http://stackoverflow.com/a/1227137
 
-Rng::Rng(int seed)
-	: index(0)
-{
-	for(int i = 0; i < 16; ++i)
-	{
-		state[i] = seed * i;
-	}
+Rng::Rng(uint32 seed)
+  : index(0) {
+  for (uint32 i = 0; i < 16; ++i) {
+    state[i] = seed * i;
+  }
 }
 
-unsigned long Rng::operator()()
-{
-	return next();
+Rng::uint32 Rng::operator()() {
+  return next();
 }
 
-unsigned long Rng::next()
-{
-	unsigned long a, b, c, d;
-	a = state[index];
-	c = state[(index + 13) & 15];
-	b = a ^ c ^ (a << 16) ^ (c << 15);
-	c = state[(index + 9) & 15];
-	c ^= (c >> 11);
-	a = state[index] = b ^ c;
-	d = a ^ ((a << 5) & 0xDA442D20UL);
-	index = (index + 15) & 15;
-	a = state[index];
-	state[index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
-	return state[index];
+Rng::uint32 Rng::next() {
+  uint32 a, b, c, d;
+  a = state[index];
+  c = state[(index + 13) & 15];
+  b = a ^ c ^ (a << 16) ^ (c << 15);
+  c = state[(index + 9) & 15];
+  c ^= (c >> 11);
+  a = state[index] = b ^ c;
+  d = a ^ ((a << 5) &  0xDA442D24UL);
+  index = (index + 15) & 15;
+  a = state[index];
+  state[index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
+  return state[index];
 }
 
-float Rng::nextFloat()
-{
-	return static_cast<float>(next()) / ULONG_MAX;
+float Rng::nextFloat() {
+  return static_cast<float>(next()) / std::numeric_limits<Rng::uint32>().max();
 }

@@ -1,19 +1,21 @@
 #ifndef RNG_H
 #define RNG_H
 
-class Rng
-{
-public:
-	Rng(int seed);
+#include <boost/cstdint.hpp>
 
-	unsigned long next();
-	unsigned long operator()();
+class Rng {
+  public:
+    typedef boost::uint32_t uint32;
+    explicit Rng(uint32 seed);
 
-	float nextFloat();
+    uint32 next();
+    uint32 operator()();
 
-private:
-	unsigned int index;
-	unsigned long state[16];
+    float nextFloat();
+
+  private:
+    uint32 index;
+    uint32 state[16];
 };
 
 #endif

@@ -4,16 +4,15 @@
 #include <boost/noncopyable.hpp>
 
 class OglDebug
-	: boost::noncopyable
-{
-public:
-	explicit OglDebug(bool debug);
-	~OglDebug();
+    : boost::noncopyable {
+  public:
+    explicit OglDebug(bool debug);
+    ~OglDebug();
 
-	static bool IsSupported();
-	static void Verify();
-private:
-	const bool debug;
+    static bool IsSupported();
+    static void Verify();
+  private:
+    const bool debug;
 };
 
 #endif
