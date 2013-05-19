@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #include <SFML/Window.hpp>
 
 #include <wx/wxprec.h>

@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #ifndef EUPHORIA_BITMAP_H_
 #define EUPHORIA_BITMAP_H_
 

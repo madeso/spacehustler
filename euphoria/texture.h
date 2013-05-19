@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #ifndef EUPHORIA_TEXTURE_H_
 #define EUPHORIA_TEXTURE_H_
 

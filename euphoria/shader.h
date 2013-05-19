@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #ifndef EUPHORIA_SHADER_H_
 #define EUPHORIA_SHADER_H_
 

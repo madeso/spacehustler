@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #ifndef EUPHORIA_RNG_H_
 #define EUPHORIA_RNG_H_
 

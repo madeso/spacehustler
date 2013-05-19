@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #include "euphoria/mesh.h"
 #include <cassert>
 #include "euphoria/shader.h"

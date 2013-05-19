@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #include <string>
 
 #include "euphoria/ogldebug.h"

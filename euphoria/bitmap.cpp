@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #include <cassert>
 
 #include "euphoria/bitmap.h"

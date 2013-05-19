@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #include "euphoria/shader.h"
 
 #include <boost/scoped_array.hpp>

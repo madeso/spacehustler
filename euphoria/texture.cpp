@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #include "euphoria/texture.h"
 
 #include <cassert>

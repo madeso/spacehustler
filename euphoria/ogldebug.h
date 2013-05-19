@@ -1,3 +1,5 @@
+// Euphoria - Copyright (c) Gustav
+
 #ifndef EUPHORIA_OGLDEBUG_H_
 #define EUPHORIA_OGLDEBUG_H_
 

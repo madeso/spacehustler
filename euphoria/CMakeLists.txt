@@ -32,7 +32,7 @@ add_custom_command(TARGET main
                    COMMENT "Running astyle")
 add_custom_command(TARGET main
                    PRE_LINK
-                   COMMAND cpplint.py ARGS --output=vs7 --filter=-legal/copyright ${game_src}
+                   COMMAND cpplint.py ARGS --output=vs7 ${game_src}
 				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                    COMMENT "Running CppLint")
 
