@@ -1,5 +1,5 @@
-#ifndef BITMAP_H
-#define BITMAP_H
+#ifndef EUPHORIA_BITMAP_H_
+#define EUPHORIA_BITMAP_H_
 
 #include <boost/scoped_array.hpp>
 #include <boost/noncopyable.hpp>
@@ -39,4 +39,4 @@ class Bitmap
     boost::scoped_array<Byte> pixels;
 };
 
-#endif
+#endif  // EUPHORIA_BITMAP_H_

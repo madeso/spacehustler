@@ -1,5 +1,5 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef EUPHORIA_MESH_H_
+#define EUPHORIA_MESH_H_
 
 #include <vector>
 
@@ -55,4 +55,4 @@ class CompiledMesh {
     int points;
 };
 
-#endif
+#endif  // EUPHORIA_MESH_H_

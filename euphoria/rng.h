@@ -1,5 +1,5 @@
-#ifndef RNG_H
-#define RNG_H
+#ifndef EUPHORIA_RNG_H_
+#define EUPHORIA_RNG_H_
 
 #include <boost/cstdint.hpp>
 
@@ -18,4 +18,4 @@ class Rng {
     uint32 state[16];
 };
 
-#endif
+#endif  // EUPHORIA_RNG_H_

@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef EUPHORIA_SHADER_H_
+#define EUPHORIA_SHADER_H_
 
 #include <vector>
 #include <string>
@@ -51,4 +51,4 @@ class Program
     GLuint program;
 };
 
-#endif
+#endif  // EUPHORIA_SHADER_H_

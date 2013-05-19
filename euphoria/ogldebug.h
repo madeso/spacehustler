@@ -1,5 +1,5 @@
-#ifndef OGLDEBUG_H
-#define OGLDEBUG_H
+#ifndef EUPHORIA_OGLDEBUG_H_
+#define EUPHORIA_OGLDEBUG_H_
 
 #include <boost/noncopyable.hpp>
 
@@ -15,4 +15,4 @@ class OglDebug
     const bool debug;
 };
 
-#endif
+#endif  // EUPHORIA_OGLDEBUG_H_

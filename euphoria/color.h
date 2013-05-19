@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef EUPHORIA_COLOR_H_
+#define EUPHORIA_COLOR_H_
 
 class Color {
   public:
@@ -11,4 +11,4 @@ class Color {
     float r, g, b, a;
 };
 
-#endif
+#endif  // EUPHORIA_COLOR_H_

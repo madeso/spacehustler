@@ -1,5 +1,5 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef EUPHORIA_TEXTURE_H_
+#define EUPHORIA_TEXTURE_H_
 
 #include <boost/noncopyable.hpp>
 #include "opengl.h"
@@ -43,4 +43,4 @@ class Texture {
     internal::TextureObject tex;
 };
 
-#endif
+#endif  // EUPHORIA_TEXTURE_H_
