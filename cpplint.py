@@ -876,8 +876,9 @@ def Error(filename, linenum, category, confidence, message):
   if _ShouldPrintError(category, confidence, linenum):
     _cpplint_state.IncrementErrorCount(category)
     if _cpplint_state.output_format == 'vs7':
-      sys.stderr.write('%s(%s):  %s  [%s] [%d]\n' % (
-          filename, linenum, message, category, confidence))
+      confidencestr = {1:'could be legimate', 2:'uncertain', 3:'50/50', 4:'sortof confident', 5:'confident'}[confidence]
+      sys.stderr.write('%s(%s): error GOOGLE_%d: %s  [%s] [%s]\n' % (
+          filename, linenum, confidence, message, category, confidencestr))
     else:
       sys.stderr.write('%s:%s:  %s  [%s] [%d]\n' % (
           filename, linenum, message, category, confidence))
