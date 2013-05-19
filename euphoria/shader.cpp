@@ -1,12 +1,13 @@
 #include "euphoria/shader.h"
+
+#include <boost/scoped_array.hpp>
+#include <boost/bind.hpp>
+
 #include <cassert>
 #include <algorithm>
 #include <string>
 
 #include "euphoria/ogldebug.h"
-
-#include <boost/scoped_array.hpp>
-#include <boost/bind.hpp>
 
 Shader::Shader(const Type& type)
   : shader(glCreateShader(type == Shader::Vertex ? GL_VERTEX_SHADER :

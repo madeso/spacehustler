@@ -1,10 +1,11 @@
 #ifndef EUPHORIA_SHADER_H_
 #define EUPHORIA_SHADER_H_
 
-#include <vector>
-#include <string>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
+
+#include <vector>
+#include <string>
 
 #include "euphoria/opengl.h"
 

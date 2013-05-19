@@ -1,7 +1,8 @@
 #include "euphoria/texture.h"
 
-#include "euphoria/bitmap.h"
 #include <cassert>
+
+#include "euphoria/bitmap.h"
 
 namespace internal {
   TextureObject::TextureObject()
