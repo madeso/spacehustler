@@ -1,4 +1,4 @@
-FILE(GLOB game_src *.*)
+FILE(GLOB game_src *.cpp;*.h)
 
 set ( src_glew
 	../external/glew/GL/glew.c
@@ -27,12 +27,19 @@ add_executable(main WIN32 ${game_src} ${src_glew} ) #${src_soil})
 
 add_custom_command(TARGET main
                    PRE_BUILD
+                   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src}
+				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                   COMMENT "Running astyle")
+add_custom_command(TARGET main
+                   PRE_LINK
                    COMMAND cpplint.py ARGS --output=vs7 --filter=-legal/copyright ${game_src}
 				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                    COMMENT "Running CppLint")
 
 message(STATUS "Boost lib is ${Boost_LIBRARIES}")
 message(STATUS "Sfml lib is ${SFML_LIBRARIES}")
+
+message(STATUS "Sources is ${game_src}")
 
 # "../external/soil" 
 include_directories("../external/glew" ${SFML_INCLUDE_DIR})

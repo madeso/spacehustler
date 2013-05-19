@@ -1,0 +1,5 @@
+--style=java
+-s4
+--suffix=none
+--quiet
+--lineend=linux
