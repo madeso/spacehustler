@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
-project(ogldemo)
+project(euphoria)
 
 # these properties help when cmake can't find local data
 # set(Boost_DEBUG 1)
@@ -53,11 +53,10 @@ option(BUILD_SHARED_LIBS "build shared libraries" OFF)
 set(BUILD_SHARED_LIBS OFF)
 
 
-include_directories(inc)
 include_directories(external)
 include_directories(external/cml-1_0_2)
 include_directories(${Boost_INCLUDE_DIRS})
 
 message(STATUS "Boost include is ${Boost_INCLUDE_DIRS}")
 
-add_subdirectory(src)
+add_subdirectory(euphoria)
