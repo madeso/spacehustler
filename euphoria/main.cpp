@@ -152,9 +152,61 @@ void logic() {
   }*/
 
   Mesh data;
+  /*
   data.addPoint(0.0f, 0.8f, 0.0f,   0.5f, 1.0f);
   data.addPoint(-0.8f, -0.8f, 0.0f,   0.0f, 0.0f);
   data.addPoint(0.8f, -0.8f, 0.0f,   1.0f, 0.0f);
+  */
+
+  //              X     Y     Z       U     V
+  // bottom
+  data.addPoint(-1.0f, -1.0f, -1.0f,   0.0f, 0.0f);
+  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
+  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(1.0f, -1.0f, 1.0f,   1.0f, 1.0f);
+  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
+
+  // top
+  data.addPoint(-1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
+  data.addPoint(-1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
+  data.addPoint(1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(-1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
+  data.addPoint(1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
+
+  // front
+  data.addPoint(-1.0f, -1.0f, 1.0f,   1.0f, 0.0f);
+  data.addPoint(1.0f, -1.0f, 1.0f,   0.0f, 0.0f);
+  data.addPoint(-1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
+  data.addPoint(1.0f, -1.0f, 1.0f,   0.0f, 0.0f);
+  data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
+  data.addPoint(-1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
+
+  // back
+  data.addPoint(-1.0f, -1.0f, -1.0f,   0.0f, 0.0f);
+  data.addPoint(-1.0f, 1.0f, -1.0f,   0.0f, 1.0f);
+  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(-1.0f, 1.0f, -1.0f,   0.0f, 1.0f);
+  data.addPoint(1.0f, 1.0f, -1.0f,   1.0f, 1.0f);
+
+  // left
+  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
+  data.addPoint(-1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(-1.0f, -1.0f, -1.0f,   0.0f, 0.0f);
+  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
+  data.addPoint(-1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
+  data.addPoint(-1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
+
+  // right
+  data.addPoint(1.0f, -1.0f, 1.0f,   1.0f, 1.0f);
+  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
+  data.addPoint(1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
+  data.addPoint(1.0f, -1.0f, 1.0f,   1.0f, 1.0f);
+  data.addPoint(1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
+  data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
+
 
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
