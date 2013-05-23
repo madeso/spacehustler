@@ -209,7 +209,7 @@ std::string GrabExceptionInformation() {
   } catch (...) {
     return "unknown error";
   }
-  return "missing excception";
+  return "missing exception";
 }
 
 class MyApp: public wxApp {
