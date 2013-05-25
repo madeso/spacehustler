@@ -10,6 +10,7 @@
 #include <string>
 
 #include "euphoria/opengl.h"
+#include "euphoria/math.h"
 
 class Shader
     : boost::noncopyable {
@@ -45,6 +46,7 @@ class Program
     GLint uniform(const std::string& name) const;
 
     void setUniform(const std::string& name, int i) const;
+    void setUniform(const std::string& name, const mat44& m) const;
 
     void bind() const;
     void unbind() const;

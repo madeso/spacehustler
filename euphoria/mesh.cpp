@@ -71,7 +71,7 @@ Vbo::~Vbo() {
   assert(this);
   assert(object != 0);
 
-  // deltete
+  // delete
   glDeleteBuffers(1, &object);
   object = 0;
 }

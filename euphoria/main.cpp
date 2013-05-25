@@ -19,30 +19,34 @@
 #include "euphoria/color.h"
 #include "euphoria/rng.h"
 #include "euphoria/ogldebug.h"
+#include "euphoria/math.h"
 
 const char* const kVertexShaderSource =
-  "#version 150"                                   "\n"
-  "    "                                           "\n"
-  "in vec4 vert;"                                  "\n"
-  "in vec2 vertuv;"                                "\n"
-  "out vec2 fraguv;"                               "\n"
-  "    "                                           "\n"
-  "void main() {"                                  "\n"
-  "    fraguv = vertuv;"                           "\n"
-  "    gl_Position = vert;"                        "\n"
-  "}"                                              "\n";
+  "#version 150"                                            "\n"
+  ""                                                        "\n"
+  "uniform mat4 projection;"                                "\n"
+  "uniform mat4 camera;"                                    "\n"
+  ""                                                        "\n"
+  "in vec3 vert;"                                           "\n"
+  "in vec2 vertuv;"                                         "\n"
+  "out vec2 fraguv;"                                        "\n"
+  "    "                                                    "\n"
+  "void main() {"                                           "\n"
+  "    fraguv = vertuv;"                                    "\n"
+  "    gl_Position = projection * camera * vec4(vert, 1);"  "\n"
+  "}"                                                       "\n";
 
 const char* const kFragmentShaderSource =
-  "#version 150"                                   "\n"
-  ""                                               "\n"
-  "uniform sampler2D tex;"                         "\n"
-  "in vec2 fraguv;"                                "\n"
-  "out vec4 finalColor;"                           "\n"
-  ""                                               "\n"
-  "void main() {"                                  "\n"
-  "    //set every drawn pixel to white"           "\n"
-  "    finalColor = texture(tex, fraguv);"         "\n"
-  "}"                                              "\n";
+  "#version 150"                                            "\n"
+  ""                                                        "\n"
+  "uniform sampler2D tex;"                                  "\n"
+  "in vec2 fraguv;"                                         "\n"
+  "out vec4 finalColor;"                                    "\n"
+  ""                                                        "\n"
+  "void main() {"                                           "\n"
+  "    //set every drawn pixel to white"                    "\n"
+  "    finalColor = texture(tex, fraguv);"                  "\n"
+  "}"                                                       "\n";
 
 float RandomFloat() {
   static Rng r(42);
@@ -152,11 +156,6 @@ void logic() {
   }*/
 
   Mesh data;
-  /*
-  data.addPoint(0.0f, 0.8f, 0.0f,   0.5f, 1.0f);
-  data.addPoint(-0.8f, -0.8f, 0.0f,   0.0f, 0.0f);
-  data.addPoint(0.8f, -0.8f, 0.0f,   1.0f, 0.0f);
-  */
 
   //              X     Y     Z       U     V
   // bottom
@@ -215,6 +214,26 @@ void logic() {
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
 
+  mat44 camera;
+
+  {
+    vec3 eye, target, up;
+    eye.set(3, 3, 3);
+    target.zero();
+    up.cardinal(1);
+    cml::matrix_look_at_LH(camera, eye, target, up);
+  }
+
+  // cml::identity_transform(camera);
+
+  cml::matrix_translation(camera, 0.0f, 1.0f, 0.0f);
+
+  mat44 projection;
+  /* cml::matrix_perspective_RH(projection, 800.0f, 600.0f, 0.1f,
+    100.0f, cml::z_clip_zero); */
+  cml::matrix_perspective_xfov_LH(projection, 45.0f, 800.0f / 600, 0.1f, 100.0f,
+                                  cml::z_clip_zero);
+
   CompiledMesh cmesh(data, *program.get());
 
   boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
@@ -233,6 +252,8 @@ void logic() {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       program->bind();
+      program->setUniform("camera", camera);
+      program->setUniform("projection", projection);
       tex->bind(0);
       program->setUniform("tex", 0);
       cmesh.render();

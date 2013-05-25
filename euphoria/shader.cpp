@@ -175,6 +175,14 @@ void Program::setUniform(const std::string& name, int i) const {
   glUniform1i(uni, i);
 }
 
+void Program::setUniform(const std::string& name, const mat44& m) const {
+  assert(this);
+  assert(program != 0);
+  assert(CurrentBoundProgram() == this);
+  const GLint uni = uniform(name);
+  glUniformMatrix4fv(uni, 1, GL_FALSE, m.data());
+}
+
 void Program::bind() const {
   assert(this);
   assert(program != 0);
