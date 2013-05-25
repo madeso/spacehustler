@@ -150,6 +150,9 @@ void logic() {
 
   OglDebug ogldebug(OglDebug::IsSupported());
 
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
   /*if(!GLEW_VERSION_3_2)
   {
       throw "System not supporting opengl 3.2";
@@ -224,13 +227,7 @@ void logic() {
     cml::matrix_look_at_LH(camera, eye, target, up);
   }
 
-  // cml::identity_transform(camera);
-
-  cml::matrix_translation(camera, 0.0f, 1.0f, 0.0f);
-
   mat44 projection;
-  /* cml::matrix_perspective_RH(projection, 800.0f, 600.0f, 0.1f,
-    100.0f, cml::z_clip_zero); */
   cml::matrix_perspective_xfov_LH(projection, 45.0f, 800.0f / 600, 0.1f, 100.0f,
                                   cml::z_clip_zero);
 
