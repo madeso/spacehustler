@@ -22,31 +22,32 @@
 #include "euphoria/math.h"
 
 const char* const kVertexShaderSource =
-  "#version 150"                                            "\n"
-  ""                                                        "\n"
-  "uniform mat4 projection;"                                "\n"
-  "uniform mat4 camera;"                                    "\n"
-  ""                                                        "\n"
-  "in vec3 vert;"                                           "\n"
-  "in vec2 vertuv;"                                         "\n"
-  "out vec2 fraguv;"                                        "\n"
-  "    "                                                    "\n"
-  "void main() {"                                           "\n"
-  "    fraguv = vertuv;"                                    "\n"
-  "    gl_Position = projection * camera * vec4(vert, 1);"  "\n"
-  "}"                                                       "\n";
+  "#version 150"                                                    "\n"
+  ""                                                                "\n"
+  "uniform mat4 projection;"                                        "\n"
+  "uniform mat4 camera;"                                            "\n"
+  "uniform mat4 model;"                                             "\n"
+  ""                                                                "\n"
+  "in vec3 vert;"                                                   "\n"
+  "in vec2 vertuv;"                                                 "\n"
+  "out vec2 fraguv;"                                                "\n"
+  "    "                                                            "\n"
+  "void main() {"                                                   "\n"
+  "    fraguv = vertuv;"                                            "\n"
+  "    gl_Position = projection * camera * model * vec4(vert, 1);"  "\n"
+  "}"                                                               "\n";
 
 const char* const kFragmentShaderSource =
-  "#version 150"                                            "\n"
-  ""                                                        "\n"
-  "uniform sampler2D tex;"                                  "\n"
-  "in vec2 fraguv;"                                         "\n"
-  "out vec4 finalColor;"                                    "\n"
-  ""                                                        "\n"
-  "void main() {"                                           "\n"
-  "    //set every drawn pixel to white"                    "\n"
-  "    finalColor = texture(tex, fraguv);"                  "\n"
-  "}"                                                       "\n";
+  "#version 150"                                                    "\n"
+  ""                                                                "\n"
+  "uniform sampler2D tex;"                                          "\n"
+  "in vec2 fraguv;"                                                 "\n"
+  "out vec4 finalColor;"                                            "\n"
+  ""                                                                "\n"
+  "void main() {"                                                   "\n"
+  "    //set every drawn pixel to white"                            "\n"
+  "    finalColor = texture(tex, fraguv);"                          "\n"
+  "}"                                                               "\n";
 
 float RandomFloat() {
   static Rng r(42);
@@ -231,6 +232,9 @@ void logic() {
   cml::matrix_perspective_xfov_LH(projection, 45.0f, 800.0f / 600, 0.1f, 100.0f,
                                   cml::z_clip_zero);
 
+  mat44 model;
+  cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);
+
   CompiledMesh cmesh(data, *program.get());
 
   boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
@@ -251,6 +255,7 @@ void logic() {
       program->bind();
       program->setUniform("camera", camera);
       program->setUniform("projection", projection);
+      program->setUniform("model", model);
       tex->bind(0);
       program->setUniform("tex", 0);
       cmesh.render();
