@@ -20,6 +20,7 @@
 #include "euphoria/rng.h"
 #include "euphoria/ogldebug.h"
 #include "euphoria/math.h"
+#include "euphoria/camera.h"
 
 const char* const kVertexShaderSource =
   "#version 150"                                                    "\n"
@@ -218,19 +219,15 @@ void logic() {
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
 
-  mat44 camera;
+  Camera camera;
 
   {
     vec3 eye, target, up;
     eye.set(3, 3, 3);
     target.zero();
     up.cardinal(1);
-    cml::matrix_look_at_LH(camera, eye, target, up);
+    cml::matrix_look_at_LH(camera.view, eye, target, up);
   }
-
-  mat44 projection;
-  cml::matrix_perspective_xfov_LH(projection, 45.0f, 800.0f / 600, 0.1f, 100.0f,
-                                  cml::z_clip_zero);
 
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);
@@ -253,8 +250,8 @@ void logic() {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       program->bind();
-      program->setUniform("camera", camera);
-      program->setUniform("projection", projection);
+      program->setUniform("camera", camera.view);
+      program->setUniform("projection", camera.projection);
       program->setUniform("model", model);
       tex->bind(0);
       program->setUniform("tex", 0);

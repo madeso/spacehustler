@@ -54,7 +54,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 
 include_directories(external)
-include_directories(external/cml-1_0_2)
+include_directories(external/cml-1_0_3)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 

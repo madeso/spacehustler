@@ -28,7 +28,7 @@ ELSE(CML_DIR)
 ENDIF(CML_DIR)
 
 # The configured build type for this installation:
-SET(CML_BUILD_TYPE "Release")
+SET(CML_BUILD_TYPE "Debug")
 
 # File included from CMakeLists.txt to setup CML:
 SET(CML_USE_FILE "${CML_LIBRARY_DIR}/UseCML.cmake")
