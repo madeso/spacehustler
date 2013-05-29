@@ -21,6 +21,7 @@
 #include "euphoria/ogldebug.h"
 #include "euphoria/math.h"
 #include "euphoria/camera.h"
+#include "euphoria/world.h"
 
 const char* const kVertexShaderSource =
   "#version 150"                                                    "\n"
@@ -131,35 +132,7 @@ boost::shared_ptr<Texture> CreateTexture(boost::shared_ptr<Bitmap> bitmap) {
   return tex;
 }
 
-void logic() {
-  srand(69);
-
-  sf::ContextSettings settings;
-  settings.depthBits = 24;
-  settings.stencilBits = 8;
-  settings.antialiasingLevel = 4;
-  settings.majorVersion = 2;
-  settings.minorVersion = 1;
-
-  sf::Window window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default,
-                    settings);
-
-  const GLenum err = glewInit();
-  if (err != GLEW_OK) {
-    std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));
-    throw msg;
-  }
-
-  OglDebug ogldebug(OglDebug::IsSupported());
-
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
-
-  /*if(!GLEW_VERSION_3_2)
-  {
-      throw "System not supporting opengl 3.2";
-  }*/
-
+void AddObjects(World* world) {
   Mesh data;
 
   //              X     Y     Z       U     V
@@ -211,6 +184,8 @@ void logic() {
   data.addPoint(1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
   data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
 
+  boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
+    CreateTexture(ArtyBitmap(512, 512, 100, 300));
 
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
@@ -218,6 +193,45 @@ void logic() {
                                 Shader::Vertex))
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
+
+  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(data, program, tex));
+
+  mat44 model;
+  cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);
+
+  boost::shared_ptr<Instance> ip(new Instance(cmesh, model));
+  world->add(ip);
+}
+
+void logic() {
+  srand(69);
+
+  sf::ContextSettings settings;
+  settings.depthBits = 24;
+  settings.stencilBits = 8;
+  settings.antialiasingLevel = 4;
+  settings.majorVersion = 2;
+  settings.minorVersion = 1;
+
+  sf::Window window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default,
+                    settings);
+
+  const GLenum err = glewInit();
+  if (err != GLEW_OK) {
+    std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));
+    throw msg;
+  }
+
+  OglDebug ogldebug(OglDebug::IsSupported());
+
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
+  /*if(!GLEW_VERSION_3_2)
+  {
+      throw "System not supporting opengl 3.2";
+  }*/
+
 
   Camera camera;
 
@@ -229,13 +243,8 @@ void logic() {
     cml::matrix_look_at_LH(camera.view, eye, target, up);
   }
 
-  mat44 model;
-  cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);
-
-  boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
-    CreateTexture(ArtyBitmap(512, 512, 100, 300));
-
-  CompiledMesh cmesh(data, program, tex);
+  World world;
+  AddObjects(&world);
 
   OglDebug::Verify();
 
@@ -250,7 +259,7 @@ void logic() {
       glClearColor(0, 0, 0, 1);  // black
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      cmesh.render(camera, model);
+      world.render(camera);
 
       window.display();
 
