@@ -232,10 +232,11 @@ void logic() {
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);
 
-  CompiledMesh cmesh(data, *program.get());
-
   boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
     CreateTexture(ArtyBitmap(512, 512, 100, 300));
+
+  CompiledMesh cmesh(data, program, tex);
+
   OglDebug::Verify();
 
   bool running = true;
@@ -249,14 +250,7 @@ void logic() {
       glClearColor(0, 0, 0, 1);  // black
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      program->bind();
-      program->setUniform("camera", camera.view);
-      program->setUniform("projection", camera.projection);
-      program->setUniform("model", model);
-      tex->bind(0);
-      program->setUniform("tex", 0);
-      cmesh.render();
-      program->unbind();
+      cmesh.render(camera, model);
 
       window.display();
 

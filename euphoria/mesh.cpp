@@ -100,8 +100,11 @@ void Vbo::unbind() {
 
 /////////////////////////
 
-CompiledMesh::CompiledMesh(const Mesh& mesh, const Program& prog)
-  : points(mesh.points) {
+CompiledMesh::CompiledMesh(const Mesh& mesh, boost::shared_ptr<Program> prog,
+                           boost::shared_ptr<Texture> tex)
+  : program(prog)
+  , texture(tex)
+  , points(mesh.points) {
   vao.bind();
   vbo.bind();
 
@@ -111,12 +114,12 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, const Program& prog)
   const GLsizei stride = 5 * sizeof(GLfloat);
   const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
 
-  glEnableVertexAttribArray(prog.attrib("vert"));
-  glVertexAttribPointer(prog.attrib("vert"), 3, GL_FLOAT, GL_FALSE, stride
+  glEnableVertexAttribArray(program->attrib("vert"));
+  glVertexAttribPointer(program->attrib("vert"), 3, GL_FLOAT, GL_FALSE, stride
                         , NULL);
 
-  glEnableVertexAttribArray(prog.attrib("vertuv"));
-  glVertexAttribPointer(prog.attrib("vertuv"), 2, GL_FLOAT, GL_TRUE, stride,
+  glEnableVertexAttribArray(program->attrib("vertuv"));
+  glVertexAttribPointer(program->attrib("vertuv"), 2, GL_FLOAT, GL_TRUE, stride,
                         uvoffset);
 
   vbo.unbind();
@@ -126,8 +129,16 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, const Program& prog)
 CompiledMesh::~CompiledMesh() {
 }
 
-void CompiledMesh::render() {
+void CompiledMesh::render(const Camera& camera, const mat44& model) {
+  program->bind();
+  program->setUniform("camera", camera.view);
+  program->setUniform("projection", camera.projection);
+  program->setUniform("model", model);
+  texture->bind(0);
+  program->setUniform("tex", 0);
   vao.bind();
   glDrawArrays(GL_TRIANGLES, 0, points);
   vao.unbind();
+
+  program->unbind();
 }
