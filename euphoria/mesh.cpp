@@ -130,10 +130,11 @@ CompiledMesh::~CompiledMesh() {
 }
 
 void CompiledMesh::render(const Camera& camera, const mat44& model) {
-  // todo: don't bind evrything all the time, sort and bind onluy when necessary
+  /// @todo don't bind everything all the time,
+  /// sort and bind only when necessary
   program->bind();
   program->setUniform("camera", camera.view);
-  program->setUniform("projection", camera.projection);
+  program->setUniform("projection", camera.getProjection());
   program->setUniform("model", model);
   texture->bind(0);
   program->setUniform("tex", 0);
