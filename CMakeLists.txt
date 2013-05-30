@@ -40,7 +40,7 @@ find_package(Boost REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets REQUIRED core base)
 include( "${wxWidgets_USE_FILE}" )
-#find_package(AssImp REQUIRED)
+# find_package(AssImp REQUIRED)
 
 #on windows main is needed, not on linux
 if(WIN32)
@@ -52,6 +52,9 @@ endif(WIN32)
 option(BUILD_SHARED_LIBS "build shared libraries" OFF)
 set(BUILD_SHARED_LIBS OFF)
 
+# add a target to generate API documentation with Doxygen
+find_package(Doxygen REQUIRED)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.ini ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
 
 include_directories(external)
 include_directories(external/cml-1_0_3)
