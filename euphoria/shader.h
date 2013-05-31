@@ -32,6 +32,7 @@ class Shader
     /** Create a shader from source.
     @param source the source code for the shader.
     @param type the shader type, if it's a vertex or a fragment shader.
+    @return a new shader.
      */
     static boost::shared_ptr<Shader> FromSource(const std::string& source,
         const Type& type);
