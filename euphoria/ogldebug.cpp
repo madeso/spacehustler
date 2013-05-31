@@ -18,6 +18,9 @@
 #  endif
 #endif
 
+/**
+@throws a character string when a error has occured.
+ */
 void OglDebug::Verify() {
   const GLenum err = glGetError();
   if (err != GL_NO_ERROR) {
@@ -30,6 +33,7 @@ void OglDebug::Verify() {
 #undef ERR
     };
 
+    /// @todo investigate what to throw here, should probably throw name instead
     throw "gl error occurred";
   }
 }

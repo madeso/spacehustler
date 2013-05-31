@@ -10,12 +10,30 @@
 #include "euphoria/math.h"
 #include "euphoria/camera.h"
 
+/** A mesh placed in a world.
+@see CompiledMesh
+@see World
+ */
 class Instance {
   public:
+    /** Constructs a new instance.
+    @param mesh the mesh to be rendered.
+    @param transform the initial transformation of the mesh.
+     */
     Instance(boost::shared_ptr<CompiledMesh> mesh, const mat44& transform);
+
+    /** Render this mesh. Should really only be called by World::render()
+    @see World::render()
+    @param camera the camera to render through.
+     */
     void render(const Camera& camera);
 
+    /** The mesh to be rendered.
+     */
     boost::shared_ptr<CompiledMesh> mesh;
+
+    /** The transform of the instance.
+     */
     mat44 transform;
 };
 
@@ -25,9 +43,18 @@ class Instance {
  */
 class World {
   public:
+    /** Constructs a new empty world.
+     */
     World();
 
+    /** Add a instance to the world.
+    @param instance the instance to add.
+     */
     void add(boost::shared_ptr<Instance> instance);
+
+    /** Render the world through a camera.
+    @param camera the camera.
+     */
     void render(const Camera& camera);
 
   private:

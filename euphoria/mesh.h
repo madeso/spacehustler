@@ -100,6 +100,7 @@ class Vbo {
 
 /** Compiled mesh ready for rendering.
 @see Mesh
+@see Instance
  */
 class CompiledMesh {
   public:
