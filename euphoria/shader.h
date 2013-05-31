@@ -107,7 +107,7 @@ class Program
 
     /** Set a uniform 4x4 matrix.
     @param name the uniform name.
-    @param i the 4x4 matrix value to set to.
+    @param m the 4x4 matrix value to set to.
      */
     void setUniform(const std::string& name, const mat44& m) const;
 

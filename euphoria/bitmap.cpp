@@ -7,13 +7,13 @@
 
 // #include "SOIL.h"
 
-Bitmap::Bitmap(Bitmap::Size awidth, Bitmap::Size aheight, Bitmap::Type atype)
-  : width(awidth), height(aheight), type(atype) {
+Bitmap::Bitmap(Bitmap::Size width, Bitmap::Size height, Bitmap::Type type)
+  : width(width), height(height), type(type) {
   assert(this);
   assert(width > 0);
   assert(height > 0);
 
-  const Size bitsperpixel = atype == Rgba ? 4 : 3;
+  const Size bitsperpixel = type == Rgba ? 4 : 3;
   pixels.reset(new Bitmap::Byte[ width * height * bitsperpixel ]);
 }
 
