@@ -1,9 +1,7 @@
-Delerium
+Euphoria
 =======
 
-Delerium is a basic modern opengl rendering engine. I only does rendering. It does not play sounds, it does not load models, shaders or textures. It doesn't even create the area to be rendered upon. That is up to you.
-
-It is also not complete.
+Euphoria is a basic modern opengl data driven game and rendering engine. It is not complete.
 
 Currently supported platforms:
 =======
