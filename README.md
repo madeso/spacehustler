@@ -12,6 +12,7 @@ Stuff that I'd like to add:
 * add physics system (ode, tokamak, physx, bullet)
 * add a global tweak system (Anttweakbar)
 * add loading of shaders from files with preprocessor
+* audio and music support
 * menu support (ce gui)
 * hud/2d support
 * lights and shaddows
@@ -21,6 +22,7 @@ Stuff that I'd like to add:
 * normal + specular + glow map
 * material templates with optional (lua) script
 * culling + world editor
+* replace filehandling with a vfs
 * deffered rendering
 * hdr
 * possible support older systems
