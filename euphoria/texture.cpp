@@ -3,8 +3,29 @@
 #include "euphoria/texture.h"
 
 #include <cassert>
+#include <string>
 
 #include "euphoria/bitmap.h"
+
+#include "soil/SOIL.h"
+
+namespace {
+  struct Soil {
+    explicit Soil(Bitmap::Byte* pixels)
+      : pixels(pixels) {
+      if (pixels == 0) {
+        const std::string error = SOIL_last_result();
+        throw "Failed to load b/c " + error;
+      }
+    }
+
+    ~Soil() {
+      SOIL_free_image_data(pixels);
+    }
+
+    Bitmap::Byte* pixels;
+  };
+}  // namespace
 
 namespace internal {
   TextureObject::TextureObject()
@@ -104,6 +125,32 @@ Texture::Texture(const Bitmap& bitmap, Texture::Type textureType
   glTexImage2D(GL_TEXTURE_2D, 0, C(textureType),
                (GLsizei)bitmap.getWidth(), (GLsizei)bitmap.getHeight(), 0,
                C(bitmap.getType()),  GL_UNSIGNED_BYTE, bitmap.getPixels());
+  glBindTexture(GL_TEXTURE_2D, 0);  // reset binding
+}
+
+Texture::Texture(const std::string& path, Texture::Type textureType
+                 , Texture::WrapMode wrap, Texture::FilterMode filter) {
+  assert(this);
+
+  int width = -1;
+  int height = -1;
+  int channels = -1;
+
+  /** @todo change file loading to use a VFS instead.
+   */
+
+  Soil soil(SOIL_load_image(path.c_str(), &width, &height,
+                            &channels, SOIL_LOAD_RGBA));
+
+  glBindTexture(GL_TEXTURE_2D, tex);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wrap));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrap));
+
+  glTexImage2D(GL_TEXTURE_2D, 0, C(textureType),
+               (GLsizei)width, (GLsizei)height, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, soil.pixels);
   glBindTexture(GL_TEXTURE_2D, 0);  // reset binding
 }
 

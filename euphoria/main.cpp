@@ -56,8 +56,8 @@ boost::shared_ptr<Bitmap> LoadBitmap(const std::string& path) {
   return bitmap;
 }
 
-boost::shared_ptr<Texture> CreateTexture(boost::shared_ptr<Bitmap> bitmap) {
-  boost::shared_ptr<Texture> tex(new Texture(*bitmap.get(),
+boost::shared_ptr<Texture> CreateTexture(const std::string& path) {
+  boost::shared_ptr<Texture> tex(new Texture(path,
                                  Texture::Type_CompressedRgb,
                                  Texture::Wrap_MirrorRepeat,
                                  Texture::Filter_Nearest));
@@ -117,7 +117,7 @@ void AddObjects(World* world) {
   data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
 
   boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
-    CreateTexture(LoadBitmap("wooden-crate.jpg"));
+    CreateTexture("wooden-crate.jpg");
   //  CreateTexture(ArtyBitmap(512, 512, 100, 300));
 
   boost::shared_ptr<Program> program =
