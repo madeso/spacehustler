@@ -6,6 +6,8 @@
 #include <boost/scoped_array.hpp>
 #include <boost/noncopyable.hpp>
 
+#include <string>
+
 class Color;
 
 /** A in-memory representation of a bitmap.
@@ -40,6 +42,11 @@ class Bitmap
     @param type the RGB type of the image.
      */
     Bitmap(Size width, Size height, Type type);
+
+    /** Load a bitmap from file.
+    @param path the path to the bitmap.
+     */
+    explicit Bitmap(const std::string& path);
 
     /** Destruct the bitmap.
      */

@@ -124,6 +124,11 @@ boost::shared_ptr<Bitmap> ArtyBitmap(int width, int height, unsigned int dots,
   return bitmap;
 }
 
+boost::shared_ptr<Bitmap> LoadBitmap(const std::string& path) {
+  boost::shared_ptr<Bitmap> bitmap(new Bitmap(path));
+  return bitmap;
+}
+
 boost::shared_ptr<Texture> CreateTexture(boost::shared_ptr<Bitmap> bitmap) {
   boost::shared_ptr<Texture> tex(new Texture(*bitmap.get(),
                                  Texture::Type_CompressedRgb,
@@ -185,7 +190,8 @@ void AddObjects(World* world) {
   data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
 
   boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
-    CreateTexture(ArtyBitmap(512, 512, 100, 300));
+    CreateTexture(LoadBitmap("wooden-crate.jpg"));
+  //  CreateTexture(ArtyBitmap(512, 512, 100, 300));
 
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
