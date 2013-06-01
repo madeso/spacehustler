@@ -20,6 +20,7 @@ Stuff that I'd like to add:
 * panning materials
 * normal + specular + glow map
 * material templates with optional (lua) script
+* culling + world editor
 * deffered rendering
 * hdr
 * possible support older systems
