@@ -22,7 +22,7 @@
 	//'function' : conversion from 'size_t' to 'int', possible loss of data
 	#pragma warning(disable: 4267)
 	// 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-	#define _CRT_SECURE_NO_WARNINGS
+	// #define _CRT_SECURE_NO_WARNINGS
 	//'calling_location' : unreferenced formal parameter
 	#pragma warning(disable: 4100)
 #endif

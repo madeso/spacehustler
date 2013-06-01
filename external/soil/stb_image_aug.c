@@ -68,7 +68,7 @@
 	//'=' : conversion from 'int' to 'stbi_uc', possible loss of data
 	#pragma warning(disable: 4244)
 	// 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-	#define _CRT_SECURE_NO_WARNINGS
+	// #define _CRT_SECURE_NO_WARNINGS
 	// 'hs' : unreferenced formal parameter
 	// theese are too many to fix, so we ignore the warning instead
 	#pragma warning(disable:4100)
