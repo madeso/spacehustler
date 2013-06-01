@@ -14,7 +14,6 @@
 
 #include "euphoria/shader.h"
 #include "euphoria/mesh.h"
-#include "euphoria/bitmap.h"
 #include "euphoria/texture.h"
 #include "euphoria/color.h"
 #include "euphoria/rng.h"
@@ -50,11 +49,6 @@ const char* const kFragmentShaderSource =
   "    //set every drawn pixel to white"                            "\n"
   "    finalColor = texture(tex, fraguv);"                          "\n"
   "}"                                                               "\n";
-
-boost::shared_ptr<Bitmap> LoadBitmap(const std::string& path) {
-  boost::shared_ptr<Bitmap> bitmap(new Bitmap(path));
-  return bitmap;
-}
 
 boost::shared_ptr<Texture> CreateTexture(const std::string& path) {
   boost::shared_ptr<Texture> tex(new Texture(path,

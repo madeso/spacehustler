@@ -5,13 +5,12 @@
 #include <cassert>
 #include <string>
 
-#include "euphoria/bitmap.h"
-
 #include "soil/SOIL.h"
 
 namespace {
+  typedef unsigned char Byte;
   struct Soil {
-    explicit Soil(Bitmap::Byte* pixels)
+    explicit Soil(Byte* pixels)
       : pixels(pixels) {
       if (pixels == 0) {
         const std::string error = SOIL_last_result();
@@ -23,7 +22,7 @@ namespace {
       SOIL_free_image_data(pixels);
     }
 
-    Bitmap::Byte* pixels;
+    Byte* pixels;
   };
 }  // namespace
 
@@ -99,34 +98,7 @@ namespace {
         throw "Unknown texture type";
     }
   }
-
-  GLenum C(Bitmap::Type type) {
-    switch (type) {
-      case Bitmap::Rgb:
-        return GL_RGB;
-      case Bitmap::Rgba:
-        return GL_RGBA;
-      default:
-        throw "Unknown bitmap type";
-    }
-  }
 }  // namespace
-
-Texture::Texture(const Bitmap& bitmap, Texture::Type textureType
-                 , Texture::WrapMode wrap, Texture::FilterMode filter) {
-  assert(this);
-
-  glBindTexture(GL_TEXTURE_2D, tex);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wrap));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrap));
-
-  glTexImage2D(GL_TEXTURE_2D, 0, C(textureType),
-               (GLsizei)bitmap.getWidth(), (GLsizei)bitmap.getHeight(), 0,
-               C(bitmap.getType()),  GL_UNSIGNED_BYTE, bitmap.getPixels());
-  glBindTexture(GL_TEXTURE_2D, 0);  // reset binding
-}
 
 Texture::Texture(const std::string& path, Texture::Type textureType
                  , Texture::WrapMode wrap, Texture::FilterMode filter) {

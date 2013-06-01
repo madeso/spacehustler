@@ -93,15 +93,6 @@ class Texture {
     };
 
     /** Construct a new texture object.
-    @param bitmap the bitmap to use.
-    @param textureType how to store the texture.
-    @param wrap what to do when the texture coordinate extends the texture.
-    @param filter how to filter the texture when rendering.
-     */
-    Texture(const Bitmap& bitmap, Type textureType, WrapMode wrap
-            , FilterMode filter);
-
-    /** Construct a new texture object.
     @param path the path of the image to use.
     @param textureType how to store the texture.
     @param wrap what to do when the texture coordinate extends the texture.
