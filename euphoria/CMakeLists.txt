@@ -21,9 +21,9 @@ set ( src_soil
 
 source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
-# source_group(soil FILES ${src_soil})
+source_group(soil FILES ${src_soil})
 
-add_executable(main WIN32 ${game_src} ${src_glew} ) #${src_soil})
+add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil})
 
 add_custom_command(TARGET main
                    PRE_BUILD
