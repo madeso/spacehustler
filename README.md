@@ -5,7 +5,6 @@ Euphoria is a basic modern opengl data driven game and rendering engine. It is n
 
 Stuff that I'd like to add:
 =======
-* replace the dynamic image generation with image loading (soil)
 * add loading of meshes (assimp)
 * add entity system with basic components
 * add scripting support (lua)
