@@ -2,13 +2,14 @@
 
 #include "euphoria/mesh.h"
 #include <cassert>
+#include <vector>
 #include "euphoria/shader.h"
 
-Mesh::Mesh()
+MeshPart::MeshPart()
   : points(0) {
 }
 
-void Mesh::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v) {
+void MeshPart::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v) {
   assert(this);
 
   vertices.push_back(x);
@@ -19,6 +20,11 @@ void Mesh::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v) {
   vertices.push_back(v);
 
   ++points;
+}
+
+/////////////////////////
+
+Mesh::Mesh() {
 }
 
 /////////////////////////
@@ -100,8 +106,9 @@ void Vbo::unbind() {
 
 /////////////////////////
 
-CompiledMesh::CompiledMesh(const Mesh& mesh, boost::shared_ptr<Program> prog,
-                           boost::shared_ptr<Texture> tex)
+CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
+                                   boost::shared_ptr<Program> prog,
+                                   boost::shared_ptr<Texture> tex)
   : program(prog)
   , texture(tex)
   , points(mesh.points) {
@@ -126,10 +133,10 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, boost::shared_ptr<Program> prog,
   vao.unbind();
 }
 
-CompiledMesh::~CompiledMesh() {
+CompiledMeshPart::~CompiledMeshPart() {
 }
 
-void CompiledMesh::render(const Camera& camera, const mat44& model) {
+void CompiledMeshPart::render(const Camera& camera, const mat44& model) {
   /// @todo don't bind everything all the time,
   /// sort and bind only when necessary
   program->bind();
@@ -143,4 +150,31 @@ void CompiledMesh::render(const Camera& camera, const mat44& model) {
   vao.unbind();
 
   program->unbind();
+}
+
+///////////////////////////
+
+CompiledMesh::CompiledMesh(const Mesh& mesh,
+                           boost::shared_ptr<Program> program) {
+  std::vector<boost::shared_ptr<Texture>> materials;
+  for (auto src : mesh.materials) {
+    boost::shared_ptr<Texture> tex(new Texture(src,
+                                   Texture::Type_CompressedRgb,
+                                   Texture::Wrap_ClampToEdge,
+                                   Texture::Filter_Linear));
+    materials.push_back(tex);
+  }
+
+  for (unsigned int i = 0; i < mesh.parts.size(); ++i) {
+    boost::shared_ptr<CompiledMeshPart> part(
+      new CompiledMeshPart(mesh.parts[i],
+                           program, materials[mesh.parts[i].material]));
+    parts.push_back(part);
+  }
+}
+
+void CompiledMesh::render(const Camera& camera, const mat44& model) {
+  for (auto part : parts) {
+    part->render(camera, model);
+  }
 }

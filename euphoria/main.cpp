@@ -59,10 +59,6 @@ boost::shared_ptr<Texture> CreateTexture(const std::string& path) {
 }
 
 void AddObjects(World* world) {
-  boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
-    CreateTexture("wooden-crate.jpg");
-  //  CreateTexture(ArtyBitmap(512, 512, 100, 300));
-
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
                             (Shader::FromSource(kVertexShaderSource,
@@ -70,12 +66,11 @@ void AddObjects(World* world) {
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
 
-  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(CreateBox(2.0f, 2.0f,
-                                        2.0f),
-                                        program, tex));
+  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(
+                                          LoadMesh("fighter1.3ds"), program));
 
   mat44 model;
-  cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);
+  cml::matrix_rotation_euler(model, 0.0f, 0.0f, 0.0f, cml::euler_order_yxz);
 
   boost::shared_ptr<Instance> ip(new Instance(cmesh, model));
   world->add(ip);
@@ -115,7 +110,7 @@ void logic() {
 
   {
     vec3 eye, target, up;
-    eye.set(3, 3, 3);
+    eye.set(30, 30, 30);
     target.zero();
     up.cardinal(1);
     cml::matrix_look_at_LH(camera.view, eye, target, up);

@@ -13,15 +13,13 @@
 #include "euphoria/texture.h"
 #include "euphoria/camera.h"
 
-/** Represents a mesh.
- Usually loaded from disc but can also be dynamically generated.
- @see CompiledMesh
+/** Triangle soup with a single material. Part of a Mesh.
  */
-class Mesh {
+class MeshPart {
   public:
     /** Constructs a empty mesh.
      */
-    Mesh();
+    MeshPart();
 
     /** Add a point to the mesh.
      @param x the X coordinate.
@@ -40,6 +38,31 @@ class Mesh {
     @todo replace with a better structure.
      */
     int points;
+
+    /** The material index.
+     */
+    unsigned int material;
+};
+
+/** Represents a mesh.
+ Usually loaded from disc but can also be dynamically generated.
+ @see CompiledMesh
+ */
+class Mesh {
+  public:
+    /** Constructs a empty mesh.
+     */
+    Mesh();
+
+    /** The parts.
+     */
+    std::vector<MeshPart> parts;
+
+    /** The materials.
+    This is actually the textures, but the whole material class isn't implemented yet.
+    @todo update to a better material representation
+     */
+    std::vector<std::string> materials;
 };
 
 /** Load a mesh.
@@ -125,25 +148,24 @@ class Vbo {
     GLuint object;
 };
 
-/** Compiled mesh ready for rendering.
-@see Mesh
-@see Instance
+/** Compiled mesh part ready for rendering.
+@see CompiledMesh
  */
-class CompiledMesh {
+class CompiledMeshPart {
   public:
-    /** Compiles a mesh.
-    @param mesh the Mesh to compile.
+    /** Compiles a mesh part.
+    @param mesh the MeshPart to compile.
     @param program the shader program to use.
     @param texture the texture to use.
      */
-    CompiledMesh(const Mesh& mesh, boost::shared_ptr<Program> program,
-                 boost::shared_ptr<Texture> texture);
+    CompiledMeshPart(const MeshPart& mesh, boost::shared_ptr<Program> program,
+                     boost::shared_ptr<Texture> texture);
 
-    /** Destructs the compiled mesh.
+    /** Destructs the compiled mesh part.
      */
-    ~CompiledMesh();
+    ~CompiledMeshPart();
 
-    /** Render the mesh.
+    /** Render the mesh part.
     @param camera through the camera.
     @param model the model matrix
      */
@@ -157,6 +179,27 @@ class CompiledMesh {
     boost::shared_ptr<Texture> texture;
 
     int points;
+};
+
+/** Compiled mesh ready for rendering.
+@see Mesh
+@see Instance
+ */
+class CompiledMesh {
+  public:
+    /** Compiles a mesh.
+    @param mesh the MeshPart to compile.
+    @param program the shader program to use.
+     */
+    CompiledMesh(const Mesh& mesh, boost::shared_ptr<Program> program);
+
+    /** Render the mesh.
+      @param camera through the camera.
+      @param model the model matrix
+       */
+    void render(const Camera& camera, const mat44& model);
+  private:
+    std::vector<boost::shared_ptr<CompiledMeshPart>> parts;
 };
 
 #endif  // EUPHORIA_MESH_H_

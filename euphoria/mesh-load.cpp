@@ -29,11 +29,31 @@ namespace {
 
   Mesh ConvertScene(const aiScene* scene) {
     Mesh ret;
+
+    /** @todo add parsing of nodes to the mesh so we could
+    dynamically animate some rotors, wings etc. for example
+     */
+
     if (scene->HasMeshes() == false) {
       throw "Scene is missing meshes";
     }
+
+    for (unsigned int materialId = 0; materialId < scene->mNumMaterials;
+         ++materialId) {
+      const aiMaterial* mat = scene->mMaterials[materialId];
+      if (mat->GetTextureCount(aiTextureType_DIFFUSE) <= 0) {
+        throw "Missing texture";
+      }
+
+      aiString path;
+      mat->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+      ret.materials.push_back(path.C_Str());
+    }
+
     for (unsigned int meshid = 0; meshid < scene->mNumMeshes; ++meshid) {
       const aiMesh* mesh = scene->mMeshes[meshid];
+      MeshPart part;
+      part.material = mesh->mMaterialIndex;
       for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
         const aiFace& face = mesh->mFaces[faceid];
         for (unsigned vertid = 0; vertid < 3; ++vertid) {
@@ -46,9 +66,10 @@ namespace {
             u = uv.x;
             v = uv.y;
           }
-          ret.addPoint(vertex.x, vertex.y, vertex.z, u, v);
+          part.addPoint(vertex.x, vertex.y, vertex.z, u, v);
         }
       }
+      ret.parts.push_back(part);
     }
     return ret;
   }
