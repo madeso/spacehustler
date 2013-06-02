@@ -121,7 +121,8 @@ void AddObjects(World* world) {
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
 
-  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(data, program, tex));
+  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(CreateCube(1.0f),
+                                        program, tex));
 
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, 45.0f, 0.0f, cml::euler_order_yxz);

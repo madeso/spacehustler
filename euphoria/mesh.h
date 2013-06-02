@@ -4,6 +4,7 @@
 #define EUPHORIA_MESH_H_
 
 #include <vector>
+#include <string>
 
 #include "boost/shared_ptr.hpp"
 
@@ -40,6 +41,18 @@ class Mesh {
      */
     int points;
 };
+
+/** Load a mesh.
+@param path the file path.
+@return the loaded mesh
+ */
+Mesh LoadMesh(const std::string& path);
+
+/** Create a cube.
+@param size the size of the cube.
+@return the created cube.
+ */
+Mesh CreateCube(float size);
 
 /** A RAII class for a OpenGl Vertex Array Object.
  */
