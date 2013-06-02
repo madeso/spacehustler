@@ -40,7 +40,7 @@ find_package(Boost REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets REQUIRED core base)
 include( "${wxWidgets_USE_FILE}" )
-# find_package(AssImp REQUIRED)
+find_package(AssImp REQUIRED)
 
 #on windows main is needed, not on linux
 if(WIN32)
@@ -60,6 +60,7 @@ include_directories(external)
 include_directories(external/cml-1_0_3)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${ASSIMP_INCLUDE_DIR})
 
 message(STATUS "Boost include is ${Boost_INCLUDE_DIRS}")
 

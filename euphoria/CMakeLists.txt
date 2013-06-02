@@ -51,4 +51,4 @@ message(STATUS "Sources is ${game_src}")
 # "../external/soil" 
 include_directories("../external/glew" ${SFML_INCLUDE_DIR})
 
-target_link_libraries(main ${OPENGL_LIBRARIES} ${Boost_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES})
+target_link_libraries(main ${OPENGL_LIBRARIES} ${Boost_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARY})
