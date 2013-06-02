@@ -3,12 +3,12 @@ Euphoria
 
 Euphoria is a basic modern opengl data driven game and rendering engine. It is not complete.
 
-Current features
+Current Features
 =======
-* model loading through assimp
-* instancing in a world
+* Model loading through assimp
+* Instancing meshes in a world
 
-Stuff that I'd like to add
+Planned Features
 =======
 * add multiple material support to meshes
 * refactor meshes into indexed meshes
@@ -32,8 +32,7 @@ Stuff that I'd like to add
 * hdr
 * possible support older systems
 
-Currently supported platforms:
+Supported platforms
 =======
-
-* Windows 7, Visual Studio 2010
-* Fedora 17, KDevelop 4.4.1
+* Windows 7 (Visual Studio 2012)
+* Fedora 17 (KDevelop 4.4.1)
