@@ -54,6 +54,12 @@ Mesh LoadMesh(const std::string& path);
  */
 Mesh CreateCube(float size);
 
+/** Create a sphere.
+@param size the radius of the sphere.
+@return the created sphere.
+ */
+Mesh CreateSphere(float size);
+
 /** A RAII class for a OpenGl Vertex Array Object.
  */
 class Vao {

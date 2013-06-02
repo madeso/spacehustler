@@ -42,7 +42,7 @@ namespace {
           float u = 0;
           float v = 0;
           if (mesh->HasTextureCoords(0)) {
-            const aiVector3D uv = mesh->mTextureCoords[index][0];
+            const aiVector3D uv = mesh->mTextureCoords[0][index];
             u = uv.x;
             v = uv.y;
           }
@@ -78,6 +78,12 @@ Mesh LoadMesh(const std::string& path) {
 
 Mesh CreateCube(float size) {
   std::ostringstream ss;
-  ss << "hex 0 0 0 " << size;
+  ss << "shader texture.png" << std::endl << "hex 0 0 0 " << size;
+  return LoadFromNffString(ss.str());
+}
+
+Mesh CreateSphere(float size) {
+  std::ostringstream ss;
+  ss << "shader texture.png" << std::endl << "s 0 0 0 " << size;
   return LoadFromNffString(ss.str());
 }

@@ -59,57 +59,6 @@ boost::shared_ptr<Texture> CreateTexture(const std::string& path) {
 }
 
 void AddObjects(World* world) {
-  Mesh data;
-
-  //              X     Y     Z       U     V
-  // bottom
-  data.addPoint(-1.0f, -1.0f, -1.0f,   0.0f, 0.0f);
-  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
-  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(1.0f, -1.0f, 1.0f,   1.0f, 1.0f);
-  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
-
-  // top
-  data.addPoint(-1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
-  data.addPoint(-1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
-  data.addPoint(1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(-1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
-  data.addPoint(1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
-
-  // front
-  data.addPoint(-1.0f, -1.0f, 1.0f,   1.0f, 0.0f);
-  data.addPoint(1.0f, -1.0f, 1.0f,   0.0f, 0.0f);
-  data.addPoint(-1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
-  data.addPoint(1.0f, -1.0f, 1.0f,   0.0f, 0.0f);
-  data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
-  data.addPoint(-1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
-
-  // back
-  data.addPoint(-1.0f, -1.0f, -1.0f,   0.0f, 0.0f);
-  data.addPoint(-1.0f, 1.0f, -1.0f,   0.0f, 1.0f);
-  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(-1.0f, 1.0f, -1.0f,   0.0f, 1.0f);
-  data.addPoint(1.0f, 1.0f, -1.0f,   1.0f, 1.0f);
-
-  // left
-  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
-  data.addPoint(-1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(-1.0f, -1.0f, -1.0f,   0.0f, 0.0f);
-  data.addPoint(-1.0f, -1.0f, 1.0f,   0.0f, 1.0f);
-  data.addPoint(-1.0f, 1.0f, 1.0f,   1.0f, 1.0f);
-  data.addPoint(-1.0f, 1.0f, -1.0f,   1.0f, 0.0f);
-
-  // right
-  data.addPoint(1.0f, -1.0f, 1.0f,   1.0f, 1.0f);
-  data.addPoint(1.0f, -1.0f, -1.0f,   1.0f, 0.0f);
-  data.addPoint(1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
-  data.addPoint(1.0f, -1.0f, 1.0f,   1.0f, 1.0f);
-  data.addPoint(1.0f, 1.0f, -1.0f,   0.0f, 0.0f);
-  data.addPoint(1.0f, 1.0f, 1.0f,   0.0f, 1.0f);
-
   boost::shared_ptr<Texture> tex =  // CreateTexture(RandomBitmap(1024, 1024));
     CreateTexture("wooden-crate.jpg");
   //  CreateTexture(ArtyBitmap(512, 512, 100, 300));
@@ -121,7 +70,7 @@ void AddObjects(World* world) {
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
 
-  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(CreateCube(1.0f),
+  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(CreateSphere(1.0f),
                                         program, tex));
 
   mat44 model;
