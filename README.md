@@ -10,7 +10,6 @@ Current Features
 
 Planned Features
 =======
-* add multiple material support to meshes
 * refactor meshes into indexed meshes
 * add entity system with basic components
 * add scripting support (lua)
