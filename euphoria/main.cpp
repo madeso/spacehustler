@@ -70,7 +70,8 @@ void AddObjects(World* world) {
                             (Shader::FromSource(kFragmentShaderSource,
                                 Shader::Fragment)));
 
-  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(CreateSphere(1.0f),
+  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(CreateBox(2.0f, 2.0f,
+                                        2.0f),
                                         program, tex));
 
   mat44 model;

@@ -54,16 +54,19 @@ namespace {
   }
 
   // http://assimp.sourceforge.net/howtoBasicShapes.html
-  Mesh LoadFromNffString(const std::string& nff) {
+  Mesh LoadFromString(const std::string& nff, const std::string& format) {
     Assimp::Importer importer;
 
     const aiScene* scene = importer.ReadFileFromMemory(nff.c_str(),
-                           nff.length() + 1, kAssimpFlags, "nff");
+                           nff.length() + 1, kAssimpFlags, format.c_str());
     if (!scene) {
       throw importer.GetErrorString();
     }
     return ConvertScene(scene);
   }
+
+  const std::string kFormatNff = "nff";
+  const std::string kFormatObj = "obj";
 }  // namespace
 
 Mesh LoadMesh(const std::string& path) {
@@ -79,11 +82,71 @@ Mesh LoadMesh(const std::string& path) {
 Mesh CreateCube(float size) {
   std::ostringstream ss;
   ss << "shader texture.png" << std::endl << "hex 0 0 0 " << size;
-  return LoadFromNffString(ss.str());
+  return LoadFromString(ss.str(), kFormatNff);
 }
 
 Mesh CreateSphere(float size) {
   std::ostringstream ss;
   ss << "shader texture.png" << std::endl << "s 0 0 0 " << size;
-  return LoadFromNffString(ss.str());
+  return LoadFromString(ss.str(), kFormatNff);
+}
+
+Mesh CreateBox(float width, float height, float depth) {
+  const float x = width / 2;
+  const float y = height / 2;
+  const float z = depth / 2;
+  std::ostringstream ss;
+  ss << "v " << -x << " " << " " << -y << " " << -z << std::endl
+     << "v " << -x << " " << " " << -y << " " <<  z << std::endl
+     << "v " << -x << " " << " " <<  y << " " << -z << std::endl
+     << "v " << -x << " " << " " <<  y << " " <<  z << std::endl
+     << "v " <<  x << " " << " " << -y << " " << -z << std::endl
+     << "v " <<  x << " " << " " << -y << " " <<  z << std::endl
+     << "v " <<  x << " " << " " <<  y << " " << -z << std::endl
+     << "v " <<  x << " " << " " <<  y << " " <<  z << std::endl
+     << "" << std::endl
+     << "vn 0 0 -1" << std::endl
+     << "vn 0 0 1" << std::endl
+     << "vn -1 0 0" << std::endl
+     << "vn 1 0 0" << std::endl
+     << "vn 0 1 0" << std::endl
+     << "vn 0 -1 0" << std::endl
+     << "vn 0 0 -1" << std::endl
+     << "vn 0 -1 0" << std::endl
+     << "vn -1 0 0" << std::endl
+     << "vn 0 0 1" << std::endl
+     << "vn 0 -1 0" << std::endl
+     << "vn -1 0 0" << std::endl
+     << "vn 0 0 -1" << std::endl
+     << "vn 0 1 0" << std::endl
+     << "vn -1 0 0" << std::endl
+     << "vn 0 0 1" << std::endl
+     << "vn 0 1 0" << std::endl
+     << "vn -1 0 0" << std::endl
+     << "vn 0 0 -1" << std::endl
+     << "vn 0 -1 0" << std::endl
+     << "vn 1 0 0" << std::endl
+     << "vn 0 0 1" << std::endl
+     << "vn 0 -1 0" << std::endl
+     << "vn 1 0 0" << std::endl
+     << "vn 0 0 -1" << std::endl
+     << "vn 0 1 0" << std::endl
+     << "vn 1 0 0" << std::endl
+     << "vn 0 0 1" << std::endl
+     << "vn 0 1 0" << std::endl
+     << "vn 1 0 0" << std::endl
+     << "" << std::endl
+     << "vt 0 0" << std::endl
+     << "vt 0 1" << std::endl
+     << "vt 1 1" << std::endl
+     << "vt 1 0" << std::endl
+     << "" << std::endl
+     << "f 3/1/13 7/2/25 5/3/19 1/4/7" << std::endl
+     << "f 6/1/22 8/2/28 4/3/16 2/4/10" << std::endl
+     << "f 2/1/12 4/2/18 3/3/15 1/4/9" << std::endl
+     << "f 7/1/27 8/2/30 6/3/24 5/4/21" << std::endl
+     << "f 4/1/17 8/2/29 7/3/26 3/4/14" << std::endl
+     << "f 5/1/20 6/2/23 2/3/11 1/4/8" << std::endl;
+
+  return LoadFromString(ss.str(), kFormatObj);
 }

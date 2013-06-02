@@ -60,6 +60,14 @@ Mesh CreateCube(float size);
  */
 Mesh CreateSphere(float size);
 
+/** Create a box.
+@param width the width of the box.
+@param height the height of the box.
+@param depth the depth of the box.
+@return the created box.
+ */
+Mesh CreateBox(float width, float height, float depth);
+
 /** A RAII class for a OpenGl Vertex Array Object.
  */
 class Vao {
