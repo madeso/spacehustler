@@ -3,9 +3,15 @@ Euphoria
 
 Euphoria is a basic modern opengl data driven game and rendering engine. It is not complete.
 
-Stuff that I'd like to add:
+Current features
 =======
-* add loading of meshes (assimp)
+* model loading through assimp
+* instancing in a world
+
+Stuff that I'd like to add
+=======
+* add multiple material support to meshes
+* refactor meshes into indexed meshes
 * add entity system with basic components
 * add scripting support (lua)
 * add physics system (ode, tokamak, physx, bullet)
