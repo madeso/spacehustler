@@ -157,7 +157,7 @@ void CompiledMeshPart::render(const Camera& camera, const mat44& model) {
 CompiledMesh::CompiledMesh(const Mesh& mesh,
                            boost::shared_ptr<Program> program) {
   std::vector<boost::shared_ptr<Texture>> materials;
-for (auto src : mesh.materials) {
+  for (auto src : mesh.materials) {
     boost::shared_ptr<Texture> tex(new Texture(src,
                                    Texture::Type_CompressedRgb,
                                    Texture::Wrap_ClampToEdge,
@@ -174,7 +174,7 @@ for (auto src : mesh.materials) {
 }
 
 void CompiledMesh::render(const Camera& camera, const mat44& model) {
-for (auto part : parts) {
+  for (auto part : parts) {
     part->render(camera, model);
   }
 }
