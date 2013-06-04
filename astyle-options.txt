@@ -13,7 +13,7 @@
 --indent-col1-comments
 --indent-labels
 --indent-switches
---max-code-length=80
+# --max-code-length=80
 
 #change this?
 --align-reference=type

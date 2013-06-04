@@ -25,7 +25,7 @@ void World::render(const Camera& camera) {
   assert(this);
 
   /// @todo investigate http://www.opengl.org/registry/specs/ARB/draw_instanced.txt
-  for (auto i : instances) {
+for (auto i : instances) {
     i->render(camera);
   }
 }

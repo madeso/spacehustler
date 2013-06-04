@@ -23,6 +23,9 @@ else(WIN32)
 	#on linux, link with dynamic since static library dependencies are horrible on linux
 	#set(SFML_STATIC_LIBRARIES OFF)
 	message(STATUS "using non-static libraries")
+	
+	#also add c++11 flags
+	SET(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 endif(WIN32)
 
 IF(WIN32)

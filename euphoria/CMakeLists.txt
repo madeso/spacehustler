@@ -32,7 +32,7 @@ add_custom_command(TARGET main
                    COMMENT "Running astyle" VERBATIM)
 add_custom_command(TARGET main
                    PRE_BUILD
-                   COMMAND cpplint.py ARGS --output=vs7 ${game_src}
+                   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src}
 				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                    COMMENT "Running CppLint" VERBATIM)
 
@@ -51,4 +51,4 @@ message(STATUS "Sources is ${game_src}")
 # "../external/soil" 
 include_directories("../external/glew" ${SFML_INCLUDE_DIR})
 
-target_link_libraries(main ${OPENGL_LIBRARIES} ${Boost_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARY})
+target_link_libraries(main ${OPENGL_LIBRARIES} ${Boost_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES})
