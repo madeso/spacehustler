@@ -86,7 +86,7 @@ void logic() {
   settings.majorVersion = 2;
   settings.minorVersion = 1;
 
-  sf::Window window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default,
+  sf::Window window(sf::VideoMode(800, 600), "Euphoria", sf::Style::Default,
                     settings);
 
   const GLenum err = glewInit();
