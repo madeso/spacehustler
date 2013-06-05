@@ -23,7 +23,7 @@ Planned Features
 * particle systems
 * godrays
 * panning materials
-* normal + specular + glow map
+* normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
 * material templates with optional (lua) script
 * culling + world editor
 * replace filehandling with a vfs
