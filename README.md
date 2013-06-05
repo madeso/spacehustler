@@ -8,6 +8,18 @@ Current Features
 * Model loading through assimp
 * Instancing meshes in a world
 
+Build tools
+=======
+* CMake
+* C++11 compiler
+* Python, for running cpplint during build (should be possible to disable)
+* Doxygen, for building documentation (should be possible to disable)
+* Astyle, for styling the code (should be possible to disable)
+* AssImp, for importing meshes
+* OpenGL library
+* SFML, for launching a window and providing a input layer
+* wxWidgets for displaying error messages
+
 Planned Features
 =======
 * refactor meshes into indexed meshes
