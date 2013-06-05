@@ -15,6 +15,7 @@ namespace {
     | aiProcess_Triangulate
     | aiProcess_SortByPType
     | aiProcess_MakeLeftHanded
+    | aiProcess_FlipUVs
     | aiProcess_GenUVCoords
     | aiProcess_TransformUVCoords
     | aiProcess_OptimizeMeshes
