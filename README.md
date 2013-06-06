@@ -22,7 +22,6 @@ Build tools
 
 Planned Features
 =======
-* refactor meshes into indexed meshes
 * add entity system with basic components
 * add scripting support (lua)
 * add physics system (ode, tokamak, physx, bullet)

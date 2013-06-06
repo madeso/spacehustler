@@ -176,7 +176,8 @@ CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
                                    boost::shared_ptr<Texture> tex)
   : program(prog)
   , texture(tex)
-  , points(mesh.points) {
+  , points(mesh.points)
+  , elementCount(mesh.faces.size()) {
   vao.bind();
   vbo.bind();
 
@@ -193,6 +194,11 @@ CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
   glEnableVertexAttribArray(program->attrib("vertuv"));
   glVertexAttribPointer(program->attrib("vertuv"), 2, GL_FLOAT, GL_TRUE, stride,
                         uvoffset);
+
+  elements.bind();
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort),
+               &mesh.faces[0], GL_STATIC_DRAW);
+  elements.unbind();
 
   vbo.unbind();
   vao.unbind();
@@ -211,7 +217,10 @@ void CompiledMeshPart::render(const Camera& camera, const mat44& model) {
   texture->bind(0);
   program->setUniform("tex", 0);
   vao.bind();
-  glDrawArrays(GL_TRIANGLES, 0, points);
+  elements.bind();
+  const GLvoid* stride = 0;
+  glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_SHORT, stride);
+  elements.unbind();
   vao.unbind();
 
   program->unbind();

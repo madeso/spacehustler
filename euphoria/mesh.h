@@ -215,6 +215,8 @@ class CompiledMeshPart {
   private:
     Vao vao;
     ArrayBuffer vbo;
+    ElementArrayBuffer elements;
+    GLsizei elementCount;
 
     const boost::shared_ptr<Program> program;
     boost::shared_ptr<Texture> texture;
