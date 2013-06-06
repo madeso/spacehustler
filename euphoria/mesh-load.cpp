@@ -31,6 +31,9 @@ namespace {
   Mesh ConvertScene(const aiScene* scene) {
     Mesh ret;
 
+    /** This function is too long, split it up in smaller functions!
+     */
+
     /** @todo add parsing of nodes to the mesh so we could
     dynamically animate some rotors, wings etc. for example
      */
@@ -57,18 +60,18 @@ namespace {
       part.material = mesh->mMaterialIndex;
       for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
         const aiFace& face = mesh->mFaces[faceid];
-        for (unsigned vertid = 0; vertid < 3; ++vertid) {
-          const unsigned int index = face.mIndices[vertid];
-          const aiVector3D& vertex = mesh->mVertices[index];
-          float u = 0;
-          float v = 0;
-          if (mesh->HasTextureCoords(0)) {
-            const aiVector3D uv = mesh->mTextureCoords[0][index];
-            u = uv.x;
-            v = uv.y;
-          }
-          part.addPoint(vertex.x, vertex.y, vertex.z, u, v);
+        part.addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
+      }
+      for (unsigned int index = 0; index < mesh->mNumVertices; ++index) {
+        const aiVector3D& vertex = mesh->mVertices[index];
+        float u = 0;
+        float v = 0;
+        if (mesh->HasTextureCoords(0)) {
+          const aiVector3D uv = mesh->mTextureCoords[0][index];
+          u = uv.x;
+          v = uv.y;
         }
+        part.addPoint(vertex.x, vertex.y, vertex.z, u, v);
       }
       ret.parts.push_back(part);
     }

@@ -22,6 +22,14 @@ void MeshPart::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v) {
   ++points;
 }
 
+void MeshPart::addFace(unsigned int a, unsigned int b, unsigned int c) {
+  assert(this);
+
+  faces.push_back(a);
+  faces.push_back(b);
+  faces.push_back(c);
+}
+
 /////////////////////////
 
 Mesh::Mesh() {

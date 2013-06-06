@@ -30,9 +30,20 @@ class MeshPart {
      */
     void addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
 
+    /** Add a face to the mesh.
+    @param a the first index.
+    @param b the second index;
+    @param c the third index.
+     */
+    void addFace(unsigned int a, unsigned int b, unsigned int c);
+
     /** The vertices.
      */
     std::vector<GLfloat> vertices;
+
+    /** The faces.
+     */
+    std::vector<GLushort> faces;
 
     /** THe number of points.
     @todo replace with a better structure.
