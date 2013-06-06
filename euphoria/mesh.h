@@ -132,6 +132,7 @@ class Vao {
 };
 
 /** A RAII class for a OpenGL Array Buffer.
+@todo merge with the ElementArrayBuffer
  */
 class ArrayBuffer {
   public:
@@ -153,6 +154,35 @@ class ArrayBuffer {
     void bind() const;
 
     /** Utility function for unbinding this Array Buffer.
+     */
+    void unbind();
+  private:
+    GLuint object;
+};
+
+/** A RAII class for a OpenGL Element Array Buffer.
+@todo merge with the ArrayBuffer
+ */
+class ElementArrayBuffer {
+  public:
+    /** Construct the Element Array Buffer.
+     */
+    ElementArrayBuffer();
+
+    /** Destruct the Element Array Buffer.
+     */
+    ~ElementArrayBuffer();
+
+    /** Get the OpenGL Element Array Buffer object id.
+    @return the object id.
+     */
+    GLuint get() const;
+
+    /** Utility function for binding this Element Array Buffer.
+     */
+    void bind() const;
+
+    /** Utility function for unbinding this Element Array Buffer.
      */
     void unbind();
   private:

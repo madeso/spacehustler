@@ -131,6 +131,46 @@ void ArrayBuffer::unbind() {
 
 /////////////////////////
 
+ElementArrayBuffer::ElementArrayBuffer()
+  : object(0) {
+  assert(this);
+
+  glGenBuffers(1, &object);
+}
+
+ElementArrayBuffer::~ElementArrayBuffer() {
+  assert(this);
+  assert(object != 0);
+
+  // delete
+  glDeleteBuffers(1, &object);
+  object = 0;
+}
+
+
+GLuint ElementArrayBuffer::get() const {
+  assert(this);
+  assert(object != 0);
+
+  return object;
+}
+
+void ElementArrayBuffer::bind() const {
+  assert(this);
+  assert(object != 0);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object);
+}
+
+void ElementArrayBuffer::unbind() {
+  assert(this);
+  assert(object != 0);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+/////////////////////////
+
 CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
                                    boost::shared_ptr<Program> prog,
                                    boost::shared_ptr<Texture> tex)
