@@ -50,6 +50,8 @@ const char* const kFragmentShaderSource =
   "    finalColor = texture(tex, fraguv);"                          "\n"
   "}"                                                               "\n";
 
+const float pi = 3.141592653589793238462643383279502884f;
+
 void AddObjects(World* world) {
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
@@ -65,7 +67,8 @@ void AddObjects(World* world) {
       LoadMesh("world.dae"), program));
 
   mat44 model;
-  cml::matrix_rotation_euler(model, 0.0f, 0.0f, 0.0f, cml::euler_order_yxz);
+  cml::matrix_rotation_euler(model, 0.0f, pi / 4, 0.0f
+                             , cml::euler_order_yxz);
 
   mat44 worldmat;
   cml::matrix_translation(worldmat, vec3(-55, -20, -50));
