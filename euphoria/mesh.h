@@ -131,17 +131,17 @@ class Vao {
     GLuint object;
 };
 
-/** A RAII class for a OpenGL Vertex Buffer Object.
+/** A RAII class for a OpenGL Array Buffer.
  */
-class Vbo {
+class ArrayBuffer {
   public:
     /** Construct the VBO.
      */
-    Vbo();
+    ArrayBuffer();
 
     /** Destruct the VBO.
      */
-    ~Vbo();
+    ~ArrayBuffer();
 
     /** Get the OpenGL VBO object id.
     @return the object id.
@@ -184,7 +184,7 @@ class CompiledMeshPart {
 
   private:
     Vao vao;
-    Vbo vbo;
+    ArrayBuffer vbo;
 
     const boost::shared_ptr<Program> program;
     boost::shared_ptr<Texture> texture;

@@ -91,14 +91,14 @@ void Vao::unbind() {
 
 /////////////////////////
 
-Vbo::Vbo()
+ArrayBuffer::ArrayBuffer()
   : object(0) {
   assert(this);
 
   glGenBuffers(1, &object);
 }
 
-Vbo::~Vbo() {
+ArrayBuffer::~ArrayBuffer() {
   assert(this);
   assert(object != 0);
 
@@ -108,21 +108,21 @@ Vbo::~Vbo() {
 }
 
 
-GLuint Vbo::get() const {
+GLuint ArrayBuffer::get() const {
   assert(this);
   assert(object != 0);
 
   return object;
 }
 
-void Vbo::bind() const {
+void ArrayBuffer::bind() const {
   assert(this);
   assert(object != 0);
 
   glBindBuffer(GL_ARRAY_BUFFER, object);
 }
 
-void Vbo::unbind() {
+void ArrayBuffer::unbind() {
   assert(this);
   assert(object != 0);
 
