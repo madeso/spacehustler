@@ -108,6 +108,8 @@ void logic() {
 
 
   Camera camera;
+  camera.setFov(45);
+  camera.setNearFar(0.1f, 200.0f);
 
   {
     vec3 eye, target, up;

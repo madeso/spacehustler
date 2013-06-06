@@ -12,13 +12,28 @@ Camera::Camera()
   updateProjection();
 }
 
+const mat44 Camera::getProjection() const {
+  assert(this);
+  return projection;
+}
+
+void Camera::setFov(float newfov) {
+  assert(this);
+
+  fov = newfov;
+  updateProjection();
+}
+
+void Camera::setNearFar(float newnear, float newfar) {
+  assert(this);
+
+  znear = newnear;
+  zfar = newfar;
+  updateProjection();
+}
+
 void Camera::updateProjection() {
   assert(this);
   cml::matrix_perspective_xfov_LH(projection, fov, aspect, znear, zfar,
                                   cml::z_clip_zero);
-}
-
-const mat44 Camera::getProjection() const {
-  assert(this);
-  return projection;
 }

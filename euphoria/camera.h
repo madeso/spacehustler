@@ -23,6 +23,17 @@ class Camera {
      */
     const mat44 getProjection() const;
 
+    /** Set the new Field of view.
+    @param newfov the new FOV.
+     */
+    void setFov(float newfov);
+
+    /** Changes the new/far planes.
+    @param newnear the new near plane position.
+    @param newfar the new far plane position.
+     */
+    void setNearFar(float newnear, float newfar);
+
   private:
     float fov;
     float aspect;
