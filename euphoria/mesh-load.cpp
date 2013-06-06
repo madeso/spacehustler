@@ -28,20 +28,7 @@ namespace {
     | aiProcess_GenSmoothNormals
     | aiProcess_FindInvalidData;
 
-  Mesh ConvertScene(const aiScene* scene) {
-    Mesh ret;
-
-    /** This function is too long, split it up in smaller functions!
-     */
-
-    /** @todo add parsing of nodes to the mesh so we could
-    dynamically animate some rotors, wings etc. for example
-     */
-
-    if (scene->HasMeshes() == false) {
-      throw "Scene is missing meshes";
-    }
-
+  void AddMaterials(Mesh* ret, const aiScene* scene) {
     for (unsigned int materialId = 0; materialId < scene->mNumMaterials;
          ++materialId) {
       const aiMaterial* mat = scene->mMaterials[materialId];
@@ -51,28 +38,54 @@ namespace {
 
       aiString path;
       mat->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-      ret.materials.push_back(path.C_Str());
+      ret->materials.push_back(path.C_Str());
     }
+  }
+
+  MeshPart ConvertMesh(const aiMesh* mesh) {
+    MeshPart part;
+
+    /** @todo This function could be split it up in smaller functions.
+     */
+
+    part.material = mesh->mMaterialIndex;
+
+    for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
+      const aiFace& face = mesh->mFaces[faceid];
+      part.addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
+    }
+
+    for (unsigned int index = 0; index < mesh->mNumVertices; ++index) {
+      const aiVector3D& vertex = mesh->mVertices[index];
+      float u = 0;
+      float v = 0;
+      if (mesh->HasTextureCoords(0)) {
+        const aiVector3D uv = mesh->mTextureCoords[0][index];
+        u = uv.x;
+        v = uv.y;
+      }
+      part.addPoint(vertex.x, vertex.y, vertex.z, u, v);
+    }
+
+    return part;
+  }
+
+  Mesh ConvertScene(const aiScene* scene) {
+    Mesh ret;
+
+    /** @todo add parsing of nodes to the mesh so we could
+    dynamically animate some rotors, wings etc. for example
+     */
+
+    if (scene->HasMeshes() == false) {
+      throw "Scene is missing meshes";
+    }
+
+    AddMaterials(&ret, scene);
 
     for (unsigned int meshid = 0; meshid < scene->mNumMeshes; ++meshid) {
       const aiMesh* mesh = scene->mMeshes[meshid];
-      MeshPart part;
-      part.material = mesh->mMaterialIndex;
-      for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
-        const aiFace& face = mesh->mFaces[faceid];
-        part.addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
-      }
-      for (unsigned int index = 0; index < mesh->mNumVertices; ++index) {
-        const aiVector3D& vertex = mesh->mVertices[index];
-        float u = 0;
-        float v = 0;
-        if (mesh->HasTextureCoords(0)) {
-          const aiVector3D uv = mesh->mTextureCoords[0][index];
-          u = uv.x;
-          v = uv.y;
-        }
-        part.addPoint(vertex.x, vertex.y, vertex.z, u, v);
-      }
+      MeshPart part = ConvertMesh(mesh);
       ret.parts.push_back(part);
     }
     return ret;
