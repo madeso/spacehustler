@@ -50,14 +50,6 @@ const char* const kFragmentShaderSource =
   "    finalColor = texture(tex, fraguv);"                          "\n"
   "}"                                                               "\n";
 
-boost::shared_ptr<Texture> CreateTexture(const std::string& path) {
-  boost::shared_ptr<Texture> tex(new Texture(path,
-                                 Texture::Type_CompressedRgb,
-                                 Texture::Wrap_MirrorRepeat,
-                                 Texture::Filter_Nearest));
-  return tex;
-}
-
 void AddObjects(World* world) {
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
@@ -69,8 +61,17 @@ void AddObjects(World* world) {
   boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(
                                           LoadMesh("fighter1.3ds"), program));
 
+  boost::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
+      LoadMesh("world.dae"), program));
+
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, 0.0f, 0.0f, cml::euler_order_yxz);
+
+  mat44 worldmat;
+  cml::matrix_translation(worldmat, vec3(-20, -20, 0));
+
+  boost::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
+  world->add(wi);
 
   boost::shared_ptr<Instance> ip(new Instance(cmesh, model));
   world->add(ip);
