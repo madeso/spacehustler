@@ -135,24 +135,24 @@ class Vao {
  */
 class ArrayBuffer {
   public:
-    /** Construct the VBO.
+    /** Construct the Array Buffer.
      */
     ArrayBuffer();
 
-    /** Destruct the VBO.
+    /** Destruct the Array Buffer.
      */
     ~ArrayBuffer();
 
-    /** Get the OpenGL VBO object id.
+    /** Get the OpenGL Array Buffer object id.
     @return the object id.
      */
     GLuint get() const;
 
-    /** Utility function for binding this VBO.
+    /** Utility function for binding this Array Buffer.
      */
     void bind() const;
 
-    /** Utility function for unbinding this VBO.
+    /** Utility function for unbinding this Array Buffer.
      */
     void unbind();
   private:
