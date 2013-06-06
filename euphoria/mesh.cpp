@@ -3,6 +3,7 @@
 #include "euphoria/mesh.h"
 #include <cassert>
 #include <vector>
+#include <limits>
 #include "euphoria/shader.h"
 
 MeshPart::MeshPart()
@@ -22,8 +23,24 @@ void MeshPart::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v) {
   ++points;
 }
 
+namespace {
+  bool IsWithinUnsignedShortRange(unsigned int v) {
+    if (v < std::numeric_limits<GLushort>::min()) {
+      return false;
+    }
+    if (v > std::numeric_limits<GLushort>::max()) {
+      return false;
+    }
+    return true;
+  }
+}  // namespace
+
 void MeshPart::addFace(unsigned int a, unsigned int b, unsigned int c) {
   assert(this);
+
+  assert(IsWithinUnsignedShortRange(a));
+  assert(IsWithinUnsignedShortRange(b));
+  assert(IsWithinUnsignedShortRange(c));
 
   faces.push_back(a);
   faces.push_back(b);
