@@ -42,19 +42,14 @@ namespace {
     }
   }
 
-  MeshPart ConvertMesh(const aiMesh* mesh) {
-    MeshPart part;
-
-    /** @todo This function could be split it up in smaller functions.
-     */
-
-    part.material = mesh->mMaterialIndex;
-
+  void AddFaces(MeshPart* part, const aiMesh* mesh) {
     for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
       const aiFace& face = mesh->mFaces[faceid];
-      part.addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
+      part->addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
     }
+  }
 
+  void AddPoints(MeshPart* part, const aiMesh* mesh) {
     for (unsigned int index = 0; index < mesh->mNumVertices; ++index) {
       const aiVector3D& vertex = mesh->mVertices[index];
       float u = 0;
@@ -64,8 +59,16 @@ namespace {
         u = uv.x;
         v = uv.y;
       }
-      part.addPoint(vertex.x, vertex.y, vertex.z, u, v);
+      part->addPoint(vertex.x, vertex.y, vertex.z, u, v);
     }
+  }
+
+  MeshPart ConvertMesh(const aiMesh* mesh) {
+    MeshPart part;
+
+    part.material = mesh->mMaterialIndex;
+    AddPoints(&part, mesh);
+    AddFaces(&part, mesh);
 
     return part;
   }
