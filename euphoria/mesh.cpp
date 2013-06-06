@@ -91,14 +91,14 @@ void Vao::unbind() {
 
 /////////////////////////
 
-ArrayBuffer::ArrayBuffer()
+BufferObject::BufferObject()
   : object(0) {
   assert(this);
 
   glGenBuffers(1, &object);
 }
 
-ArrayBuffer::~ArrayBuffer() {
+BufferObject::~BufferObject() {
   assert(this);
   assert(object != 0);
 
@@ -108,63 +108,37 @@ ArrayBuffer::~ArrayBuffer() {
 }
 
 
-GLuint ArrayBuffer::get() const {
+GLuint BufferObject::get() const {
   assert(this);
   assert(object != 0);
 
   return object;
 }
 
+// /////////////////////////
+
 void ArrayBuffer::bind() const {
   assert(this);
-  assert(object != 0);
 
-  glBindBuffer(GL_ARRAY_BUFFER, object);
+  glBindBuffer(GL_ARRAY_BUFFER, get());
 }
 
 void ArrayBuffer::unbind() {
   assert(this);
-  assert(object != 0);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 /////////////////////////
 
-ElementArrayBuffer::ElementArrayBuffer()
-  : object(0) {
-  assert(this);
-
-  glGenBuffers(1, &object);
-}
-
-ElementArrayBuffer::~ElementArrayBuffer() {
-  assert(this);
-  assert(object != 0);
-
-  // delete
-  glDeleteBuffers(1, &object);
-  object = 0;
-}
-
-
-GLuint ElementArrayBuffer::get() const {
-  assert(this);
-  assert(object != 0);
-
-  return object;
-}
-
 void ElementArrayBuffer::bind() const {
   assert(this);
-  assert(object != 0);
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, get());
 }
 
 void ElementArrayBuffer::unbind() {
   assert(this);
-  assert(object != 0);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

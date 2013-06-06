@@ -131,24 +131,32 @@ class Vao {
     GLuint object;
 };
 
-/** A RAII class for a OpenGL Array Buffer.
-@todo merge with the ElementArrayBuffer
+/** A RAII class for a OpenGL Buffer Object.
  */
-class ArrayBuffer {
+class BufferObject {
+  protected:
+    /** Construct the Buffer.
+     */
+    BufferObject();
+
   public:
-    /** Construct the Array Buffer.
+    /** Destruct the Buffer.
      */
-    ArrayBuffer();
+    ~BufferObject();
 
-    /** Destruct the Array Buffer.
-     */
-    ~ArrayBuffer();
-
-    /** Get the OpenGL Array Buffer object id.
+    /** Get the OpenGL Buffer object id.
     @return the object id.
      */
     GLuint get() const;
 
+  private:
+    GLuint object;
+};
+
+/** A RAII class for a OpenGL Array Buffer.
+ */
+class ArrayBuffer : public BufferObject {
+  public:
     /** Utility function for binding this Array Buffer.
      */
     void bind() const;
@@ -156,28 +164,12 @@ class ArrayBuffer {
     /** Utility function for unbinding this Array Buffer.
      */
     void unbind();
-  private:
-    GLuint object;
 };
 
 /** A RAII class for a OpenGL Element Array Buffer.
-@todo merge with the ArrayBuffer
  */
-class ElementArrayBuffer {
+class ElementArrayBuffer : public BufferObject {
   public:
-    /** Construct the Element Array Buffer.
-     */
-    ElementArrayBuffer();
-
-    /** Destruct the Element Array Buffer.
-     */
-    ~ElementArrayBuffer();
-
-    /** Get the OpenGL Element Array Buffer object id.
-    @return the object id.
-     */
-    GLuint get() const;
-
     /** Utility function for binding this Element Array Buffer.
      */
     void bind() const;
@@ -185,8 +177,6 @@ class ElementArrayBuffer {
     /** Utility function for unbinding this Element Array Buffer.
      */
     void unbind();
-  private:
-    GLuint object;
 };
 
 /** Compiled mesh part ready for rendering.
