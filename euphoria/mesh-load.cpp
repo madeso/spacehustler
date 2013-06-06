@@ -127,9 +127,9 @@ Mesh CreateCube(float size) {
   return LoadFromString(ss.str(), kFormatNff);
 }
 
-Mesh CreateSphere(float size) {
+Mesh CreateSphere(float size, const std::string& texture) {
   std::ostringstream ss;
-  ss << "shader texture.png" << std::endl << "s 0 0 0 " << size;
+  ss << "shader " << texture << std::endl << "s 0 0 0 " << size;
   return LoadFromString(ss.str(), kFormatNff);
 }
 

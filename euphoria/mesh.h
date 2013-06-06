@@ -94,9 +94,10 @@ Mesh CreateCube(float size);
 
 /** Create a sphere.
 @param size the radius of the sphere.
+@param texture the path of the texture
 @return the created sphere.
  */
-Mesh CreateSphere(float size);
+Mesh CreateSphere(float size, const std::string& texture);
 
 /** Create a box.
 @param width the width of the box.
