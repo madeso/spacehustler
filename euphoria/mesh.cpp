@@ -49,6 +49,11 @@ namespace internal {
     faces.push_back(c);
   }
 
+  Material::Material()
+    : wraps(Texture::Wrap_Repeat)
+    , wrapt(Texture::Wrap_Repeat) {
+  }
+
 }  // namespace internal
 
 /////////////////////////
@@ -213,10 +218,10 @@ CompiledMesh::CompiledMesh(const Mesh& mesh,
                            boost::shared_ptr<Program> program) {
   std::vector<boost::shared_ptr<Texture>> materials;
   for (auto src : mesh.materials) {
-    boost::shared_ptr<Texture> tex(new Texture(src,
+    boost::shared_ptr<Texture> tex(new Texture(src.texture,
                                    Texture::Type_CompressedRgb,
-                                   Texture::Wrap_Repeat,
-                                   Texture::Wrap_Repeat,
+                                   src.wraps,
+                                   src.wrapt,
                                    Texture::Filter_Linear));
     materials.push_back(tex);
   }

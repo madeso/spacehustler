@@ -28,6 +28,21 @@ namespace {
     | aiProcess_GenSmoothNormals
     | aiProcess_FindInvalidData;
 
+  Texture::WrapMode GetTextureWrappingMode(const int mode) {
+    switch (mode) {
+      case aiTextureMapMode_Wrap:
+        return Texture::Wrap_Repeat;
+      case aiTextureMapMode_Clamp:
+        return Texture::Wrap_ClampToEdge;
+      case aiTextureMapMode_Decal:
+        throw "Unsupported texture wrapping mode: decal";
+      case aiTextureMapMode_Mirror:
+        return Texture::Wrap_MirrorRepeat;
+      default:
+        throw "Unhandled texture wrapping mode";
+    }
+  }
+
   void AddMaterials(Mesh* ret, const aiScene* scene) {
     for (unsigned int materialId = 0; materialId < scene->mNumMaterials;
          ++materialId) {
@@ -36,9 +51,17 @@ namespace {
         throw "Missing texture";
       }
 
-      aiString path;
-      mat->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-      ret->materials.push_back(path.C_Str());
+      aiString texture;
+      internal::Material material;
+      mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture);
+      material.texture = texture.C_Str();
+      int u = 0;
+      int v = 0;
+      mat->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE, 0), u);
+      mat->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE, 0), v);
+      material.wraps = GetTextureWrappingMode(u);
+      material.wrapt = GetTextureWrappingMode(v);
+      ret->materials.push_back(material);
     }
   }
 

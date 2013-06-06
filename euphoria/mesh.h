@@ -57,6 +57,27 @@ namespace internal {
       unsigned int material;
   };
 
+  /** Represents a material.
+   */
+  class Material {
+    public:
+      /** Construct a Material.
+       */
+      Material();
+
+      /** The path to the texture.
+       */
+      std::string texture;
+
+      /** The wrapping for S.
+       */
+      Texture::WrapMode wraps;
+
+      /** The wrapping for T.
+       */
+      Texture::WrapMode wrapt;
+  };
+
 }  // namespace internal
 
 /** Represents a mesh.
@@ -77,7 +98,7 @@ class Mesh {
     This is actually the textures, but the whole material class isn't implemented yet.
     @todo update to a better material representation
      */
-    std::vector<std::string> materials;
+    std::vector<internal::Material> materials;
 };
 
 /** Load a mesh.
