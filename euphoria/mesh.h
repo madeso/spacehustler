@@ -13,47 +13,51 @@
 #include "euphoria/texture.h"
 #include "euphoria/camera.h"
 
-/** Triangle soup with a single material. Part of a Mesh.
- */
-class MeshPart {
-  public:
-    /** Constructs a empty mesh.
-     */
-    MeshPart();
+namespace internal {
 
-    /** Add a point to the mesh.
-     @param x the X coordinate.
-     @param y the Y coordinate.
-     @param z the Z coordinate.
-     @param u the U texture coordinate.
-     @param v the V texture coordinate.
-     */
-    void addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
+  /** Triangle soup with a single material. Part of a Mesh.
+   */
+  class MeshPart {
+    public:
+      /** Constructs a empty mesh.
+       */
+      MeshPart();
 
-    /** Add a face to the mesh.
-    @param a the first index.
-    @param b the second index;
-    @param c the third index.
-     */
-    void addFace(unsigned int a, unsigned int b, unsigned int c);
+      /** Add a point to the mesh.
+       @param x the X coordinate.
+       @param y the Y coordinate.
+       @param z the Z coordinate.
+       @param u the U texture coordinate.
+       @param v the V texture coordinate.
+       */
+      void addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
 
-    /** The vertices.
-     */
-    std::vector<GLfloat> vertices;
+      /** Add a face to the mesh.
+      @param a the first index.
+      @param b the second index;
+      @param c the third index.
+       */
+      void addFace(unsigned int a, unsigned int b, unsigned int c);
 
-    /** The faces.
-     */
-    std::vector<GLushort> faces;
+      /** The vertices.
+       */
+      std::vector<GLfloat> vertices;
 
-    /** THe number of points.
-    @todo replace with a better structure.
-     */
-    int points;
+      /** The faces.
+       */
+      std::vector<GLushort> faces;
 
-    /** The material index.
-     */
-    unsigned int material;
-};
+      /** THe number of points.
+      @todo replace with a better structure.
+       */
+      int points;
+
+      /** The material index.
+       */
+      unsigned int material;
+  };
+
+}  // namespace internal
 
 /** Represents a mesh.
  Usually loaded from disc but can also be dynamically generated.
@@ -67,7 +71,7 @@ class Mesh {
 
     /** The parts.
      */
-    std::vector<MeshPart> parts;
+    std::vector<internal::MeshPart> parts;
 
     /** The materials.
     This is actually the textures, but the whole material class isn't implemented yet.
@@ -102,117 +106,120 @@ Mesh CreateSphere(float size);
  */
 Mesh CreateBox(float width, float height, float depth);
 
-/** A RAII class for a OpenGl Vertex Array Object.
- */
-class Vao {
-  public:
-    /** Construct the VAO.
-     */
-    Vao();
+namespace internal {
+  /** A RAII class for a OpenGl Vertex Array Object.
+   */
+  class Vao {
+    public:
+      /** Construct the VAO.
+       */
+      Vao();
 
-    /** Destruct the VAO.
-     */
-    ~Vao();
+      /** Destruct the VAO.
+       */
+      ~Vao();
 
-    /** Get the OpenGL VAO object id.
-    @return the object id.
-     */
-    GLuint get() const;
+      /** Get the OpenGL VAO object id.
+      @return the object id.
+       */
+      GLuint get() const;
 
-    /** Utility function for binding this VAO.
-     */
-    void bind() const;
+      /** Utility function for binding this VAO.
+       */
+      void bind() const;
 
-    /** Utility function for unbinding this VAO.
-     */
-    void unbind();
+      /** Utility function for unbinding this VAO.
+       */
+      void unbind();
 
-  private:
-    GLuint object;
-};
+    private:
+      GLuint object;
+  };
 
-/** A RAII class for a OpenGL Buffer Object.
- */
-class BufferObject {
-  protected:
-    /** Construct the Buffer.
-     */
-    BufferObject();
+  /** A RAII class for a OpenGL Buffer Object.
+   */
+  class BufferObject {
+    protected:
+      /** Construct the Buffer.
+       */
+      BufferObject();
 
-  public:
-    /** Destruct the Buffer.
-     */
-    ~BufferObject();
+    public:
+      /** Destruct the Buffer.
+       */
+      ~BufferObject();
 
-    /** Get the OpenGL Buffer object id.
-    @return the object id.
-     */
-    GLuint get() const;
+      /** Get the OpenGL Buffer object id.
+      @return the object id.
+       */
+      GLuint get() const;
 
-  private:
-    GLuint object;
-};
+    private:
+      GLuint object;
+  };
 
-/** A RAII class for a OpenGL Array Buffer.
- */
-class ArrayBuffer : public BufferObject {
-  public:
-    /** Utility function for binding this Array Buffer.
-     */
-    void bind() const;
+  /** A RAII class for a OpenGL Array Buffer.
+   */
+  class ArrayBuffer : public BufferObject {
+    public:
+      /** Utility function for binding this Array Buffer.
+       */
+      void bind() const;
 
-    /** Utility function for unbinding this Array Buffer.
-     */
-    void unbind();
-};
+      /** Utility function for unbinding this Array Buffer.
+       */
+      void unbind();
+  };
 
-/** A RAII class for a OpenGL Element Array Buffer.
- */
-class ElementArrayBuffer : public BufferObject {
-  public:
-    /** Utility function for binding this Element Array Buffer.
-     */
-    void bind() const;
+  /** A RAII class for a OpenGL Element Array Buffer.
+   */
+  class ElementArrayBuffer : public BufferObject {
+    public:
+      /** Utility function for binding this Element Array Buffer.
+       */
+      void bind() const;
 
-    /** Utility function for unbinding this Element Array Buffer.
-     */
-    void unbind();
-};
+      /** Utility function for unbinding this Element Array Buffer.
+       */
+      void unbind();
+  };
 
-/** Compiled mesh part ready for rendering.
-@see CompiledMesh
- */
-class CompiledMeshPart {
-  public:
-    /** Compiles a mesh part.
-    @param mesh the MeshPart to compile.
-    @param program the shader program to use.
-    @param texture the texture to use.
-     */
-    CompiledMeshPart(const MeshPart& mesh, boost::shared_ptr<Program> program,
-                     boost::shared_ptr<Texture> texture);
+  /** Compiled mesh part ready for rendering.
+  @see CompiledMesh
+   */
+  class CompiledMeshPart {
+    public:
+      /** Compiles a mesh part.
+      @param mesh the MeshPart to compile.
+      @param program the shader program to use.
+      @param texture the texture to use.
+       */
+      CompiledMeshPart(const MeshPart& mesh, boost::shared_ptr<Program> program,
+                       boost::shared_ptr<Texture> texture);
 
-    /** Destructs the compiled mesh part.
-     */
-    ~CompiledMeshPart();
+      /** Destructs the compiled mesh part.
+       */
+      ~CompiledMeshPart();
 
-    /** Render the mesh part.
-    @param camera through the camera.
-    @param model the model matrix
-     */
-    void render(const Camera& camera, const mat44& model);
+      /** Render the mesh part.
+      @param camera through the camera.
+      @param model the model matrix
+       */
+      void render(const Camera& camera, const mat44& model);
 
-  private:
-    Vao vao;
-    ArrayBuffer vbo;
-    ElementArrayBuffer elements;
-    GLsizei elementCount;
+    private:
+      Vao vao;
+      ArrayBuffer vbo;
+      ElementArrayBuffer elements;
+      GLsizei elementCount;
 
-    const boost::shared_ptr<Program> program;
-    boost::shared_ptr<Texture> texture;
+      const boost::shared_ptr<Program> program;
+      boost::shared_ptr<Texture> texture;
 
-    int points;
-};
+      int points;
+  };
+
+}  // namespace internal
 
 /** Compiled mesh ready for rendering.
 @see Mesh
@@ -232,7 +239,7 @@ class CompiledMesh {
        */
     void render(const Camera& camera, const mat44& model);
   private:
-    std::vector<boost::shared_ptr<CompiledMeshPart>> parts;
+    std::vector<boost::shared_ptr<internal::CompiledMeshPart>> parts;
 };
 
 #endif  // EUPHORIA_MESH_H_

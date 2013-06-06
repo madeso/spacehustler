@@ -42,14 +42,14 @@ namespace {
     }
   }
 
-  void AddFaces(MeshPart* part, const aiMesh* mesh) {
+  void AddFaces(internal::MeshPart* part, const aiMesh* mesh) {
     for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
       const aiFace& face = mesh->mFaces[faceid];
       part->addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
     }
   }
 
-  void AddPoints(MeshPart* part, const aiMesh* mesh) {
+  void AddPoints(internal::MeshPart* part, const aiMesh* mesh) {
     for (unsigned int index = 0; index < mesh->mNumVertices; ++index) {
       const aiVector3D& vertex = mesh->mVertices[index];
       float u = 0;
@@ -63,8 +63,8 @@ namespace {
     }
   }
 
-  MeshPart ConvertMesh(const aiMesh* mesh) {
-    MeshPart part;
+  internal::MeshPart ConvertMesh(const aiMesh* mesh) {
+    internal::MeshPart part;
 
     part.material = mesh->mMaterialIndex;
     AddPoints(&part, mesh);
@@ -88,7 +88,7 @@ namespace {
 
     for (unsigned int meshid = 0; meshid < scene->mNumMeshes; ++meshid) {
       const aiMesh* mesh = scene->mMeshes[meshid];
-      MeshPart part = ConvertMesh(mesh);
+      const internal::MeshPart part = ConvertMesh(mesh);
       ret.parts.push_back(part);
     }
     return ret;
@@ -108,6 +108,7 @@ namespace {
 
   const std::string kFormatNff = "nff";
   const std::string kFormatObj = "obj";
+
 }  // namespace
 
 Mesh LoadMesh(const std::string& path) {
