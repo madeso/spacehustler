@@ -95,11 +95,12 @@ class Texture {
     /** Construct a new texture object.
     @param path the path of the image to use.
     @param textureType how to store the texture.
-    @param wrap what to do when the texture coordinate extends the texture.
+    @param wraps Wrapping type for S UV coordinate.
+    @param wrapt Wrapping type for T UV coordinate.
     @param filter how to filter the texture when rendering.
      */
-    Texture(const std::string& path, Type textureType, WrapMode wrap
-            , FilterMode filter);
+    Texture(const std::string& path, Type textureType, WrapMode wraps
+            , Texture::WrapMode wrapt, FilterMode filter);
 
     /** Destructs the texture.
      */

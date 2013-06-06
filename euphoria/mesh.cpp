@@ -215,7 +215,8 @@ CompiledMesh::CompiledMesh(const Mesh& mesh,
   for (auto src : mesh.materials) {
     boost::shared_ptr<Texture> tex(new Texture(src,
                                    Texture::Type_CompressedRgb,
-                                   Texture::Wrap_ClampToEdge,
+                                   Texture::Wrap_Repeat,
+                                   Texture::Wrap_Repeat,
                                    Texture::Filter_Linear));
     materials.push_back(tex);
   }

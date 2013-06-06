@@ -101,7 +101,8 @@ namespace {
 }  // namespace
 
 Texture::Texture(const std::string& path, Texture::Type textureType
-                 , Texture::WrapMode wrap, Texture::FilterMode filter) {
+                 , Texture::WrapMode wraps, Texture::WrapMode wrapt
+                 , Texture::FilterMode filter) {
   assert(this);
 
   int width = -1;
@@ -117,8 +118,8 @@ Texture::Texture(const std::string& path, Texture::Type textureType
   glBindTexture(GL_TEXTURE_2D, tex);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wrap));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrap));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wraps));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrapt));
 
   glTexImage2D(GL_TEXTURE_2D, 0, C(textureType),
                (GLsizei)width, (GLsizei)height, 0,
