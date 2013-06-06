@@ -68,7 +68,7 @@ void AddObjects(World* world) {
   cml::matrix_rotation_euler(model, 0.0f, 0.0f, 0.0f, cml::euler_order_yxz);
 
   mat44 worldmat;
-  cml::matrix_translation(worldmat, vec3(-20, -20, 0));
+  cml::matrix_translation(worldmat, vec3(-55, -20, -50));
 
   boost::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
   world->add(wi);
