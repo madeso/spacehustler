@@ -79,6 +79,9 @@
 #   endif
 #   include <windows.h>
 #   include <shellapi.h>
+
+#undef OutputDebugString
+#define OutputDebugString(x)
 #endif
 
 #if !defined(ANT_OGL_HEADER_INCLUDED)
