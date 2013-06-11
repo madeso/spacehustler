@@ -6239,7 +6239,7 @@ void CTwMgr::CreateCursors()
         m_CursorHand = ::LoadCursor(NULL ,MAKEINTRESOURCE(IDC_UPARROW));
     #endif
     int cur;
-    HMODULE hdll = GetModuleHandle(ANT_TWEAK_BAR_DLL);
+    HMODULE hdll = NULL; // GetModuleHandle(ANT_TWEAK_BAR_DLL);
     if( hdll==NULL )
         g_UseCurRsc = false;    // force the use of built-in cursors (not using resources)
     if( g_UseCurRsc )
@@ -6295,10 +6295,10 @@ CTwMgr::CCursor CTwMgr::PixmapCursor(int _CurIdx)
         xors[y] = pict[y];
     }
 
-    HMODULE hdll = GetModuleHandle(ANT_TWEAK_BAR_DLL);
-    CCursor cursor = ::CreateCursor(hdll, g_CurHot[_CurIdx][0], g_CurHot[_CurIdx][1], 32, 32, ands, xors);
+    /*HMODULE hdll = GetModuleHandle(ANT_TWEAK_BAR_DLL);
+    CCursor cursor = ::CreateCursor(hdll, g_CurHot[_CurIdx][0], g_CurHot[_CurIdx][1], 32, 32, ands, xors);*/
  
-    return cursor;
+    return NULL; //cursor;
 }
 
 void CTwMgr::FreeCursors()

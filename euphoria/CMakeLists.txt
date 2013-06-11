@@ -1,7 +1,6 @@
 FILE(GLOB game_src *.cpp;*.h)
 
 set ( src_anttweakbar
-	../external/anttweakbar/src/LoadOGL.cpp
 	../external/anttweakbar/src/TwEventSFML.cpp
 	../external/anttweakbar/src/TwBar.cpp
 	../external/anttweakbar/src/TwColors.cpp
