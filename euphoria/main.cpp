@@ -101,7 +101,7 @@ void logic() {
     throw msg;
   }
 
-  const int twintitresult = TwInit(TW_OPENGL, NULL);
+  const int twintitresult = TwInit(TW_OPENGL_CORE, NULL);  // 3.2 core profile
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
