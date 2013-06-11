@@ -2,6 +2,8 @@
 
 #include <SFML/Window.hpp>
 
+#include <AntTweakBar.h>
+
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
@@ -99,6 +101,13 @@ void logic() {
     throw msg;
   }
 
+  const int twintitresult = TwInit(TW_OPENGL, NULL);
+  if (twintitresult == 0) {
+    throw TwGetLastError();
+  }
+
+  TwWindowSize(800, 600);
+
   OglDebug ogldebug(OglDebug::IsSupported());
 
   glEnable(GL_DEPTH_TEST);
@@ -127,6 +136,20 @@ void logic() {
 
   OglDebug::Verify();
 
+  TwBar* bar;
+  bar = TwNewBar("Testing tweaks");
+
+  bool b = false;
+  TwAddVarRW(bar, "b", TW_TYPE_BOOLCPP, &b, "");
+
+  double tmpt = 30.0;
+  TwAddVarRW(bar, "Temperature", TW_TYPE_DOUBLE, &tmpt, " precision=3 ");
+
+  std::string s3 = "a STL string";
+  TwAddVarRW(bar, "s3", TW_TYPE_STDSTRING, &s3, "");
+
+  bool tweaking = true;
+
   bool running = true;
   while (running) {
     // check all the window's events that were triggered since the last
@@ -140,13 +163,24 @@ void logic() {
 
       world.render(camera);
 
+      if (tweaking) {
+        TwDraw();
+      }
+
       window.display();
+
+      if (tweaking) {
+        const int handled = TwEventSFML(&event, SFML_VERSION_MAJOR,
+                                        SFML_VERSION_MINOR);
+      }
 
       if (event.type == sf::Event::Closed) {
         running = false;
       }
     }
   }
+
+  TwTerminate();
 
   return;
 }
