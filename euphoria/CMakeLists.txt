@@ -1,5 +1,18 @@
 FILE(GLOB game_src *.cpp;*.h)
 
+set ( src_anttweakbar
+	../external/anttweakbar/src/LoadOGL.cpp
+	../external/anttweakbar/src/TwEventSFML.cpp
+	../external/anttweakbar/src/TwBar.cpp
+	../external/anttweakbar/src/TwColors.cpp
+	../external/anttweakbar/src/TwFonts.cpp
+	../external/anttweakbar/src/TwMgr.cpp
+	../external/anttweakbar/src/TwOpenGL.cpp
+	../external/anttweakbar/src/TwOpenGLCore.cpp
+	../external/anttweakbar/src/TwPrecomp.cpp
+)
+ADD_DEFINITIONS( -DTW_STATIC )
+
 set ( src_glew
 	../external/glew/GL/glew.c
 	../external/glew/GL/glew.h
@@ -22,8 +35,9 @@ set ( src_soil
 source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
 source_group(soil FILES ${src_soil})
+source_group(anttweakbar FILES ${src_anttweakbar})
 
-add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil})
+add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil} ${src_anttweakbar})
 
 add_custom_command(TARGET main
                    PRE_BUILD
@@ -49,6 +63,6 @@ message(STATUS "Sfml lib is ${SFML_LIBRARIES}")
 message(STATUS "Sources is ${game_src}")
 
 # "../external/soil" 
-include_directories("../external/glew" ${SFML_INCLUDE_DIR})
+include_directories("../external/glew" "../external/anttweakbar/include" ${SFML_INCLUDE_DIR})
 
 target_link_libraries(main ${OPENGL_LIBRARIES} ${Boost_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES})
