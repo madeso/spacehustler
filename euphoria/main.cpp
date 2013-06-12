@@ -152,23 +152,23 @@ void logic() {
 
   bool running = true;
   while (running) {
+    OglDebug::Verify();
+
+    glClearColor(0, 0, 0, 1);  // black
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    world.render(camera);
+
+    if (tweaking) {
+      TwDraw();
+    }
+
+    window.display();
+
     // check all the window's events that were triggered since the last
     // iteration of the loop
     sf::Event event;
     while (window.pollEvent(event)) {
-      OglDebug::Verify();
-
-      glClearColor(0, 0, 0, 1);  // black
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-      world.render(camera);
-
-      if (tweaking) {
-        TwDraw();
-      }
-
-      window.display();
-
       if (tweaking) {
         const int handled = TwEventSFML(&event, SFML_VERSION_MAJOR,
                                         SFML_VERSION_MINOR);
