@@ -143,6 +143,7 @@ void logic() {
 
   bool running = true;
   int test = 5;
+  unsigned int donk = 5;
   while (running) {
     OglDebug::Verify();
 
@@ -158,8 +159,9 @@ void logic() {
     window.display();
 
     std::string temp = "lol";
-    TWEAK(temp);
+    TWEAK(temp).group("Funny");
     TWEAK(test);
+    TWEAK(donk).label("Integer");
 
     // check all the window's events that were triggered since the last
     // iteration of the loop

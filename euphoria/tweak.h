@@ -83,6 +83,10 @@ class TweakerStore {
      */
     typedef boost::int32_t int32;
 
+    /** A 32 bit unsigned integer.
+     */
+    typedef boost::uint32_t uint32;
+
     /** Tweak this string.
      */
     Tweakable& tweak(const std::string& name, std::string* data);
@@ -90,6 +94,10 @@ class TweakerStore {
     /** Tweak a 32 bit integer
      */
     Tweakable& tweak(const std::string& name, int32* data);
+
+    /** Tweak a unsigned 32 bit integer
+     */
+    Tweakable& tweak(const std::string& name, uint32* data);
 
     /** update the store.
     Remove tweaks that are no longer needed etc..

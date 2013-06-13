@@ -168,6 +168,12 @@ Tweakable& TweakerStore::tweak(const std::string& name, int32* data) {
          TweakerStore::int32 > (&tweakables, bar, name, data);
 }
 
+Tweakable& TweakerStore::tweak(const std::string& name, uint32* data) {
+  assert(this);
+  return Tweakbase < IntTweakable<TweakerStore::uint32, TW_TYPE_UINT32>,
+         TweakerStore::uint32 > (&tweakables, bar, name, data);
+}
+
 /** @todo move to a better place
  */
 template< typename ContainerT, typename PredicateT >
