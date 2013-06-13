@@ -75,10 +75,6 @@ namespace {
                    GetCallbackString, this, "");
         label(name);
       }
-
-      ~StringTweakable() {
-        assert(this);
-      }
   };
 
   void TW_CALL GetCallbackString(void* value, void* clientData) {
@@ -109,30 +105,40 @@ TweakerStore::~TweakerStore() {
   TwDeleteBar(bar);
 }
 
+namespace {
+  template <typename TSpecifiedTweakable, typename TData>
+  Tweakable& Tweakbase(TweakerStore::Tweakables* tweakables, TwBar* bar,
+                       const std::string& name, TData* data) {
+    auto found = tweakables->find(name);
+    Tweakable* tweakable = 0;
+    if (found != tweakables->end()) {
+      tweakable = found->second.get();
+    } else {
+      boost::shared_ptr<Tweakable> newtweakable(new
+          TSpecifiedTweakable(bar, name));
+      tweakables->insert(TweakerStore::Tweakables::
+                         value_type(name, newtweakable));
+      tweakable = newtweakable.get();
+    }
+
+    assert(tweakable);
+
+    StringTweakable* spec = reinterpret_cast<StringTweakable*>(tweakable);
+
+    if (spec->hasChanged) {
+      *data = spec->data;
+    } else {
+      spec->data = *data;
+    }
+    spec->life = 0;
+
+    return *spec;
+  }
+}  // namespace
+
 Tweakable& TweakerStore::tweak(const std::string& name, std::string* data) {
   assert(this);
-  auto found = tweakables.find(name);
-  Tweakable* tweakable = 0;
-  if (found != tweakables.end()) {
-    tweakable = found->second.get();
-  } else {
-    boost::shared_ptr<Tweakable> newtweakable(new StringTweakable(bar, name));
-    tweakables.insert(Tweakables::value_type(name, newtweakable));
-    tweakable = newtweakable.get();
-  }
-
-  assert(tweakable);
-
-  StringTweakable* spec = reinterpret_cast<StringTweakable*>(tweakable);
-
-  if (spec->hasChanged) {
-    *data = spec->data;
-  } else {
-    spec->data = *data;
-  }
-  spec->life = 0;
-
-  return *spec;
+  return Tweakbase<StringTweakable, std::string>(&tweakables, bar, name, data);
 }
 
 /** @todo move to a better place
