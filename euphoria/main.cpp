@@ -23,6 +23,7 @@
 #include "euphoria/math.h"
 #include "euphoria/camera.h"
 #include "euphoria/world.h"
+#include "euphoria/tweak.h"
 
 const char* const kVertexShaderSource =
   "#version 150"                                                    "\n"
@@ -136,19 +137,9 @@ void logic() {
 
   OglDebug::Verify();
 
-  TwBar* bar;
-  bar = TwNewBar("Testing tweaks");
-
-  bool b = false;
-  TwAddVarRW(bar, "b", TW_TYPE_BOOLCPP, &b, "");
-
-  double tmpt = 30.0;
-  TwAddVarRW(bar, "Temperature", TW_TYPE_DOUBLE, &tmpt, " precision=3 ");
-
-  std::string s3 = "a STL string";
-  TwAddVarRW(bar, "s3", TW_TYPE_STDSTRING, &s3, "");
-
   bool tweaking = true;
+
+  TweakerStore tweakers;
 
   bool running = true;
   while (running) {
@@ -165,6 +156,9 @@ void logic() {
 
     window.display();
 
+    std::string temp = "lol";
+    TWEAK(temp);
+
     // check all the window's events that were triggered since the last
     // iteration of the loop
     sf::Event event;
@@ -178,6 +172,8 @@ void logic() {
         running = false;
       }
     }
+
+    tweakers.update();
   }
 
   TwTerminate();
