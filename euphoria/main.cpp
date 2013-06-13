@@ -142,6 +142,7 @@ void logic() {
   TweakerStore tweakers;
 
   bool running = true;
+  int test = 5;
   while (running) {
     OglDebug::Verify();
 
@@ -158,6 +159,7 @@ void logic() {
 
     std::string temp = "lol";
     TWEAK(temp);
+    TWEAK(test);
 
     // check all the window's events that were triggered since the last
     // iteration of the loop

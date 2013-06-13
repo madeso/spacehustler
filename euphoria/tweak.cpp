@@ -49,7 +49,7 @@ namespace {
   void TW_CALL SetCallback(const void* value, void* clientData) {
     TTweakable* tweak = static_cast<TTweakable*>(clientData);
     tweak->data =
-      (*static_cast<const TType*>(value));
+      *static_cast<const TType*>(value);
     tweak->hasChanged = true;
   }
 
@@ -62,6 +62,25 @@ namespace {
 
   void TW_CALL GetCallbackString(void* value, void* clientData);
 
+  template <typename TInt, TwType IntType>
+  class IntTweakable : public Tweakable {
+    public:
+      typedef IntTweakable<TInt, IntType> TweakableType;
+      TInt data;
+
+      IntTweakable(TwBar* bar, const std::string& name)
+        : Tweakable(bar, name)
+        , data(0) {
+        assert(this);
+
+        TwSetVarCallback set = SetCallback<TweakableType, TInt>;
+        TwGetVarCallback get = GetCallback<TweakableType, TInt>;
+
+        TwAddVarCB(bar, id.c_str(), IntType, set, get, this, "");
+        label(name);
+      }
+  };
+
   class StringTweakable : public Tweakable {
     public:
       std::string data;
@@ -69,10 +88,11 @@ namespace {
       StringTweakable(TwBar* bar, const std::string& name)
         : Tweakable(bar, name) {
         assert(this);
-        //  TwAddVarRW(bar, id.c_str(), TW_TYPE_STDSTRING, &string, "");
-        TwAddVarCB(bar, id.c_str(), TW_TYPE_STDSTRING,
-                   SetCallback<StringTweakable, std::string>,
-                   GetCallbackString, this, "");
+
+        TwSetVarCallback set = SetCallback<StringTweakable, std::string>;
+        TwGetVarCallback get = GetCallbackString;
+
+        TwAddVarCB(bar, id.c_str(), TW_TYPE_STDSTRING, set, get, this, "");
         label(name);
       }
   };
@@ -123,7 +143,8 @@ namespace {
 
     assert(tweakable);
 
-    StringTweakable* spec = reinterpret_cast<StringTweakable*>(tweakable);
+    TSpecifiedTweakable* spec = reinterpret_cast<TSpecifiedTweakable*>(
+                                  tweakable);
 
     if (spec->hasChanged) {
       *data = spec->data;
@@ -139,6 +160,12 @@ namespace {
 Tweakable& TweakerStore::tweak(const std::string& name, std::string* data) {
   assert(this);
   return Tweakbase<StringTweakable, std::string>(&tweakables, bar, name, data);
+}
+
+Tweakable& TweakerStore::tweak(const std::string& name, int32* data) {
+  assert(this);
+  return Tweakbase < IntTweakable<TweakerStore::int32, TW_TYPE_INT32>,
+         TweakerStore::int32 > (&tweakables, bar, name, data);
 }
 
 /** @todo move to a better place

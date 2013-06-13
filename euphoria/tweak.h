@@ -4,6 +4,8 @@
 #define EUPHORIA_TWEAK_H_
 
 #include <boost/shared_ptr.hpp>
+#include <boost/cstdint.hpp>
+
 #include <map>
 #include <string>
 #include <cassert>
@@ -77,9 +79,17 @@ class TweakerStore {
      */
     ~TweakerStore();
 
+    /** A 32 bit integer.
+     */
+    typedef boost::int32_t int32;
+
     /** Tweak this string.
      */
-    Tweakable& tweak(const std::string& name, std::string* string);
+    Tweakable& tweak(const std::string& name, std::string* data);
+
+    /** Tweak a 32 bit integer
+     */
+    Tweakable& tweak(const std::string& name, int32* data);
 
     /** update the store.
     Remove tweaks that are no longer needed etc..
