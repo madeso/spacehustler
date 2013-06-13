@@ -99,6 +99,10 @@ class TweakerStore {
      */
     Tweakable& tweak(const std::string& name, uint32* data);
 
+    /** Tweak a bool.
+     */
+    Tweakable& tweak(const std::string& name, bool* data);
+
     /** update the store.
     Remove tweaks that are no longer needed etc..
      */

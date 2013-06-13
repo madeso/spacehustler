@@ -19,6 +19,7 @@ Tweakable::Tweakable(TwBar* bar, const std::string& name)
 }
 
 Tweakable::~Tweakable() {
+  TwRemoveVar(bar, id.c_str());
 }
 
 Tweakable& Tweakable::label(const std::string& value) {
@@ -172,6 +173,12 @@ Tweakable& TweakerStore::tweak(const std::string& name, uint32* data) {
   assert(this);
   return Tweakbase < IntTweakable<TweakerStore::uint32, TW_TYPE_UINT32>,
          TweakerStore::uint32 > (&tweakables, bar, name, data);
+}
+
+Tweakable& TweakerStore::tweak(const std::string& name, bool* data) {
+  assert(this);
+  return Tweakbase < IntTweakable<bool, TW_TYPE_BOOLCPP>,
+         bool > (&tweakables, bar, name, data);
 }
 
 /** @todo move to a better place

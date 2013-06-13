@@ -158,8 +158,12 @@ void logic() {
 
     window.display();
 
-    std::string temp = "lol";
-    TWEAK(temp).group("Funny");
+    bool boolean = true;
+    TWEAK(boolean);
+    if (boolean) {
+      std::string temp = "lol";
+      TWEAK(temp).group("Funny");
+    }
     TWEAK(test);
     TWEAK(donk).label("Integer");
 
