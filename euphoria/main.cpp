@@ -144,6 +144,7 @@ void logic() {
   bool running = true;
   int test = 5;
   unsigned int donk = 5;
+  quat q;
   while (running) {
     OglDebug::Verify();
 
@@ -166,6 +167,7 @@ void logic() {
     }
     TWEAK(test);
     TWEAK(donk).label("Integer");
+    TWEAK(q);
 
     // check all the window's events that were triggered since the last
     // iteration of the loop

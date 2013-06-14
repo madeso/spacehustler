@@ -14,4 +14,7 @@ typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
 typedef cml::matrix < float, cml::fixed<4, 4>,
         cml::col_basis, cml::col_major > mat44;
 
+typedef cml::quaternion < float, cml::fixed<>, cml::vector_first,
+        cml::negative_cross > quat;
+
 #endif  // EUPHORIA_MATH_H_

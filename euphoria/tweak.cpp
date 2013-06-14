@@ -81,6 +81,23 @@ namespace {
       }
   };
 
+  class QuatTweakable : public Tweakable {
+    public:
+      quat data;
+
+      QuatTweakable(TwBar* bar, const std::string& id, const std::string& name)
+        : Tweakable(bar, id, name)
+        , data() {
+        assert(this);
+
+        TwSetVarCallback set = SetCallback<QuatTweakable, quat>;
+        TwGetVarCallback get = GetCallback<QuatTweakable, quat>;
+
+        TwAddVarCB(bar, id.c_str(), TW_TYPE_QUAT4F, set, get, this, "");
+        label(name);
+      }
+  };
+
   class StringTweakable : public Tweakable {
     public:
       std::string data;
@@ -199,6 +216,12 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
   assert(this);
   return Tweakbase < IntTweakable<double, TW_TYPE_DOUBLE>,
          double > (&tweakables, bar, id, name, data);
+}
+
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               quat* data) {
+  assert(this);
+  return Tweakbase < QuatTweakable, quat > (&tweakables, bar, id, name, data);
 }
 
 /** @todo move to a better place

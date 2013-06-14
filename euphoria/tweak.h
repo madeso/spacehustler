@@ -10,6 +10,8 @@
 #include <string>
 #include <cassert>
 
+#include "euphoria/math.h"
+
 // forward declaration of internal type
 typedef struct CTwBar TwBar;
 
@@ -120,6 +122,11 @@ class TweakerStore {
      */
     Tweakable& tweak(const std::string& id, const std::string& name,
                      double* data);
+
+    /** Tweak a quaternion.
+     */
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     quat* data);
 
     /** update the store.
     Remove tweaks that are no longer needed etc..
