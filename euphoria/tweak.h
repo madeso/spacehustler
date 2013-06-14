@@ -19,7 +19,7 @@ class Tweakable {
   public:
     /** The constructor.
      */
-    Tweakable(TwBar* bar, const std::string& name);
+    Tweakable(TwBar* bar, const std::string& id, const std::string& name);
 
     /** true if it has changed trough tweaking, false if not.
      */
@@ -88,20 +88,38 @@ class TweakerStore {
     typedef boost::uint32_t uint32;
 
     /** Tweak this string.
+    @param id the unique id of the tweakable.
+    @param name the displayable name of the tweakable.
+    @param data the tweak data.
+    @returns this object for easily chaining.
      */
-    Tweakable& tweak(const std::string& name, std::string* data);
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     std::string* data);
 
     /** Tweak a 32 bit integer
      */
-    Tweakable& tweak(const std::string& name, int32* data);
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     int32* data);
 
     /** Tweak a unsigned 32 bit integer
      */
-    Tweakable& tweak(const std::string& name, uint32* data);
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     uint32* data);
 
     /** Tweak a bool.
      */
-    Tweakable& tweak(const std::string& name, bool* data);
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     bool* data);
+
+    /** Tweak a float.
+     */
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     float* data);
+
+    /** Tweak a double.
+     */
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     double* data);
 
     /** update the store.
     Remove tweaks that are no longer needed etc..
@@ -119,7 +137,10 @@ class TweakerStore {
 
 TweakerStore* GlocalTweakerStore();
 
+#define QUOTE(name) #name
+#define STR(macro) QUOTE(macro)
+
 #define TWEAK(x) assert(GlocalTweakerStore()), GlocalTweakerStore() && \
-  GlocalTweakerStore()->tweak(#x, &x)
+  GlocalTweakerStore()->tweak(__FILE__  STR(__LINE__), #x, &x)
 
 #endif  // EUPHORIA_TWEAK_H_

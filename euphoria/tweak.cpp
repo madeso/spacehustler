@@ -12,10 +12,9 @@ namespace {
   TweakerStore* GlocalTweakerStoreVariable = 0;
 }  // namespace
 
-Tweakable::Tweakable(TwBar* bar, const std::string& name)
-  : bar(bar), hasChanged(false), life(0) {
+Tweakable::Tweakable(TwBar* bar, const std::string& id, const std::string& name)
+  : bar(bar), hasChanged(false), life(0), id(id) {
   assert(this);
-  id = "t_" + name;
 }
 
 Tweakable::~Tweakable() {
@@ -69,8 +68,8 @@ namespace {
       typedef IntTweakable<TInt, IntType> TweakableType;
       TInt data;
 
-      IntTweakable(TwBar* bar, const std::string& name)
-        : Tweakable(bar, name)
+      IntTweakable(TwBar* bar, const std::string& id, const std::string& name)
+        : Tweakable(bar, id, name)
         , data(0) {
         assert(this);
 
@@ -86,8 +85,9 @@ namespace {
     public:
       std::string data;
 
-      StringTweakable(TwBar* bar, const std::string& name)
-        : Tweakable(bar, name) {
+      StringTweakable(TwBar* bar, const std::string& id,
+                      const std::string& name)
+        : Tweakable(bar, id, name) {
         assert(this);
 
         TwSetVarCallback set = SetCallback<StringTweakable, std::string>;
@@ -129,16 +129,17 @@ TweakerStore::~TweakerStore() {
 namespace {
   template <typename TSpecifiedTweakable, typename TData>
   Tweakable& Tweakbase(TweakerStore::Tweakables* tweakables, TwBar* bar,
-                       const std::string& name, TData* data) {
-    auto found = tweakables->find(name);
+                       const std::string& id, const std::string& name,
+                       TData* data) {
+    auto found = tweakables->find(id);
     Tweakable* tweakable = 0;
     if (found != tweakables->end()) {
       tweakable = found->second.get();
     } else {
       boost::shared_ptr<Tweakable> newtweakable(new
-          TSpecifiedTweakable(bar, name));
+          TSpecifiedTweakable(bar, id, name));
       tweakables->insert(TweakerStore::Tweakables::
-                         value_type(name, newtweakable));
+                         value_type(id, newtweakable));
       tweakable = newtweakable.get();
     }
 
@@ -158,27 +159,46 @@ namespace {
   }
 }  // namespace
 
-Tweakable& TweakerStore::tweak(const std::string& name, std::string* data) {
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               std::string* data) {
   assert(this);
-  return Tweakbase<StringTweakable, std::string>(&tweakables, bar, name, data);
+  return Tweakbase<StringTweakable, std::string>(&tweakables, bar, id, name,
+         data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& name, int32* data) {
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               int32* data) {
   assert(this);
   return Tweakbase < IntTweakable<TweakerStore::int32, TW_TYPE_INT32>,
-         TweakerStore::int32 > (&tweakables, bar, name, data);
+         TweakerStore::int32 > (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& name, uint32* data) {
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               uint32* data) {
   assert(this);
   return Tweakbase < IntTweakable<TweakerStore::uint32, TW_TYPE_UINT32>,
-         TweakerStore::uint32 > (&tweakables, bar, name, data);
+         TweakerStore::uint32 > (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& name, bool* data) {
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               bool* data) {
   assert(this);
   return Tweakbase < IntTweakable<bool, TW_TYPE_BOOLCPP>,
-         bool > (&tweakables, bar, name, data);
+         bool > (&tweakables, bar, id, name, data);
+}
+
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               float* data) {
+  assert(this);
+  return Tweakbase < IntTweakable<float, TW_TYPE_FLOAT>,
+         float > (&tweakables, bar, id, name, data);
+}
+
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               double* data) {
+  assert(this);
+  return Tweakbase < IntTweakable<double, TW_TYPE_DOUBLE>,
+         double > (&tweakables, bar, id, name, data);
 }
 
 /** @todo move to a better place
