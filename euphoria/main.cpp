@@ -55,7 +55,7 @@ const char* const kFragmentShaderSource =
 
 const float pi = 3.141592653589793238462643383279502884f;
 
-void AddObjects(World* world) {
+boost::shared_ptr<Instance> AddObjects(World* world) {
   boost::shared_ptr<Program> program =
     Program::FromShaderList(ShaderList()
                             (Shader::FromSource(kVertexShaderSource,
@@ -81,6 +81,8 @@ void AddObjects(World* world) {
 
   boost::shared_ptr<Instance> ip(new Instance(cmesh, model));
   world->add(ip);
+
+  return ip;
 }
 
 void logic() {
@@ -133,7 +135,7 @@ void logic() {
   }
 
   World world;
-  AddObjects(&world);
+  auto model = AddObjects(&world);
 
   OglDebug::Verify();
 
@@ -168,6 +170,8 @@ void logic() {
     TWEAK(test);
     TWEAK(donk).label("Integer");
     TWEAK(q);
+
+    cml::matrix_rotation_quaternion(model->transform, q);
 
     // check all the window's events that were triggered since the last
     // iteration of the loop
