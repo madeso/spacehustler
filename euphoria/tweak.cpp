@@ -85,15 +85,35 @@ namespace {
     public:
       quat data;
 
+      static void TW_CALL QuatSetCallback(const void* value, void* clientData) {
+        QuatTweakable* tweak = static_cast<QuatTweakable*>(clientData);
+        const float* val = static_cast<const float*>(value);
+        tweak->data[0] = val[0];
+        tweak->data[1] = val[1];
+        tweak->data[2] = val[2];
+        tweak->data[3] = val[3];
+        tweak->hasChanged = true;
+      }
+
+      static void TW_CALL QuatGetCallback(void* value, void* clientData) {
+        QuatTweakable* tweak = static_cast<QuatTweakable*>(clientData);
+        float* val = static_cast<float*>(value);
+        val[0] = tweak->data[0];
+        val[1] = tweak->data[1];
+        val[2] = tweak->data[2];
+        val[3] = tweak->data[3];
+      }
+
       QuatTweakable(TwBar* bar, const std::string& id, const std::string& name)
         : Tweakable(bar, id, name)
         , data() {
         assert(this);
 
-        TwSetVarCallback set = SetCallback<QuatTweakable, quat>;
-        TwGetVarCallback get = GetCallback<QuatTweakable, quat>;
+        TwSetVarCallback set = QuatSetCallback;
+        TwGetVarCallback get = QuatGetCallback;
 
-        TwAddVarCB(bar, id.c_str(), TW_TYPE_QUAT4F, set, get, this, "");
+        TwAddVarCB(bar, id.c_str(), TW_TYPE_QUAT4F, set, get, this,
+                   "axisx=x axisy=y axisz=-z");
         label(name);
       }
   };

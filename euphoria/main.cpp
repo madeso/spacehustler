@@ -147,6 +147,8 @@ void logic() {
   int test = 5;
   unsigned int donk = 5;
   quat q;
+  cml::quaternion_rotation_matrix(q, model->transform);
+
   while (running) {
     OglDebug::Verify();
 
