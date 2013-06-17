@@ -304,7 +304,7 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
 Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
                                vec3* data) {
   assert(this);
-  return Tweakbase < IntTweakable<vec3, TW_TYPE_DOUBLE>,
+  return Tweakbase < Vec3Tweakable,
          vec3 > (&tweakables, bar, id, name, data);
 }
 

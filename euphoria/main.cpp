@@ -145,6 +145,7 @@ void logic() {
   bool running = true;
   int test = 5;
   unsigned int donk = 5;
+  vec3 pos = cvec3zero();
   quat q;
   cml::quaternion_rotation_matrix(q, model->transform);
 
@@ -171,8 +172,9 @@ void logic() {
     TWEAK(test);
     TWEAK(donk).label("Integer");
     TWEAK(q);
+    TWEAK(pos);
 
-    model->transform = cmat44(q);
+    model->transform = cmat44(pos, q);
 
     // check all the window's events that were triggered since the last
     // iteration of the loop

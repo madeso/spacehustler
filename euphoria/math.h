@@ -22,4 +22,6 @@ vec3 cvec3zero();
 mat44 cmat44(const vec3& v);
 mat44 cmat44(const quat& q);
 
+mat44 cmat44(const vec3& v, const quat& q);
+
 #endif  // EUPHORIA_MATH_H_

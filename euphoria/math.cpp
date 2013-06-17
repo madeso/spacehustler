@@ -20,3 +20,7 @@ mat44 cmat44(const quat& q) {
   cml::matrix_rotation_quaternion(ret, q);
   return ret;
 }
+
+mat44 cmat44(const vec3& v, const quat& q) {
+  return cmat44(q) * cmat44(v);
+}
