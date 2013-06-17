@@ -135,6 +135,63 @@ namespace {
       }
   };
 
+  struct svec3 {
+    float x;
+    float y;
+    float z;
+  };
+
+  TwType CreateVec3Struct() {
+    TwStructMember vec3members[] = {
+      { "x", TW_TYPE_FLOAT, offsetof(svec3, x), "" },
+      { "y", TW_TYPE_FLOAT, offsetof(svec3, y), "" },
+      { "z", TW_TYPE_FLOAT, offsetof(svec3, z), "" }
+    };
+    return TwDefineStruct("vec3", vec3members, 3, sizeof(svec3), NULL, NULL);
+  }
+
+  void TW_CALL SetCallbackVec3(const void* value, void* clientData);
+  void TW_CALL GetCallbackVec3(void* value, void* clientData);
+
+  TwType Vec3Struct() {
+    static const TwType s = CreateVec3Struct();
+    return s;
+  }
+
+  class Vec3Tweakable : public Tweakable {
+    public:
+      vec3 data;
+
+      Vec3Tweakable(TwBar* bar, const std::string& id,
+                    const std::string& name)
+        : Tweakable(bar, id, name) {
+        assert(this);
+
+        TwSetVarCallback set = SetCallbackVec3;
+        TwGetVarCallback get = GetCallbackVec3;
+
+        TwAddVarCB(bar, id.c_str(), Vec3Struct(), set, get, this, "");
+        label(name);
+      }
+  };
+
+  void TW_CALL SetCallbackVec3(const void* value, void* clientData) {
+    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    const svec3 vec = *static_cast<const svec3*>(value);
+    tweak->data[0] = vec.x;
+    tweak->data[1] = vec.y;
+    tweak->data[2] = vec.z;
+    tweak->hasChanged = true;
+  }
+
+  void TW_CALL GetCallbackVec3(void* value, void* clientData) {
+    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    svec3* vec = static_cast<svec3*>(value);
+    vec->x = tweak->data[0];
+    vec->y = tweak->data[1];
+    vec->z = tweak->data[2];
+  }
+
   void TW_CALL GetCallbackString(void* value, void* clientData) {
     StringTweakable* tweak = static_cast<StringTweakable*>(clientData);
     TwCopyStdStringToLibrary(*static_cast<std::string*>(value), tweak->data);
@@ -244,6 +301,13 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
   return Tweakbase < QuatTweakable, quat > (&tweakables, bar, id, name, data);
 }
 
+Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
+                               vec3* data) {
+  assert(this);
+  return Tweakbase < IntTweakable<vec3, TW_TYPE_DOUBLE>,
+         vec3 > (&tweakables, bar, id, name, data);
+}
+
 /** @todo move to a better place
  */
 template< typename ContainerT, typename PredicateT >
@@ -268,19 +332,3 @@ void TweakerStore::update() {
 TweakerStore* GlocalTweakerStore() {
   return GlocalTweakerStoreVariable;
 }
-
-/*
-
-TwBar* bar;
-bar = TwNewBar("Testing tweaks");
-
-bool b = false;
-TwAddVarRW(bar, "b", TW_TYPE_BOOLCPP, &b, "");
-
-double tmpt = 30.0;
-TwAddVarRW(bar, "Temperature", TW_TYPE_DOUBLE, &tmpt, " precision=3 ");
-
-std::string s3 = "a STL string";
-TwAddVarRW(bar, "s3", TW_TYPE_STDSTRING, &s3, "");
-
-*/

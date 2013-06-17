@@ -128,6 +128,11 @@ class TweakerStore {
     Tweakable& tweak(const std::string& id, const std::string& name,
                      quat* data);
 
+    /** Tweak a vec3.
+     */
+    Tweakable& tweak(const std::string& id, const std::string& name,
+                     vec3* data);
+
     /** update the store.
     Remove tweaks that are no longer needed etc..
      */
