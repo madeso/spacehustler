@@ -17,4 +17,9 @@ typedef cml::matrix < float, cml::fixed<4, 4>,
 typedef cml::quaternion < float, cml::fixed<>, cml::vector_first,
         cml::negative_cross > quat;
 
+vec3 cvec3zero();
+
+mat44 cmat44(const vec3& v);
+mat44 cmat44(const quat& q);
+
 #endif  // EUPHORIA_MATH_H_

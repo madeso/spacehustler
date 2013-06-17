@@ -73,8 +73,7 @@ boost::shared_ptr<Instance> AddObjects(World* world) {
   cml::matrix_rotation_euler(model, 0.0f, pi / 4, 0.0f
                              , cml::euler_order_yxz);
 
-  mat44 worldmat;
-  cml::matrix_translation(worldmat, vec3(-55, -20, -50));
+  mat44 worldmat = cmat44(vec3(-55, -20, -50));
 
   boost::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
   world->add(wi);
@@ -127,9 +126,9 @@ void logic() {
   camera.setNearFar(0.1f, 200.0f);
 
   {
-    vec3 eye, target, up;
-    eye.set(30, 30, 30);
-    target.zero();
+    const vec3 eye(30, 30, 30);
+    const vec3 target = cvec3zero();
+    vec3 up;
     up.cardinal(1);
     cml::matrix_look_at_LH(camera.view, eye, target, up);
   }
@@ -173,7 +172,7 @@ void logic() {
     TWEAK(donk).label("Integer");
     TWEAK(q);
 
-    cml::matrix_rotation_quaternion(model->transform, q);
+    model->transform = cmat44(q);
 
     // check all the window's events that were triggered since the last
     // iteration of the loop
