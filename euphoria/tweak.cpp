@@ -158,23 +158,6 @@ namespace {
     return s;
   }
 
-  class Vec3Tweakable : public Tweakable {
-    public:
-      vec3 data;
-
-      Vec3Tweakable(TwBar* bar, const std::string& id,
-                    const std::string& name)
-        : Tweakable(bar, id, name) {
-        assert(this);
-
-        TwSetVarCallback set = SetCallbackVec3;
-        TwGetVarCallback get = GetCallbackVec3;
-
-        TwAddVarCB(bar, id.c_str(), Vec3Struct(), set, get, this, "");
-        label(name);
-      }
-  };
-
   void TW_CALL SetCallbackVec3(const void* value, void* clientData) {
     Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
     const svec3 vec = *static_cast<const svec3*>(value);
@@ -192,6 +175,23 @@ namespace {
     vec->z = tweak->data[2];
   }
 
+  void TW_CALL SetCallbackFloat3(const void* value, void* clientData) {
+    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    const float* vec = static_cast<const float*>(value);
+    tweak->data[0] = vec[0];
+    tweak->data[1] = vec[1];
+    tweak->data[2] = vec[2];
+    tweak->hasChanged = true;
+  }
+
+  void TW_CALL GetCallbackFloat3(void* value, void* clientData) {
+    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    float* vec = static_cast<float*>(value);
+    vec[0] = tweak->data[0];
+    vec[1] = tweak->data[1];
+    vec[2] = tweak->data[2];
+  }
+
   void TW_CALL GetCallbackString(void* value, void* clientData) {
     StringTweakable* tweak = static_cast<StringTweakable*>(clientData);
     TwCopyStdStringToLibrary(*static_cast<std::string*>(value), tweak->data);
@@ -201,6 +201,43 @@ namespace {
     return x.second->life > 3;
   }
 }  // namespace
+
+Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
+                             const std::string& name)
+  : Tweakable(bar, id, name)
+  , data(cvec3zero())
+  , isdirection(false)
+  , name(name) {
+  assert(this);
+
+  TwSetVarCallback set = SetCallbackVec3;
+  TwGetVarCallback get = GetCallbackVec3;
+
+  TwAddVarCB(bar, id.c_str(), Vec3Struct(), set, get, this, "");
+  label(name);
+}
+
+Vec3Tweakable& Vec3Tweakable::isDirection(bool b) {
+  if (b == isdirection) {
+    return *this;
+  }
+
+  isdirection = b;
+
+  TwRemoveVar(bar, id.c_str());
+
+  if (isdirection) {
+    TwAddVarCB(bar, id.c_str(), TW_TYPE_DIR3F, SetCallbackFloat3,
+               GetCallbackFloat3, this, "");
+  } else {
+    TwSetVarCallback set = SetCallbackVec3;
+    TwGetVarCallback get = GetCallbackVec3;
+    TwAddVarCB(bar, id.c_str(), Vec3Struct(), set, get, this, "");
+  }
+  label(name);
+
+  return *this;
+}
 
 
 TweakerStore::TweakerStore() {
@@ -222,9 +259,11 @@ TweakerStore::~TweakerStore() {
 
 namespace {
   template <typename TSpecifiedTweakable, typename TData>
-  Tweakable& Tweakbase(TweakerStore::Tweakables* tweakables, TwBar* bar,
-                       const std::string& id, const std::string& name,
-                       TData* data) {
+  TSpecifiedTweakable& Tweakbase(TweakerStore::Tweakables* tweakables,
+                                 TwBar* bar,
+                                 const std::string& id,
+                                 const std::string& name,
+                                 TData* data) {
     auto found = tweakables->find(id);
     Tweakable* tweakable = 0;
     if (found != tweakables->end()) {
@@ -301,8 +340,9 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
   return Tweakbase < QuatTweakable, quat > (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               vec3* data) {
+Vec3Tweakable& TweakerStore::tweak(const std::string& id,
+                                   const std::string& name,
+                                   vec3* data) {
   assert(this);
   return Tweakbase < Vec3Tweakable,
          vec3 > (&tweakables, bar, id, name, data);

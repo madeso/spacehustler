@@ -69,6 +69,31 @@ class Tweakable {
     std::string id;
 };
 
+/** Tweakable for vec3.
+ */
+class Vec3Tweakable : public Tweakable {
+  public:
+    /** Constructor.
+    @param bar the bar.
+    @param id the id.
+    @param name the name
+     */
+    Vec3Tweakable(TwBar* bar, const std::string& id, const std::string& name);
+
+    /** changes is the vec3 is a direction or not.
+    @param b true if it is a direction, false if not.
+    @returns this for chaining.
+     */
+    Vec3Tweakable& isDirection(bool b);
+
+    /** The data.
+     */
+    vec3 data;
+  private:
+    bool isdirection;
+    std::string name;
+};
+
 /** A place to store and do basic operations of tweakables.
  */
 class TweakerStore {
@@ -130,8 +155,8 @@ class TweakerStore {
 
     /** Tweak a vec3.
      */
-    Tweakable& tweak(const std::string& id, const std::string& name,
-                     vec3* data);
+    Vec3Tweakable& tweak(const std::string& id, const std::string& name,
+                         vec3* data);
 
     /** update the store.
     Remove tweaks that are no longer needed etc..

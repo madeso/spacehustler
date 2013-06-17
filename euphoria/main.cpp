@@ -146,6 +146,7 @@ void logic() {
   int test = 5;
   unsigned int donk = 5;
   vec3 pos = cvec3zero();
+  vec3 gravity(0, 1, 0);
   quat q;
   cml::quaternion_rotation_matrix(q, model->transform);
 
@@ -173,6 +174,7 @@ void logic() {
     TWEAK(donk).label("Integer");
     TWEAK(q);
     TWEAK(pos);
+    TWEAK(gravity).isDirection(true);
 
     model->transform = cmat44(pos, q);
 
