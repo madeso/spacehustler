@@ -69,6 +69,43 @@ class Tweakable {
     std::string id;
 };
 
+#define TWEAKABLE_BASIC(CLASS, TYPE) \
+  public: \
+  CLASS(TwBar* bar, const std::string& id, const std::string& name); \
+  ~CLASS(); \
+  public: \
+  TYPE data
+
+#define TWEAKABLE_NUM(CLASS, TYPE) \
+  public: \
+  CLASS& minmax(TYPE min, TYPE max); \
+  CLASS& step(TYPE step)
+
+#define TWEAKABLE_INT(CLASS, TYPE) \
+  public: \
+  CLASS& hexa(bool hex)
+
+#define TWEAKABLE_FLOAT(CLASS, TYPE) \
+  public: \
+  CLASS& precision(fuint8 p)
+
+/** Tweakable for int32.
+ */
+class Int32Tweakable : public Tweakable {
+  public:
+    /** Basic tweakable operations.
+     */
+    TWEAKABLE_BASIC(Int32Tweakable, int32);
+
+    /** Numeric tweakable operations.
+     */
+    TWEAKABLE_NUM(Int32Tweakable, int32);
+
+    /** Int tweakable operations.
+     */
+    TWEAKABLE_INT(Int32Tweakable, int32);
+};
+
 /** Tweakable for vec3.
  */
 class Vec3Tweakable : public Tweakable {
@@ -119,8 +156,8 @@ class TweakerStore {
 
     /** Tweak a 32 bit integer
      */
-    Tweakable& tweak(const std::string& id, const std::string& name,
-                     int32* data);
+    Int32Tweakable& tweak(const std::string& id, const std::string& name,
+                          int32* data);
 
     /** Tweak a unsigned 32 bit integer
      */

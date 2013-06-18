@@ -202,6 +202,43 @@ namespace {
   }
 }  // namespace
 
+#define TWEAKABLE_BASIC_IMPLEMENTATION(CLASS, TYPE, DEFAULT, ANTTYPE) \
+  CLASS::CLASS(TwBar* bar, const std::string& id, const std::string& name) \
+    : Tweakable(bar, id, name)\
+    , data(DEFAULT) {\
+    assert(this);\
+    TwSetVarCallback set = SetCallback<CLASS, TYPE>;\
+    TwGetVarCallback get = GetCallback<CLASS, TYPE>;\
+    TwAddVarCB(bar, id.c_str(), ANTTYPE, set, get, this, "");\
+    label(name);\
+  }\
+  CLASS::~CLASS() {}
+
+#define TWEAKABLE_NUM_IMPLEMENTATION(CLASS, TYPE, ANTPARAM) \
+  CLASS& CLASS::minmax(TYPE min, TYPE max) { \
+    assert(this);\
+    TwSetParam(bar, id.c_str(), "min", ANTPARAM, 1, &min);\
+    TwSetParam(bar, id.c_str(), "max", ANTPARAM, 1, &max);\
+    return *this;\
+  }\
+  CLASS& CLASS::step(TYPE step) {\
+    assert(this);\
+    return *this;\
+  }
+
+#define TWEAKABLE_INT_IMPLEMENTATION(CLASS, TYPE) \
+  CLASS& CLASS::hexa(bool hex) {\
+    assert(this);\
+    return *this;\
+  }
+
+#define TWEAKABLE_FLOAT_IMPLEMENTATION(CLASS, TYPE)
+
+TWEAKABLE_BASIC_IMPLEMENTATION(Int32Tweakable, int32, 0, TW_TYPE_INT32);
+TWEAKABLE_NUM_IMPLEMENTATION(Int32Tweakable, int32, TW_PARAM_INT32);
+TWEAKABLE_INT_IMPLEMENTATION(Int32Tweakable, int32);
+
+
 Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
                              const std::string& name)
   : Tweakable(bar, id, name)
@@ -299,10 +336,11 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
          data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               int32* data) {
+Int32Tweakable& TweakerStore::tweak(const std::string& id,
+                                    const std::string& name,
+                                    int32* data) {
   assert(this);
-  return Tweakbase < IntTweakable<int32, TW_TYPE_INT32>,
+  return Tweakbase < Int32Tweakable,
          int32 > (&tweakables, bar, id, name, data);
 }
 
