@@ -302,15 +302,15 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
 Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
                                int32* data) {
   assert(this);
-  return Tweakbase < IntTweakable<TweakerStore::int32, TW_TYPE_INT32>,
-         TweakerStore::int32 > (&tweakables, bar, id, name, data);
+  return Tweakbase < IntTweakable<int32, TW_TYPE_INT32>,
+         int32 > (&tweakables, bar, id, name, data);
 }
 
 Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
                                uint32* data) {
   assert(this);
-  return Tweakbase < IntTweakable<TweakerStore::uint32, TW_TYPE_UINT32>,
-         TweakerStore::uint32 > (&tweakables, bar, id, name, data);
+  return Tweakbase < IntTweakable<uint32, TW_TYPE_UINT32>,
+         uint32 > (&tweakables, bar, id, name, data);
 }
 
 Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,

@@ -4,13 +4,13 @@
 #define EUPHORIA_TWEAK_H_
 
 #include <boost/shared_ptr.hpp>
-#include <boost/cstdint.hpp>
 
 #include <map>
 #include <string>
 #include <cassert>
 
 #include "euphoria/math.h"
+#include "euphoria/ints.h"
 
 // forward declaration of internal type
 typedef struct CTwBar TwBar;
@@ -106,13 +106,7 @@ class TweakerStore {
      */
     ~TweakerStore();
 
-    /** A 32 bit integer.
-     */
-    typedef boost::int32_t int32;
 
-    /** A 32 bit unsigned integer.
-     */
-    typedef boost::uint32_t uint32;
 
     /** Tweak this string.
     @param id the unique id of the tweakable.
