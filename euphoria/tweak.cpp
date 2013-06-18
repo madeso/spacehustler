@@ -223,12 +223,15 @@ namespace {
   }\
   CLASS& CLASS::step(TYPE step) {\
     assert(this);\
+    TwSetParam(bar, id.c_str(), "step", ANTPARAM, 1, &step);\
     return *this;\
   }
 
 #define TWEAKABLE_INT_IMPLEMENTATION(CLASS, TYPE) \
   CLASS& CLASS::hexa(bool hex) {\
     assert(this);\
+    const std::string hexstr = hex ? "true" : "false"; \
+    TwSetParam(bar, id.c_str(), "hexa", TW_PARAM_CSTRING, 1, hexstr.c_str());\
     return *this;\
   }
 

@@ -170,7 +170,7 @@ void logic() {
       std::string temp = "lol";
       TWEAK(temp).group("Funny");
     }
-    TWEAK(test).minmax(0, 10);
+    TWEAK(test).minmax(0, 10).step(2).hexa(true);
     TWEAK(donk).label("Integer");
     TWEAK(q);
     TWEAK(pos);
