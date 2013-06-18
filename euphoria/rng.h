@@ -3,7 +3,7 @@
 #ifndef EUPHORIA_RNG_H_
 #define EUPHORIA_RNG_H_
 
-#include <boost/cstdint.hpp>
+#include "euphoria/ints.h"
 
 /** WEL512 Random Number Generator.
 http://stackoverflow.com/questions/1046714/what-is-a-good-random-number-generator-for-a-game
@@ -11,10 +11,6 @@ http://stackoverflow.com/a/1227137
  */
 class Rng {
   public:
-    /** The integer type.
-     */
-    typedef boost::uint32_t uint32;
-
     /** Construct a new Rng with a seed.
     @param seed the seed to use.
      */

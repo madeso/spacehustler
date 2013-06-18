@@ -19,11 +19,11 @@ Rng::Rng(uint32 seed)
   }
 }
 
-Rng::uint32 Rng::operator()() {
+uint32 Rng::operator()() {
   return next();
 }
 
-Rng::uint32 Rng::next() {
+uint32 Rng::next() {
   uint32 a, b, c, d;
   a = state[index];
   c = state[(index + 13) & 15];
@@ -39,5 +39,5 @@ Rng::uint32 Rng::next() {
 }
 
 float Rng::nextFloat() {
-  return static_cast<float>(next()) / std::numeric_limits<Rng::uint32>().max();
+  return static_cast<float>(next()) / std::numeric_limits<uint32>().max();
 }
