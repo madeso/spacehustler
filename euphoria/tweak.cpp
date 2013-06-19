@@ -241,6 +241,10 @@ TWEAKABLE_BASIC_IMPLEMENTATION(Int32Tweakable, int32, 0, TW_TYPE_INT32);
 TWEAKABLE_NUM_IMPLEMENTATION(Int32Tweakable, int32, TW_PARAM_INT32);
 TWEAKABLE_INT_IMPLEMENTATION(Int32Tweakable, int32);
 
+TWEAKABLE_BASIC_IMPLEMENTATION(Uint32Tweakable, uint32, 0, TW_TYPE_UINT32);
+TWEAKABLE_NUM_IMPLEMENTATION(Uint32Tweakable, uint32, TW_PARAM_INT32);
+TWEAKABLE_INT_IMPLEMENTATION(Uint32Tweakable, uint32);
+
 
 Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
                              const std::string& name)
@@ -343,15 +347,16 @@ Int32Tweakable& TweakerStore::tweak(const std::string& id,
                                     const std::string& name,
                                     int32* data) {
   assert(this);
-  return Tweakbase < Int32Tweakable,
-         int32 > (&tweakables, bar, id, name, data);
+  return Tweakbase < Int32Tweakable, int32 >
+         (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               uint32* data) {
+Uint32Tweakable& TweakerStore::tweak(const std::string& id,
+                                     const std::string& name,
+                                     uint32* data) {
   assert(this);
-  return Tweakbase < IntTweakable<uint32, TW_TYPE_UINT32>,
-         uint32 > (&tweakables, bar, id, name, data);
+  return Tweakbase < Uint32Tweakable, uint32 >
+         (&tweakables, bar, id, name, data);
 }
 
 Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,

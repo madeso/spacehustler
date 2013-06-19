@@ -106,6 +106,23 @@ class Int32Tweakable : public Tweakable {
     TWEAKABLE_INT(Int32Tweakable, int32);
 };
 
+/** Tweakable for uint32.
+ */
+class Uint32Tweakable : public Tweakable {
+  public:
+    /** Basic tweakable operations.
+     */
+    TWEAKABLE_BASIC(Uint32Tweakable, uint32);
+
+    /** Numeric tweakable operations.
+     */
+    TWEAKABLE_NUM(Uint32Tweakable, uint32);
+
+    /** Int tweakable operations.
+     */
+    TWEAKABLE_INT(Uint32Tweakable, uint32);
+};
+
 /** Tweakable for vec3.
  */
 class Vec3Tweakable : public Tweakable {
@@ -161,8 +178,8 @@ class TweakerStore {
 
     /** Tweak a unsigned 32 bit integer
      */
-    Tweakable& tweak(const std::string& id, const std::string& name,
-                     uint32* data);
+    Uint32Tweakable& tweak(const std::string& id, const std::string& name,
+                           uint32* data);
 
     /** Tweak a bool.
      */
