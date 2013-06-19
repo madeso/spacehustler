@@ -148,6 +148,7 @@ void logic() {
   vec3 pos = cvec3zero();
   vec3 gravity(0, 1, 0);
   quat q;
+  float dog = 2.0f;
   cml::quaternion_rotation_matrix(q, model->transform);
 
   while (running) {
@@ -166,6 +167,7 @@ void logic() {
 
     bool boolean = true;
     TWEAK(boolean);
+    TWEAK(dog).minmax(0, 100).step(0.1f);
     if (boolean) {
       std::string temp = "lol";
       TWEAK(temp).group("Funny");

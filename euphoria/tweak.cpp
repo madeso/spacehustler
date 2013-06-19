@@ -235,7 +235,12 @@ namespace {
     return *this;\
   }
 
-#define TWEAKABLE_FLOAT_IMPLEMENTATION(CLASS, TYPE)
+#define TWEAKABLE_FLOAT_IMPLEMENTATION(CLASS, TYPE) \
+  CLASS& CLASS::precision(fuint8 p) {\
+    assert(this);\
+    TwSetParam(bar, id.c_str(), "precision", TW_PARAM_INT32, 1, &p);\
+    return *this;\
+  }
 
 TWEAKABLE_BASIC_IMPLEMENTATION(Int32Tweakable, int32, 0, TW_TYPE_INT32);
 TWEAKABLE_NUM_IMPLEMENTATION(Int32Tweakable, int32, TW_PARAM_INT32);
@@ -244,6 +249,15 @@ TWEAKABLE_INT_IMPLEMENTATION(Int32Tweakable, int32);
 TWEAKABLE_BASIC_IMPLEMENTATION(Uint32Tweakable, uint32, 0, TW_TYPE_UINT32);
 TWEAKABLE_NUM_IMPLEMENTATION(Uint32Tweakable, uint32, TW_PARAM_INT32);
 TWEAKABLE_INT_IMPLEMENTATION(Uint32Tweakable, uint32);
+
+TWEAKABLE_BASIC_IMPLEMENTATION(FloatTweakable, float, 0.0f, TW_TYPE_FLOAT);
+TWEAKABLE_NUM_IMPLEMENTATION(FloatTweakable, float, TW_PARAM_FLOAT);
+TWEAKABLE_FLOAT_IMPLEMENTATION(FloatTweakable, float);
+
+TWEAKABLE_BASIC_IMPLEMENTATION(DoubleTweakable, double, 0.0, TW_TYPE_DOUBLE);
+TWEAKABLE_NUM_IMPLEMENTATION(DoubleTweakable, double, TW_PARAM_DOUBLE);
+TWEAKABLE_FLOAT_IMPLEMENTATION(DoubleTweakable, double);
+
 
 
 Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
@@ -366,18 +380,20 @@ Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
          bool > (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               float* data) {
+FloatTweakable& TweakerStore::tweak(const std::string& id,
+                                    const std::string& name,
+                                    float* data) {
   assert(this);
-  return Tweakbase < IntTweakable<float, TW_TYPE_FLOAT>,
-         float > (&tweakables, bar, id, name, data);
+  return Tweakbase < FloatTweakable, float >
+         (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               double* data) {
+DoubleTweakable& TweakerStore::tweak(const std::string& id,
+                                     const std::string& name,
+                                     double* data) {
   assert(this);
-  return Tweakbase < IntTweakable<double, TW_TYPE_DOUBLE>,
-         double > (&tweakables, bar, id, name, data);
+  return Tweakbase < DoubleTweakable, double >
+         (&tweakables, bar, id, name, data);
 }
 
 Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,

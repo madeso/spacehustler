@@ -123,6 +123,40 @@ class Uint32Tweakable : public Tweakable {
     TWEAKABLE_INT(Uint32Tweakable, uint32);
 };
 
+/** Tweakable for float.
+ */
+class FloatTweakable : public Tweakable {
+  public:
+    /** Basic tweakable operations.
+     */
+    TWEAKABLE_BASIC(FloatTweakable, float);
+
+    /** Numeric tweakable operations.
+     */
+    TWEAKABLE_NUM(FloatTweakable, float);
+
+    /** Float tweakable operations.
+     */
+    TWEAKABLE_FLOAT(FloatTweakable, float);
+};
+
+/** Tweakable for double.
+ */
+class DoubleTweakable : public Tweakable {
+  public:
+    /** Basic tweakable operations.
+     */
+    TWEAKABLE_BASIC(DoubleTweakable, double);
+
+    /** Numeric tweakable operations.
+     */
+    TWEAKABLE_NUM(DoubleTweakable, double);
+
+    /** Float tweakable operations.
+     */
+    TWEAKABLE_FLOAT(DoubleTweakable, double);
+};
+
 /** Tweakable for vec3.
  */
 class Vec3Tweakable : public Tweakable {
@@ -188,13 +222,13 @@ class TweakerStore {
 
     /** Tweak a float.
      */
-    Tweakable& tweak(const std::string& id, const std::string& name,
-                     float* data);
+    FloatTweakable& tweak(const std::string& id, const std::string& name,
+                          float* data);
 
     /** Tweak a double.
      */
-    Tweakable& tweak(const std::string& id, const std::string& name,
-                     double* data);
+    DoubleTweakable& tweak(const std::string& id, const std::string& name,
+                           double* data);
 
     /** Tweak a quaternion.
      */
