@@ -1389,6 +1389,7 @@ int CTwVarAtom::SetAttrib(int _AttribID, const char *_Value, TwBar *_Bar, struct
                 return 0;
             }
 
+            setlocale(LC_NUMERIC, "C");
             if( Fmt!=NULL && Ptr!=NULL && sscanf(_Value, Fmt, Ptr)==1 )
             {
                 if( m_Type==TW_TYPE_CHAR )
