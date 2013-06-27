@@ -61,6 +61,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.ini ${CMAKE_CURRENT_BINARY_D
 
 include_directories(external)
 include_directories(external/cml-1_0_3)
+include_directories(external/jsoncpp)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${ASSIMP_INCLUDE_DIR})

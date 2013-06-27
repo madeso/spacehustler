@@ -14,6 +14,12 @@ set ( src_anttweakbar
 )
 ADD_DEFINITIONS( -DTW_STATIC )
 
+set ( src_jsoncpp
+	../external/jsoncpp/json_reader.cpp
+	../external/jsoncpp/json_value.cpp
+	../external/jsoncpp/json_writer.cpp
+)
+
 set ( src_glew
 	../external/glew/GL/glew.c
 	../external/glew/GL/glew.h
@@ -36,9 +42,10 @@ set ( src_soil
 source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
 source_group(soil FILES ${src_soil})
+source_group(jsoncpp FILES ${src_jsoncpp})
 source_group(anttweakbar FILES ${src_anttweakbar})
 
-add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil} ${src_anttweakbar})
+add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil} ${src_jsoncpp} ${src_anttweakbar})
 
 add_custom_command(TARGET main
                    PRE_BUILD
