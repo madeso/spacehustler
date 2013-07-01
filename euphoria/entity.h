@@ -4,9 +4,10 @@
 #define EUPHORIA_ENTITY_H_
 
 #include <boost/shared_ptr.hpp>
-#include <vector>
+#include <map>
 
 #include "euphoria/math.h"
+#include "euphoria/enum.h"
 
 /** A entity in the component/entity framework.
  */
@@ -46,6 +47,11 @@ class System {
  */
 typedef boost::shared_ptr<System> SystemPtr;
 
+/** The global system type.
+@return the global system type.
+ */
+EnumType& SystemType();
+
 /** Contains systems
  */
 class SystemContainer {
@@ -64,12 +70,14 @@ class SystemContainer {
     void step(float dt);
 
     /** Add a system to the container.
+    @param systemType the type of system
     @param sys the system to add.
      */
-    void add(SystemPtr sys);
+    void add(EnumValue systemType, SystemPtr sys);
 
   private:
-    std::vector<SystemPtr> systems;
+    typedef std::map<EnumValue, SystemPtr> SystemMap;
+    SystemMap systems;
 };
 
 #endif  // EUPHORIA_ENTITY_H_
