@@ -42,4 +42,34 @@ class System {
     // list of components
 };
 
+/** A shared pointer to a System.
+ */
+typedef boost::shared_ptr<System> SystemPtr;
+
+/** Contains systems
+ */
+class SystemContainer {
+  public:
+    /** Constructor.
+     */
+    SystemContainer();
+
+    /** Destructor.
+     */
+    ~SystemContainer();
+
+    /** Step all systems.
+    @param dt the delta t (in seconds).
+     */
+    void step(float dt);
+
+    /** Add a system to the container.
+    @param sys the system to add.
+     */
+    void add(SystemPtr sys);
+
+  private:
+    std::vector<SystemPtr> systems;
+};
+
 #endif  // EUPHORIA_ENTITY_H_
