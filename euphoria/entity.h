@@ -9,6 +9,8 @@
 #include "euphoria/math.h"
 #include "euphoria/enum.h"
 
+#include "jsoncpp/json/json.h"
+
 /** A entity in the component/entity framework.
  */
 class Entity {
@@ -40,6 +42,12 @@ class System {
     @param dt the delta t (in seconds).
      */
     virtual void step(float dt) = 0;
+
+    /** Add a component of this system type to the system.
+    @param data the data to the component.
+     */
+    virtual void add(const Json::Value& data) = 0;
+
     // list of components
 };
 
