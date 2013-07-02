@@ -17,16 +17,16 @@ Build tools
 * Astyle, for styling the code (should be possible to disable)
 * AssImp, for importing meshes
 * OpenGL library
+* Global tweak system (Anttweakbar)
 * SFML, for launching a window and providing a input layer
 * wxWidgets for displaying error messages
 
 Planned Features
 =======
 * add entity system with basic components
-* add scripting support (lua)
-* add physics system (ode, tokamak, physx, bullet)
-* add a global tweak system (Anttweakbar)
 * add loading of shaders from files with preprocessor
+* add physics system (ode, tokamak, physx, bullet)
+* add scripting support (lua)
 * audio and music support
 * menu support (ce gui)
 * hud/2d support
