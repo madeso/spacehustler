@@ -7,6 +7,7 @@ Current Features
 =======
 * Model loading through assimp
 * Instancing meshes in a world
+* Global tweak system (uses anttweakbar internally)
 
 Build tools
 =======
@@ -17,7 +18,6 @@ Build tools
 * Astyle, for styling the code (should be possible to disable)
 * AssImp, for importing meshes
 * OpenGL library
-* Global tweak system (Anttweakbar)
 * SFML, for launching a window and providing a input layer
 * wxWidgets for displaying error messages
 
