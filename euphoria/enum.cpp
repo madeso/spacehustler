@@ -2,8 +2,12 @@
 
 #include "euphoria/enum.h"
 
+#include <fstream> // NOLINT for logging
 #include <cassert>
 #include <string>
+#include <sstream>
+
+#include "json/json.h"
 
 EnumType::EnumType()
   : isAdding(true)
@@ -78,6 +82,31 @@ void EnumType::stopAdding() {
   assert(createdButNotAddedList.empty() == true);  // if this isn't empty,
   // some enums have not been added or misspelling has occurred,
   // see throw above
+}
+
+void Load(EnumType* type, const std::string& filename) {
+  assert(type);
+  // assert(type->isAdding());
+
+  Json::Value root;   // will contains the root value after parsing.
+  Json::Reader reader;
+  std::ifstream file(filename.c_str());
+  if (!file) {
+    throw "Failed to open json";
+  }
+  bool parsingSuccessful = reader.parse(file, root);
+  if (!parsingSuccessful) {
+    std::stringstream ss;
+    ss << "Failed to parse " << file << ": "
+       << reader.getFormattedErrorMessages();
+    throw ss.str();
+  }
+
+  for (Json::Value::ArrayIndex index = 0; index < root.size(); ++index) {
+    type->addEnum(root[index].asString());
+  }
+
+  type->stopAdding();
 }
 
 EnumValue::EnumValue(EnumType* t, size_t v)

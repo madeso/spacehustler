@@ -24,6 +24,7 @@
 #include "euphoria/camera.h"
 #include "euphoria/world.h"
 #include "euphoria/tweak.h"
+#include "euphoria/entity.h"
 
 const char* const kVertexShaderSource =
   "#version 150"                                                    "\n"
@@ -86,6 +87,8 @@ boost::shared_ptr<Instance> AddObjects(World* world) {
 
 void logic() {
   srand(69);
+
+  Load(&SystemType(), "Systems.js");
 
   sf::ContextSettings settings;
   settings.depthBits = 24;

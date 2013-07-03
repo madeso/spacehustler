@@ -62,6 +62,12 @@ class EnumType {
     size_t nextIndex;
 };
 
+/** Adds values from a file to a EnumType.
+@param type the EnumType to add to.
+@param filename the filename to load values from.
+ */
+void Load(EnumType* type, const std::string& filename);
+
 /** A enum value.
 @todo move internal into a private/protected place with friends.
  */
