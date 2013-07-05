@@ -39,8 +39,14 @@ std::string StringMerger::generate(
   return ss.str();
 }
 
-const StringMerger& StringMerger::English() {
+const StringMerger& StringMerger::EnglishAnd() {
   static const StringMerger sep = StringMerger().between(", ", " and ")
+                                  .startend("", "");
+  return sep;
+}
+
+const StringMerger& StringMerger::EnglishOr() {
+  static const StringMerger sep = StringMerger().between(", ", " or ")
                                   .startend("", "");
   return sep;
 }
