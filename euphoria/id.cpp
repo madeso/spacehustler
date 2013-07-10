@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/idpool.h"
+#include "euphoria/id.h"
 
 IdGenerator::IdGenerator()
   : current(1) {

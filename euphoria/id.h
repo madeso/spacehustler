@@ -1,7 +1,7 @@
 // Euphoria - Copyright (c) Gustav
 
-#ifndef EUPHORIA_IDPOOL_H_
-#define EUPHORIA_IDPOOL_H_
+#ifndef EUPHORIA_ID_H_
+#define EUPHORIA_ID_H_
 
 #include <boost/noncopyable.hpp>
 #include <vector>
@@ -56,4 +56,4 @@ class Id : boost::noncopyable {
     IdGenerator* generator;
 };
 
-#endif  // EUPHORIA_IDPOOL_H_
+#endif  // EUPHORIA_ID_H_
