@@ -221,6 +221,10 @@ struct Material {
 
 
 
+/**
+@todo add shader + texture cashing
+@todo implement better material + shader loading routine.
+ */
 CompiledMesh::CompiledMesh(const Mesh& mesh) {
   std::vector<Material> materials;
   for (auto src : mesh.materials) {
