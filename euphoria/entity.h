@@ -8,6 +8,7 @@
 
 #include "euphoria/math.h"
 #include "euphoria/enum.h"
+#include "euphoria/id.h"
 
 #include "jsoncpp/json/json.h"
 
@@ -45,8 +46,9 @@ class System {
 
     /** Add a component type of this system type to the system.
     @param data the data to the component.
+    @returns the id of the type.
      */
-    virtual void addType(const Json::Value& data) = 0;
+    virtual Id* addType(const Json::Value& data) = 0;
 
     // list of components
 };

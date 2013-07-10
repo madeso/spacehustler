@@ -2,11 +2,20 @@
 
 #include "euphoria/entity-rendering.h"
 #include <cassert>
+#include "euphoria/mesh.h"
 
 const EnumValue RenderingSystemType = SystemType().toEnum("Rendering");
 
+class RenderType {
+public:
+  boost::shared_ptr< CompiledMesh > mesh;
+};
+
 class RenderingSystem : public System {
-    void addType(const Json::Value& data) {
+    IdGenerator generator;
+
+    Id* addType(const Json::Value& data) {
+      return 0;
     }
 
     void step(float dt) {
