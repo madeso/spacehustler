@@ -7,10 +7,9 @@
 #include <vector>
 #include "euphoria/ints.h"
 
-/** A pool of unique identifiers.
-@todo rename to IdGenerator
+/** A generator for unique identifiers.
  */
-class IdPool : boost::noncopyable {
+class IdGenerator : boost::noncopyable {
   public:
     /** The type containing the id.
      */
@@ -18,7 +17,7 @@ class IdPool : boost::noncopyable {
 
     /** Standard constructor.
      */
-    IdPool();
+    IdGenerator();
 
     /** Generate a new id or recycle a old one.
     @see Id
@@ -42,9 +41,9 @@ class IdPool : boost::noncopyable {
 class Id : boost::noncopyable {
   public:
     /** Create a new id.
-    @param pool the pool to get the actual id from.
+    @param generator the pool to get the actual id from.
      */
-    explicit Id(IdPool* pool);
+    explicit Id(IdGenerator* generator);
 
     /** Recycle the id.
      */
@@ -52,9 +51,9 @@ class Id : boost::noncopyable {
 
     /** The actual value of the id.
      */
-    const IdPool::ID value;
+    const IdGenerator::ID value;
   private:
-    IdPool* pool;
+    IdGenerator* generator;
 };
 
 #endif  // EUPHORIA_IDPOOL_H_

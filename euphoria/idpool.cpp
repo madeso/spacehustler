@@ -2,11 +2,11 @@
 
 #include "euphoria/idpool.h"
 
-IdPool::IdPool()
+IdGenerator::IdGenerator()
   : current(1) {
 }
 
-const IdPool::ID IdPool::generate() {
+const IdGenerator::ID IdGenerator::generate() {
   if (released.empty()) {
     const ID value = current;
     ++current;
@@ -18,15 +18,15 @@ const IdPool::ID IdPool::generate() {
   }
 }
 
-void IdPool::release(const IdPool::ID id) {
+void IdGenerator::release(const IdGenerator::ID id) {
   released.push_back(id);
 }
 
-Id::Id(IdPool* pool)
-  : value(pool->generate())
-  , pool(pool) {
+Id::Id(IdGenerator* generator)
+  : value(generator->generate())
+  , generator(generator) {
 }
 
 Id::~Id() {
-  pool->release(value);
+  generator->release(value);
 }
