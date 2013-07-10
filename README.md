@@ -24,6 +24,7 @@ Build tools
 Planned Features
 =======
 * add entity system with basic components
+* implement all the todos
 * add loading of shaders from files with preprocessor
 * add physics system (ode, tokamak, physx, bullet)
 * add scripting support (lua)
