@@ -43,10 +43,10 @@ class System {
      */
     virtual void step(float dt) = 0;
 
-    /** Add a component of this system type to the system.
+    /** Add a component type of this system type to the system.
     @param data the data to the component.
      */
-    virtual void add(const Json::Value& data) = 0;
+    virtual void addType(const Json::Value& data) = 0;
 
     // list of components
 };

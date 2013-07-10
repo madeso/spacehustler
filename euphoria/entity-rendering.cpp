@@ -6,7 +6,7 @@
 const EnumValue RenderingSystemType = SystemType().toEnum("Rendering");
 
 class RenderingSystem : public System {
-    void add(const Json::Value& data) {
+    void addType(const Json::Value& data) {
     }
 
     void step(float dt) {
