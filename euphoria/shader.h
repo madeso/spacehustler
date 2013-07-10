@@ -124,4 +124,10 @@ class Program
     GLuint program;
 };
 
+/** Load a shader from a file.
+@param filename the path to the shader file.
+@returns the newly loaded shader.
+ */
+boost::shared_ptr<Program> LoadShaderFromFile(const std::string& filename);
+
 #endif  // EUPHORIA_SHADER_H_

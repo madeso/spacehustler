@@ -251,9 +251,8 @@ class CompiledMesh {
   public:
     /** Compiles a mesh.
     @param mesh the MeshPart to compile.
-    @param program the shader program to use.
      */
-    CompiledMesh(const Mesh& mesh, boost::shared_ptr<Program> program);
+    explicit CompiledMesh(const Mesh& mesh);
 
     /** Render the mesh.
       @param camera through the camera.

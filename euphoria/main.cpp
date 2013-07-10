@@ -57,18 +57,11 @@ const char* const kFragmentShaderSource =
 const float pi = 3.141592653589793238462643383279502884f;
 
 boost::shared_ptr<Instance> AddObjects(World* world) {
-  boost::shared_ptr<Program> program =
-    Program::FromShaderList(ShaderList()
-                            (Shader::FromSource(kVertexShaderSource,
-                                Shader::Vertex))
-                            (Shader::FromSource(kFragmentShaderSource,
-                                Shader::Fragment)));
-
   boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(
-                                          LoadMesh("fighter1.3ds"), program));
+                                          LoadMesh("fighter1.3ds")));
 
   boost::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
-      LoadMesh("world.dae"), program));
+      LoadMesh("world.dae")));
 
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, pi / 4, 0.0f

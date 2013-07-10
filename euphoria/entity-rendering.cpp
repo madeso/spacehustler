@@ -7,8 +7,8 @@
 const EnumValue RenderingSystemType = SystemType().toEnum("Rendering");
 
 class RenderType {
-public:
-  boost::shared_ptr< CompiledMesh > mesh;
+  public:
+    boost::shared_ptr< CompiledMesh > mesh;
 };
 
 class RenderingSystem : public System {

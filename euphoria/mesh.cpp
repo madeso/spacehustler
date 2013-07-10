@@ -214,22 +214,30 @@ namespace internal {
 
 }  // namespace internal
 
-CompiledMesh::CompiledMesh(const Mesh& mesh,
-                           boost::shared_ptr<Program> program) {
-  std::vector<boost::shared_ptr<Texture>> materials;
+struct Material {
+  boost::shared_ptr<Program> program;
+  boost::shared_ptr<Texture> texture;
+};
+
+
+
+CompiledMesh::CompiledMesh(const Mesh& mesh) {
+  std::vector<Material> materials;
   for (auto src : mesh.materials) {
-    boost::shared_ptr<Texture> tex(new Texture(src.texture,
-                                   Texture::Type_CompressedRgb,
-                                   src.wraps,
-                                   src.wrapt,
-                                   Texture::Filter_Linear));
-    materials.push_back(tex);
+    Material m;
+    m.texture = boost::shared_ptr<Texture>(new Texture(src.texture,
+                                           Texture::Type_CompressedRgb,
+                                           src.wraps,
+                                           src.wrapt,
+                                           Texture::Filter_Linear));
+    m.program = LoadShaderFromFile("default.js");
+    materials.push_back(m);
   }
 
   for (unsigned int i = 0; i < mesh.parts.size(); ++i) {
+    Material m = materials[mesh.parts[i].material];
     boost::shared_ptr<internal::CompiledMeshPart> part(
-      new internal::CompiledMeshPart(mesh.parts[i], program,
-                                     materials[mesh.parts[i].material]));
+      new internal::CompiledMeshPart(mesh.parts[i], m.program, m.texture));
     parts.push_back(part);
   }
 }
