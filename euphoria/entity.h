@@ -31,6 +31,11 @@ class Entity {
     // list of components?
 };
 
+/** Basis of a component type.
+ */
+class ComponentType {
+};
+
 /** A system in the component/entity framework.
  */
 class System {
@@ -50,9 +55,9 @@ class System {
 
     /** Add a component type of this system type to the system.
     @param data the data to the component.
-    @returns the id of the type.
+    @returns the component type.
      */
-    virtual Id* addType(const Json::Value& data) = 0;
+    virtual ComponentType* addType(const Json::Value& data) = 0;
 
     // list of components
 };
