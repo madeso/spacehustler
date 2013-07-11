@@ -225,15 +225,12 @@ struct Material {
 @todo add shader + texture cashing
 @todo implement better material + shader loading routine.
  */
-CompiledMesh::CompiledMesh(const Mesh& mesh) {
+CompiledMesh::CompiledMesh(const Mesh& mesh, TextureStore* texturestore) {
   std::vector<Material> materials;
   for (auto src : mesh.materials) {
     Material m;
-    m.texture = boost::shared_ptr<Texture>(new Texture(src.texture,
-                                           Texture::Type_CompressedRgb,
-                                           src.wraps,
-                                           src.wrapt,
-                                           Texture::Filter_Linear));
+    m.texture = texturestore->get(TextureLoadingInstruction(src.texture,
+                                  src.wraps, src.wrapt));
     m.program = LoadShaderFromFile("default.js");
     materials.push_back(m);
   }
