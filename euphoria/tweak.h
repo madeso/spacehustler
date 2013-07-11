@@ -17,7 +17,8 @@ Contains all the Tweakable code.
 #include "euphoria/math.h"
 #include "euphoria/ints.h"
 
-// forward declaration of internal type
+/** Forward declaration of internal type.
+ */
 typedef struct CTwBar TwBar;
 
 /** basic unit of of something that is tweakable.
@@ -74,6 +75,10 @@ class Tweakable {
     std::string id;
 };
 
+/** Adds basic members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
 #define TWEAKABLE_BASIC(CLASS, TYPE) \
   public: \
   CLASS(TwBar* bar, const std::string& id, const std::string& name); \
@@ -81,15 +86,27 @@ class Tweakable {
   public: \
   TYPE data
 
+/** Adds numeric related members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
 #define TWEAKABLE_NUM(CLASS, TYPE) \
   public: \
   CLASS& minmax(TYPE min, TYPE max); \
   CLASS& step(TYPE step)
 
+/** Adds integer related members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
 #define TWEAKABLE_INT(CLASS, TYPE) \
   public: \
   CLASS& hexa(bool hex)
 
+/** Adds float related members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
 #define TWEAKABLE_FLOAT(CLASS, TYPE) \
   public: \
   CLASS& precision(fuint8 p)
@@ -259,11 +276,29 @@ class TweakerStore {
     Tweakables tweakables;
 };
 
+/** Get a instance to the glocal tweaker store.
+Since it is a glocal, you need to create it locally. That instance is then accessed through this function.
+@returns the global TweakerStore.
+ */
 TweakerStore* GlocalTweakerStore();
 
+/** Utility macro.
+Not really useful, except for the internal use in STR()
+@see STR
+@param name the name to quote.
+ */
 #define QUOTE(name) #name
+
+/** Generate a string from a defined macro.
+@param macro the macro.
+ */
 #define STR(macro) QUOTE(macro)
 
+/** Add/update a variable for tweaking.
+@see Tweakable
+@param x the variable for tweaking.
+@returns a suitable Tweakable.
+ */
 #define TWEAK(x) assert(GlocalTweakerStore()), GlocalTweakerStore() && \
   GlocalTweakerStore()->tweak(__FILE__  STR(__LINE__), #x, &x)
 

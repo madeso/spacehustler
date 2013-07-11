@@ -9,6 +9,9 @@ Entity rendering System.
 
 #include "euphoria/entity.h"
 
+/** Add the rendering system to the system container.
+@param container the container to add the rendering system to.
+ */
 void Entity_AddRendering(SystemContainer* container);
 
 #endif  // EUPHORIA_ENTITY_RENDERING_H_

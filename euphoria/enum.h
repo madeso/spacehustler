@@ -118,6 +118,11 @@ class EnumValue {
     size_t value;
 };
 
+/** Output the EnumValue to a stream.
+@param s the stream to output to.
+@param v the value to output.
+@returns the stream
+ */
 std::ostream& operator<<(std::ostream& s, const EnumValue& v);
 
 
