@@ -29,13 +29,14 @@
 const float pi = 3.141592653589793238462643383279502884f;
 
 boost::shared_ptr<Instance> AddObjects(TextureCache* texturecache,
+                                       ShaderCache* shadercache,
                                        World* world) {
   boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(
                                           LoadMesh("fighter1.3ds")
-                                          , texturecache));
+                                          , texturecache, shadercache));
 
   boost::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
-      LoadMesh("world.dae"), texturecache));
+      LoadMesh("world.dae"), texturecache, shadercache));
 
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, pi / 4, 0.0f
@@ -91,6 +92,7 @@ void logic() {
   }*/
 
   TextureCache texturecache;
+  ShaderCache shadercache;
 
   Camera camera;
   camera.setFov(45);
@@ -105,7 +107,7 @@ void logic() {
   }
 
   World world;
-  auto model = AddObjects(&texturecache, &world);
+  auto model = AddObjects(&texturecache, &shadercache, &world);
 
   OglDebug::Verify();
 
