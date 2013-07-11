@@ -17,19 +17,51 @@ class RenderType : public ComponentType {
     boost::shared_ptr< CompiledMesh > mesh;
 };
 
+class RenderObject {
+  public:
+    RenderObject(Entity* entity, boost::shared_ptr<Instance> instance)
+      : entity(entity)
+      , instance(instance) {
+    }
+
+    Entity* entity;
+    boost::shared_ptr<Instance> instance;
+};
+
 class RenderingSystem : public System {
   public:
     RenderingSystem(World* world, TextureCache* tc, ShaderCache* sc)
       : world(world), tc(tc), sc(sc) {
+      assert(this);
+      assert(world);
+      assert(tc);
+      assert(sc);
     }
 
     ComponentType* addType(const Json::Value& data) {
+      assert(this);
       boost::shared_ptr<RenderType> type(new RenderType(data, tc, sc));
       types.push_back(type);
       return type.get();
     }
 
+    virtual void addComponent(Entity* entity, ComponentType* type) {
+      assert(this);
+      assert(entity);
+      assert(type);
+      RenderType* st = static_cast<RenderType*>(type);
+      mat44 mat = cmat44(entity->position, entity->rotation);
+      boost::shared_ptr<Instance> instance(new Instance(st->mesh, mat));
+      world->add(instance);
+      objects.push_back(RenderObject(entity, instance));
+    }
+
     void step(float dt) {
+      assert(this);
+      for (auto & o : objects) {
+        o.instance->transform = cmat44(o.entity->position,
+                                       o.entity->rotation);
+      }
     }
 
   private:
@@ -38,6 +70,7 @@ class RenderingSystem : public System {
     ShaderCache* sc;
 
     std::vector<boost::shared_ptr<RenderType> > types;
+    std::vector<RenderObject> objects;
 };
 
 void Entity_AddRendering(SystemContainer* container, World* world,

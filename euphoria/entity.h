@@ -59,6 +59,12 @@ class System {
      */
     virtual ComponentType* addType(const Json::Value& data) = 0;
 
+    /** Add a component to a entity.
+    @param entity the entity.
+    @param type the type created by the System.
+     */
+    virtual void addComponent(Entity* entity, ComponentType* type) = 0;
+
     // list of components
 };
 
