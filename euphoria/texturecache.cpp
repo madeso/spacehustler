@@ -1,10 +1,10 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/texturestore.h"
+#include "euphoria/texturecache.h"
 #include <cassert>
 #include <string>
 
-#include "euphoria/store.h"
+#include "euphoria/cache.h"
 
 TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
     Texture::WrapMode wraps,
@@ -16,16 +16,16 @@ TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
 
 bool TextureLoadingInstruction::operator<(
   const TextureLoadingInstruction& rhs) const {
-  /*if (wraps != rhs.wraps) {
+  if (wraps != rhs.wraps) {
     return wraps < rhs.wraps;
   } else if (wrapt != rhs.wrapt) {
     return wrapt < rhs.wrapt;
-  } else {*/
-  return file < rhs.file;
-  // }
+  } else {
+    return file < rhs.file;
+  }
 }
 
-TextureStore::TextureStore() {
+TextureCache::TextureCache() {
   assert(this);
 }
 
@@ -43,10 +43,10 @@ namespace {
   };
 }  // namespace
 
-boost::shared_ptr<Texture> TextureStore::get(
+boost::shared_ptr<Texture> TextureCache::get(
   const TextureLoadingInstruction& instructions) {
   assert(this);
   static TextureCreator c;
-  return Store_Get<TextureLoadingInstruction, Texture, TextureCreator>(&store,
+  return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(&cache,
          c, instructions);
 }

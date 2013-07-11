@@ -26,44 +26,16 @@
 #include "euphoria/tweak.h"
 #include "euphoria/entity.h"
 
-const char* const kVertexShaderSource =
-  "#version 150"                                                    "\n"
-  ""                                                                "\n"
-  "uniform mat4 projection;"                                        "\n"
-  "uniform mat4 camera;"                                            "\n"
-  "uniform mat4 model;"                                             "\n"
-  ""                                                                "\n"
-  "in vec3 vert;"                                                   "\n"
-  "in vec2 vertuv;"                                                 "\n"
-  "out vec2 fraguv;"                                                "\n"
-  "    "                                                            "\n"
-  "void main() {"                                                   "\n"
-  "    fraguv = vertuv;"                                            "\n"
-  "    gl_Position = projection * camera * model * vec4(vert, 1);"  "\n"
-  "}"                                                               "\n";
-
-const char* const kFragmentShaderSource =
-  "#version 150"                                                    "\n"
-  ""                                                                "\n"
-  "uniform sampler2D tex;"                                          "\n"
-  "in vec2 fraguv;"                                                 "\n"
-  "out vec4 finalColor;"                                            "\n"
-  ""                                                                "\n"
-  "void main() {"                                                   "\n"
-  "    //set every drawn pixel to white"                            "\n"
-  "    finalColor = texture(tex, fraguv);"                          "\n"
-  "}"                                                               "\n";
-
 const float pi = 3.141592653589793238462643383279502884f;
 
-boost::shared_ptr<Instance> AddObjects(TextureStore* texturestore,
+boost::shared_ptr<Instance> AddObjects(TextureCache* texturecache,
                                        World* world) {
   boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(
                                           LoadMesh("fighter1.3ds")
-                                          , texturestore));
+                                          , texturecache));
 
   boost::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
-      LoadMesh("world.dae"), texturestore));
+      LoadMesh("world.dae"), texturecache));
 
   mat44 model;
   cml::matrix_rotation_euler(model, 0.0f, pi / 4, 0.0f
@@ -118,7 +90,7 @@ void logic() {
       throw "System not supporting opengl 3.2";
   }*/
 
-  TextureStore texturestore;
+  TextureCache texturecache;
 
   Camera camera;
   camera.setFov(45);
@@ -133,7 +105,7 @@ void logic() {
   }
 
   World world;
-  auto model = AddObjects(&texturestore, &world);
+  auto model = AddObjects(&texturecache, &world);
 
   OglDebug::Verify();
 

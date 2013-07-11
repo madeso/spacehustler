@@ -16,7 +16,7 @@ Mesh related code.
 #include "euphoria/shader.h"
 #include "euphoria/texture.h"
 #include "euphoria/camera.h"
-#include "euphoria/texturestore.h"
+#include "euphoria/texturecache.h"
 
 namespace internal {
 
@@ -256,9 +256,9 @@ class CompiledMesh {
   public:
     /** Compiles a mesh.
     @param mesh the MeshPart to compile.
-    @param texturestore the store where to get the textures from
+    @param texturecache the store where to get the textures from
      */
-    explicit CompiledMesh(const Mesh& mesh, TextureStore* texturestore);
+    explicit CompiledMesh(const Mesh& mesh, TextureCache* texturecache);
 
     /** Render the mesh.
       @param camera through the camera.

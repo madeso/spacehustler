@@ -1,11 +1,11 @@
 // Euphoria - Copyright (c) Gustav
 
 /** @file
-Texture store related code.
+Texture cache related code.
  */
 
-#ifndef EUPHORIA_TEXTURESTORE_H_
-#define EUPHORIA_TEXTURESTORE_H_
+#ifndef EUPHORIA_TEXTURECACHE_H_
+#define EUPHORIA_TEXTURECACHE_H_
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -44,13 +44,13 @@ class TextureLoadingInstruction {
     Texture::WrapMode wrapt;
 };
 
-/** The texture store.
+/** The texture cache.
  */
-class TextureStore {
+class TextureCache {
   public:
     /** Constructor.
      */
-    TextureStore();
+    TextureCache();
 
     /** Get or create a new texture.
     @param instructions the instructions on how to load the texture.
@@ -59,7 +59,7 @@ class TextureStore {
     boost::shared_ptr<Texture> get(
       const TextureLoadingInstruction& instructions);
   private:
-    std::map<TextureLoadingInstruction, boost::weak_ptr<Texture> > store;
+    std::map<TextureLoadingInstruction, boost::weak_ptr<Texture> > cache;
 };
 
-#endif  // EUPHORIA_TEXTURESTORE_H_
+#endif  // EUPHORIA_TEXTURECACHE_H_
