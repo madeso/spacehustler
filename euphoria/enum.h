@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Enum related code.
+ */
+
 #ifndef EUPHORIA_ENUM_H_
 #define EUPHORIA_ENUM_H_
 

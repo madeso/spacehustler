@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Mesh related code.
+ */
+
 #ifndef EUPHORIA_MESH_H_
 #define EUPHORIA_MESH_H_
 

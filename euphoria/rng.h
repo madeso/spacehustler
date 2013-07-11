@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Contains the Rng class.
+ */
+
 #ifndef EUPHORIA_RNG_H_
 #define EUPHORIA_RNG_H_
 

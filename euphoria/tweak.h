@@ -1,5 +1,10 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Contains all the Tweakable code.
+@todo move all Tweakable related codes into a namespace.
+ */
+
 #ifndef EUPHORIA_TWEAK_H_
 #define EUPHORIA_TWEAK_H_
 

@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Camera related code.
+ */
+
 #ifndef EUPHORIA_CAMERA_H_
 #define EUPHORIA_CAMERA_H_
 

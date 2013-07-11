@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Basic header for OpenGl.
+ */
+
 #ifndef EUPHORIA_OPENGL_H_
 #define EUPHORIA_OPENGL_H_
 

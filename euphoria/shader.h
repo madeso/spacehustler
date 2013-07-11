@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Contains the shader logic.
+ */
+
 #ifndef EUPHORIA_SHADER_H_
 #define EUPHORIA_SHADER_H_
 

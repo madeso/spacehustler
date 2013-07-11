@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Contains the string merger class.
+ */
+
 #ifndef EUPHORIA_STRINGMERGER_H_
 #define EUPHORIA_STRINGMERGER_H_
 
@@ -69,6 +73,7 @@ class StringMerger {
 };
 
 /** Generate a string representation for each of the elements in a vector.
+@todo move to a better place.
 @param c the container.
 @returns the string vector.
  */

@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Utility code for debugging OpenGL.
+ */
+
 #ifndef EUPHORIA_OGLDEBUG_H_
 #define EUPHORIA_OGLDEBUG_H_
 

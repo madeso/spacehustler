@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+String utility functions.
+ */
+
 #ifndef EUPHORIA_STRINGUTILS_H_
 #define EUPHORIA_STRINGUTILS_H_
 

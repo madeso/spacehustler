@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Definitions for various ints.
+ */
+
 #ifndef EUPHORIA_INTS_H_
 #define EUPHORIA_INTS_H_
 

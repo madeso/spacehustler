@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Core Entity related code.
+ */
+
 #ifndef EUPHORIA_ENTITY_H_
 #define EUPHORIA_ENTITY_H_
 

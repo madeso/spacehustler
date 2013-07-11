@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Contains the Str class.
+ */
+
 #ifndef EUPHORIA_STR_H_
 #define EUPHORIA_STR_H_
 

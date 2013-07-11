@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Basic class for handling colors.
+ */
+
 #ifndef EUPHORIA_COLOR_H_
 #define EUPHORIA_COLOR_H_
 

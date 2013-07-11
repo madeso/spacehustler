@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+World related code.
+ */
+
 #ifndef EUPHORIA_WORLD_H_
 #define EUPHORIA_WORLD_H_
 

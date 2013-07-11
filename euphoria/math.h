@@ -1,8 +1,11 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Math related code.
+ */
+
 #ifndef EUPHORIA_MATH_H_
 #define EUPHORIA_MATH_H_
-
 
 #include "cml/cml.h"
 

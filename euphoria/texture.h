@@ -1,5 +1,9 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Logic for the textures.
+ */
+
 #ifndef EUPHORIA_TEXTURE_H_
 #define EUPHORIA_TEXTURE_H_
 
