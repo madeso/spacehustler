@@ -1,15 +1,22 @@
 // Euphoria - Copyright (c) Gustav
 
+/** @file
+Utility code fore the Store concept.
+ */
+
 #ifndef EUPHORIA_STORE_H_
 #define EUPHORIA_STORE_H_
 
 #include <boost/shared_ptr.hpp>
 #include <map>
 
-// use a function object as CreateFunction, the compiler will inline this
-// http://stackoverflow.com/questions/1174169/function-passed-as-template-argument
-
-/**
+/** Get utility function for the store concept.
+Gets the stored object or create a new and stores it if can't be found or is
+invalid.
+Tip: use a function object as CreateFunction, the compiler will inline this.
+@param store the store
+@param name the key the object is stored under
+@returns the object
  */
 template<typename TKey, typename TData, template TCreateFunction>
 boost::shared_ptr<TData> Store_Get(
