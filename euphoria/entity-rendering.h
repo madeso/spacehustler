@@ -11,6 +11,7 @@ Entity rendering System.
 
 /** Add the rendering system to the system container.
 @param container the container to add the rendering system to.
+@ingroup systems
  */
 void Entity_AddRendering(SystemContainer* container);
 
