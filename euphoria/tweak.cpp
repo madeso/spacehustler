@@ -12,35 +12,36 @@ namespace {
   TweakerStore* GlocalTweakerStoreVariable = 0;
 }  // namespace
 
-Tweakable::Tweakable(TwBar* bar, const std::string& id, const std::string& name)
+tweaks::Tweakable::Tweakable(TwBar* bar, const std::string& id,
+                             const std::string& name)
   : bar(bar), hasChanged(false), life(0), id(id) {
   assert(this);
 }
 
-Tweakable::~Tweakable() {
+tweaks::Tweakable::~Tweakable() {
   TwRemoveVar(bar, id.c_str());
 }
 
-Tweakable& Tweakable::label(const std::string& value) {
+tweaks::Tweakable& tweaks::Tweakable::label(const std::string& value) {
   assert(this);
   TwSetParam(bar, id.c_str(), "label", TW_PARAM_CSTRING, 1, value.c_str());
   return *this;
 }
 
-Tweakable& Tweakable::group(const std::string& value) {
+tweaks::Tweakable& tweaks::Tweakable::group(const std::string& value) {
   assert(this);
   TwSetParam(bar, id.c_str(), "group", TW_PARAM_CSTRING, 1, value.c_str());
   return *this;
 }
 
-Tweakable& Tweakable::readonly(bool readonly) {
+tweaks::Tweakable& tweaks::Tweakable::readonly(bool readonly) {
   assert(this);
   int param = readonly ? 1 : 0;
   TwSetParam(bar, id.c_str(), "readonly", TW_PARAM_INT32, 1, &param);
   return *this;
 }
 
-Tweakable::operator bool() const {
+tweaks::Tweakable::operator bool() const {
   return true;
 }
 
@@ -63,7 +64,7 @@ namespace {
   void TW_CALL GetCallbackString(void* value, void* clientData);
 
   template <typename TInt, TwType IntType>
-  class IntTweakable : public Tweakable {
+  class IntTweakable : public tweaks::Tweakable {
     public:
       typedef IntTweakable<TInt, IntType> TweakableType;
       TInt data;
@@ -81,7 +82,7 @@ namespace {
       }
   };
 
-  class QuatTweakable : public Tweakable {
+  class QuatTweakable : public tweaks::Tweakable {
     public:
       quat data;
 
@@ -118,7 +119,7 @@ namespace {
       }
   };
 
-  class StringTweakable : public Tweakable {
+  class StringTweakable : public tweaks::Tweakable {
     public:
       std::string data;
 
@@ -159,7 +160,8 @@ namespace {
   }
 
   void TW_CALL SetCallbackVec3(const void* value, void* clientData) {
-    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    tweaks::Vec3Tweakable* tweak =
+      static_cast<tweaks::Vec3Tweakable*>(clientData);
     const svec3 vec = *static_cast<const svec3*>(value);
     tweak->data[0] = vec.x;
     tweak->data[1] = vec.y;
@@ -168,7 +170,8 @@ namespace {
   }
 
   void TW_CALL GetCallbackVec3(void* value, void* clientData) {
-    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    tweaks::Vec3Tweakable* tweak =
+      static_cast<tweaks::Vec3Tweakable*>(clientData);
     svec3* vec = static_cast<svec3*>(value);
     vec->x = tweak->data[0];
     vec->y = tweak->data[1];
@@ -176,7 +179,8 @@ namespace {
   }
 
   void TW_CALL SetCallbackFloat3(const void* value, void* clientData) {
-    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    tweaks::Vec3Tweakable* tweak =
+      static_cast<tweaks::Vec3Tweakable*>(clientData);
     const float* vec = static_cast<const float*>(value);
     tweak->data[0] = vec[0];
     tweak->data[1] = vec[1];
@@ -185,7 +189,8 @@ namespace {
   }
 
   void TW_CALL GetCallbackFloat3(void* value, void* clientData) {
-    Vec3Tweakable* tweak = static_cast<Vec3Tweakable*>(clientData);
+    tweaks::Vec3Tweakable* tweak =
+      static_cast<tweaks::Vec3Tweakable*>(clientData);
     float* vec = static_cast<float*>(value);
     vec[0] = tweak->data[0];
     vec[1] = tweak->data[1];
@@ -242,26 +247,28 @@ namespace {
     return *this;\
   }
 
-TWEAKABLE_BASIC_IMPLEMENTATION(Int32Tweakable, int32, 0, TW_TYPE_INT32);
-TWEAKABLE_NUM_IMPLEMENTATION(Int32Tweakable, int32, TW_PARAM_INT32);
-TWEAKABLE_INT_IMPLEMENTATION(Int32Tweakable, int32);
+namespace tweaks {
 
-TWEAKABLE_BASIC_IMPLEMENTATION(Uint32Tweakable, uint32, 0, TW_TYPE_UINT32);
-TWEAKABLE_NUM_IMPLEMENTATION(Uint32Tweakable, uint32, TW_PARAM_INT32);
-TWEAKABLE_INT_IMPLEMENTATION(Uint32Tweakable, uint32);
+  TWEAKABLE_BASIC_IMPLEMENTATION(Int32Tweakable, int32, 0, TW_TYPE_INT32);
+  TWEAKABLE_NUM_IMPLEMENTATION(Int32Tweakable, int32, TW_PARAM_INT32);
+  TWEAKABLE_INT_IMPLEMENTATION(Int32Tweakable, int32);
 
-TWEAKABLE_BASIC_IMPLEMENTATION(FloatTweakable, float, 0.0f, TW_TYPE_FLOAT);
-TWEAKABLE_NUM_IMPLEMENTATION(FloatTweakable, float, TW_PARAM_FLOAT);
-TWEAKABLE_FLOAT_IMPLEMENTATION(FloatTweakable, float);
+  TWEAKABLE_BASIC_IMPLEMENTATION(Uint32Tweakable, uint32, 0, TW_TYPE_UINT32);
+  TWEAKABLE_NUM_IMPLEMENTATION(Uint32Tweakable, uint32, TW_PARAM_INT32);
+  TWEAKABLE_INT_IMPLEMENTATION(Uint32Tweakable, uint32);
 
-TWEAKABLE_BASIC_IMPLEMENTATION(DoubleTweakable, double, 0.0, TW_TYPE_DOUBLE);
-TWEAKABLE_NUM_IMPLEMENTATION(DoubleTweakable, double, TW_PARAM_DOUBLE);
-TWEAKABLE_FLOAT_IMPLEMENTATION(DoubleTweakable, double);
+  TWEAKABLE_BASIC_IMPLEMENTATION(FloatTweakable, float, 0.0f, TW_TYPE_FLOAT);
+  TWEAKABLE_NUM_IMPLEMENTATION(FloatTweakable, float, TW_PARAM_FLOAT);
+  TWEAKABLE_FLOAT_IMPLEMENTATION(FloatTweakable, float);
 
+  TWEAKABLE_BASIC_IMPLEMENTATION(DoubleTweakable, double, 0.0, TW_TYPE_DOUBLE);
+  TWEAKABLE_NUM_IMPLEMENTATION(DoubleTweakable, double, TW_PARAM_DOUBLE);
+  TWEAKABLE_FLOAT_IMPLEMENTATION(DoubleTweakable, double);
 
+}  // namespace tweaks
 
-Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
-                             const std::string& name)
+tweaks::Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
+                                     const std::string& name)
   : Tweakable(bar, id, name)
   , data(cvec3zero())
   , isdirection(false)
@@ -275,7 +282,7 @@ Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
   label(name);
 }
 
-Vec3Tweakable& Vec3Tweakable::isDirection(bool b) {
+tweaks::Vec3Tweakable& tweaks::Vec3Tweakable::isDirection(bool b) {
   if (b == isdirection) {
     return *this;
   }
@@ -323,11 +330,11 @@ namespace {
                                  const std::string& name,
                                  TData* data) {
     auto found = tweakables->find(id);
-    Tweakable* tweakable = 0;
+    tweaks::Tweakable* tweakable = 0;
     if (found != tweakables->end()) {
       tweakable = found->second.get();
     } else {
-      std::shared_ptr<Tweakable> newtweakable(
+      std::shared_ptr<tweaks::Tweakable> newtweakable(
         new TSpecifiedTweakable(bar, id, name));
       tweakables->insert(TweakerStore::Tweakables::
                          value_type(id, newtweakable));
@@ -350,63 +357,66 @@ namespace {
   }
 }  // namespace
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               std::string* data) {
+tweaks::Tweakable& TweakerStore::tweak(const std::string& id,
+                                       const std::string& name,
+                                       std::string* data) {
   assert(this);
   return Tweakbase<StringTweakable, std::string>(&tweakables, bar, id, name,
          data);
 }
 
-Int32Tweakable& TweakerStore::tweak(const std::string& id,
-                                    const std::string& name,
-                                    int32* data) {
+tweaks::Int32Tweakable& TweakerStore::tweak(const std::string& id,
+    const std::string& name,
+    int32* data) {
   assert(this);
-  return Tweakbase < Int32Tweakable, int32 >
+  return Tweakbase < tweaks::Int32Tweakable, int32 >
          (&tweakables, bar, id, name, data);
 }
 
-Uint32Tweakable& TweakerStore::tweak(const std::string& id,
-                                     const std::string& name,
-                                     uint32* data) {
+tweaks::Uint32Tweakable& TweakerStore::tweak(const std::string& id,
+    const std::string& name,
+    uint32* data) {
   assert(this);
-  return Tweakbase < Uint32Tweakable, uint32 >
+  return Tweakbase < tweaks::Uint32Tweakable, uint32 >
          (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               bool* data) {
+tweaks::Tweakable& TweakerStore::tweak(const std::string& id,
+                                       const std::string& name,
+                                       bool* data) {
   assert(this);
   return Tweakbase < IntTweakable<bool, TW_TYPE_BOOLCPP>,
          bool > (&tweakables, bar, id, name, data);
 }
 
-FloatTweakable& TweakerStore::tweak(const std::string& id,
-                                    const std::string& name,
-                                    float* data) {
+tweaks::FloatTweakable& TweakerStore::tweak(const std::string& id,
+    const std::string& name,
+    float* data) {
   assert(this);
-  return Tweakbase < FloatTweakable, float >
+  return Tweakbase < tweaks::FloatTweakable, float >
          (&tweakables, bar, id, name, data);
 }
 
-DoubleTweakable& TweakerStore::tweak(const std::string& id,
-                                     const std::string& name,
-                                     double* data) {
+tweaks::DoubleTweakable& TweakerStore::tweak(const std::string& id,
+    const std::string& name,
+    double* data) {
   assert(this);
-  return Tweakbase < DoubleTweakable, double >
+  return Tweakbase < tweaks::DoubleTweakable, double >
          (&tweakables, bar, id, name, data);
 }
 
-Tweakable& TweakerStore::tweak(const std::string& id, const std::string& name,
-                               quat* data) {
+tweaks::Tweakable& TweakerStore::tweak(const std::string& id,
+                                       const std::string& name,
+                                       quat* data) {
   assert(this);
   return Tweakbase < QuatTweakable, quat > (&tweakables, bar, id, name, data);
 }
 
-Vec3Tweakable& TweakerStore::tweak(const std::string& id,
-                                   const std::string& name,
-                                   vec3* data) {
+tweaks::Vec3Tweakable& TweakerStore::tweak(const std::string& id,
+    const std::string& name,
+    vec3* data) {
   assert(this);
-  return Tweakbase < Vec3Tweakable,
+  return Tweakbase < tweaks::Vec3Tweakable,
          vec3 > (&tweakables, bar, id, name, data);
 }
 
