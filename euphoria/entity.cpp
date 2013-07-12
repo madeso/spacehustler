@@ -103,4 +103,11 @@ void EntityList::addDefs(SystemContainer* container,
 }
 
 void EntityList::createEntity(const std::string& entity) {
+  auto res = entitydefs.find(entity);
+  if( res == entitydefs.end() ) {
+    throw std::logic_error( Str() << "Unknown entity type: " << entity );
+  }
+  boost::shared_ptr<Entity> e( new Entity() );
+  res->second.addComponents(e.get());
+  entities.push_back(e);
 }
