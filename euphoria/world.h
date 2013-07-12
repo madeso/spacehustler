@@ -43,7 +43,7 @@ class Instance {
 
 /** List of instances that can be rendered.
  Ideally this would render the visible instances, but currently everything is always rendered.
- @todo: implement frustum culling.
+ @todo implement frustum culling.
  */
 class World {
   public:
