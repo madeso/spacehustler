@@ -54,7 +54,6 @@ namespace internal {
       std::vector<GLushort> faces;
 
       /** THe number of points.
-      @todo replace with a better structure.
        */
       int points;
 
