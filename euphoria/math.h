@@ -55,6 +55,11 @@ mat44 cmat44(const quat& q);
  */
 mat44 cmat44(const vec3& v, const quat& q);
 
+/** Create a identity rotation.
+@returns the identity rotation.
+ */
+quat cquatIdent();
+
 /** @} */
 
 #endif  // EUPHORIA_MATH_H_

@@ -25,32 +25,21 @@
 #include "euphoria/world.h"
 #include "euphoria/tweak.h"
 #include "euphoria/entity.h"
+#include "euphoria/entity-rendering.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
-boost::shared_ptr<Instance> AddObjects(TextureCache* texturecache,
-                                       ShaderCache* shadercache,
-                                       World* world) {
-  boost::shared_ptr<CompiledMesh> cmesh(new CompiledMesh(
-                                          LoadMesh("fighter1.3ds")
-                                          , texturecache, shadercache));
-
+// fighter1.3ds
+void AddObjects(TextureCache* texturecache,
+                ShaderCache* shadercache,
+                World* world) {
   boost::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
       LoadMesh("world.dae"), texturecache, shadercache));
-
-  mat44 model;
-  cml::matrix_rotation_euler(model, 0.0f, pi / 4, 0.0f
-                             , cml::euler_order_yxz);
 
   mat44 worldmat = cmat44(vec3(-55, -20, -50));
 
   boost::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
   world->add(wi);
-
-  boost::shared_ptr<Instance> ip(new Instance(cmesh, model));
-  world->add(ip);
-
-  return ip;
 }
 
 void logic() {
@@ -93,6 +82,15 @@ void logic() {
 
   TextureCache texturecache;
   ShaderCache shadercache;
+  World world;
+
+  SystemContainer container;
+  Entity_AddRendering(&container, &world, &texturecache, &shadercache);
+
+  EntityList entities;
+  entities.addDefs(&container, "entity.js");
+
+  entities.createEntity("craft");
 
   Camera camera;
   camera.setFov(45);
@@ -106,8 +104,8 @@ void logic() {
     cml::matrix_look_at_LH(camera.view, eye, target, up);
   }
 
-  World world;
-  auto model = AddObjects(&texturecache, &shadercache, &world);
+
+  AddObjects(&texturecache, &shadercache, &world);
 
   OglDebug::Verify();
 
@@ -116,14 +114,6 @@ void logic() {
   TweakerStore tweakers;
 
   bool running = true;
-  int test = 5;
-  unsigned int donk = 5;
-  vec3 pos = cvec3zero();
-  vec3 gravity(0, 1, 0);
-  quat q;
-  float dog = 2.0f;
-  cml::quaternion_rotation_matrix(q, model->transform);
-
   while (running) {
     OglDebug::Verify();
 
@@ -139,19 +129,6 @@ void logic() {
     window.display();
 
     bool boolean = true;
-    TWEAK(boolean);
-    TWEAK(dog).minmax(0, 100).step(0.1f);
-    if (boolean) {
-      std::string temp = "lol";
-      TWEAK(temp).group("Funny");
-    }
-    TWEAK(test).minmax(0, 10).step(2).hexa(true);
-    TWEAK(donk).label("Integer");
-    TWEAK(q);
-    TWEAK(pos);
-    TWEAK(gravity).isDirection(true);
-
-    model->transform = cmat44(pos, q);
 
     // check all the window's events that were triggered since the last
     // iteration of the loop

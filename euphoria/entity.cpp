@@ -108,6 +108,8 @@ void EntityList::createEntity(const std::string& entity) {
     throw std::logic_error(Str() << "Unknown entity type: " << entity);
   }
   boost::shared_ptr<Entity> e(new Entity());
+  e->position = cvec3zero();
+  e->rotation = cquatIdent();
   res->second.addComponents(e.get());
   entities.push_back(e);
 }

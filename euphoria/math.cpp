@@ -24,3 +24,9 @@ mat44 cmat44(const quat& q) {
 mat44 cmat44(const vec3& v, const quat& q) {
   return cmat44(v) * cmat44(q);
 }
+
+quat cquatIdent() {
+  quat r;
+  r.identity();
+  return r;
+}
