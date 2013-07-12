@@ -6,7 +6,7 @@
 #include <vector>
 #include "euphoria/mesh.h"
 
-const EnumValue RenderingSystemType = SystemType().toEnum("Rendering");
+const std::string RenderingSystemType = "Rendering";
 
 class RenderType : public ComponentType {
   public:
@@ -75,6 +75,6 @@ class RenderingSystem : public System {
 
 void Entity_AddRendering(SystemContainer* container, World* world,
                          TextureCache* tc, ShaderCache* sc) {
-  SystemPtr sys(new RenderingSystem(world, tc, sc));
+  boost::shared_ptr<System> sys(new RenderingSystem(world, tc, sc));
   container->add(RenderingSystemType, sys);
 }

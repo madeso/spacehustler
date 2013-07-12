@@ -1,9 +1,17 @@
 // Euphoria - Copyright (c) Gustav
 
 #include "euphoria/entity.h"
-#include <cassert>
 
-// no implementation for the Entity.
+#include <cassert>
+#include <string>
+#include <fstream> // NOLINT for loading data
+
+#include "euphoria/str.h"
+#include "euphoria/stringmerger.h"
+
+#include "json/json.h"
+
+// no implementation needed for the Entity.
 
 System::System() {
   assert(this);
@@ -33,7 +41,66 @@ void SystemContainer::step(float dt) {
   }
 }
 
-void SystemContainer::add(EnumValue systemType, SystemPtr sys) {
+void SystemContainer::add(const std::string& name,
+                          boost::shared_ptr<System> sys) {
   assert(this);
-  systems.insert(SystemMap::value_type(systemType, sys));
+  systems.insert(SystemMap::value_type(name, sys));
+}
+
+boost::shared_ptr<System> SystemContainer::getSystem(const std::string& name) {
+  assert(this);
+  auto res = systems.find(name);
+  if (res == systems.end()) {
+    throw std::logic_error(Str() << "Unknown system: " << name
+                           << ", valid systems are: "
+                           << StringMerger::EnglishAnd()
+                           .generate(Keys(systems)));
+  }
+  return res->second;
+}
+
+EntityDef::EntityDef(SystemContainer* container, const Json::Value& value) {
+  assert(this);
+  assert(container);
+  for (Json::ArrayIndex i = 0; i < value.size(); ++i) {
+    const std::string systemname = value[i].get("system", "").asString();
+    auto system = container->getSystem(systemname);
+    auto arg = value[i]["data"];
+    ComponentType* type = system->addType(arg);
+    componenttypes.push_back(std::make_pair(system, type));
+  }
+}
+
+void EntityDef::addComponents(Entity* entity) {
+  assert(this);
+  for (auto component : componenttypes) {
+    component.first->addComponent(entity, component.second);
+  }
+}
+
+EntityList::EntityList() {
+}
+
+void EntityList::addDefs(SystemContainer* container,
+                         const std::string& filename) {
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str()
+                           << "Unable to load definitions from " << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+                           << reader.getFormattedErrorMessages());
+  }
+  for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
+    Json::Value d = root[i];
+    const std::string name = d.get("name", "").asString();
+    entitydefs.insert(EntityDefs::value_type(name,
+                      EntityDef(container, d["data"])));
+  }
+}
+
+void EntityList::createEntity(const std::string& entity) {
 }
