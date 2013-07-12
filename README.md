@@ -24,7 +24,6 @@ Build tools
 Planned Features
 =======
 * replace boost shared_ptr/weak_ptr with std::shared_ptr/weak_ptr
-* add entity system with basic components
 * implement all the todos
 * add loading of shaders from files with preprocessor
 * add physics system (ode, tokamak, physx, bullet)
