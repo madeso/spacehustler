@@ -33,12 +33,13 @@ const float pi = 3.141592653589793238462643383279502884f;
 void AddObjects(TextureCache* texturecache,
                 ShaderCache* shadercache,
                 World* world) {
-  boost::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
-      LoadMesh("world.dae"), texturecache, shadercache));
+  std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(LoadMesh("world.dae"),
+                                       texturecache,
+                                       shadercache));
 
   mat44 worldmat = cmat44(vec3(-55, -20, -50));
 
-  boost::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
+  std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
   world->add(wi);
 }
 

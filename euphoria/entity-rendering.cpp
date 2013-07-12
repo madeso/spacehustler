@@ -14,18 +14,18 @@ class RenderType : public ComponentType {
       const std::string filename = data.get("file", "").asString();
       mesh.reset(new CompiledMesh(LoadMesh(filename) , tc, sc));
     }
-    boost::shared_ptr< CompiledMesh > mesh;
+    std::shared_ptr< CompiledMesh > mesh;
 };
 
 class RenderObject {
   public:
-    RenderObject(Entity* entity, boost::shared_ptr<Instance> instance)
+    RenderObject(Entity* entity, std::shared_ptr<Instance> instance)
       : entity(entity)
       , instance(instance) {
     }
 
     Entity* entity;
-    boost::shared_ptr<Instance> instance;
+    std::shared_ptr<Instance> instance;
 };
 
 class RenderingSystem : public System {
@@ -40,7 +40,7 @@ class RenderingSystem : public System {
 
     ComponentType* addType(const Json::Value& data) {
       assert(this);
-      boost::shared_ptr<RenderType> type(new RenderType(data, tc, sc));
+      std::shared_ptr<RenderType> type(new RenderType(data, tc, sc));
       types.push_back(type);
       return type.get();
     }
@@ -51,7 +51,7 @@ class RenderingSystem : public System {
       assert(type);
       RenderType* st = static_cast<RenderType*>(type);
       mat44 mat = cmat44(entity->position, entity->rotation);
-      boost::shared_ptr<Instance> instance(new Instance(st->mesh, mat));
+      std::shared_ptr<Instance> instance(new Instance(st->mesh, mat));
       world->add(instance);
       objects.push_back(RenderObject(entity, instance));
     }
@@ -69,12 +69,12 @@ class RenderingSystem : public System {
     TextureCache* tc;
     ShaderCache* sc;
 
-    std::vector<boost::shared_ptr<RenderType> > types;
+    std::vector<std::shared_ptr<RenderType> > types;
     std::vector<RenderObject> objects;
 };
 
 void Entity_AddRendering(SystemContainer* container, World* world,
                          TextureCache* tc, ShaderCache* sc) {
-  boost::shared_ptr<System> sys(new RenderingSystem(world, tc, sc));
+  std::shared_ptr<System> sys(new RenderingSystem(world, tc, sc));
   container->add(RenderingSystemType, sys);
 }

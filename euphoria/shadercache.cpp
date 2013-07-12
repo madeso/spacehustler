@@ -12,13 +12,13 @@ ShaderCache::ShaderCache() {
 
 namespace {
   struct ShaderCreator {
-    boost::shared_ptr<Program> operator()(const std::string& path) {
+    std::shared_ptr<Program> operator()(const std::string& path) {
       return LoadShaderFromFile(path);
     }
   };
 }  // namespace
 
-boost::shared_ptr<Program> ShaderCache::get(const std::string& path) {
+std::shared_ptr<Program> ShaderCache::get(const std::string& path) {
   assert(this);
   static ShaderCreator c;
   return Cache_Get(&cache, c, path);

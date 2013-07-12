@@ -7,9 +7,9 @@ Contains the shader logic.
 #ifndef EUPHORIA_SHADER_H_
 #define EUPHORIA_SHADER_H_
 
-#include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -38,7 +38,7 @@ class Shader
     @param type the shader type, if it's a vertex or a fragment shader.
     @return a new shader.
      */
-    static boost::shared_ptr<Shader> FromSource(const std::string& source,
+    static std::shared_ptr<Shader> FromSource(const std::string& source,
         const Type& type);
 
     /** Destructs the shader.
@@ -63,11 +63,11 @@ class ShaderList {
     @param shader the shader to add to the list
     @return this object for easily chaining function calls.
      */
-    ShaderList& operator()(boost::shared_ptr<Shader> shader);
+    ShaderList& operator()(std::shared_ptr<Shader> shader);
 
     /** The actual list of the shaders.
      */
-    std::vector<boost::shared_ptr<Shader> > shaders;
+    std::vector<std::shared_ptr<Shader> > shaders;
 };
 
 /** A OpenGl shader program full of shaders.
@@ -80,7 +80,7 @@ class Program
     @param shaders the list of shaders.
     @return the created program.
      */
-    static boost::shared_ptr<Program> FromShaderList(const ShaderList& shaders);
+    static std::shared_ptr<Program> FromShaderList(const ShaderList& shaders);
 
     /** Destructs the program.
      */
@@ -132,6 +132,6 @@ class Program
 @param filename the path to the shader file.
 @returns the newly loaded shader.
  */
-boost::shared_ptr<Program> LoadShaderFromFile(const std::string& filename);
+std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename);
 
 #endif  // EUPHORIA_SHADER_H_

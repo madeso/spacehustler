@@ -8,7 +8,7 @@ Contains all the Tweakable code.
 #ifndef EUPHORIA_TWEAK_H_
 #define EUPHORIA_TWEAK_H_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <map>
 #include <string>
@@ -269,7 +269,7 @@ class TweakerStore {
 
     /** The List of tweakables type.
      */
-    typedef std::map<std::string, boost::shared_ptr<Tweakable>> Tweakables;
+    typedef std::map<std::string, std::shared_ptr<Tweakable>> Tweakables;
 
   private:
     TwBar* bar;

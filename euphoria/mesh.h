@@ -222,8 +222,8 @@ namespace internal {
       @param program the shader program to use.
       @param texture the texture to use.
        */
-      CompiledMeshPart(const MeshPart& mesh, boost::shared_ptr<Program> program,
-                       boost::shared_ptr<Texture> texture);
+      CompiledMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
+                       std::shared_ptr<Texture> texture);
 
       /** Destructs the compiled mesh part.
        */
@@ -241,8 +241,8 @@ namespace internal {
       ElementArrayBuffer elements;
       GLsizei elementCount;
 
-      const boost::shared_ptr<Program> program;
-      boost::shared_ptr<Texture> texture;
+      const std::shared_ptr<Program> program;
+      std::shared_ptr<Texture> texture;
 
       int points;
   };
@@ -269,7 +269,7 @@ class CompiledMesh {
        */
     void render(const Camera& camera, const mat44& model);
   private:
-    std::vector<boost::shared_ptr<internal::CompiledMeshPart>> parts;
+    std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts;
 };
 
 #endif  // EUPHORIA_MESH_H_

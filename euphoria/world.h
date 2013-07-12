@@ -7,7 +7,7 @@ World related code.
 #ifndef EUPHORIA_WORLD_H_
 #define EUPHORIA_WORLD_H_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <vector>
 
 #include "euphoria/mesh.h"
@@ -24,7 +24,7 @@ class Instance {
     @param mesh the mesh to be rendered.
     @param transform the initial transformation of the mesh.
      */
-    Instance(boost::shared_ptr<CompiledMesh> mesh, const mat44& transform);
+    Instance(std::shared_ptr<CompiledMesh> mesh, const mat44& transform);
 
     /** Render this mesh. Should really only be called by World::render()
     @see World::render()
@@ -34,7 +34,7 @@ class Instance {
 
     /** The mesh to be rendered.
      */
-    boost::shared_ptr<CompiledMesh> mesh;
+    std::shared_ptr<CompiledMesh> mesh;
 
     /** The transform of the instance.
      */
@@ -54,7 +54,7 @@ class World {
     /** Add a instance to the world.
     @param instance the instance to add.
      */
-    void add(boost::shared_ptr<Instance> instance);
+    void add(std::shared_ptr<Instance> instance);
 
     /** Render the world through a camera.
     @param camera the camera.
@@ -62,7 +62,7 @@ class World {
     void render(const Camera& camera);
 
   private:
-    std::vector<boost::shared_ptr<Instance>> instances;
+    std::vector<std::shared_ptr<Instance>> instances;
 };
 
 #endif  // EUPHORIA_WORLD_H_

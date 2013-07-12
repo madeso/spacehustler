@@ -31,19 +31,19 @@ TextureCache::TextureCache() {
 
 namespace {
   struct TextureCreator {
-    boost::shared_ptr<Texture> operator()(
+    std::shared_ptr<Texture> operator()(
       const TextureLoadingInstruction& instructions) {
-      boost::shared_ptr<Texture> ret(new Texture(instructions.file,
-                                     Texture::Type_CompressedRgb,
-                                     instructions.wraps,
-                                     instructions.wrapt,
-                                     Texture::Filter_Linear));
+      std::shared_ptr<Texture> ret(new Texture(instructions.file,
+                                   Texture::Type_CompressedRgb,
+                                   instructions.wraps,
+                                   instructions.wrapt,
+                                   Texture::Filter_Linear));
       return ret;
     }
   };
 }  // namespace
 
-boost::shared_ptr<Texture> TextureCache::get(
+std::shared_ptr<Texture> TextureCache::get(
   const TextureLoadingInstruction& instructions) {
   assert(this);
   static TextureCreator c;

@@ -7,8 +7,7 @@ Texture cache related code.
 #ifndef EUPHORIA_TEXTURECACHE_H_
 #define EUPHORIA_TEXTURECACHE_H_
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include <string>
 #include <map>
 #include "euphoria/texture.h"
@@ -56,10 +55,10 @@ class TextureCache {
     @param instructions the instructions on how to load the texture.
     @returns the texture.
      */
-    boost::shared_ptr<Texture> get(
+    std::shared_ptr<Texture> get(
       const TextureLoadingInstruction& instructions);
   private:
-    std::map<TextureLoadingInstruction, boost::weak_ptr<Texture> > cache;
+    std::map<TextureLoadingInstruction, std::weak_ptr<Texture> > cache;
 };
 
 #endif  // EUPHORIA_TEXTURECACHE_H_

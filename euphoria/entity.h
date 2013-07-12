@@ -7,7 +7,7 @@ Core Entity related code.
 #ifndef EUPHORIA_ENTITY_H_
 #define EUPHORIA_ENTITY_H_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <map>
 #include <vector>
 #include <utility>
@@ -97,17 +97,17 @@ class SystemContainer {
     @param name the name of the system.
     @param sys the system to add.
      */
-    void add(const std::string& name, boost::shared_ptr<System> sys);
+    void add(const std::string& name, std::shared_ptr<System> sys);
 
     /** Get a system that has already been added.
     @param name the name of the system
     @returns the system that was added
     @throws when a requested system can't be found
      */
-    boost::shared_ptr<System> getSystem(const std::string& name);
+    std::shared_ptr<System> getSystem(const std::string& name);
 
   private:
-    typedef std::map<std::string, boost::shared_ptr<System> > SystemMap;
+    typedef std::map<std::string, std::shared_ptr<System> > SystemMap;
     SystemMap systems;
 };
 
@@ -126,7 +126,7 @@ class EntityDef {
      */
     void addComponents(Entity* entity);
   private:
-    std::vector<std::pair<boost::shared_ptr<System>, ComponentType*>>
+    std::vector<std::pair<std::shared_ptr<System>, ComponentType*>>
         componenttypes;
 };
 
@@ -152,7 +152,7 @@ class EntityList {
   private:
     typedef std::map<std::string, EntityDef> EntityDefs;
     EntityDefs entitydefs;
-    std::vector<boost::shared_ptr<Entity>> entities;
+    std::vector<std::shared_ptr<Entity>> entities;
 };
 
 #endif  // EUPHORIA_ENTITY_H_

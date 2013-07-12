@@ -3,7 +3,7 @@
 #include "euphoria/world.h"
 #include <cassert>
 
-Instance::Instance(boost::shared_ptr<CompiledMesh> m, const mat44& t)
+Instance::Instance(std::shared_ptr<CompiledMesh> m, const mat44& t)
   : mesh(m)
   , transform(t) {  // NOLINT
 }
@@ -16,7 +16,7 @@ void Instance::render(const Camera& camera) {
 World::World() {
 }
 
-void World::add(boost::shared_ptr<Instance> instance) {
+void World::add(std::shared_ptr<Instance> instance) {
   assert(this);
   instances.push_back(instance);
 }

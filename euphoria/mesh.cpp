@@ -156,8 +156,8 @@ namespace internal {
   /////////////////////////
 
   CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
-                                     boost::shared_ptr<Program> prog,
-                                     boost::shared_ptr<Texture> tex)
+                                     std::shared_ptr<Program> prog,
+                                     std::shared_ptr<Texture> tex)
     : program(prog)
     , texture(tex)
     , points(mesh.points)
@@ -215,8 +215,8 @@ namespace internal {
 }  // namespace internal
 
 struct Material {
-  boost::shared_ptr<Program> program;
-  boost::shared_ptr<Texture> texture;
+  std::shared_ptr<Program> program;
+  std::shared_ptr<Texture> texture;
 };
 
 
@@ -237,7 +237,7 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
 
   for (unsigned int i = 0; i < mesh.parts.size(); ++i) {
     Material m = materials[mesh.parts[i].material];
-    boost::shared_ptr<internal::CompiledMeshPart> part(
+    std::shared_ptr<internal::CompiledMeshPart> part(
       new internal::CompiledMeshPart(mesh.parts[i], m.program, m.texture));
     parts.push_back(part);
   }

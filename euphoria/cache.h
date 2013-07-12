@@ -7,8 +7,7 @@ Utility code fore the Cache concept.
 #ifndef EUPHORIA_CACHE_H_
 #define EUPHORIA_CACHE_H_
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include <map>
 
 /** Get utility function for the cache concept.
@@ -21,8 +20,8 @@ Tip: use a function object as CreateFunction, the compiler will inline this.
 @returns the object
  */
 template<typename TKey, typename TData, typename TCreateFunction>
-boost::shared_ptr<TData> Cache_Get(
-  std::map<TKey, boost::weak_ptr<TData> >* cache, TCreateFunction create,
+std::shared_ptr<TData> Cache_Get(
+  std::map<TKey, std::weak_ptr<TData> >* cache, TCreateFunction create,
   const TKey& name) {
   auto found = cache->find(name);
   if (found != cache->end()) {
@@ -33,8 +32,8 @@ boost::shared_ptr<TData> Cache_Get(
       cache->erase(found);
     }
   }
-  boost::shared_ptr<TData> data = create(name);
-  cache->insert(std::map<TKey, boost::weak_ptr<TData> >::value_type(name,
+  std::shared_ptr<TData> data = create(name);
+  cache->insert(std::map<TKey, std::weak_ptr<TData> >::value_type(name,
                 data));
   return data;
 }

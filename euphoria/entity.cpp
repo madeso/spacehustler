@@ -42,12 +42,12 @@ void SystemContainer::step(float dt) {
 }
 
 void SystemContainer::add(const std::string& name,
-                          boost::shared_ptr<System> sys) {
+                          std::shared_ptr<System> sys) {
   assert(this);
   systems.insert(SystemMap::value_type(name, sys));
 }
 
-boost::shared_ptr<System> SystemContainer::getSystem(const std::string& name) {
+std::shared_ptr<System> SystemContainer::getSystem(const std::string& name) {
   assert(this);
   auto res = systems.find(name);
   if (res == systems.end()) {
@@ -107,7 +107,7 @@ void EntityList::createEntity(const std::string& entity) {
   if (res == entitydefs.end()) {
     throw std::logic_error(Str() << "Unknown entity type: " << entity);
   }
-  boost::shared_ptr<Entity> e(new Entity());
+  std::shared_ptr<Entity> e(new Entity());
   e->position = cvec3zero();
   e->rotation = cquatIdent();
   res->second.addComponents(e.get());

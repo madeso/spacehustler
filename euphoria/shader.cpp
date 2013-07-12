@@ -21,9 +21,9 @@ Shader::Shader(const Type& type)
   }
 }
 
-boost::shared_ptr<Shader> Shader::FromSource(const std::string& source,
+std::shared_ptr<Shader> Shader::FromSource(const std::string& source,
     const Type& type) {
-  boost::shared_ptr<Shader> shader(new Shader(type));
+  std::shared_ptr<Shader> shader(new Shader(type));
   shader->compile(source);
   return shader;
 }
@@ -66,7 +66,7 @@ GLuint Shader::get() const {
 
 /////////////////////
 
-ShaderList& ShaderList::operator()(boost::shared_ptr<Shader> shader) {
+ShaderList& ShaderList::operator()(std::shared_ptr<Shader> shader) {
   assert(this);
 
   shaders.push_back(shader);
@@ -84,14 +84,14 @@ Program::Program()
   }
 }
 
-boost::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
+std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
   struct Local {
     static void AttachShader(GLuint prog,
-                             const boost::shared_ptr<Shader>& shader) {
+                             const std::shared_ptr<Shader>& shader) {
       glAttachShader(prog, shader->get());
     }
     static void DetachShader(GLuint prog,
-                             const boost::shared_ptr<Shader>& shader) {
+                             const std::shared_ptr<Shader>& shader) {
       glDetachShader(prog, shader->get());
     }
   };
@@ -100,7 +100,7 @@ boost::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
     throw "No shaders were provided to create the program";
   }
 
-  boost::shared_ptr<Program> program(new Program());
+  std::shared_ptr<Program> program(new Program());
 
   std::for_each(shaders.shaders.begin(), shaders.shaders.end(),
                 boost::bind(&Local::AttachShader, program->get(), _1));

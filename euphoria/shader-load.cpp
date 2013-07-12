@@ -30,7 +30,7 @@ void LoadShaders(Json::Value data, Shader::Type type, ShaderList* list) {
   }
 }
 
-boost::shared_ptr<Program> LoadShaderFromFile(const std::string& filename) {
+std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename) {
   Json::Value root;
   Json::Reader reader;
   std::ifstream f(filename.c_str());

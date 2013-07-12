@@ -327,8 +327,8 @@ namespace {
     if (found != tweakables->end()) {
       tweakable = found->second.get();
     } else {
-      boost::shared_ptr<Tweakable> newtweakable(new
-          TSpecifiedTweakable(bar, id, name));
+      std::shared_ptr<Tweakable> newtweakable(
+        new TSpecifiedTweakable(bar, id, name));
       tweakables->insert(TweakerStore::Tweakables::
                          value_type(id, newtweakable));
       tweakable = newtweakable.get();
