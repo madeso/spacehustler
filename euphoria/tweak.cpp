@@ -343,7 +343,7 @@ namespace {
 
     assert(tweakable);
 
-    TSpecifiedTweakable* spec = reinterpret_cast<TSpecifiedTweakable*>(
+    TSpecifiedTweakable* spec = static_cast<TSpecifiedTweakable*>(
                                   tweakable);
 
     if (spec->hasChanged) {
