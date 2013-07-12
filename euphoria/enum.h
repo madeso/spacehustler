@@ -17,7 +17,6 @@ class EnumValue;
 /** Represents a enum type.
 Declare globally grab specific enums before or after load, and load adds new,
 verifies created and asserts misspelled values.
-@todo move internal into a private/protected place with friends.
  */
 class EnumType {
   public:
@@ -28,13 +27,6 @@ class EnumType {
     /** Destructor.
      */
     ~EnumType();
-
-    /** Internal.
-    Construct a string from the enum type representation.
-    @param v the enum.
-    @returns the string representation.
-     */
-    const std::string& toString(size_t v) const;
 
     /** Creates or gets a enum value.
     @param name the unique name of the value.
@@ -53,6 +45,16 @@ class EnumType {
     values are verified against the valid values.
      */
     void stopAdding();
+
+  protected:
+    friend class EnumValue;
+
+    /** Internal.
+    Construct a string from the enum type representation.
+    @param v the enum.
+    @returns the string representation.
+     */
+    const std::string& toString(size_t v) const;
 
   private:
     typedef std::map<size_t, std::string> List;
@@ -73,16 +75,9 @@ class EnumType {
 void Load(EnumType* type, const std::string& filename);
 
 /** A enum value.
-@todo move internal into a private/protected place with friends.
  */
 class EnumValue {
   public:
-    /** Internal constructor.
-    @param type the type of the value.
-    @param value the actual value.
-     */
-    EnumValue(EnumType* type, size_t value);
-
     /** Create a string representation.
     Useful for debugging and displaying stuff.
     @returns the string representation.
@@ -112,10 +107,18 @@ class EnumValue {
      */
     bool operator<(const EnumValue& other) const;
 
+  protected:
+    friend class EnumType;
+
+    /** Internal constructor.
+      @param type the type of the value.
+      @param value the actual value.
+       */
+    EnumValue(const EnumType* const type, size_t value);
+
   private:
-    /// @todo investigate consts
-    EnumType* type;
-    size_t value;
+    const EnumType* const type;
+    const size_t value;
 };
 
 /** Output the EnumValue to a stream.

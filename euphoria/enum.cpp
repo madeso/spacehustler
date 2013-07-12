@@ -109,7 +109,7 @@ void Load(EnumType* type, const std::string& filename) {
   type->stopAdding();
 }
 
-EnumValue::EnumValue(EnumType* t, size_t v)
+EnumValue::EnumValue(const EnumType* const t, size_t v)
   : type(t)
   , value(v) {
 }
