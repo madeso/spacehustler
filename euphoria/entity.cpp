@@ -8,6 +8,7 @@
 
 #include "euphoria/str.h"
 #include "euphoria/stringmerger.h"
+#include "euphoria/stdutils.h"
 
 #include "json/json.h"
 

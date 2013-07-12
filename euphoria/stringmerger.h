@@ -73,32 +73,4 @@ class StringMerger {
     std::string end;
 };
 
-/** Generate a string representation for each of the elements in a vector.
-@todo move to a better place.
-@param c the container.
-@returns the string vector.
- */
-template<typename C>
-std::vector<std::string> Iterate(const C& c) {
-  std::vector<std::string> strings;
-  for (const auto & x : c) {
-    strings.push_back(Str() << x);
-  }
-  return strings;
-}
-
-/** Generate a string representation for each of the keys in a map.
-@todo move to a better place.
-@param m the map.
-@returns the string vector.
- */
-template<typename K, typename V>
-std::vector<std::string> Keys(const std::map<K, V>& m) {
-  std::vector<std::string> strings;
-  for (const auto & x : m) {
-    strings.push_back(Str() << x.first);
-  }
-  return strings;
-}
-
 #endif  // EUPHORIA_STRINGMERGER_H_
