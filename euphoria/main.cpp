@@ -91,7 +91,7 @@ void logic() {
   EntityList entities;
   entities.addDefs(&container, "entity.js");
 
-  // entities.createEntity("craft");
+  entities.createEntity("craft");
 
   Camera camera;
   camera.setFov(45);
@@ -106,7 +106,7 @@ void logic() {
   }
 
 
-  // AddObjects(&texturecache, &shadercache, &world);
+  AddObjects(&texturecache, &shadercache, &world);
 
   OglDebug::Verify();
 
@@ -118,8 +118,8 @@ void logic() {
   while (running) {
     OglDebug::Verify();
 
-    world.debug().line(vec3(-50, -50, -50), vec3(50, 50, 50),
-                       Color(1.0f));
+    world.debug().line(vec3(0, 0, 0),
+                       vec3(0, 50, 10), Color(1.0f));
 
     glClearColor(0, 0, 0, 1);  // black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

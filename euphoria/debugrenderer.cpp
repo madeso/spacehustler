@@ -41,7 +41,6 @@ void DebugRenderer::update() {
   vao->unbind();
 
   pending.clear();
-  linecount = 0;
 }
 
 void DebugRenderer::render(const Camera& camera) {
@@ -59,5 +58,7 @@ void DebugRenderer::render(const Camera& camera) {
     vbo->unbind();
     vao->unbind();
     prog->unbind();
+
+    linecount = 0;
   }
 }
