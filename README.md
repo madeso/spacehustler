@@ -23,13 +23,14 @@ Build tools
 
 Planned Features
 =======
-* implement all the todos
-* add loading of shaders from files with preprocessor
+* debug rendering
 * add physics system (ode, tokamak, physx, bullet)
 * add scripting support (lua)
 * audio and music support
 * menu support (ce gui)
 * hud/2d support
+* implement all the todos
+* add loading of shaders from files with preprocessor
 * lights and shaddows
 * particle systems
 * godrays
