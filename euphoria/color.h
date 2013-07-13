@@ -37,6 +37,12 @@ class Color {
      */
     Color(const Color& c, float A);
 
+    /** Named constructor that converts a hex value into a Color.
+    @param hex the hex value.
+    @returns the color
+     */
+    static Color FromHex(unsigned int hex);
+
     /** The Red component., ranging from 0 to 1.
      */
     float r;
