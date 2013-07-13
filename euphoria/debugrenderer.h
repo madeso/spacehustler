@@ -31,6 +31,15 @@ class DebugRenderer {
      */
     void line(const vec3& f, const vec3& t, const Color& c);
 
+    /** Add a line.
+    @param f the from point
+    @param t the to point
+    @param fc the from color
+    @param tc the to color
+     */
+    void line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
+
+
     /** Render the debug lines.
      */
     void render(const Camera& camera);
