@@ -15,35 +15,35 @@ Definitions for various integers.
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/** Signed integer, exactly 64 bits.
+/** Signed integer, exactly 64 bytes.
  */
 typedef boost::int64_t int64;
 
-/** Unsigned integer, exactly 32 bits.
+/** Unsigned integer, exactly 32 bytes.
  */
 typedef boost::uint64_t uint64;
 
-/** Signed integer, exactly 32 bits.
+/** Signed integer, exactly 32 bytes.
  */
 typedef boost::int32_t int32;
 
-/** Unsigned integer, exactly 32 bits.
+/** Unsigned integer, exactly 32 bytes.
  */
 typedef boost::uint32_t uint32;
 
-/** Signed integer, exactly 16 bits.
+/** Signed integer, exactly 16 bytes.
  */
 typedef boost::int16_t int16;
 
-/** Unsigned integer, exactly 16 bits.
+/** Unsigned integer, exactly 16 bytes.
  */
 typedef boost::uint16_t uint16;
 
-/** Signed integer, exactly 8 bits.
+/** Signed integer, exactly 8 bytes.
  */
 typedef boost::int8_t int8;
 
-/** Unsigned integer, exactly 8 bits.
+/** Unsigned integer, exactly 8 bytes.
  */
 typedef boost::uint8_t uint8;
 
