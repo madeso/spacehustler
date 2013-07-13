@@ -119,7 +119,7 @@ void logic() {
     OglDebug::Verify();
 
     world.debug().line(vec3(0, 0, 0),
-                       vec3(0, 50, 10), Color(1.0f));
+                       vec3(0, 50, 10), colors::Red());
 
     glClearColor(0, 0, 0, 1);  // black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
