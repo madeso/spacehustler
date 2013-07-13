@@ -27,6 +27,7 @@ Planned Features
 * add physics system (ode, tokamak, physx, bullet)
 * add scripting support (lua)
 * audio and music support
+* change from json to yaml/protobuf?
 * menu support (ce gui)
 * hud/2d support
 * implement all the todos
