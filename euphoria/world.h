@@ -13,6 +13,7 @@ World related code.
 #include "euphoria/mesh.h"
 #include "euphoria/math.h"
 #include "euphoria/camera.h"
+#include "euphoria/debugrenderer.h"
 
 /** A mesh placed in a world.
 @see CompiledMesh
@@ -61,8 +62,13 @@ class World {
      */
     void render(const Camera& camera);
 
+    /** Get the debug render.
+    @returns the debug renderer.
+     */
+    DebugRenderer& debug();
   private:
     std::vector<std::shared_ptr<Instance>> instances;
+    DebugRenderer debugrenderer;
 };
 
 #endif  // EUPHORIA_WORLD_H_

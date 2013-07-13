@@ -28,4 +28,10 @@ void World::render(const Camera& camera) {
   for (auto i : instances) {
     i->render(camera);
   }
+
+  debugrenderer.render();
+}
+
+DebugRenderer& World::debug() {
+  return debugrenderer;
 }
