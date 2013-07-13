@@ -14,6 +14,7 @@ World related code.
 #include "euphoria/math.h"
 #include "euphoria/camera.h"
 #include "euphoria/debugrenderer.h"
+#include "euphoria/shadercache.h"
 
 /** A mesh placed in a world.
 @see CompiledMesh
@@ -50,7 +51,7 @@ class World {
   public:
     /** Constructs a new empty world.
      */
-    World();
+    explicit World(ShaderCache* shadercache);
 
     /** Add a instance to the world.
     @param instance the instance to add.

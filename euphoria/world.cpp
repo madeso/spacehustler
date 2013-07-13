@@ -13,7 +13,7 @@ void Instance::render(const Camera& camera) {
   mesh->render(camera, transform);
 }
 
-World::World() {
+World::World(ShaderCache* shadercache) : debugrenderer(shadercache) {
 }
 
 void World::add(std::shared_ptr<Instance> instance) {
@@ -29,7 +29,7 @@ void World::render(const Camera& camera) {
     i->render(camera);
   }
 
-  debugrenderer.render();
+  debugrenderer.render(camera);
 }
 
 DebugRenderer& World::debug() {
