@@ -41,6 +41,7 @@ if(CMAKE_CONFIGURATION_TYPES)
 # COMPONENTS filesystem program_options serialization system 
 find_package(Boost REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(Bullet REQUIRED)
 find_package(wxWidgets REQUIRED core base)
 include( "${wxWidgets_USE_FILE}" )
 find_package(AssImp REQUIRED)
@@ -67,5 +68,6 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${ASSIMP_INCLUDE_DIR})
 
 message(STATUS "Boost include is ${Boost_INCLUDE_DIRS}")
+message(STATUS "Bullet include is ${BULLET_INCLUDE_DIR}" )
 
 add_subdirectory(euphoria)

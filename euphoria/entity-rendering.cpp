@@ -75,6 +75,10 @@ class RenderingSystem : public System {
 
 void Entity_AddRendering(SystemContainer* container, World* world,
                          TextureCache* tc, ShaderCache* sc) {
+  assert(container);
+  assert(world);
+  assert(tc);
+  assert(sc);
   std::shared_ptr<System> sys(new RenderingSystem(world, tc, sc));
   container->add(RenderingSystemType, sys);
 }
