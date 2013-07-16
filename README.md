@@ -8,6 +8,7 @@ Current Features
 * Model loading through assimp
 * Instancing meshes in a world
 * Global tweak system (uses anttweakbar internally)
+* Physics system (bullet)
 
 Build tools
 =======
@@ -20,11 +21,10 @@ Build tools
 * OpenGL library
 * SFML, for launching a window and providing a input layer
 * wxWidgets for displaying error messages
+* bullet for physics
 
 Planned Features
 =======
-* debug rendering
-* add physics system (ode, tokamak, physx, bullet)
 * add scripting support (lua)
 * audio and music support
 * change from json to yaml/protobuf?
