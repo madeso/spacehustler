@@ -75,7 +75,7 @@ void logic() {
 
   Camera camera;
   camera.setFov(45);
-  camera.setNearFar(0.1f, 200.0f);
+  camera.setNearFar(0.1f, 800.0f);
 
   SystemContainer container;
   Entity_AddRendering(&container, &world, &texturecache, &shadercache);
@@ -97,9 +97,6 @@ void logic() {
   bool running = true;
   while (running) {
     OglDebug::Verify();
-
-    world.debug().line(vec3(0, 0, 0),
-                       vec3(0, 50, 10), colors::Red());
 
     glClearColor(0, 0, 0, 1);  // black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
