@@ -42,6 +42,24 @@ class WorldBodyConenction {
     std::shared_ptr<btRigidBody> body;
 };
 
+namespace {
+  vec3 C(const btVector3& src) {
+    return vec3(src.x(), src.y(), src.z());
+  }
+
+  btVector3 C(const vec3& src) {
+    return btVector3(src[0], src[1], src[2]);
+  }
+
+  quat C(const btQuaternion& src) {
+    return quat(src.x(), src.y(), src.z(), src.w());
+  }
+
+  btQuaternion C(const quat& src) {
+    return btQuaternion(src[0], src[1], src[2], src[3]);
+  }
+}  // namespace
+
 class PhysicsObject {
   public:
     PhysicsObject(Entity* entity,
@@ -54,7 +72,8 @@ class PhysicsObject {
 
       btTransform trans;
       trans.setIdentity();
-      trans.setOrigin(btVector3(0, -56, 0));
+      trans.setOrigin(C(entity->position));
+      trans.setRotation(C(entity->rotation));
 
 
       btScalar mass = data.mass;
@@ -78,6 +97,9 @@ class PhysicsObject {
     void update() {
       btTransform trans;
       body->getMotionState()->getWorldTransform(trans);
+      assert(entity);
+      entity->position = C(trans.getOrigin());
+      entity->rotation = C(trans.getRotation());
     }
 
     std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
@@ -122,7 +144,7 @@ class PhysicsSystem : public System {
 
     void step(float dt) {
       assert(this);
-      dynamicsWorld->stepSimulation(1.f / 60.f, 10);
+      dynamicsWorld->stepSimulation(dt, 10);
       for (auto & o : objects) {
         o.update();
       }
