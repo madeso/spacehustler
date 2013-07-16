@@ -27,6 +27,7 @@
 #include "euphoria/entity.h"
 #include "euphoria/entity-rendering.h"
 #include "euphoria/entity-physics.h"
+#include "euphoria/entity-camera.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
@@ -72,26 +73,27 @@ void logic() {
   ShaderCache shadercache;
   World world("world.js", &texturecache, &shadercache);
 
+  Camera camera;
+  camera.setFov(45);
+  camera.setNearFar(0.1f, 200.0f);
+
   SystemContainer container;
   Entity_AddRendering(&container, &world, &texturecache, &shadercache);
   Entity_AddPhysics(&container);
+  Entity_AddCamera(&container, &camera);
 
   EntityList entities;
   entities.addDefs(&container, "entity.js");
 
   LoadEntities(&entities, "entities.js");
 
-  Camera camera;
-  camera.setFov(45);
-  camera.setNearFar(0.1f, 200.0f);
-
-  {
+  /* {
     const vec3 eye(30, 30, 30);
     const vec3 target = cvec3zero();
     vec3 up;
     up.cardinal(1);
     cml::matrix_look_at_LH(camera.view, eye, target, up);
-  }
+  } */
 
   OglDebug::Verify();
 

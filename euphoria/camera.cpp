@@ -9,6 +9,7 @@ Camera::Camera()
   , aspect(800.0f / 600)
   , znear(0.1f)
   , zfar(100.0f) {
+  view = cmat44(cvec3zero(), cquatIdent());
   updateProjection();
 }
 
