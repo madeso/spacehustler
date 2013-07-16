@@ -116,6 +116,7 @@ void logic() {
 
   TweakerStore tweakers;
 
+  sf::Clock clock;
   bool running = true;
   while (running) {
     OglDebug::Verify();
@@ -151,6 +152,9 @@ void logic() {
     }
 
     tweakers.update();
+
+    const sf::Time elapsed = clock.restart();
+    container.step(elapsed.asSeconds());
   }
 
   TwTerminate();
