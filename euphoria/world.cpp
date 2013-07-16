@@ -44,8 +44,7 @@ World::World(const std::string& filename, TextureCache* texturecache,
     std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(LoadMesh(meshfile),
                                          texturecache,
                                          shadercache));
-    /// @todo set mesh displacement at 0,0,0
-    mat44 worldmat = cmat44(vec3(-55, -20, -50));
+    mat44 worldmat = cmat44(cvec3zero());
 
     std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
     add(wi);
