@@ -151,7 +151,7 @@ class PhysicsSystem : public System {
     std::vector<PhysicsObject> objects;
 };
 
-void Entity_AddRendering(SystemContainer* container) {
+void Entity_AddPhysics(SystemContainer* container) {
   assert(container);
   std::shared_ptr<System> sys(new PhysicsSystem());
   container->add(PhysicsSystemType, sys);

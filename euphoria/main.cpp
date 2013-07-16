@@ -26,6 +26,7 @@
 #include "euphoria/tweak.h"
 #include "euphoria/entity.h"
 #include "euphoria/entity-rendering.h"
+#include "euphoria/entity-physics.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
@@ -87,6 +88,7 @@ void logic() {
 
   SystemContainer container;
   Entity_AddRendering(&container, &world, &texturecache, &shadercache);
+  Entity_AddPhysics(&container);
 
   EntityList entities;
   entities.addDefs(&container, "entity.js");
