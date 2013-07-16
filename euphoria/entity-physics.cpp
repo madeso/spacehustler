@@ -13,10 +13,10 @@ const std::string PhysicsSystemType = "Physics";
 class PhysicsType : public ComponentType {
   public:
     explicit PhysicsType(const Json::Value& data) {
-      mass = data.get("mass", "1.0").asFloat();
-      width = data.get("width", "1.0").asFloat();
-      height = data.get("height", "1.0").asFloat();
-      depth = data.get("depth", "1.0").asFloat();
+      mass = data.get("mass", 1.0f).asFloat();
+      width = data.get("width", 1.0f).asFloat();
+      height = data.get("height", 1.0f).asFloat();
+      depth = data.get("depth", 1.0f).asFloat();
     }
 
     float mass;
