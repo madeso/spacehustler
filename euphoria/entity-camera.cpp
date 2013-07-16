@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "euphoria/mesh.h"
+#include "euphoria/tweak.h"
 
 const std::string CameraSystemType = "Camera";
 
@@ -52,7 +53,9 @@ class CameraSystem : public System {
       assert(camera);
 
       for (auto & o : objects) {
-        camera->view = cmat44(o.entity->position, o.entity->rotation);
+        TWEAK(o.entity->rotation);
+        camera->view = cmat44(o.entity->rotation)
+                       * cmat44(vec3(-o.entity->position));
       }
     }
 
