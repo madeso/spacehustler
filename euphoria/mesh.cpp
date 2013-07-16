@@ -49,6 +49,15 @@ namespace internal {
     faces.push_back(c);
   }
 
+  vec3 MeshPart::getVertex(unsigned int p) const {
+    assert(p < points);
+    const unsigned int b = p * 5;
+    const float x = vertices[b + 0];
+    const float y = vertices[b + 1];
+    const float z = vertices[b + 2];
+    return vec3(x, y, z);
+  }
+
   Material::Material()
     : wraps(Texture::Wrap_Repeat)
     , wrapt(Texture::Wrap_Repeat) {

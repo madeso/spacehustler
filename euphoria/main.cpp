@@ -79,7 +79,7 @@ void logic() {
 
   SystemContainer container;
   Entity_AddRendering(&container, &world, &texturecache, &shadercache);
-  Entity_AddPhysics(&container);
+  Entity_AddPhysics(&container, world);
   Entity_AddCamera(&container, &camera);
 
   EntityList entities;

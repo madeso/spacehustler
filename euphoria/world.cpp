@@ -70,3 +70,8 @@ void World::render(const Camera& camera) {
 DebugRenderer& World::debug() {
   return debugrenderer;
 }
+
+const Mesh& World::getCollisionMesh() const {
+  assert(this);
+  return collisionmesh;
+}

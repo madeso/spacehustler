@@ -110,9 +110,53 @@ class PhysicsObject {
     std::shared_ptr<WorldBodyConenction> connection;
 };
 
+class StaticMesh {
+  public:
+    StaticMesh(const internal::MeshPart& part,
+               std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld) {
+      mesh.reset(new btTriangleMesh());
+
+      const unsigned int facecount = part.faces.size() / 3;
+      for (unsigned int f = 0; f < facecount; ++f) {
+        const unsigned int fb = f * 3;
+        const unsigned int p1 = part.faces[fb + 0];
+        const unsigned int p2 = part.faces[fb + 1];
+        const unsigned int p3 = part.faces[fb + 2];
+        const vec3 v1 = part.getVertex(p1);
+        const vec3 v2 = part.getVertex(p2);
+        const vec3 v3 = part.getVertex(p3);
+        mesh->addTriangle(C(v1), C(v2), C(v3));
+      }
+
+      shape.reset(new btBvhTriangleMeshShape(mesh.get(), true));
+
+      btTransform trans;
+      trans.setIdentity();
+
+      btScalar mass = 0.0f;
+
+      // rigid body is dynamic if and only if mass is non zero, otherwise static
+      btVector3 localInertia(0, 0, 0);
+
+      myMotionState.reset(new btDefaultMotionState(trans));
+      btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState.get()
+          , shape.get(), localInertia);
+      body.reset(new btRigidBody(rbInfo));
+
+      // add the body to the dynamics world
+      connection.reset(new WorldBodyConenction(dynamicsWorld, body));
+    }
+
+    std::shared_ptr<btTriangleMesh> mesh;
+    std::shared_ptr<btCollisionShape> shape;
+    std::shared_ptr<btDefaultMotionState> myMotionState;
+    std::shared_ptr<btRigidBody> body;
+    std::shared_ptr<WorldBodyConenction> connection;
+};
+
 class PhysicsSystem : public System {
   public:
-    PhysicsSystem() {
+    explicit PhysicsSystem(const World& world) {
       assert(this);
 
       collisionConfiguration.reset(new btDefaultCollisionConfiguration());
@@ -124,6 +168,11 @@ class PhysicsSystem : public System {
                           solver.get(),
                           collisionConfiguration.get()));
       dynamicsWorld->setGravity(btVector3(0, -10, 0));
+
+      for (const auto & p : world.getCollisionMesh().parts) {
+        std::shared_ptr<StaticMesh> m(new StaticMesh(p, dynamicsWorld));
+        staticmeshes.push_back(m);
+      }
     }
 
     ComponentType* addType(const Json::Value& data) {
@@ -171,10 +220,11 @@ class PhysicsSystem : public System {
 
     std::vector<std::shared_ptr<PhysicsType> > types;
     std::vector<PhysicsObject> objects;
+    std::vector<std::shared_ptr<StaticMesh>> staticmeshes;
 };
 
-void Entity_AddPhysics(SystemContainer* container) {
+void Entity_AddPhysics(SystemContainer* container, const World& world) {
   assert(container);
-  std::shared_ptr<System> sys(new PhysicsSystem());
+  std::shared_ptr<System> sys(new PhysicsSystem(world));
   container->add(PhysicsSystemType, sys);
 }

@@ -74,6 +74,11 @@ class World {
      */
     DebugRenderer& debug();
 
+    /** Gets the collision mesh.
+    @returns the collision mesh
+     */
+    const Mesh& getCollisionMesh() const;
+
   private:
     std::vector<std::shared_ptr<Instance>> instances;
     Mesh collisionmesh;

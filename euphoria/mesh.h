@@ -46,6 +46,12 @@ namespace internal {
        */
       void addFace(unsigned int a, unsigned int b, unsigned int c);
 
+      /** Utility function for getting a vertex.
+      @param p the index for the vertex to get
+      @return the vertex
+       */
+      vec3 getVertex(unsigned int p) const;
+
       /** The vertices.
        */
       std::vector<GLfloat> vertices;
@@ -54,7 +60,7 @@ namespace internal {
        */
       std::vector<GLushort> faces;
 
-      /** THe number of points.
+      /** The number of points.
        */
       int points;
 
