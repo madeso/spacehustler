@@ -79,7 +79,7 @@ void logic() {
   EntityList entities;
   entities.addDefs(&container, "entity.js");
 
-  entities.createEntity("craft");
+  LoadEntities(&entities, "entities.js");
 
   Camera camera;
   camera.setFov(45);

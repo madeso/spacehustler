@@ -155,4 +155,11 @@ class EntityList {
     std::vector<std::shared_ptr<Entity>> entities;
 };
 
+/** Load entities from a file.
+@param list store the entities here
+@param filename load from this file
+@todo merge with the World loader.
+ */
+void LoadEntities(EntityList* list, const std::string& filename);
+
 #endif  // EUPHORIA_ENTITY_H_

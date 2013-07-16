@@ -115,3 +115,24 @@ void EntityList::createEntity(const std::string& entity) {
   res->second.addComponents(e.get());
   entities.push_back(e);
 }
+
+void LoadEntities(EntityList* list, const std::string& filename) {
+  assert(list);
+
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str()
+                           << "Unable to load definitions from " << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+                           << reader.getFormattedErrorMessages());
+  }
+  for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
+    Json::Value ent = root[i];
+    const std::string enttype = ent.get("type", "").asString();
+    list->createEntity(enttype);
+  }
+}
