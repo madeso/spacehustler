@@ -250,7 +250,7 @@ class PhysicsSystem : public System {
       for (auto & o : objects) {
         o.update();
       }
-      bool debugPhysics = false;
+      bool debugPhysics = true;
       TWEAK(debugPhysics);
       if (debugPhysics) {
         dynamicsWorld->debugDrawWorld();
