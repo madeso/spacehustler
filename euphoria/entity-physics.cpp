@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "euphoria/tweak.h"
+
 #include "btBulletDynamicsCommon.h"  // NOLINT this is the proper way to include bullet
 
 
@@ -154,10 +156,59 @@ class StaticMesh {
     std::shared_ptr<WorldBodyConenction> connection;
 };
 
+namespace {
+  Color ToColor(const btVector3& c) {
+    return Color(c.x(), c.y(), c.z());
+  }
+}
+
+class DebugDrawing : public btIDebugDraw {
+  public:
+    explicit DebugDrawing(World* w)
+      : world(w)
+      , mode(DBG_DrawWireframe | DBG_DrawAabb | DBG_DrawFeaturesText
+             | DBG_DrawContactPoints | DBG_NoDeactivation | DBG_NoHelpText
+             | DBG_DrawText | DBG_ProfileTimings | DBG_EnableSatComparison
+             | DBG_DisableBulletLCP | DBG_EnableCCD | DBG_DrawConstraints
+             | DBG_DrawConstraintLimits | DBG_FastWireframe | DBG_DrawNormals) {
+      assert(w);
+    }
+    void drawLine(const btVector3& from, const btVector3& to,
+                  const btVector3& color) {
+      assert(this);
+      assert(world);
+      world->debug().line(C(from), C(to), ToColor(color));
+    }
+
+    void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
+                          btScalar distance, int lifeTime,
+                          const btVector3& color) {
+    }
+
+    void reportErrorWarning(const char* warningString) {
+    }
+
+    void draw3dText(const btVector3& location, const char* textString) {
+    }
+
+    void setDebugMode(int debugMode) {
+      mode = debugMode;
+    }
+
+    int getDebugMode() const {
+      return mode;
+    }
+
+    int mode;
+    World* world;
+};
+
 class PhysicsSystem : public System {
   public:
-    explicit PhysicsSystem(const World& world) {
+    explicit PhysicsSystem(World* world)
+      : debugDrawer(world) {
       assert(this);
+      assert(world);
 
       collisionConfiguration.reset(new btDefaultCollisionConfiguration());
       dispatcher.reset(new btCollisionDispatcher(collisionConfiguration.get()));
@@ -169,10 +220,12 @@ class PhysicsSystem : public System {
                           collisionConfiguration.get()));
       dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-      for (const auto & p : world.getCollisionMesh().parts) {
+      for (const auto & p : world->getCollisionMesh().parts) {
         std::shared_ptr<StaticMesh> m(new StaticMesh(p, dynamicsWorld));
         staticmeshes.push_back(m);
       }
+
+      dynamicsWorld->setDebugDrawer(&debugDrawer);
     }
 
     ComponentType* addType(const Json::Value& data) {
@@ -196,6 +249,11 @@ class PhysicsSystem : public System {
       dynamicsWorld->stepSimulation(dt, 10);
       for (auto & o : objects) {
         o.update();
+      }
+      bool debugPhysics = false;
+      TWEAK(debugPhysics);
+      if (debugPhysics) {
+        dynamicsWorld->debugDrawWorld();
       }
     }
 
@@ -221,9 +279,11 @@ class PhysicsSystem : public System {
     std::vector<std::shared_ptr<PhysicsType> > types;
     std::vector<PhysicsObject> objects;
     std::vector<std::shared_ptr<StaticMesh>> staticmeshes;
+
+    DebugDrawing debugDrawer;
 };
 
-void Entity_AddPhysics(SystemContainer* container, const World& world) {
+void Entity_AddPhysics(SystemContainer* container, World* world) {
   assert(container);
   std::shared_ptr<System> sys(new PhysicsSystem(world));
   container->add(PhysicsSystemType, sys);

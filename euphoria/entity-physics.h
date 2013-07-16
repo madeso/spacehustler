@@ -15,6 +15,6 @@ Entity Physics System.
 @param world the world containing the collision geometry
 @ingroup systems
  */
-void Entity_AddPhysics(SystemContainer* container, const World& world);
+void Entity_AddPhysics(SystemContainer* container, World* world);
 
 #endif  // EUPHORIA_ENTITY_PHYSICS_H_
