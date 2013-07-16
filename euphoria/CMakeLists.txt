@@ -68,6 +68,8 @@ message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_B
 message(STATUS "Boost lib is ${Boost_LIBRARIES}")
 message(STATUS "Sfml lib is ${SFML_LIBRARIES}")
 
+# message(STATUS "Bullet is ${BULLET_LIBRARIES}")
+
 message(STATUS "Sources is ${game_src}")
 
 # "../external/soil" 
