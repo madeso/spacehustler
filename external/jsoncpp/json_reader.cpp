@@ -609,6 +609,8 @@ Reader::decodeDouble( Token &token )
    double value = 0;
    const int bufferSize = 32;
    int count;
+
+   setlocale(LC_NUMERIC, "C");
    int length = int(token.end_ - token.start_);
    if ( length <= bufferSize )
    {
