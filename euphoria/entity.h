@@ -145,9 +145,12 @@ class EntityList {
     void addDefs(SystemContainer* container, const std::string& filename);
 
     /** Create entity.
-    @param entity the entity name.
+    @param entity the entity name
+    @param pos the position of the entity
+    @param rot the rotation of the entity
      */
-    void createEntity(const std::string& entity);
+    void createEntity(const std::string& entity, const vec3& pos,
+                      const quat& rot);
 
   private:
     typedef std::map<std::string, EntityDef> EntityDefs;

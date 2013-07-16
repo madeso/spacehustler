@@ -104,17 +104,42 @@ void EntityList::addDefs(SystemContainer* container,
   }
 }
 
-void EntityList::createEntity(const std::string& entity) {
+void EntityList::createEntity(const std::string& entity, const vec3& pos,
+                              const quat& rot) {
   auto res = entitydefs.find(entity);
   if (res == entitydefs.end()) {
     throw std::logic_error(Str() << "Unknown entity type: " << entity);
   }
   std::shared_ptr<Entity> e(new Entity());
-  e->position = cvec3zero();
-  e->rotation = cquatIdent();
+  e->position = pos;
+  e->rotation = rot;
   res->second.addComponents(e.get());
   entities.push_back(e);
 }
+
+namespace {
+  vec3 ToVec3(const Json::Value& v) {
+    if (v.isNull()) {
+      return cvec3zero();
+    }
+    if (v.size() != 3) {
+      throw std::logic_error(Str() << "Unable to load vec3 from array with"
+                             " size: " << v.size());
+    }
+    return vec3(v[0].asFloat(), v[1].asFloat(), v[2].asFloat());
+  }
+
+  quat ToQuat(const Json::Value& v) {
+    if (v.isNull()) {
+      return cquatIdent();
+    }
+    if (v.size() != 4) {
+      throw std::logic_error(Str() << "Unable to load vec3 from array with"
+                             " size: " << v.size());
+    }
+    return quat(v[0].asFloat(), v[1].asFloat(), v[2].asFloat(), v[3].asFloat());
+  }
+}  // namespace
 
 void LoadEntities(EntityList* list, const std::string& filename) {
   assert(list);
@@ -133,6 +158,6 @@ void LoadEntities(EntityList* list, const std::string& filename) {
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value ent = root[i];
     const std::string enttype = ent.get("type", "").asString();
-    list->createEntity(enttype);
+    list->createEntity(enttype, ToVec3(ent["pos"]), ToQuat(ent["rot"]));
   }
 }
