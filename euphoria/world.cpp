@@ -2,6 +2,11 @@
 
 #include "euphoria/world.h"
 #include <cassert>
+#include <string>
+#include <fstream> // NOLINT for loading data
+#include <stdexcept>
+#include "euphoria/str.h"
+#include "json/json.h"
 
 Instance::Instance(std::shared_ptr<CompiledMesh> m, const mat44& t)
   : mesh(m)
@@ -13,7 +18,38 @@ void Instance::render(const Camera& camera) {
   mesh->render(camera, transform);
 }
 
-World::World(ShaderCache* shadercache) : debugrenderer(shadercache) {
+World::World(const std::string& filename, TextureCache* texturecache,
+             ShaderCache* shadercache) : debugrenderer(shadercache) {
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str()
+                           << "Unable to load definitions from " << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+                           << reader.getFormattedErrorMessages());
+  }
+
+  const std::string collisionmeshfilename = root
+      .get("collisionmesh", "").asString();
+  if (false == collisionmeshfilename.empty()) {
+    collisionmesh = LoadMesh(collisionmeshfilename);
+  }
+  Json::Value meshes = root["meshes"];
+  for (Json::ArrayIndex i = 0; i < meshes.size(); ++i) {
+    const std::string meshfile = meshes[i].asString();
+
+    std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(LoadMesh(meshfile),
+                                         texturecache,
+                                         shadercache));
+    /// @todo set mesh displacement at 0,0,0
+    mat44 worldmat = cmat44(vec3(-55, -20, -50));
+
+    std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
+    add(wi);
+  }
 }
 
 void World::add(std::shared_ptr<Instance> instance) {

@@ -30,20 +30,6 @@
 
 const float pi = 3.141592653589793238462643383279502884f;
 
-// fighter1.3ds
-void AddObjects(TextureCache* texturecache,
-                ShaderCache* shadercache,
-                World* world) {
-  std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(LoadMesh("world.dae"),
-                                       texturecache,
-                                       shadercache));
-
-  mat44 worldmat = cmat44(vec3(-55, -20, -50));
-
-  std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
-  world->add(wi);
-}
-
 void logic() {
   srand(69);
 
@@ -84,7 +70,7 @@ void logic() {
 
   TextureCache texturecache;
   ShaderCache shadercache;
-  World world(&shadercache);
+  World world("world.js", &texturecache, &shadercache);
 
   SystemContainer container;
   Entity_AddRendering(&container, &world, &texturecache, &shadercache);
@@ -106,9 +92,6 @@ void logic() {
     up.cardinal(1);
     cml::matrix_look_at_LH(camera.view, eye, target, up);
   }
-
-
-  AddObjects(&texturecache, &shadercache, &world);
 
   OglDebug::Verify();
 

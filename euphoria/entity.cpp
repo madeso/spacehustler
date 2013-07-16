@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <string>
+#include <stdexcept>
 #include <fstream> // NOLINT for loading data
 
 #include "euphoria/str.h"

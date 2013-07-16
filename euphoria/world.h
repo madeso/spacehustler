@@ -9,11 +9,13 @@ World related code.
 
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "euphoria/mesh.h"
 #include "euphoria/math.h"
 #include "euphoria/camera.h"
 #include "euphoria/debugrenderer.h"
+#include "euphoria/texturecache.h"
 #include "euphoria/shadercache.h"
 
 /** A mesh placed in a world.
@@ -50,8 +52,12 @@ class Instance {
 class World {
   public:
     /** Constructs a new empty world.
+    @param filename the file to load from
+    @param texturecache the texture cache to load from
+    @param shadercache the shader cache to load from
      */
-    explicit World(ShaderCache* shadercache);
+    World(const std::string& filename, TextureCache* texturecache,
+          ShaderCache* shadercache);
 
     /** Add a instance to the world.
     @param instance the instance to add.
@@ -67,8 +73,10 @@ class World {
     @returns the debug renderer.
      */
     DebugRenderer& debug();
+
   private:
     std::vector<std::shared_ptr<Instance>> instances;
+    Mesh collisionmesh;
     DebugRenderer debugrenderer;
 };
 
