@@ -87,14 +87,6 @@ void logic() {
 
   LoadEntities(&entities, "entities.js");
 
-  /* {
-    const vec3 eye(30, 30, 30);
-    const vec3 target = cvec3zero();
-    vec3 up;
-    up.cardinal(1);
-    cml::matrix_look_at_LH(camera.view, eye, target, up);
-  } */
-
   OglDebug::Verify();
 
   bool tweaking = true;
