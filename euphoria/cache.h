@@ -9,6 +9,7 @@ Utility code fore the Cache concept.
 
 #include <memory>
 #include <map>
+#include <utility>
 
 /** Get utility function for the cache concept.
 Gets the cached object or create a new and caches it if can't be found or the
