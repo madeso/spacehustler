@@ -19,6 +19,8 @@ option(USE_ASTYLE_BUILD "Add astyle to the build" ON)
 option(USE_CPPLINT_BUILD "Add cpplint to the build" ON)
 option(USE_DOXYGEN_BUILD "Add doxygen to the build" ON)
 
+option(USE_TWEAKABLES "Use tweakables" ON)
+
 if(WIN32)
 	#on windows, link to sfml static, to avoid crash on exit with ati cards
 	set(SFML_STATIC_LIBRARIES TRUE)
@@ -64,12 +66,15 @@ set(BUILD_SHARED_LIBS OFF)
 find_package(Doxygen REQUIRED)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.ini ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
 
+configure_file ("${PROJECT_SOURCE_DIR}/euphoria-config-in.h" "${PROJECT_BINARY_DIR}/euphoria-config.h")
+
 include_directories(external)
 include_directories(external/cml-1_0_3)
 include_directories(external/jsoncpp)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${ASSIMP_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 message(STATUS "Boost include is ${Boost_INCLUDE_DIRS}")
 message(STATUS "Bullet include is ${BULLET_INCLUDE_DIR}" )

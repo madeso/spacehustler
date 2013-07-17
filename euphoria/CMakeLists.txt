@@ -1,18 +1,21 @@
-FILE(GLOB game_src *.cpp;*.h)
+FILE(GLOB game_src_glob *.cpp;*.h)
+set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
-set ( src_anttweakbar
-	../external/anttweakbar/src/LoadOGL.cpp
-	../external/anttweakbar/src/LoadOGLCore.cpp
-	../external/anttweakbar/src/TwEventSFML.cpp
-	../external/anttweakbar/src/TwBar.cpp
-	../external/anttweakbar/src/TwColors.cpp
-	../external/anttweakbar/src/TwFonts.cpp
-	../external/anttweakbar/src/TwMgr.cpp
-	../external/anttweakbar/src/TwOpenGL.cpp
-	../external/anttweakbar/src/TwOpenGLCore.cpp
-	../external/anttweakbar/src/TwPrecomp.cpp
-)
-ADD_DEFINITIONS( -DTW_STATIC )
+if(USE_TWEAKABLES)
+	set ( src_anttweakbar
+		../external/anttweakbar/src/LoadOGL.cpp
+		../external/anttweakbar/src/LoadOGLCore.cpp
+		../external/anttweakbar/src/TwEventSFML.cpp
+		../external/anttweakbar/src/TwBar.cpp
+		../external/anttweakbar/src/TwColors.cpp
+		../external/anttweakbar/src/TwFonts.cpp
+		../external/anttweakbar/src/TwMgr.cpp
+		../external/anttweakbar/src/TwOpenGL.cpp
+		../external/anttweakbar/src/TwOpenGLCore.cpp
+		../external/anttweakbar/src/TwPrecomp.cpp
+	)
+	ADD_DEFINITIONS( -DTW_STATIC )
+endif(USE_TWEAKABLES)
 
 set ( src_jsoncpp
 	../external/jsoncpp/json_reader.cpp
@@ -43,9 +46,18 @@ source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
 source_group(soil FILES ${src_soil})
 source_group(jsoncpp FILES ${src_jsoncpp})
-source_group(anttweakbar FILES ${src_anttweakbar})
+source_group(cmake FILES "${PROJECT_SOURCE_DIR}/euphoria-config-in.h")
 
-add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil} ${src_jsoncpp} ${src_anttweakbar})
+set(all_src ${game_src} "${PROJECT_SOURCE_DIR}/euphoria-config-in.h" ${src_glew} ${src_soil} ${src_jsoncpp})
+
+if(USE_TWEAKABLES)
+	source_group(anttweakbar FILES ${src_anttweakbar})
+	
+	set(all_src ${all_src} ${src_anttweakbar})
+endif(USE_TWEAKABLES)
+
+
+add_executable(main WIN32 ${all_src})
 
 if(USE_ASTYLE_BUILD)
 	add_custom_command(TARGET main
