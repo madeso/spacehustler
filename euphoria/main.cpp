@@ -12,13 +12,13 @@
 #define HAVE_TR1_TYPE_TRAITS
 #endif
 
-#include <wx/wxprec.h>
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif
-
 #include <string>
 #include <vector>
+
+#include <wx/wxprec.h>  // NOLINT
+#ifndef WX_PRECOMP
+#include <wx/wx.h>  // NOLINT
+#endif
 
 #include "euphoria/opengl.h"
 

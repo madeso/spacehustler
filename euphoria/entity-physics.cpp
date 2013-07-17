@@ -200,7 +200,7 @@ class DebugDrawing : public btIDebugDraw {
     }
 
     World* world;
-  int mode;
+    int mode;
 };
 
 class PhysicsSystem : public System {

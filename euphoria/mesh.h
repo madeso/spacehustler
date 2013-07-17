@@ -62,7 +62,7 @@ namespace internal {
 
       /** The number of points.
        */
-      int points;
+      unsigned int points;
 
       /** The material index.
        */
