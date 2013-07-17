@@ -104,8 +104,8 @@ class PhysicsObject {
       entity->rotation = C(trans.getRotation());
     }
 
-    std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
     Entity* entity;
+    std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
     std::shared_ptr<btCollisionShape> shape;
     std::shared_ptr<btDefaultMotionState> myMotionState;
     std::shared_ptr<btRigidBody> body;
@@ -199,8 +199,8 @@ class DebugDrawing : public btIDebugDraw {
       return mode;
     }
 
-    int mode;
     World* world;
+  int mode;
 };
 
 class PhysicsSystem : public System {
@@ -240,7 +240,6 @@ class PhysicsSystem : public System {
       assert(entity);
       assert(type);
       PhysicsType* pt = static_cast<PhysicsType*>(type);
-      mat44 mat = cmat44(entity->position, entity->rotation);
       objects.push_back(PhysicsObject(entity, dynamicsWorld, *pt));
     }
 

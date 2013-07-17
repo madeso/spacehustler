@@ -168,12 +168,10 @@ namespace internal {
       Vao vao;
       ArrayBuffer vbo;
       ElementArrayBuffer elements;
-      GLsizei elementCount;
 
       const std::shared_ptr<Program> program;
       std::shared_ptr<Texture> texture;
-
-      int points;
+      GLsizei elementCount;
   };
 
 }  // namespace internal

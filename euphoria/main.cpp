@@ -4,6 +4,14 @@
 
 #include <AntTweakBar.h>
 
+// for making wxWidgets build on osx - autodetect typetraits
+#include <ciso646>
+#ifdef _LIBCPP_VERSION
+#define HAVE_TYPE_TRAITS
+#else
+#define HAVE_TR1_TYPE_TRAITS
+#endif
+
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 #include <wx/wx.h>

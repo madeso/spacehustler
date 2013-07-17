@@ -8,9 +8,10 @@
 
 namespace {
   bool IsWithinUnsignedShortRange(unsigned int v) {
-    if (v < std::numeric_limits<GLushort>::min()) {
+    /* always false:
+     if (v < std::numeric_limits<GLushort>::min()) {
       return false;
-    }
+    } */
     if (v > std::numeric_limits<GLushort>::max()) {
       return false;
     }
@@ -79,7 +80,6 @@ namespace internal {
                                      std::shared_ptr<Texture> tex)
     : program(prog)
     , texture(tex)
-    , points(mesh.points)
     , elementCount(mesh.faces.size()) {
     vao.bind();
     vbo.bind();
