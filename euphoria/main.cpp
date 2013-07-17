@@ -60,12 +60,13 @@ void logic() {
     throw msg;
   }
 
+#ifdef USE_TWEAKABLES
   const int twintitresult = TwInit(TW_OPENGL_CORE, NULL);  // 3.2 core profile
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
-
   TwWindowSize(800, 600);
+#endif
 
   OglDebug ogldebug(OglDebug::IsSupported());
 
@@ -99,7 +100,7 @@ void logic() {
 
   bool tweaking = true;
 
-  TweakerStore tweakers;
+  RUNTWEAKCODE(TweakerStore tweakers);
 
   sf::Clock clock;
   bool running = true;
@@ -112,7 +113,7 @@ void logic() {
     world.render(camera);
 
     if (tweaking) {
-      TwDraw();
+      RUNTWEAKCODE(TwDraw());
     }
 
     window.display();
@@ -123,23 +124,25 @@ void logic() {
     // iteration of the loop
     sf::Event event;
     while (window.pollEvent(event)) {
+#ifdef USE_TWEAKABLES
       if (tweaking) {
         const int handled = TwEventSFML(&event, SFML_VERSION_MAJOR,
                                         SFML_VERSION_MINOR);
       }
+#endif
 
       if (event.type == sf::Event::Closed) {
         running = false;
       }
     }
 
-    tweakers.update();
+    RUNTWEAKCODE(tweakers.update());
 
     const sf::Time elapsed = clock.restart();
     container.step(elapsed.asSeconds());
   }
 
-  TwTerminate();
+  RUNTWEAKCODE(TwTerminate());
 
   return;
 }

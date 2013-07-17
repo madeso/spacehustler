@@ -2,6 +2,8 @@
 
 #include "euphoria/tweak.h"
 
+#ifdef USE_TWEAKABLES
+
 #include <AntTweakBar.h>
 
 #include <cassert>
@@ -444,3 +446,5 @@ void TweakerStore::update() {
 TweakerStore* GlocalTweakerStore() {
   return GlocalTweakerStoreVariable;
 }
+
+#endif

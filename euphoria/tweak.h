@@ -16,6 +16,10 @@ Contains all the Tweakable code.
 #include "euphoria/math.h"
 #include "euphoria/ints.h"
 
+#include "euphoria-config.h" // NOLINT this is the default way to include cmake files
+
+#ifdef USE_TWEAKABLES
+
 /** Forward declaration of internal type.
  */
 typedef struct CTwBar TwBar;
@@ -310,5 +314,26 @@ Not really useful, except for the internal use in STR()
  */
 #define TWEAK(x) assert(GlocalTweakerStore()), GlocalTweakerStore() && \
   GlocalTweakerStore()->tweak(__FILE__  STR(__LINE__), #x, &x)
+
+/** Util macro for running tweak code.
+Runs the code only if tweaking is enabled.
+@param x the code to be run
+ */
+#define RUNTWEAKCODE(x) x
+
+#else
+
+/** Tweaking is disabled, doesn't do anything.
+This function should probably return a mock object or something.
+@param x a param that is ignored
+ */
+#define TWEAK(x)
+
+/** Tweaking is disabled, doesn't do anything.
+@param x a param that is ignored
+ */
+#define RUNTWEAKCODE(x)
+
+#endif
 
 #endif  // EUPHORIA_TWEAK_H_
