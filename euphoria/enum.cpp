@@ -61,13 +61,13 @@ void EnumType::addEnum(const std::string& name) {
     list.insert(List::value_type(id, name));
     map.insert(Map::value_type(name, id));
   } else {
-    Map::const_iterator f = createdButNotAddedMap.find(name);
+    Map::iterator f = createdButNotAddedMap.find(name);
     if (f == createdButNotAddedMap.end()) {
       throw "enum already added";
     } else {
       // move to list
       const size_t id = f->second;
-      List::const_iterator i = createdButNotAddedList.find(id);
+      List::iterator i = createdButNotAddedList.find(id);
       // createdButNotAdded list/map inconsistencies
       assert(i != createdButNotAddedList.end());
       createdButNotAddedList.erase(i);
@@ -97,7 +97,7 @@ void Load(EnumType* type, const std::string& filename) {
   bool parsingSuccessful = reader.parse(file, root);
   if (!parsingSuccessful) {
     std::stringstream ss;
-    ss << "Failed to parse " << file << ": "
+    ss << "Failed to parse " << filename << ": "
        << reader.getFormattedErrorMessages();
     throw ss.str();
   }

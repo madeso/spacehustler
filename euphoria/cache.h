@@ -33,7 +33,7 @@ std::shared_ptr<TData> Cache_Get(
     }
   }
   std::shared_ptr<TData> data = create(name);
-  cache->insert(std::map<TKey, std::weak_ptr<TData> >::value_type(name,
+  cache->insert(std::pair<TKey, std::weak_ptr<TData>>(name,
                 data));
   return data;
 }

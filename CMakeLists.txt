@@ -29,7 +29,7 @@ else(WIN32)
 	message(STATUS "using non-static libraries")
 	
 	#also add c++11 flags
-	SET(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+	SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ ${CMAKE_CXX_FLAGS}")
 endif(WIN32)
 
 IF(WIN32)
