@@ -30,6 +30,11 @@ FIND_PATH( BULLET_INCLUDE_DIR btBulletCollisionCommon.h
         ${BULLET_SOURCE_DIR}
         $ENV{BULLET_SOURCE_DIR}
         "C:/Program Files/BULLET_PHYSICS"
+        /usr/include
+        /usr/local/include
+        /opt/local/include
+        /opt/local/include/bullet
+        NO_DEFAULT_PATH
     PATH_SUFFIXES
         /src
         /include
@@ -53,6 +58,10 @@ MACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME DIRNAME )
             ${BULLET_BUILD_DIR}
             $ENV{BULLET_BUILD_DIR}
             "C:/Program Files/BULLET_PHYSICS"
+            /usr/lib
+            /usr/local/lib
+            /opt/local/lib
+            NO_DEFAULT_PATH
         PATH_SUFFIXES
             ./src/${DIRNAME}
             ./Extras/${DIRNAME}
@@ -75,6 +84,10 @@ MACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME DIRNAME )
             ${BULLET_BUILD_DIR}
             $ENV{BULLET_BUILD_DIR}
             "C:/Program Files/BULLET_PHYSICS"
+            /usr/lib
+            /usr/local/lib
+            /opt/local/lib
+            NO_DEFAULT_PATH
         PATH_SUFFIXES
             ./src/${DIRNAME}
             ./Extras/${DIRNAME}
