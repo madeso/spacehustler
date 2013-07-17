@@ -47,30 +47,37 @@ source_group(anttweakbar FILES ${src_anttweakbar})
 
 add_executable(main WIN32 ${game_src} ${src_glew} ${src_soil} ${src_jsoncpp} ${src_anttweakbar})
 
-add_custom_command(TARGET main
-                   PRE_BUILD
-                   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src}
-				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                   COMMENT "Running astyle" VERBATIM)
-add_custom_command(TARGET main
-                   PRE_BUILD
-                   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src}
-				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                   COMMENT "Running CppLint" VERBATIM)
-add_custom_command(TARGET main
-				   PRE_LINK
-				   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
-				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-				   COMMENT "Running Doxygen" VERBATIM)
+if(USE_ASTYLE_BUILD)
+	add_custom_command(TARGET main
+					   PRE_BUILD
+					   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src}
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running astyle" VERBATIM)
+endif(USE_ASTYLE_BUILD)
 
-message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir ${CMAKE_SOURCE_DIR}/euphoria")
+if(USE_CPPLINT_BUILD)
+	add_custom_command(TARGET main
+					   PRE_BUILD
+					   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src}
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running CppLint" VERBATIM)
+endif(USE_CPPLINT_BUILD)
+
+if(USE_DOXYGEN_BUILD)
+	add_custom_command(TARGET main
+					   PRE_LINK
+					   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running Doxygen" VERBATIM)
+	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir 			${CMAKE_SOURCE_DIR}/euphoria")
+endif(USE_DOXYGEN_BUILD)
 
 message(STATUS "Boost lib is ${Boost_LIBRARIES}")
 message(STATUS "Sfml lib is ${SFML_LIBRARIES}")
 
 # message(STATUS "Bullet is ${BULLET_LIBRARIES}")
 
-message(STATUS "Sources is ${game_src}")
+# message(STATUS "Sources is ${game_src}")
 
 # "../external/soil" 
 include_directories("../external/glew" "../external/anttweakbar/include" ${SFML_INCLUDE_DIR} ${BULLET_INCLUDE_DIR})

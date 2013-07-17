@@ -15,6 +15,10 @@ set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_ADDITIONAL_VERSIONS "1.43" "1.43.0" "1.45" "1.45.0" "1.47" "1.47.0")
 
+option(USE_ASTYLE_BUILD "Add astyle to the build" ON)
+option(USE_CPPLINT_BUILD "Add cpplint to the build" ON)
+option(USE_DOXYGEN_BUILD "Add doxygen to the build" ON)
+
 if(WIN32)
 	#on windows, link to sfml static, to avoid crash on exit with ati cards
 	set(SFML_STATIC_LIBRARIES TRUE)
