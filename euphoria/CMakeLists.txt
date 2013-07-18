@@ -42,13 +42,49 @@ set ( src_soil
 	../external/soil/stbi_DDS_aug_c.h
 )
 
+set ( src_lua
+	../external/lua/src/lapi.c
+	../external/lua/src/lcode.c
+	../external/lua/src/lctype.c
+	../external/lua/src/ldebug.c
+	../external/lua/src/ldo.c
+	../external/lua/src/ldump.c
+	../external/lua/src/lfunc.c
+	../external/lua/src/lgc.c
+	../external/lua/src/llex.c
+	../external/lua/src/lmem.c
+	../external/lua/src/lobject.c
+	../external/lua/src/lopcodes.c
+	../external/lua/src/lparser.c
+	../external/lua/src/lstate.c
+	../external/lua/src/lstring.c
+	../external/lua/src/ltable.c
+	../external/lua/src/ltm.c
+	../external/lua/src/lundump.c
+	../external/lua/src/lvm.c
+	../external/lua/src/lzio.c
+	../external/lua/src/lauxlib.c
+	../external/lua/src/lbaselib.c
+	../external/lua/src/lbitlib.c
+	../external/lua/src/lcorolib.c
+	../external/lua/src/ldblib.c
+	../external/lua/src/liolib.c
+	../external/lua/src/lmathlib.c
+	../external/lua/src/loslib.c
+	../external/lua/src/lstrlib.c
+	../external/lua/src/ltablib.c
+	../external/lua/src/loadlib.c
+	../external/lua/src/linit.c
+)
+
 source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
 source_group(soil FILES ${src_soil})
+source_group(lua FILES ${src_lua})
 source_group(jsoncpp FILES ${src_jsoncpp})
 source_group(cmake FILES "${PROJECT_SOURCE_DIR}/euphoria-config-in.h")
 
-set(all_src ${game_src} "${PROJECT_SOURCE_DIR}/euphoria-config-in.h" ${src_glew} ${src_soil} ${src_jsoncpp})
+set(all_src ${game_src} "${PROJECT_SOURCE_DIR}/euphoria-config-in.h" ${src_glew} ${src_soil} ${src_jsoncpp} ${src_lua})
 
 if(USE_TWEAKABLES)
 	source_group(anttweakbar FILES ${src_anttweakbar})
