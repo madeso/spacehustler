@@ -16,10 +16,10 @@
 //#include "TwOpenGL.h"
 #include "TwOpenGLCore.h"
 #ifdef ANT_WINDOWS
-#   include "TwDirect3D9.h"
-#   include "TwDirect3D10.h"
-#   include "TwDirect3D11.h"
-#   include "resource.h"
+//#   include "TwDirect3D9.h"
+//#   include "TwDirect3D10.h"
+//#   include "TwDirect3D11.h"
+//#   include "resource.h"
 #   ifdef _DEBUG
 #       include <crtdbg.h>
 #   endif // _DEBUG
@@ -84,7 +84,7 @@ void ANT_CALL TwGlobalError(const char *_ErrorMessage);
 #endif
 
 #ifdef ANT_WINDOWS
-    bool g_UseCurRsc = true;    // use dll resources for rotoslider cursors
+    const bool g_UseCurRsc = false;    // use dll resources for rotoslider cursors
 #endif
 
 //  ---------------------------------------------------------------------------
@@ -6203,28 +6203,16 @@ void CTwMgr::CreateCursors()
         m_CursorHand = ::LoadCursor(NULL ,MAKEINTRESOURCE(IDC_UPARROW));
     #endif
     int cur;
-    HMODULE hdll = NULL; // GetModuleHandle(ANT_TWEAK_BAR_DLL);
-    if( hdll==NULL )
-        g_UseCurRsc = false;    // force the use of built-in cursors (not using resources)
-    if( g_UseCurRsc )
-        m_CursorCenter = ::LoadCursor(hdll, MAKEINTRESOURCE(IDC_CURSOR1+0));
-    else
-        m_CursorCenter  = PixmapCursor(0);
+    m_CursorCenter  = PixmapCursor(0);
     if( m_CursorCenter==NULL )
         m_CursorCenter = ::LoadCursor(NULL ,MAKEINTRESOURCE(IDC_CROSS));
-    if( g_UseCurRsc )
-        m_CursorPoint = ::LoadCursor(hdll, MAKEINTRESOURCE(IDC_CURSOR1+1));
-    else
-        m_CursorPoint   = PixmapCursor(1);
+    m_CursorPoint   = PixmapCursor(1);
     if( m_CursorPoint==NULL )
         m_CursorPoint = ::LoadCursor(NULL ,MAKEINTRESOURCE(IDC_CROSS));
 
     for( cur=0; cur<NB_ROTO_CURSORS; ++cur )
     {
-        if( g_UseCurRsc )
-            m_RotoCursors[cur] = ::LoadCursor(hdll, MAKEINTRESOURCE(IDC_CURSOR1+2+cur));
-        else
-            m_RotoCursors[cur] = PixmapCursor(cur+2);
+        m_RotoCursors[cur] = PixmapCursor(cur+2);
         if( m_RotoCursors[cur]==NULL )
             m_RotoCursors[cur] = ::LoadCursor(NULL ,MAKEINTRESOURCE(IDC_CROSS));
     }
