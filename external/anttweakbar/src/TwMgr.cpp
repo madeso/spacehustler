@@ -13,7 +13,7 @@
 #include "TwMgr.h"
 #include "TwBar.h"
 #include "TwFonts.h"
-#include "TwOpenGL.h"
+//#include "TwOpenGL.h"
 #include "TwOpenGLCore.h"
 #ifdef ANT_WINDOWS
 #   include "TwDirect3D9.h"
@@ -1745,9 +1745,6 @@ static int TwCreateGraph(ETwGraphAPI _GraphAPI)
 
     switch( _GraphAPI )
     {
-    case TW_OPENGL:
-        g_TwMgr->m_Graph = new CTwGraphOpenGL;
-        break;
     case TW_OPENGL_CORE:
         g_TwMgr->m_Graph = new CTwGraphOpenGLCore;
         break;
