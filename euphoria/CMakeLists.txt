@@ -3,12 +3,20 @@ set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
 if(USE_TWEAKABLES)
 	set ( src_anttweakbar
-		../external/anttweakbar/src/TwEventSFML.cpp
 		../external/anttweakbar/src/TwBar.cpp
+		../external/anttweakbar/src/TwBar.h
 		../external/anttweakbar/src/TwColors.cpp
+		../external/anttweakbar/src/TwColors.h
+		../external/anttweakbar/src/TwEventSFML.cpp
 		../external/anttweakbar/src/TwFonts.cpp
+		../external/anttweakbar/src/TwFonts.h
+		../external/anttweakbar/src/TwGraph.h
 		../external/anttweakbar/src/TwMgr.cpp
+		../external/anttweakbar/src/TwMgr.h
 		../external/anttweakbar/src/TwOpenGLCore.cpp
+		../external/anttweakbar/src/TwOpenGLCore.h
+		../external/anttweakbar/src/TwPrecomp.h
+		../external/anttweakbar/src/res/TwXCursors.h
 	)
 	ADD_DEFINITIONS( -DTW_STATIC )
 endif(USE_TWEAKABLES)
