@@ -4,7 +4,7 @@ project(euphoria)
 # these properties help when cmake can't find local data
 #set(GMOCK_CMAKE_DEBUG ON)
 #set(PHYSFS_DEBUG ON)
-set(ASSIMP_DEBUG True)
+#set(ASSIMP_DEBUG True)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 
@@ -13,7 +13,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake-modules"
 option(USE_ASTYLE_BUILD "Add astyle to the build" ON)
 option(USE_CPPLINT_BUILD "Add cpplint to the build" ON)
 option(USE_DOXYGEN_BUILD "Add doxygen to the build" ON)
-
 option(USE_TWEAKABLES "Use tweakables" ON)
 
 if(WIN32)
@@ -37,7 +36,7 @@ ENDIF(WIN32)
 if(CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_CONFIGURATION_TYPES Debug Release)
 	set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING "Reset the configurations to what we need" FORCE)
- endif()
+endif()
 
 # COMPONENTS filesystem program_options serialization system 
 find_package(OpenGL REQUIRED)
@@ -53,7 +52,7 @@ else(WIN32)
 	find_package(SFML 2 COMPONENTS system window REQUIRED)
 endif(WIN32)
 
-option(BUILD_SHARED_LIBS "build shared libraries" OFF)
+# option(BUILD_SHARED_LIBS "build shared libraries" OFF)
 set(BUILD_SHARED_LIBS OFF)
 
 # add a target to generate API documentation with Doxygen
@@ -62,13 +61,22 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.ini ${CMAKE_CURRENT_BINARY_D
 
 configure_file ("${PROJECT_SOURCE_DIR}/euphoria-config-in.h" "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
-include_directories(external)
-include_directories(external/cml-1_0_3)
-include_directories(external/jsoncpp)
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${ASSIMP_INCLUDE_DIR})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories("external")
+include_directories("external/cml-1_0_3")
+include_directories("external/jsoncpp")
+include_directories("external/glew")
+include_directories("external/anttweakbar/include")
 
-message(STATUS "Bullet include is ${BULLET_INCLUDE_DIR}" )
+include_directories(${ASSIMP_INCLUDE_DIR})
+include_directories(${BULLET_INCLUDE_DIR})
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${SFML_INCLUDE_DIR})
+
+message(STATUS "Including ${ASSIMP_INCLUDE_DIR}")
+message(STATUS "Including ${BULLET_INCLUDE_DIR}")
+message(STATUS "Including ${CMAKE_SOURCE_DIR}")
+message(STATUS "Including ${SFML_INCLUDE_DIR}")
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(euphoria)

@@ -124,14 +124,10 @@ if(USE_DOXYGEN_BUILD)
 	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir 			${CMAKE_SOURCE_DIR}/euphoria")
 endif(USE_DOXYGEN_BUILD)
 
-message(STATUS "Boost lib is ${Boost_LIBRARIES}")
-message(STATUS "Sfml lib is ${SFML_LIBRARIES}")
-
-# message(STATUS "Bullet is ${BULLET_LIBRARIES}")
-
-# message(STATUS "Sources is ${game_src}")
-
-# "../external/soil" 
-include_directories("../external/glew" "../external/anttweakbar/include" ${SFML_INCLUDE_DIR} ${BULLET_INCLUDE_DIR})
+message(STATUS "Linking with ${OPENGL_LIBRARIES}")
+message(STATUS "Linking with ${SFML_LIBRARIES}")
+message(STATUS "Linking with ${wxWidgets_LIBRARIES}")
+message(STATUS "Linking with ${ASSIMP_LIBRARIES}")
+message(STATUS "Linking with ${BULLET_LIBRARIES}")
 
 target_link_libraries(main ${OPENGL_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES})
