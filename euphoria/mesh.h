@@ -10,8 +10,6 @@ Mesh related code.
 #include <vector>
 #include <string>
 
-#include "boost/shared_ptr.hpp"
-
 #include "euphoria/opengl.h"
 #include "euphoria/shader.h"
 #include "euphoria/texture.h"

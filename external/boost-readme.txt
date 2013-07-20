@@ -1,0 +1,1 @@
+Generated with: bcp --unix-lines boost/cstdint.hpp boost/noncopyable.hpp foreuphoria

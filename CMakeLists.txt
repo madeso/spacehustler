@@ -2,7 +2,6 @@ cmake_minimum_required (VERSION 2.6)
 project(euphoria)
 
 # these properties help when cmake can't find local data
-# set(Boost_DEBUG 1)
 #set(GMOCK_CMAKE_DEBUG ON)
 #set(PHYSFS_DEBUG ON)
 set(ASSIMP_DEBUG True)
@@ -10,10 +9,6 @@ set(ASSIMP_DEBUG True)
 set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake-modules")
-
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_ADDITIONAL_VERSIONS "1.43" "1.43.0" "1.45" "1.45.0" "1.47" "1.47.0")
 
 option(USE_ASTYLE_BUILD "Add astyle to the build" ON)
 option(USE_CPPLINT_BUILD "Add cpplint to the build" ON)
@@ -45,7 +40,6 @@ if(CMAKE_CONFIGURATION_TYPES)
  endif()
 
 # COMPONENTS filesystem program_options serialization system 
-find_package(Boost REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(Bullet REQUIRED)
 find_package(wxWidgets REQUIRED core base)
@@ -71,12 +65,10 @@ configure_file ("${PROJECT_SOURCE_DIR}/euphoria-config-in.h" "${PROJECT_BINARY_D
 include_directories(external)
 include_directories(external/cml-1_0_3)
 include_directories(external/jsoncpp)
-include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${ASSIMP_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-message(STATUS "Boost include is ${Boost_INCLUDE_DIRS}")
 message(STATUS "Bullet include is ${BULLET_INCLUDE_DIR}" )
 
 add_subdirectory(euphoria)
