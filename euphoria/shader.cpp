@@ -2,9 +2,7 @@
 
 #include "euphoria/shader.h"
 
-#include <boost/scoped_array.hpp>
-#include <boost/bind.hpp>
-
+#include <memory>
 #include <cassert>
 #include <algorithm>
 #include <string>
@@ -43,7 +41,7 @@ void Shader::compile(const std::string& source) {
 
     GLint infoLogLength;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
-    boost::scoped_array<char> strInfoLog(new char[infoLogLength + 1]);
+    std::unique_ptr<char[]> strInfoLog(new char[infoLogLength + 1]);
     glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog.get());
     msg += strInfoLog.get();
     throw msg;
@@ -85,28 +83,19 @@ Program::Program()
 }
 
 std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
-  struct Local {
-    static void AttachShader(GLuint prog,
-                             const std::shared_ptr<Shader>& shader) {
-      glAttachShader(prog, shader->get());
-    }
-    static void DetachShader(GLuint prog,
-                             const std::shared_ptr<Shader>& shader) {
-      glDetachShader(prog, shader->get());
-    }
-  };
-
   if (shaders.shaders.empty()) {
     throw "No shaders were provided to create the program";
   }
 
   std::shared_ptr<Program> program(new Program());
 
-  std::for_each(shaders.shaders.begin(), shaders.shaders.end(),
-                boost::bind(&Local::AttachShader, program->get(), _1));
+  for (auto sh : shaders.shaders) {
+    glAttachShader(program->get(), sh->get());
+  }
   glLinkProgram(program->get());
-  std::for_each(shaders.shaders.begin(), shaders.shaders.end(),
-                boost::bind(&Local::DetachShader, program->get(), _1));
+  for (auto sh : shaders.shaders) {
+    glDetachShader(program->get(), sh->get());
+  }
 
   GLint status;
   glGetProgramiv(program->get(), GL_LINK_STATUS, &status);
@@ -115,7 +104,7 @@ std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
 
     GLint infoLogLength;
     glGetProgramiv(program->get(), GL_INFO_LOG_LENGTH, &infoLogLength);
-    boost::scoped_array<char> strInfoLog(new char[infoLogLength + 1]);
+    std::unique_ptr<char[]> strInfoLog(new char[infoLogLength + 1]);
     glGetProgramInfoLog(program->get(), infoLogLength, NULL, strInfoLog.get());
     msg += strInfoLog.get();
     throw msg;

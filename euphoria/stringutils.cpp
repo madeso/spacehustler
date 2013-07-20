@@ -3,7 +3,6 @@
 #include "euphoria/stringutils.h"
 
 #include <boost/tokenizer.hpp>
-#include <boost/smart_ptr.hpp>
 
 #include <cassert>
 #include <string>
