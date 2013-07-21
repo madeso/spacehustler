@@ -2,34 +2,15 @@
 
 #include "euphoria/stringutils.h"
 
-#include <boost/tokenizer.hpp>
-
 #include <cassert>
 #include <string>
 #include <algorithm>
 #include <cstring>
 #include <vector>
 
-
 const std::string& kSpaceCharacters() {
   static const std::string space = " \n\r\t";
   return space;
-}
-
-void SplitString(const std::string& stringToSplit,
-                 std::vector<std::string>* result,
-                 const std::string& delimiterString) {
-  assert(result);
-  boost::char_separator<char> sep(delimiterString.c_str());
-  boost::tokenizer< boost::char_separator<char> > tok(stringToSplit, sep);
-  std::copy(tok.begin(), tok.end(), std::back_inserter(*result));
-}
-
-std::vector<std::string> SplitString(const std::string& stringToSplit,
-                                     const std::string& delimiterString) {
-  std::vector<std::string> temp;
-  SplitString(stringToSplit, &temp, delimiterString);
-  return temp;
 }
 
 std::string TrimRight(const std::string& stringToTrim,

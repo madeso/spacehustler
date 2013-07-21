@@ -19,23 +19,6 @@ String utility functions
  */
 const std::string& kSpaceCharacters();
 
-/** Splits a string.
-@param stringToSplit the string to split.
-@param result where the result is placed
-@param delimiterString the string containing the character to split at.
- */
-void SplitString(const std::string& stringToSplit,
-                 std::vector<std::string>* result,
-                 const std::string& delimiterString);
-
-/** Splits a string.
-@param stringToSplit the string to split.
-@param delimiterString the string containing the character to split at.
-@returns the splited string.
- */
-std::vector<std::string> SplitString(const std::string& stringToSplit,
-                                     const std::string& delimiterString);
-
 /** Remove characters from the right, stops at a invalid character.
 @param stringToTrim the string to remove characters from.
 @param trimCharacters the characters to remove.
