@@ -72,10 +72,10 @@ include_directories(${BULLET_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${SFML_INCLUDE_DIR})
 
-message(STATUS "Including ${ASSIMP_INCLUDE_DIR}")
-message(STATUS "Including ${BULLET_INCLUDE_DIR}")
-message(STATUS "Including ${CMAKE_SOURCE_DIR}")
-message(STATUS "Including ${SFML_INCLUDE_DIR}")
+message(STATUS "Including Assimp ${ASSIMP_INCLUDE_DIR}")
+message(STATUS "Including Bullet ${BULLET_INCLUDE_DIR}")
+message(STATUS "Including Cmake Source ${CMAKE_SOURCE_DIR}")
+message(STATUS "Including SFML ${SFML_INCLUDE_DIR}")
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
