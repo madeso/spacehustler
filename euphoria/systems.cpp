@@ -11,6 +11,7 @@
 #include "euphoria/entity-rendering.h"
 #include "euphoria/entity-physics.h"
 #include "euphoria/entity-camera.h"
+#include "euphoria/entity-script.h"
 #include "euphoria/stringmerger.h"
 #include "euphoria/stdutils.h"
 
@@ -71,6 +72,7 @@ void LoadSystems(const std::string& filename, CreateSystemArg arg) {
   Entity_AddRendering(&creators);
   Entity_AddPhysics(&creators);
   Entity_AddCamera(&creators);
+  Entity_AddScript(&creators);
 
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     const std::string systemname = root[i].get("system", "").asString();
