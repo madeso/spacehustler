@@ -33,9 +33,7 @@
 #include "euphoria/world.h"
 #include "euphoria/tweak.h"
 #include "euphoria/entity.h"
-#include "euphoria/entity-rendering.h"
-#include "euphoria/entity-physics.h"
-#include "euphoria/entity-camera.h"
+#include "euphoria/systems.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
@@ -87,9 +85,8 @@ void logic() {
   camera.setNearFar(0.1f, 800.0f);
 
   SystemContainer container;
-  Entity_AddRendering(&container, &world, &texturecache, &shadercache);
-  Entity_AddPhysics(&container, &world);
-  Entity_AddCamera(&container, &camera);
+  LoadSystems("systems.js", &container, &world, &texturecache, &shadercache,
+              &camera);
 
   EntityList entities;
   entities.addDefs(&container, "entity.js");
