@@ -10,7 +10,7 @@
 #include "euphoria/entity.h"
 #include "euphoria/lua.h"
 
-const std::string ScriptingSystemType = "Rendering";
+const std::string ScriptingSystemType = "Script";
 
 class ScriptType : public ComponentType {
   public:

@@ -52,7 +52,7 @@ class StringFunctionReturn : public internal::FunctionReturn {
 };
 
 FunctionCall::FunctionCall(lua_State* astate, const std::string& name)
-  : state(astate) {
+  : state(astate), args(0) {
   /// @todo save and push in call function so multiple calls can be made
   /// from a single function lookup
   lua_getglobal(state, name.c_str());
