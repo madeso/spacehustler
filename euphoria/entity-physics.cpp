@@ -220,6 +220,7 @@ class PhysicsSystem : public System {
                           overlappingPairCache.get(),
                           solver.get(),
                           collisionConfiguration.get()));
+      /// @todo load this from file instead.
       dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
       for (const auto & p : world->getCollisionMesh().parts) {
