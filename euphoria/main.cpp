@@ -83,8 +83,8 @@ void logic() {
   camera.setNearFar(0.1f, 800.0f);
 
   SystemContainer container;
-  LoadSystems("systems.js", &container, &world, &texturecache, &shadercache,
-              &camera);
+  LoadSystems("systemdefs.js", CreateSystemArg(&container, &world,
+              &texturecache, &shadercache, &camera));
 
   EntityList entities;
   entities.addDefs(&container, "entity.js");

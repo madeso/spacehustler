@@ -7,20 +7,12 @@ Entity rendering System.
 #ifndef EUPHORIA_ENTITY_RENDERING_H_
 #define EUPHORIA_ENTITY_RENDERING_H_
 
-#include "euphoria/entity.h"
+#include "euphoria/systems.h"
 
-#include "euphoria/world.h"
-#include "euphoria/texturecache.h"
-#include "euphoria/shadercache.h"
-
-/** Add the rendering system to the system container.
-@param container the container to add the rendering system to.
-@param world the world to add the entity objects systems.
-@param tc the texture cache.
-@param sc the shader cache.
+/** Add the rendering system to the system creator list.
+@param sc the list.
 @ingroup systems
  */
-void Entity_AddRendering(SystemContainer* container, World* world,
-                         TextureCache* tc, ShaderCache* sc);
+void Entity_AddRendering(SystemCreatorList* sc);
 
 #endif  // EUPHORIA_ENTITY_RENDERING_H_

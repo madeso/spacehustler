@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "euphoria/entity.h"
+#include "euphoria/world.h"
 #include "euphoria/tweak.h"
 
 #include "btBulletDynamicsCommon.h"  // NOLINT this is the proper way to include bullet
@@ -282,8 +284,12 @@ class PhysicsSystem : public System {
     DebugDrawing debugDrawer;
 };
 
-void Entity_AddPhysics(SystemContainer* container, World* world) {
-  assert(container);
-  std::shared_ptr<System> sys(new PhysicsSystem(world));
-  container->add(PhysicsSystemType, sys);
+void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
+  assert(arg.container);
+  std::shared_ptr<System> sys(new PhysicsSystem(arg.world));
+  arg.container->add(PhysicsSystemType, sys);
+}
+
+void Entity_AddPhysics(SystemCreatorList* sc) {
+  sc->add(PhysicsSystemType, AddPhysicsCallback);
 }

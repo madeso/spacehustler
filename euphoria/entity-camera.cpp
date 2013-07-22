@@ -1,9 +1,11 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/entity-rendering.h"
+#include "euphoria/entity-camera.h"
 #include <cassert>
 #include <string>
 #include <vector>
+#include "euphoria/entity.h"
+#include "euphoria/camera.h"
 #include "euphoria/mesh.h"
 #include "euphoria/tweak.h"
 
@@ -66,9 +68,13 @@ class CameraSystem : public System {
     std::vector<CameraObject> objects;
 };
 
-void Entity_AddCamera(SystemContainer* container, Camera* camera) {
-  assert(container);
-  assert(camera);
-  std::shared_ptr<System> sys(new CameraSystem(camera));
-  container->add(CameraSystemType, sys);
+void AddCameraCallback(CreateSystemArg arg, Json::Value data) {
+  assert(arg.container);
+  assert(arg.camera);
+  std::shared_ptr<System> sys(new CameraSystem(arg.camera));
+  arg.container->add(CameraSystemType, sys);
+}
+
+void Entity_AddCamera(SystemCreatorList* sc) {
+  sc->add(CameraSystemType, AddCameraCallback);
 }

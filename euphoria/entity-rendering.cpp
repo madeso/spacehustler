@@ -4,6 +4,12 @@
 #include <cassert>
 #include <string>
 #include <vector>
+
+#include "euphoria/entity.h"
+#include "euphoria/world.h"
+#include "euphoria/texturecache.h"
+#include "euphoria/shadercache.h"
+
 #include "euphoria/mesh.h"
 
 const std::string RenderingSystemType = "Rendering";
@@ -73,12 +79,14 @@ class RenderingSystem : public System {
     std::vector<RenderObject> objects;
 };
 
-void Entity_AddRendering(SystemContainer* container, World* world,
-                         TextureCache* tc, ShaderCache* sc) {
-  assert(container);
-  assert(world);
-  assert(tc);
-  assert(sc);
-  std::shared_ptr<System> sys(new RenderingSystem(world, tc, sc));
-  container->add(RenderingSystemType, sys);
+
+void AddRenderingCallback(CreateSystemArg arg, Json::Value data) {
+  std::shared_ptr<System> sys(new RenderingSystem(arg.world, arg.texturecache,
+                              arg.shadercache));
+  arg.container->add(RenderingSystemType, sys);
 }
+
+void Entity_AddRendering(SystemCreatorList* sc) {
+  sc->add(RenderingSystemType, AddRenderingCallback);
+}
+
