@@ -66,6 +66,7 @@ include_directories("external/cml-1_0_3")
 include_directories("external/jsoncpp")
 include_directories("external/glew")
 include_directories("external/anttweakbar/include")
+include_directories("external/lua")
 
 include_directories(${ASSIMP_INCLUDE_DIR})
 include_directories(${BULLET_INCLUDE_DIR})

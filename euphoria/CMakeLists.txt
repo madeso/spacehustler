@@ -47,38 +47,38 @@ set ( src_soil
 )
 
 set ( src_lua
-	../external/lua/src/lapi.c
-	../external/lua/src/lcode.c
-	../external/lua/src/lctype.c
-	../external/lua/src/ldebug.c
-	../external/lua/src/ldo.c
-	../external/lua/src/ldump.c
-	../external/lua/src/lfunc.c
-	../external/lua/src/lgc.c
-	../external/lua/src/llex.c
-	../external/lua/src/lmem.c
-	../external/lua/src/lobject.c
-	../external/lua/src/lopcodes.c
-	../external/lua/src/lparser.c
-	../external/lua/src/lstate.c
-	../external/lua/src/lstring.c
-	../external/lua/src/ltable.c
-	../external/lua/src/ltm.c
-	../external/lua/src/lundump.c
-	../external/lua/src/lvm.c
-	../external/lua/src/lzio.c
-	../external/lua/src/lauxlib.c
-	../external/lua/src/lbaselib.c
-	../external/lua/src/lbitlib.c
-	../external/lua/src/lcorolib.c
-	../external/lua/src/ldblib.c
-	../external/lua/src/liolib.c
-	../external/lua/src/lmathlib.c
-	../external/lua/src/loslib.c
-	../external/lua/src/lstrlib.c
-	../external/lua/src/ltablib.c
-	../external/lua/src/loadlib.c
-	../external/lua/src/linit.c
+	../external/lua/lua/lapi.c
+	../external/lua/lua/lcode.c
+	../external/lua/lua/lctype.c
+	../external/lua/lua/ldebug.c
+	../external/lua/lua/ldo.c
+	../external/lua/lua/ldump.c
+	../external/lua/lua/lfunc.c
+	../external/lua/lua/lgc.c
+	../external/lua/lua/llex.c
+	../external/lua/lua/lmem.c
+	../external/lua/lua/lobject.c
+	../external/lua/lua/lopcodes.c
+	../external/lua/lua/lparser.c
+	../external/lua/lua/lstate.c
+	../external/lua/lua/lstring.c
+	../external/lua/lua/ltable.c
+	../external/lua/lua/ltm.c
+	../external/lua/lua/lundump.c
+	../external/lua/lua/lvm.c
+	../external/lua/lua/lzio.c
+	../external/lua/lua/lauxlib.c
+	../external/lua/lua/lbaselib.c
+	../external/lua/lua/lbitlib.c
+	../external/lua/lua/lcorolib.c
+	../external/lua/lua/ldblib.c
+	../external/lua/lua/liolib.c
+	../external/lua/lua/lmathlib.c
+	../external/lua/lua/loslib.c
+	../external/lua/lua/lstrlib.c
+	../external/lua/lua/ltablib.c
+	../external/lua/lua/loadlib.c
+	../external/lua/lua/linit.c
 )
 
 source_group("" FILES ${game_src})
