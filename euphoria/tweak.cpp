@@ -318,6 +318,7 @@ TweakerStore::TweakerStore() {
 
 TweakerStore::~TweakerStore() {
   assert(this);
+  tweakables.clear();
   if (GlocalTweakerStoreVariable == this) {
     GlocalTweakerStoreVariable = 0;
   }

@@ -14,10 +14,18 @@ extern "C" {
 }
 
 namespace internal {
-
   FunctionReturn::~FunctionReturn() {
   }
 }  // namespace internal
+
+namespace {
+  void ThrowIfError(lua_State* state, int errorcode) {
+    assert(state);
+    if (errorcode) {
+      throw std::logic_error(Str() << "Lua error: " << lua_tostring(state, -1));
+    }
+  }
+}  // namespace
 
 class IntFunctionReturn : public internal::FunctionReturn {
   public:
@@ -79,7 +87,7 @@ void FunctionCall::ret(int* i) {
 }
 
 void FunctionCall::call() {
-  lua_call(state, args, returns.size());
+  ThrowIfError(state, lua_pcall(state, args, returns.size(), 0));
   for (auto a : returns) {
     a->get(state);
     lua_pop(state, 1);
@@ -108,25 +116,17 @@ void Lua::addStandardLibraries() {
 void Lua::runFile(const std::string& filename) {
   assert(this);
   assert(state);
-  throwIfError(luaL_dofile(state, filename.c_str()));
+  ThrowIfError(state, luaL_dofile(state, filename.c_str()));
 }
 
 void Lua::runCode(const std::string& code) {
   assert(this);
   assert(state);
-  throwIfError(luaL_dostring(state, code.c_str()));
+  ThrowIfError(state, luaL_dostring(state, code.c_str()));
 }
 
 lua_State* Lua::getState() {
   assert(this);
   assert(state);
   return state;
-}
-
-void Lua::throwIfError(int errorcode) {
-  assert(this);
-  assert(state);
-  if (errorcode) {
-    throw std::logic_error(Str() << "Lua error: " << lua_tostring(state, -1));
-  }
 }

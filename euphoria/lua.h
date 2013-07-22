@@ -102,12 +102,6 @@ class Lua {
      */
     lua_State* getState();
 
-  protected:
-    /** If there is a error, throw.
-    @param errorcode the error code.
-     */
-    void throwIfError(int errorcode);
-
   private:
     lua_State* state;
 };
