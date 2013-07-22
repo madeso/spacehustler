@@ -1,1 +1,3 @@
-print("yello world")
+function test()
+	print("called test()")
+end
