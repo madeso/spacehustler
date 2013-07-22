@@ -71,11 +71,6 @@ class System {
     // list of components
 };
 
-/** The global system type.
-@return the global system type.
- */
-EnumType& SystemType();
-
 /** Contains systems
  */
 class SystemContainer {

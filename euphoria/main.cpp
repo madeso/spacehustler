@@ -40,8 +40,6 @@ const float pi = 3.141592653589793238462643383279502884f;
 void logic() {
   srand(69);
 
-  Load(&SystemType(), "Systems.js");
-
   sf::ContextSettings settings;
   settings.depthBits = 24;
   settings.stencilBits = 8;

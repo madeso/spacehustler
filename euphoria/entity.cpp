@@ -31,11 +31,6 @@ SystemContainer::~SystemContainer() {
   assert(this);
 }
 
-EnumType& SystemType() {
-  static EnumType r;
-  return r;
-}
-
 void SystemContainer::step(float dt) {
   assert(this);
   for (auto s : systems) {
