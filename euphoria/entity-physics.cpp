@@ -4,10 +4,12 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "euphoria/entity.h"
 #include "euphoria/world.h"
 #include "euphoria/tweak.h"
+#include "euphoria/script.h"
 
 #include "btBulletDynamicsCommon.h"  // NOLINT this is the proper way to include bullet
 
@@ -229,6 +231,14 @@ class PhysicsSystem : public System {
       }
 
       dynamicsWorld->setDebugDrawer(&debugDrawer);
+
+      assert(glocal == 0);
+      glocal = this;
+    }
+
+    ~PhysicsSystem() {
+      assert(glocal == this);
+      glocal = 0;
     }
 
     ComponentType* addType(const Json::Value& data) {
@@ -243,6 +253,8 @@ class PhysicsSystem : public System {
       assert(entity);
       assert(type);
       PhysicsType* pt = static_cast<PhysicsType*>(type);
+      std::size_t index = objects.size();
+      lookup.insert(std::make_pair(entity, index));
       objects.push_back(PhysicsObject(entity, dynamicsWorld, *pt));
     }
 
@@ -258,6 +270,16 @@ class PhysicsSystem : public System {
         dynamicsWorld->debugDrawWorld();
       }
     }
+
+    PhysicsObject* getObject(Entity* ent) {
+      auto res = lookup.find(ent);
+      if (res == lookup.end()) {
+        return 0;
+      }
+      return &objects[res->second];
+    }
+
+    static PhysicsSystem* glocal;
 
   private:
     // collision configuration contains default setup for memory, collision
@@ -282,8 +304,11 @@ class PhysicsSystem : public System {
     std::vector<PhysicsObject> objects;
     std::vector<std::shared_ptr<StaticMesh>> staticmeshes;
 
+    std::map<Entity*, std::size_t> lookup;
     DebugDrawing debugDrawer;
 };
+
+PhysicsSystem* PhysicsSystem::glocal = 0;
 
 void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
   assert(arg.container);
@@ -294,3 +319,43 @@ void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
 void Entity_AddPhysics(SystemCreatorList* sc) {
   sc->add(PhysicsSystemType, AddPhysicsCallback);
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+namespace scriptingphysics {
+  void GetPhysics(ScriptParams params) {
+    Entity* entity = 0;
+    ScriptOverload overload;
+    params.overload(&overload);
+    overload.define(reinterpret_cast<void**>(&entity));
+    params.fill();
+
+    if (overload) {
+      if (PhysicsSystem::glocal == 0) {
+        throw std::logic_error("Physics system is not initialized.");
+      }
+      PhysicsObject* obj = PhysicsSystem::glocal->getObject(entity);
+      params.returnvar(obj);
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("GetPhysics", GetPhysics);
+
+  void ApplyForce(ScriptParams params) {
+    PhysicsObject* obj = 0;
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    ScriptOverload overload;
+    params.overload(&overload);
+    overload.define(reinterpret_cast<void**>(&obj));
+    overload.define(&x);
+    overload.define(&y);
+    overload.define(&z);
+    params.fill();
+
+    if (overload) {
+      obj->body->applyCentralForce(btVector3(x, y, z));
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("ApplyForce", ApplyForce);
+}  // namespace scriptingphysics
