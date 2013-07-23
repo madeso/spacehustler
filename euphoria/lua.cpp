@@ -23,6 +23,7 @@ namespace {
     assert(state);
     if (errorcode) {
       throw std::logic_error(Str() << "Lua error: " << lua_tostring(state, -1));
+      // lua_pop(L, 1); ?
     }
   }
 }  // namespace
@@ -61,32 +62,62 @@ class StringFunctionReturn : public internal::FunctionReturn {
 
 FunctionCall::FunctionCall(lua_State* astate, const std::string& name)
   : state(astate), args(0) {
+  assert(this);
+  assert(state);
   /// @todo save and push in call function so multiple calls can be made
   /// from a single function lookup
   lua_getglobal(state, name.c_str());
 }
 
 void FunctionCall::arg(const std::string& str) {
+  assert(this);
+  assert(state);
   lua_pushstring(state, str.c_str());
   ++args;
 }
 
+void FunctionCall::arg(float f) {
+  assert(this);
+  assert(state);
+  lua_pushnumber(state, f);
+  ++args;
+}
+
 void FunctionCall::arg(int i) {
+  assert(this);
+  assert(state);
   lua_pushnumber(state, i);
   ++args;
 }
 
+void FunctionCall::arg(void* v) {
+  assert(this);
+  assert(state);
+  assert(v);
+  lua_pushlightuserdata(state, v);
+  ++args;
+}
+
 void FunctionCall::ret(std::string* str) {
+  assert(this);
+  assert(state);
+  assert(str);
   std::shared_ptr<internal::FunctionReturn> r(new StringFunctionReturn(str));
   returns.push_back(r);
 }
 
 void FunctionCall::ret(int* i) {
+  assert(this);
+  assert(state);
+  assert(i);
   std::shared_ptr<internal::FunctionReturn> r(new IntFunctionReturn(i));
   returns.push_back(r);
 }
 
 void FunctionCall::call() {
+  assert(this);
+  assert(state);
+  assert(args >= 0);
   ThrowIfError(state, lua_pcall(state, args, returns.size(), 0));
   for (auto a : returns) {
     a->get(state);

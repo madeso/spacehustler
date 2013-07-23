@@ -51,6 +51,16 @@ class FunctionCall {
      */
     void arg(int i);
 
+    /** Supply a float argument.
+    @param f the float
+     */
+    void arg(float f);
+
+    /** Supply a light user data.
+    @param v the light user data.
+     */
+    void arg(void* v);
+
     /** Get a return string.
     @param str where to store the string.
      */

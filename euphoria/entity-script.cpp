@@ -27,6 +27,8 @@ class ScriptObject {
     Entity* entity;
 };
 
+/// @todo add init function and 1 self table per object so variables can be
+/// kept between updates
 class ScriptSystem : public System {
   public:
     explicit ScriptSystem(Json::Value data)
@@ -54,8 +56,11 @@ class ScriptSystem : public System {
     void step(float dt) {
       assert(this);
 
-      FunctionCall f(script.getState(), functionname);
       for (auto & o : objects) {
+        /// @todo move function lookup outside when caching is implemented
+        FunctionCall f(script.getState(), functionname);
+        f.arg(o.entity);
+        f.arg(dt);
         f.call();  /// @todo add more arguments
       }
     }
