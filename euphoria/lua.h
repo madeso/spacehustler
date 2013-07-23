@@ -93,10 +93,6 @@ class Lua {
      */
     ~Lua();
 
-    /** Add the standard libraries.
-     */
-    void addStandardLibraries();
-
     /** Run file.
     @param filename the file to run.
      */

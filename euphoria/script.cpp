@@ -23,9 +23,11 @@ namespace {
     public:
       explicit FloatScriptArgument(float* adata) : data(adata) {
       }
+
       virtual bool isValid(lua_State* state, int position) {
         return lua_isnumber(state, position) == 1;
       }
+
       virtual void get(lua_State* state, int position) {
         *data = static_cast<float>(lua_tonumber(state, position));
       }
@@ -37,9 +39,11 @@ namespace {
     public:
       explicit UserDataScriptArgument(void** adata) : data(adata) {
       }
+
       virtual bool isValid(lua_State* state, int position) {
         return lua_islightuserdata(state, position);
       }
+
       virtual void get(lua_State* state, int position) {
         *data = lua_touserdata(state, position);
       }
@@ -51,25 +55,30 @@ namespace {
 ScriptOverload::ScriptOverload() : valid(false) {
   assert(this);
 }
+
 void ScriptOverload::define(void** userdata) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(
     new UserDataScriptArgument(userdata));
   arguments.push_back(ol);
 }
+
 void ScriptOverload::define(float* f) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new FloatScriptArgument(f));
   arguments.push_back(ol);
 }
+
 ScriptOverload::operator bool() {
   assert(this);
   return isValid();
 }
+
 bool ScriptOverload::isValid() {
   assert(this);
   return valid;
 }
+
 bool ScriptOverload::validate(int argcount, lua_State* state) {
   assert(this);
   if (argcount != arguments.size()) {
@@ -93,10 +102,12 @@ bool ScriptOverload::validate(int argcount, lua_State* state) {
 ScriptParams::ScriptParams(lua_State* astate) : state(astate), retcount(0) {
   assert(this);
 }
+
 void ScriptParams::overload(ScriptOverload* overload) {
   assert(this);
   overloads.push_back(overload);
 }
+
 void ScriptParams::fill() {
   assert(this);
   const int argumentcount = lua_gettop(state);
@@ -106,11 +117,13 @@ void ScriptParams::fill() {
     }
   }
 }
+
 void ScriptParams::returnvar(void* userdata) {
   assert(this);
   lua_pushlightuserdata(state, userdata);
   ++retcount;
 }
+
 int ScriptParams::getReturnCount() {
   assert(this);
   return retcount;
@@ -119,10 +132,12 @@ int ScriptParams::getReturnCount() {
 ScriptRegister::ScriptRegister() {
   assert(this);
 }
+
 void ScriptRegister::add(const std::string& name, lua_CFunction func) {
   assert(this);
   functions.insert(std::make_pair(name, func));
 }
+
 void ScriptRegister::registerAll(lua_State* state) {
   assert(this);
   for (auto f : functions) {

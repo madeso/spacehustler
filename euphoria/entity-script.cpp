@@ -35,7 +35,6 @@ class ScriptSystem : public System {
       : functionname(data.get("function", "").asString()) {
       assert(this);
       const std::string filename = data.get("file", "").asString();
-      script.addStandardLibraries();
       script.runFile(filename);
     }
 

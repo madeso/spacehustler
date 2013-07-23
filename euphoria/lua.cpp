@@ -6,6 +6,7 @@
 #include <cassert>
 #include <stdexcept>
 #include "euphoria/str.h"
+#include "euphoria/script.h"
 
 extern "C" {
 #include "lua/lua.h"
@@ -130,18 +131,16 @@ void FunctionCall::call() {
 Lua::Lua() : state(luaL_newstate()) {
   assert(this);
   assert(state);
+
+  luaL_openlibs(state);
+  assert(GetGlobalScriptRegister());
+  GetGlobalScriptRegister()->registerAll(state);
 }
 
 Lua::~Lua() {
   assert(this);
   assert(state);
   lua_close(state);
-}
-
-void Lua::addStandardLibraries() {
-  assert(this);
-  assert(state);
-  luaL_openlibs(state);
 }
 
 void Lua::runFile(const std::string& filename) {
