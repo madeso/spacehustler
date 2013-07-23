@@ -323,35 +323,35 @@ void Entity_AddPhysics(SystemCreatorList* sc) {
 //////////////////////////////////////////////////////////////////////////
 
 namespace scriptingphysics {
-  void GetPhysics(ScriptParams params) {
+  void GetPhysics(ScriptParams* params) {
     Entity* entity = 0;
     ScriptOverload overload;
-    params.overload(&overload);
+    params->overload(&overload);
     overload.define(reinterpret_cast<void**>(&entity));
-    params.fill();
+    params->fill();
 
     if (overload) {
       if (PhysicsSystem::glocal == 0) {
         throw std::logic_error("Physics system is not initialized.");
       }
       PhysicsObject* obj = PhysicsSystem::glocal->getObject(entity);
-      params.returnvar(obj);
+      params->returnvar(obj);
     }
   }
   REGISTER_SCRIPT_FUNCTION("GetPhysics", GetPhysics);
 
-  void ApplyForce(ScriptParams params) {
+  void ApplyForce(ScriptParams* params) {
     PhysicsObject* obj = 0;
     float x = 0;
     float y = 0;
     float z = 0;
     ScriptOverload overload;
-    params.overload(&overload);
+    params->overload(&overload);
     overload.define(reinterpret_cast<void**>(&obj));
     overload.define(&x);
     overload.define(&y);
     overload.define(&z);
-    params.fill();
+    params->fill();
 
     if (overload) {
       obj->body->applyCentralForce(btVector3(x, y, z));

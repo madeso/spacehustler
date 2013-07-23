@@ -159,14 +159,14 @@ ScriptRegister* GetGlobalScriptRegister();
 
 /** Register a script function. The function to add should have the following
 structure:
-void MyFunc(ScriptParams params){ ]
+void MyFunc(ScriptParams* params){ ]
 @param name the name of the function surrounded by quotes like "MyFunc"
 @param func the function to register
  */
 #define REGISTER_SCRIPT_FUNCTION(name, func) \
   int Lua_callback_for_##func(lua_State* state) { \
     ScriptParams params(state);\
-    func(params);\
+    func(&params);\
     return params.getReturnCount();\
   }\
   class Lua_class_register_ ## func { \

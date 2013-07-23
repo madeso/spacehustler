@@ -41,7 +41,9 @@ namespace {
       }
 
       virtual bool isValid(lua_State* state, int position) {
-        return lua_islightuserdata(state, position);
+        auto type = lua_type(state, position);
+        auto ret = lua_islightuserdata(state, position) == 1;
+        return ret;
       }
 
       virtual void get(lua_State* state, int position) {
