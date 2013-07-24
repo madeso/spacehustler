@@ -62,7 +62,7 @@ class StringFunctionReturn : public internal::FunctionReturn {
 };
 
 FunctionCall::FunctionCall(lua_State* astate, const std::string& name)
-  : state(astate), args(0) {
+  : valid(true), state(astate), args(0) {
   assert(this);
   assert(state);
   /// @todo save and push in call function so multiple calls can be made
@@ -73,6 +73,7 @@ FunctionCall::FunctionCall(lua_State* astate, const std::string& name)
 void FunctionCall::arg(const std::string& str) {
   assert(this);
   assert(state);
+  assert(valid);
   lua_pushstring(state, str.c_str());
   ++args;
 }
@@ -80,6 +81,7 @@ void FunctionCall::arg(const std::string& str) {
 void FunctionCall::arg(float f) {
   assert(this);
   assert(state);
+  assert(valid);
   lua_pushnumber(state, f);
   ++args;
 }
@@ -87,6 +89,7 @@ void FunctionCall::arg(float f) {
 void FunctionCall::arg(int i) {
   assert(this);
   assert(state);
+  assert(valid);
   lua_pushnumber(state, i);
   ++args;
 }
@@ -95,6 +98,7 @@ void FunctionCall::arg(void* v) {
   assert(this);
   assert(state);
   assert(v);
+  assert(valid);
   lua_pushlightuserdata(state, v);
   ++args;
 }
@@ -103,6 +107,7 @@ void FunctionCall::ret(std::string* str) {
   assert(this);
   assert(state);
   assert(str);
+  assert(valid);
   std::shared_ptr<internal::FunctionReturn> r(new StringFunctionReturn(str));
   returns.push_back(r);
 }
@@ -111,6 +116,7 @@ void FunctionCall::ret(int* i) {
   assert(this);
   assert(state);
   assert(i);
+  assert(valid);
   std::shared_ptr<internal::FunctionReturn> r(new IntFunctionReturn(i));
   returns.push_back(r);
 }
@@ -119,6 +125,7 @@ void FunctionCall::call() {
   assert(this);
   assert(state);
   assert(args >= 0);
+  assert(valid);
   ThrowIfError(state, lua_pcall(state, args, returns.size(), 0));
   for (auto a : returns) {
     a->get(state);

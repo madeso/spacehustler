@@ -43,7 +43,18 @@ namespace internal {
       @param position the position of this argument in the stack
       */
       virtual void get(lua_State* state, int position) = 0;
+
+      /** Generates a string representation of the argument type.
+       */
+      virtual std::string toString() const = 0;
   };
+
+  /** Called in a exception handler as a return code when everything has failed.
+  @return the error code, but it never returns.
+  @param name the name of the lua/C function
+  @param state the lua state
+   */
+  int HandleLuaException(const std::string& name, lua_State* state);
 }  // namespace internal
 
 /** This class helps with overloading script functions.
@@ -89,6 +100,11 @@ class ScriptOverload {
     @return true if valid, false if not.
      */
     bool validate(int argcount, lua_State* state);
+
+    /** Gets the argument types as a vector string.
+    @returns the string of vectors.
+     */
+    std::vector<std::string> getArgumentTypes() const;
 
   private:
     std::vector<std::shared_ptr<internal::ScriptArgument>> arguments;
@@ -165,9 +181,13 @@ void MyFunc(ScriptParams* params){ ]
  */
 #define REGISTER_SCRIPT_FUNCTION(name, func) \
   int Lua_callback_for_##func(lua_State* state) { \
-    ScriptParams params(state);\
-    func(&params);\
-    return params.getReturnCount();\
+    try {\
+      ScriptParams params(state);\
+      func(&params);\
+      return params.getReturnCount();\
+    } catch(...) {\
+      return internal::HandleLuaException(name, state);\
+    }\
   }\
   class Lua_class_register_ ## func { \
     public:\

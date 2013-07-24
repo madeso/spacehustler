@@ -32,6 +32,7 @@ namespace internal {
 }  // namespace internal
 
 /** Function call.
+Only instansiate once.
  */
 class FunctionCall {
   public:
@@ -76,6 +77,7 @@ class FunctionCall {
     void call();
 
   private:
+    bool valid;
     lua_State* state;
     int args;
     std::vector<std::shared_ptr<internal::FunctionReturn>> returns;

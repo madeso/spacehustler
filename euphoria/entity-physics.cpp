@@ -324,6 +324,7 @@ void Entity_AddPhysics(SystemCreatorList* sc) {
 
 namespace scriptingphysics {
   void GetPhysics(ScriptParams* params) {
+    assert(params);
     Entity* entity = 0;
     ScriptOverload overload;
     params->overload(&overload);
@@ -341,6 +342,7 @@ namespace scriptingphysics {
   REGISTER_SCRIPT_FUNCTION("GetPhysics", GetPhysics);
 
   void ApplyForce(ScriptParams* params) {
+    assert(params);
     PhysicsObject* obj = 0;
     float x = 0;
     float y = 0;
@@ -354,6 +356,8 @@ namespace scriptingphysics {
     params->fill();
 
     if (overload) {
+      assert(obj);
+      assert(obj->body);
       obj->body->applyCentralForce(btVector3(x, y, z));
     }
   }

@@ -5,7 +5,9 @@
 #include <string>
 #include <cassert>
 #include <stdexcept>
+#include <vector>
 #include "euphoria/str.h"
+#include "euphoria/stringmerger.h"
 
 extern "C" {
 #include "lua/lua.h"
@@ -15,6 +17,14 @@ extern "C" {
 
 namespace internal {
   ScriptArgument::~ScriptArgument() {
+  }
+
+  int HandleLuaException(const std::string& name, lua_State* state) {
+    /// @todo grab exception information
+    const std::string error =
+      Str() << "Lua C function failure inside " << name;
+    lua_pushstring(state, error.c_str());
+    return lua_error(state);
   }
 }  // namespace internal
 
@@ -32,6 +42,10 @@ namespace {
         *data = static_cast<float>(lua_tonumber(state, position));
       }
 
+      std::string toString() const {
+        return "float";
+      }
+
       float* data;
   };
 
@@ -41,13 +55,16 @@ namespace {
       }
 
       virtual bool isValid(lua_State* state, int position) {
-        auto type = lua_type(state, position);
         auto ret = lua_islightuserdata(state, position) == 1;
         return ret;
       }
 
       virtual void get(lua_State* state, int position) {
         *data = lua_touserdata(state, position);
+      }
+
+      std::string toString() const {
+        return "light user data";
       }
 
       void** data;
@@ -101,6 +118,14 @@ bool ScriptOverload::validate(int argcount, lua_State* state) {
   return true;
 }
 
+std::vector<std::string> ScriptOverload::getArgumentTypes() const {
+  std::vector<std::string> ret;
+  for (auto a : arguments) {
+    ret.push_back(a->toString());
+  }
+  return ret;
+}
+
 ScriptParams::ScriptParams(lua_State* astate) : state(astate), retcount(0) {
   assert(this);
 }
@@ -110,14 +135,72 @@ void ScriptParams::overload(ScriptOverload* overload) {
   overloads.push_back(overload);
 }
 
+std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
+  std::vector<std::string> ret;
+  for (int i = 1; i <= argcount; ++i) {
+    const auto type = lua_type(state, i);
+    std::string luatypename = "";
+    switch (type) {
+      case LUA_TNONE:
+        luatypename = "none";
+        break;
+      case LUA_TNIL:
+        luatypename = "nil";
+        break;
+      case LUA_TBOOLEAN:
+        luatypename = "boolean";
+        break;
+      case LUA_TLIGHTUSERDATA:
+        luatypename = "light user data";
+        break;
+      case LUA_TNUMBER:
+        luatypename = "number";
+        break;
+      case LUA_TSTRING:
+        luatypename = "string";
+        break;
+      case LUA_TTABLE:
+        luatypename = "table";
+        break;
+      case LUA_TFUNCTION:
+        luatypename = "function";
+        break;
+      case LUA_TUSERDATA:
+        luatypename = "full user data";
+        break;
+      case LUA_TTHREAD:
+        luatypename = "thread";
+        break;
+    }
+    ret.push_back(luatypename);
+  }
+  return ret;
+}
+
 void ScriptParams::fill() {
   assert(this);
   const int argumentcount = lua_gettop(state);
   for (auto ov : overloads) {
-    if (ov->validate(argumentcount, state) == false) {
+    if (ov->validate(argumentcount, state)) {
       return;
     }
   }
+
+  std::vector<std::string> overloadstrings;
+  for (auto ov : overloads) {
+    overloadstrings.push_back(StringMerger::Array()
+                              .generate(ov->getArgumentTypes()));
+  }
+  const std::string calledwith = StringMerger::Array()
+                                 .generate(GetArgumentList(state,
+                                     argumentcount));
+  const std::string alloverloads = StringMerger::EnglishOr()
+                                   .generate(overloadstrings);
+
+  throw std::logic_error(Str() <<
+                         "Unable to determine function overload, called with "
+                         << calledwith << " but expected one of"
+                         << alloverloads);
 }
 
 void ScriptParams::returnvar(void* userdata) {
