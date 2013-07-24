@@ -49,6 +49,21 @@ namespace internal {
       virtual std::string toString() const = 0;
   };
 
+  /** Class representing a argument for light user data.s
+   */
+  class LightUserDataScriptArgument : public internal::ScriptArgument {
+    public:
+      /** Constructor.
+      @param adata the data
+       */
+      explicit LightUserDataScriptArgument(void** adata);
+      bool isValid(lua_State* state, int position);
+      void get(lua_State* state, int position);
+      std::string toString() const;
+    private:
+      void** data;
+  };
+
   /** Called in a exception handler as a return code when everything has failed.
   @return the error code, but it never returns.
   @param name the name of the lua/C function
@@ -56,6 +71,8 @@ namespace internal {
    */
   int HandleLuaException(const std::string& name, lua_State* state);
 }  // namespace internal
+
+class ScriptParams;
 
 /** This class helps with overloading script functions.
 A script function can have many overloads, it's up to the C++ code to handle
@@ -66,50 +83,53 @@ this and this class helps with that.
 class ScriptOverload {
   public:
     /** Constructor.
+    @param aparams the parameters.
      */
-    ScriptOverload();
-
-    /** Define a light user data argument.
-    @param userdata the userdata.
-     */
-    void define(void** userdata);
-
-    /** Define a float argument.
-    @param f the float.
-     */
-    void define(float* f);
+    explicit ScriptOverload(ScriptParams* aparams);
 
     /** Checks to see if this overload was the one used.
     @returns true if it is the one used, false otherwise.
     @see ScriptParams::fill()
-    @see isValid
      */
     operator bool();
 
-    /** Checks to see if this overload was the one used.
-    @returns true if it is the one used, false otherwise.
-    @see ScriptParams::fill()
+    /** Add a custom script argument.
+    @param arg the argument
+    @return this
      */
-    bool isValid();
+    ScriptOverload& operator<<(std::shared_ptr<internal::ScriptArgument> arg);
 
-    /** Internal.
-    Validates the function and if it is valid, it get the value from lua and
-    sets all the arguments.
-    @param argcount the number of arguments
-    @param state the lua state
-    @return true if valid, false if not.
+    /** Add a float argument.
+    @param f the argument
+    @return this
+     */
+    ScriptOverload& operator<<(float* f);
+
+  protected:
+    /** Internal. Validate and update the supplied arguments.
+    @param argcount the number of arguments.
+    @param state the lua state.
+    @returns true if everything validated and is updated, false if not.
      */
     bool validate(int argcount, lua_State* state);
 
-    /** Gets the argument types as a vector string.
-    @returns the string of vectors.
-     */
-    std::vector<std::string> getArgumentTypes() const;
-
   private:
+    ScriptParams* params;
     std::vector<std::shared_ptr<internal::ScriptArgument>> arguments;
     bool valid;
 };
+
+
+/** Creates a light user data argument from a defined pointer.
+@param t the pointer.
+@return the light user data argument.
+ */
+template <typename T>
+std::shared_ptr<internal::ScriptArgument> cLightUserData(T** t) {
+  std::shared_ptr<internal::ScriptArgument> r(
+    new internal::LightUserDataScriptArgument(reinterpret_cast<void**>(t)));
+  return r;
+}
 
 /** Encapsulated utility class for getting arguments and returning values.
  */
@@ -121,15 +141,9 @@ class ScriptParams {
      */
     explicit ScriptParams(lua_State* astate);
 
-    /** Add a overload to the parameters. At least one overload must be added,
-    even it it's a empty one.
-    @param overload the overload to add
-     */
-    void overload(ScriptOverload* overload);
-
     /** Determine the overload to use or abort if no one can be found.
      */
-    void fill();
+    void post();
 
     /** Return some light userdata.
     @param userdata the light userdata to return
@@ -141,10 +155,40 @@ class ScriptParams {
      */
     int getReturnCount();
 
+  protected:
+    friend class ScriptOverload;
+
+    /** Internal. Gets the number of arguments supplied to the lua function call.
+    @returns the number of arguments.
+     */
+    int getArgumentCount();
+
+    /** Internal. Get the lua state.
+    @returns the lua state
+     */
+    lua_State* getState();
+
+    /** Internal. Gets the validated status.
+    @return true if the item has been validated, false if not.
+     */
+    bool isValidated();
+
+    /** Marks the params as validated.
+     */
+    void setValidated();
+
+    /** Add a validation failure for easier script debugging and better error
+    messages.
+    @param f the validation failure message/status.
+     */
+    void addFailure(const std::string& f);
+
   private:
-    std::vector<ScriptOverload*> overloads;
     lua_State* state;
     int retcount;
+    int argumentcount;
+    bool validated;
+    std::vector<std::string> failures;
 };
 
 /** Utility class for registring script functions.
@@ -184,6 +228,7 @@ void MyFunc(ScriptParams* params){ ]
     try {\
       ScriptParams params(state);\
       func(&params);\
+      params.post();\
       return params.getReturnCount();\
     } catch(...) {\
       return internal::HandleLuaException(name, state);\

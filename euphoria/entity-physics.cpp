@@ -326,12 +326,8 @@ namespace scriptingphysics {
   void GetPhysics(ScriptParams* params) {
     assert(params);
     Entity* entity = 0;
-    ScriptOverload overload;
-    params->overload(&overload);
-    overload.define(reinterpret_cast<void**>(&entity));
-    params->fill();
 
-    if (overload) {
+    if (ScriptOverload(params) << cLightUserData(&entity)) {
       if (PhysicsSystem::glocal == 0) {
         throw std::logic_error("Physics system is not initialized.");
       }
@@ -347,15 +343,8 @@ namespace scriptingphysics {
     float x = 0;
     float y = 0;
     float z = 0;
-    ScriptOverload overload;
-    params->overload(&overload);
-    overload.define(reinterpret_cast<void**>(&obj));
-    overload.define(&x);
-    overload.define(&y);
-    overload.define(&z);
-    params->fill();
 
-    if (overload) {
+    if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
       assert(obj);
       assert(obj->body);
       obj->body->applyCentralForce(btVector3(x, y, z));

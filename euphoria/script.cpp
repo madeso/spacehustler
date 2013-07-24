@@ -26,6 +26,23 @@ namespace internal {
     lua_pushstring(state, error.c_str());
     return lua_error(state);
   }
+
+  LightUserDataScriptArgument::LightUserDataScriptArgument(void** adata)
+    : data(adata) {
+  }
+
+  bool LightUserDataScriptArgument::isValid(lua_State* state, int position) {
+    auto ret = lua_islightuserdata(state, position) == 1;
+    return ret;
+  }
+
+  void LightUserDataScriptArgument::get(lua_State* state, int position) {
+    *data = lua_touserdata(state, position);
+  }
+
+  std::string LightUserDataScriptArgument::toString() const {
+    return "light user data";
+  }
 }  // namespace internal
 
 namespace {
@@ -48,54 +65,43 @@ namespace {
 
       float* data;
   };
-
-  class UserDataScriptArgument : public internal::ScriptArgument {
-    public:
-      explicit UserDataScriptArgument(void** adata) : data(adata) {
-      }
-
-      virtual bool isValid(lua_State* state, int position) {
-        auto ret = lua_islightuserdata(state, position) == 1;
-        return ret;
-      }
-
-      virtual void get(lua_State* state, int position) {
-        *data = lua_touserdata(state, position);
-      }
-
-      std::string toString() const {
-        return "light user data";
-      }
-
-      void** data;
-  };
 }  // namespace
 
-ScriptOverload::ScriptOverload() : valid(false) {
+ScriptOverload::ScriptOverload(ScriptParams* aparams) : params(aparams)
+  , valid(false) {
   assert(this);
+  assert(params);
 }
 
-void ScriptOverload::define(void** userdata) {
+ScriptOverload& ScriptOverload::operator<<(
+  std::shared_ptr < internal::ScriptArgument > arg) {
   assert(this);
-  std::shared_ptr<internal::ScriptArgument> ol(
-    new UserDataScriptArgument(userdata));
-  arguments.push_back(ol);
+  arguments.push_back(arg);
+  return *this;
 }
 
-void ScriptOverload::define(float* f) {
+ScriptOverload& ScriptOverload::operator<<(float* f) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new FloatScriptArgument(f));
   arguments.push_back(ol);
+  return *this;
 }
 
 ScriptOverload::operator bool() {
   assert(this);
-  return isValid();
-}
+  assert(params->isValidated() == false);
 
-bool ScriptOverload::isValid() {
-  assert(this);
-  return valid;
+  bool val = validate(params->getArgumentCount(), params->getState());
+  if (val) {
+    params->setValidated();
+  } else {
+    std::vector<std::string> ret;
+    for (auto a : arguments) {
+      ret.push_back(a->toString());
+    }
+    params->addFailure(StringMerger::Array().generate(ret));
+  }
+  return val;
 }
 
 bool ScriptOverload::validate(int argcount, lua_State* state) {
@@ -118,21 +124,13 @@ bool ScriptOverload::validate(int argcount, lua_State* state) {
   return true;
 }
 
-std::vector<std::string> ScriptOverload::getArgumentTypes() const {
-  std::vector<std::string> ret;
-  for (auto a : arguments) {
-    ret.push_back(a->toString());
-  }
-  return ret;
-}
-
-ScriptParams::ScriptParams(lua_State* astate) : state(astate), retcount(0) {
+ScriptParams::ScriptParams(lua_State* astate) : state(astate), retcount(0)
+  , argumentcount(0), validated(false) {
   assert(this);
-}
-
-void ScriptParams::overload(ScriptOverload* overload) {
-  assert(this);
-  overloads.push_back(overload);
+  assert(astate);
+  /// @todo move to the initializer list for speed and the ability make the
+  /// variable a const
+  argumentcount = lua_gettop(astate);
 }
 
 std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
@@ -177,30 +175,43 @@ std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
   return ret;
 }
 
-void ScriptParams::fill() {
+int ScriptParams::getArgumentCount() {
   assert(this);
-  const int argumentcount = lua_gettop(state);
-  for (auto ov : overloads) {
-    if (ov->validate(argumentcount, state)) {
-      return;
-    }
-  }
+  return argumentcount;
+}
 
-  std::vector<std::string> overloadstrings;
-  for (auto ov : overloads) {
-    overloadstrings.push_back(StringMerger::Array()
-                              .generate(ov->getArgumentTypes()));
-  }
-  const std::string calledwith = StringMerger::Array()
-                                 .generate(GetArgumentList(state,
-                                     argumentcount));
-  const std::string alloverloads = StringMerger::EnglishOr()
-                                   .generate(overloadstrings);
+lua_State* ScriptParams::getState() {
+  assert(this);
+  assert(state);
+  return state;
+}
 
-  throw std::logic_error(Str() <<
-                         "Unable to determine function overload, called with "
-                         << calledwith << " but expected one of"
-                         << alloverloads);
+void ScriptParams::post() {
+  assert(this);
+  if (isValidated() == false) {
+    const std::string calledwith = StringMerger::Array()
+                                   .generate(GetArgumentList(state,
+                                       argumentcount));
+    const std::string alloverloads = StringMerger::EnglishOr()
+                                     .generate(failures);
+
+    throw std::logic_error(Str() <<
+                           "Unable to determine function overload, called with "
+                           << calledwith << " but expected one of"
+                           << alloverloads);
+  }
+}
+
+bool ScriptParams::isValidated() {
+  return validated;
+}
+
+void ScriptParams::setValidated() {
+  validated = true;
+}
+
+void ScriptParams::addFailure(const std::string& f) {
+  failures.push_back(f);
 }
 
 void ScriptParams::returnvar(void* userdata) {
