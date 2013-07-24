@@ -9,6 +9,7 @@ Current Features
 * Instancing meshes in a world
 * Global tweak system (uses anttweakbar internally)
 * Physics system (bullet)
+* Scripting support (lua)
 
 Build tools
 =======
@@ -25,7 +26,7 @@ Build tools
 
 Planned Features
 =======
-* add scripting support (lua)
+* lua debugger/console via http/mongoose https://github.com/valenok/mongoose
 * audio and music support
 * change from json to yaml/protobuf?
 * menu support (ce gui)
