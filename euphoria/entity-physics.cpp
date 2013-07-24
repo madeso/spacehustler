@@ -232,13 +232,13 @@ class PhysicsSystem : public System {
 
       dynamicsWorld->setDebugDrawer(&debugDrawer);
 
-      assert(glocal == 0);
-      glocal = this;
+      assert(globalInstance == 0);
+      globalInstance = this;
     }
 
     ~PhysicsSystem() {
-      assert(glocal == this);
-      glocal = 0;
+      assert(globalInstance == this);
+      globalInstance = 0;
     }
 
     ComponentType* addType(const Json::Value& data) {
@@ -279,7 +279,7 @@ class PhysicsSystem : public System {
       return &objects[res->second];
     }
 
-    static PhysicsSystem* glocal;
+    static PhysicsSystem* globalInstance;
 
   private:
     // collision configuration contains default setup for memory, collision
@@ -308,7 +308,7 @@ class PhysicsSystem : public System {
     DebugDrawing debugDrawer;
 };
 
-PhysicsSystem* PhysicsSystem::glocal = 0;
+PhysicsSystem* PhysicsSystem::globalInstance = 0;
 
 void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
   assert(arg.container);
@@ -328,10 +328,10 @@ namespace scriptingphysics {
     Entity* entity = 0;
 
     if (ScriptOverload(params) << cLightUserData(&entity)) {
-      if (PhysicsSystem::glocal == 0) {
+      if (PhysicsSystem::globalInstance == 0) {
         throw std::logic_error("Physics system is not initialized.");
       }
-      PhysicsObject* obj = PhysicsSystem::glocal->getObject(entity);
+      PhysicsObject* obj = PhysicsSystem::globalInstance->getObject(entity);
       params->returnvar(obj);
     }
   }
