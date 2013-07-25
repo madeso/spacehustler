@@ -323,6 +323,7 @@ void Entity_AddPhysics(SystemCreatorList* sc) {
 //////////////////////////////////////////////////////////////////////////
 
 namespace scriptingphysics {
+  const std::string LUA_NAMESPACE_NAME = "Physics";
   void GetPhysics(ScriptParams* params) {
     assert(params);
     Entity* entity = 0;
@@ -335,7 +336,7 @@ namespace scriptingphysics {
       params->returnvar(obj);
     }
   }
-  REGISTER_SCRIPT_FUNCTION("GetPhysics", GetPhysics);
+  REGISTER_SCRIPT_FUNCTION("Get", GetPhysics);
 
   void ApplyForce(ScriptParams* params) {
     assert(params);

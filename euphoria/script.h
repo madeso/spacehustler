@@ -200,16 +200,19 @@ class ScriptRegister {
     ScriptRegister();
 
     /** Add a function.
+    @param namespaceName the name of the lua namespace/table.
     @param name the name of the function.
     @param func the function.
      */
-    void add(const std::string& name, lua_CFunction func);
+    void add(const std::string& namespaceName, const std::string& name,
+             lua_CFunction func);
 
     /** Register all functions on a state.
      */
     void registerAll(lua_State* state);
   private:
-    std::map<std::string, lua_CFunction> functions;
+    typedef std::map<std::string, lua_CFunction> Functions;
+    std::map<std::string, Functions> functions;
 };
 
 /** Get the global script registrer.
@@ -238,7 +241,8 @@ void MyFunc(ScriptParams* params){ ]
     public:\
       Lua_class_register_##func() { \
         assert(GetGlobalScriptRegister());\
-        GetGlobalScriptRegister()->add(name, Lua_callback_for_##func);\
+        GetGlobalScriptRegister()->add(LUA_NAMESPACE_NAME, name, \
+                                       Lua_callback_for_##func);\
       }\
   } Lua_static_var_register_ ## func
 

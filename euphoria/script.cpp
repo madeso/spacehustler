@@ -137,6 +137,7 @@ std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
   std::vector<std::string> ret;
   for (int i = 1; i <= argcount; ++i) {
     const auto type = lua_type(state, i);
+    /// @todo replace with lua_typename
     std::string luatypename = "";
     switch (type) {
       case LUA_TNONE:
@@ -229,16 +230,22 @@ ScriptRegister::ScriptRegister() {
   assert(this);
 }
 
-void ScriptRegister::add(const std::string& name, lua_CFunction func) {
+void ScriptRegister::add(const std::string& namespaceName,
+                         const std::string& name, lua_CFunction func) {
   assert(this);
-  functions.insert(std::make_pair(name, func));
+  functions[namespaceName].insert(std::make_pair(name, func));
 }
 
 void ScriptRegister::registerAll(lua_State* state) {
   assert(this);
-  for (auto f : functions) {
-    lua_pushcfunction(state, f.second);
-    lua_setglobal(state, f.first.c_str());
+  for (auto ns : functions) {
+    lua_newtable(state);
+    for (auto f : ns.second) {
+      lua_pushstring(state, f.first.c_str());
+      lua_pushcfunction(state, f.second);
+      lua_settable(state, -3);
+    }
+    lua_setglobal(state, ns.first.c_str());
   }
 }
 
