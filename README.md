@@ -26,7 +26,7 @@ Build tools
 
 Planned Features
 =======
-* lua debugger/console via http/mongoose https://github.com/valenok/mongoose
+* lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
 * audio and music support
 * change from json to yaml/protobuf?
 * menu support (ce gui)
