@@ -107,24 +107,24 @@ class Mods:
 				print("[Index](index.md)", file=target)
 				print("", file=target)
 				mod.write(self, name, target)
-		allfilename = os.path.join(dir, "index.md")
-		with open(allfilename, 'w') as allfile:
-			print(os.path.basename(os.getcwd()) + " documentation", file=allfile)
-			print("========", file=allfile)
-			print("", file=allfile)
-			print("Modules:", file=allfile)
-			print("--------", file=allfile)
-			print("", file=allfile)
+		indexfilename = os.path.join(dir, "index.md")
+		with open(indexfilename, 'w') as indexfile:
+			print(os.path.basename(os.getcwd()) + " documentation", file=indexfile)
+			print("========", file=indexfile)
+			print("", file=indexfile)
+			print("Modules:", file=indexfile)
+			print("--------", file=indexfile)
+			print("", file=indexfile)
 			for name, mod in self.mods.iteritems():
 				if mod.truemodule:
-					print("* [" + name + " module](module_" + name + ".md)", file=allfile)
-			print("", file=allfile)
-			print("Type:", file=allfile)
-			print("--------", file=allfile)
-			print("", file=allfile)
+					print("* [" + name + " module](module_" + name + ".md)", file=indexfile)
+			print("", file=indexfile)
+			print("Type:", file=indexfile)
+			print("--------", file=indexfile)
+			print("", file=indexfile)
 			for name, mod in self.mods.iteritems():
 				if mod.truemodule==False:
-					print("* [" + name + " module](type_" + name + ".md)", file=allfile)
+					print("* [" + name + " module](type_" + name + ".md)", file=indexfile)
 
 module = ""
 function = ""
