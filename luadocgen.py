@@ -18,9 +18,9 @@ CMD_RETURNS = 5
 def firstbold(s):
 	index = s.find(' ')
 	if index == -1:
-		return "*" + s + "*"
+		return "**" + s + "**"
 	else:
-		return "*" + s[0:index] + "*" + s[index:]
+		return "**" + s[0:index] + "**" + s[index:]
 
 class Func:
 	def __init__(self, name):
@@ -36,20 +36,20 @@ class Func:
 		self.ret.append(ret)
 	def write(self, modulename, target):
 		print("", file=target)
+		print(modulename + "." + self.name + "()", file=target)
 		print("-----------", file=target)
 		print("", file=target)
-		print("### " + modulename + "." + self.name + "()", file=target)
 		print(self.doc, file=target)
 		print("", file=target)
 		
 		if len(self.arg) > 0:
-			print("#####Arguments:", file=target)
+			print("###Arguments:", file=target)
 			for a in self.arg:
 				print("  - " + firstbold(a), file=target)
 			print("", file=target)
 		
 		if len(self.ret) > 0:
-			print("#####Returns:", file=target)
+			print("####Returns:", file=target)
 			for r in self.ret:
 				print("  - " + firstbold(r), file=target)
 			print("", file=target)
