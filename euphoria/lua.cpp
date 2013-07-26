@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "euphoria/str.h"
 #include "euphoria/script.h"
+#include "euphoria/scriptlib.h"
 
 extern "C" {
 #include "lua/lua.h"
@@ -140,6 +141,7 @@ Lua::Lua() : state(luaL_newstate()) {
   assert(state);
 
   luaL_openlibs(state);
+  scriptlib_register(state);
   assert(GetGlobalScriptRegister());
   GetGlobalScriptRegister()->registerAll(state);
 }

@@ -208,6 +208,7 @@ class ScriptRegister {
              lua_CFunction func);
 
     /** Register all functions on a state.
+    @param state the state to register to.
      */
     void registerAll(lua_State* state);
   private:

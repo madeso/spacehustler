@@ -23,11 +23,18 @@ Assumes that the meta table name is the same as the classname.
 #define lua_userdata_cast(state, pos, Class) reinterpret_cast<Class*>\
   (luaL_checkudata((state), (pos), #Class))
 
+/** Overloaded operator delete for ignoring compiler warnings.
+Lua have allocated the memory so we won't delete it.
+@param pMem the memory that wont be deleted.
+@param state the lua state
+@param metatableName the meta table name
+ */
+void operator delete(void* pMem, lua_State* state, const char* metatableName);
+
 /** Overloaded new for creating userdata memory.
 @param size how much memory to allocate
 @param state the lua state
 @param metatableName the meta table name
-@returns the allocated object
  */
 void* operator new(size_t size, lua_State* state, const char* metatableName);
 

@@ -239,7 +239,7 @@ void ScriptRegister::add(const std::string& namespaceName,
 void ScriptRegister::registerAll(lua_State* state) {
   assert(this);
   for (auto ns : functions) {
-    lua_newtable(state);
+    lua_newtable(state);  /// @todo change to luaL_newlibtable / luaL_newlib
     for (auto f : ns.second) {
       lua_pushstring(state, f.first.c_str());
       lua_pushcfunction(state, f.second);
