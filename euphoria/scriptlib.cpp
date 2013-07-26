@@ -32,6 +32,18 @@ namespace {
   }
   SCRIPT_FUNCTION("cvec3.create", cvec3_create, lcvec3_create)
 
+  static const luaL_Reg vec3lib[] = {
+    {"create", lcvec3_create}
+    , {NULL, NULL}
+  };
+
+  // -- Module: vec3
+  // -- Function: add
+  // -- Description: Add two vectors.
+  // -- Arguments:
+  // -- vec3 the left operand
+  // -- vec3 the right operand
+  // -- Returns: vec3 the sum of the 2 vectors.
   void vec3_add(ScriptParams* p) {
     vec3* a;
     vec3* b;
@@ -45,11 +57,6 @@ namespace {
   }
 
   SCRIPT_FUNCTION("vec3.add", vec3_add, lvec3_add)
-
-  static const luaL_Reg vec3lib[] = {
-    {"create", lcvec3_create}
-    , {NULL, NULL}
-  };
 
   static const luaL_Reg fvec[] = {
     {"__gc", GCMethod<vec3> }
