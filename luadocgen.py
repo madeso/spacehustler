@@ -77,12 +77,19 @@ class Mods:
 			return m
 	def write(self, dir):
 		for name, mod in self.mods.iteritems():
-			filename = os.path.join(dir,name+'.md')
+			filename = os.path.join(dir,"module_" + name+'.md')
 			with open(filename, 'w') as target:
 				print("Module: " + name, file=target)
 				print("===========", file=target)
 				print("", file=target)
 				mod.write(name, target)
+		allfilename = os.path.join(dir, "index.md")
+		with open(allfilename, 'w') as allfile:
+			print(os.path.basename(os.getcwd()) + " documentation", file=allfile)
+			print("========", file=allfile)
+			print("", file=allfile)
+			for name, mod in self.mods.iteritems():
+				print("* [" + name + " module](module_" + name + ")", file=allfile)
 
 module = ""
 function = ""
