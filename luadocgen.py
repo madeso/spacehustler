@@ -3,7 +3,6 @@
 # Todo:
 # - generate a alphabetical list of all non type related function
 # - sort the function list
-# - link between types
 # - validate the types
 
 """Generates a list of lua markup documents based on c++ code that generates it.
@@ -21,12 +20,17 @@ CMD_DESCRIPTION = 3
 CMD_ARGUMENTS = 4
 CMD_RETURNS = 5
 
-def firstbold(s):
+def firstbold(mods, s):
 	index = s.find(' ')
 	if index == -1:
 		return "**" + s + "**"
 	else:
-		return "**" + s[0:index] + "**" + s[index:]
+		type = s[0:index]
+		doc = s[index:]
+		if mods.hastype(type):
+			return "[" + type + "](module_" + type + ".md)"+ doc
+		else:
+			return "**" + type + "**" + doc
 
 class Func:
 	def __init__(self, name):
@@ -40,7 +44,7 @@ class Func:
 		self.arg.append(arg)
 	def addret(self, ret):
 		self.ret.append(ret)
-	def write(self, modulename, target):
+	def write(self, mods, modulename, target):
 		print("", file=target)
 		print(modulename + "." + self.name + "()", file=target)
 		print("-----------", file=target)
@@ -51,13 +55,13 @@ class Func:
 		if len(self.arg) > 0:
 			print("###Arguments:", file=target)
 			for a in self.arg:
-				print("  - " + firstbold(a), file=target)
+				print("  - " + firstbold(mods, a), file=target)
 			print("", file=target)
 		
 		if len(self.ret) > 0:
 			print("####Returns:", file=target)
 			for r in self.ret:
-				print("  - " + firstbold(r), file=target)
+				print("  - " + firstbold(mods, r), file=target)
 			print("", file=target)
 		
 		print("", file=target)
@@ -67,9 +71,9 @@ class Mod:
 		self.funcs = []
 	def addfunc(self, func):
 		self.funcs.append(func)
-	def write(self, mod, target):
+	def write(self, mods, mod, target):
 		for file in self.funcs:
-			file.write(mod, target)
+			file.write(mods, mod, target)
 
 class Mods:
 	def __init__(self):
@@ -81,6 +85,8 @@ class Mods:
 			m = Mod()
 			self.mods[name] = m
 			return m
+	def hastype(self, name):
+		return name in self.mods
 	def write(self, dir):
 		for name, mod in self.mods.iteritems():
 			filename = os.path.join(dir,"module_" + name+'.md')
@@ -90,7 +96,7 @@ class Mods:
 				print("", file=target)
 				print("[Index](index.md)", file=target)
 				print("", file=target)
-				mod.write(name, target)
+				mod.write(self, name, target)
 		allfilename = os.path.join(dir, "index.md")
 		with open(allfilename, 'w') as allfile:
 			print(os.path.basename(os.getcwd()) + " documentation", file=allfile)
