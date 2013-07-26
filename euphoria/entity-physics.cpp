@@ -348,14 +348,14 @@ namespace scriptingphysics {
 
   // -- Function: ApplyForce
   // -- Description:
-  // -- Applies force to a physics object.
+  // -- Applies force to a physics object by providing the values
   // -- Arguments:
   // -- PhysObj The physics object
   // -- Float The x axis of the force
   // -- Float The y axis of the force
   // -- Float The z axis of the force
   // -- Description:
-  // -- Applies force to a physics object.
+  // -- Applies force to a physics object by providing a force vector
   // -- Arguments:
   // -- PhysObj The physics object
   // -- vec3 The force

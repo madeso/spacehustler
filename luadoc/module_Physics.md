@@ -20,7 +20,7 @@ Gets the physics object of a entity.
 Physics.ApplyForce()
 -----------
 
-Applies force to a physics object.
+Applies force to a physics object by providing the values
 
 ###Arguments:
   - **PhysObj** The physics object
@@ -33,7 +33,7 @@ Applies force to a physics object.
 Physics.ApplyForce()
 -----------
 
-Applies force to a physics object.
+Applies force to a physics object by providing a force vector
 
 ###Arguments:
   - **PhysObj** The physics object

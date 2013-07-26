@@ -9,6 +9,16 @@
 #include "euphoria/script.h"
 
 namespace {
+  // -- Module: cvec3
+  // -- Function: create
+  // -- Description: Creates a 3 dimensional vector
+  // -- Arguments:
+  // -- Number The X coordinate
+  // -- Number The Y coordinate
+  // -- Number The Z coordinate
+  // -- Returns: vec3 a vector
+  // -- Description: Creates a vector at origin
+  // -- Returns: vec3 a vector placed at origin
   void cvec3_create(ScriptParams* p) {
     float x = 0;
     float y = 0;

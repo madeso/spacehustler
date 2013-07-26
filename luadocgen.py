@@ -1,9 +1,15 @@
-from __future__ import print_function
-
 #!/usr/bin/python
+
+# Todo:
+# - generate a alphabetical list of all non type related function
+# - sort the function list
+# - link between types
+# - validate the types
+
 """Generates a list of lua markup documents based on c++ code that generates it.
 """
 
+from __future__ import print_function
 import argparse
 import sys
 import os
