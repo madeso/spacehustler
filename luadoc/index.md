@@ -1,4 +1,4 @@
 euphoria documentation
 ========
 
-* [Physics module](module_Physics)
+* [Physics module](module_Physics.md)

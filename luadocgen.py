@@ -89,7 +89,7 @@ class Mods:
 			print("========", file=allfile)
 			print("", file=allfile)
 			for name, mod in self.mods.iteritems():
-				print("* [" + name + " module](module_" + name + ")", file=allfile)
+				print("* [" + name + " module](module_" + name + ".md)", file=allfile)
 
 module = ""
 function = ""
