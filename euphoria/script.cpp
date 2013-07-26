@@ -29,19 +29,44 @@ namespace internal {
 
   LightUserDataScriptArgument::LightUserDataScriptArgument(void** adata)
     : data(adata) {
+    assert(this);
   }
 
   bool LightUserDataScriptArgument::isValid(lua_State* state, int position) {
+    assert(this);
     auto ret = lua_islightuserdata(state, position) == 1;
     return ret;
   }
 
   void LightUserDataScriptArgument::get(lua_State* state, int position) {
+    assert(this);
     *data = lua_touserdata(state, position);
   }
 
   std::string LightUserDataScriptArgument::toString() const {
+    assert(this);
     return "light user data";
+  }
+
+  FullUserDataScriptArgument::FullUserDataScriptArgument(void** adata,
+      const std::string& aname)
+    : data(adata), name(aname) {
+    assert(this);
+  }
+
+  bool FullUserDataScriptArgument::isValid(lua_State* state, int position) {
+    assert(this);
+    return luaL_checkudata(state, position, name.c_str()) != 0;
+  }
+
+  void FullUserDataScriptArgument::get(lua_State* state, int position) {
+    assert(this);
+    *data = luaL_checkudata(state, position, name.c_str());
+  }
+
+  std::string FullUserDataScriptArgument::toString() const {
+    assert(this);
+    return name;
   }
 }  // namespace internal
 
@@ -204,21 +229,32 @@ void ScriptParams::post() {
 }
 
 bool ScriptParams::isValidated() {
+  assert(this);
   return validated;
 }
 
 void ScriptParams::setValidated() {
+  assert(this);
   validated = true;
 }
 
 void ScriptParams::addFailure(const std::string& f) {
+  assert(this);
   failures.push_back(f);
 }
 
 void ScriptParams::returnvar(void* userdata) {
   assert(this);
+  assert(state);
   lua_pushlightuserdata(state, userdata);
   ++retcount;
+}
+
+lua_State* ScriptParams::returnFullUserData() {
+  assert(this);
+  assert(state);
+  ++retcount;
+  return state;
 }
 
 int ScriptParams::getReturnCount() {

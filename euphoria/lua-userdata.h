@@ -14,15 +14,6 @@ extern "C" {
 #include "lua/lauxlib.h"
 }
 
-/** Check the valid argument against a class.
-Assumes that the meta table name is the same as the classname.
-@param state the lua state
-@param pos the argument position
-@param Class the classname to cast to.
- */
-#define lua_userdata_cast(state, pos, Class) reinterpret_cast<Class*>\
-  (luaL_checkudata((state), (pos), #Class))
-
 /** Overloaded operator delete for ignoring compiler warnings.
 Lua have allocated the memory so we won't delete it.
 @param pMem the memory that wont be deleted.

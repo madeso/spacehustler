@@ -1,5 +1,7 @@
 function test(entity, dt)
-	local p = cvec3.create()
+	local a = cvec3.create()
+	local b = cvec3.create(-2, 0, 0)
+	local c = a+b
 	local phys = Physics.Get(entity)
-	Physics.ApplyForce(phys, -2,0,0)
+	Physics.ApplyForce(phys, c)
 end

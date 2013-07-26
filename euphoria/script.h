@@ -49,7 +49,7 @@ namespace internal {
       virtual std::string toString() const = 0;
   };
 
-  /** Class representing a argument for light user data.s
+  /** Class representing a argument for light user data.
    */
   class LightUserDataScriptArgument : public internal::ScriptArgument {
     public:
@@ -62,6 +62,23 @@ namespace internal {
       std::string toString() const;
     private:
       void** data;
+  };
+
+  /** Class representing a argument for full user data.
+   */
+  class FullUserDataScriptArgument : public internal::ScriptArgument {
+    public:
+      /** Constructor.
+      @param adata the data
+      @param aname the name of the data
+       */
+      FullUserDataScriptArgument(void** adata, const std::string& aname);
+      bool isValid(lua_State* state, int position);
+      void get(lua_State* state, int position);
+      std::string toString() const;
+    private:
+      void** data;
+      std::string name;
   };
 
   /** Called in a exception handler as a return code when everything has failed.
@@ -131,6 +148,27 @@ std::shared_ptr<internal::ScriptArgument> cLightUserData(T** t) {
   return r;
 }
 
+/** Creates a full user data argument from a defined pointer.
+@param t the pointer
+@param name the name of the meta table
+@return the full user data argument
+ */
+template <typename T>
+std::shared_ptr<internal::ScriptArgument> cFullUserData(T** t,
+    const std::string& name) {
+  std::shared_ptr<internal::ScriptArgument> r(
+    new internal::FullUserDataScriptArgument(reinterpret_cast<void**>(t),
+        name));
+  return r;
+}
+
+/** Creates a full user data argument from a defined pointer.
+@param T the type
+@param t the pointer
+@return the full user data argument
+ */
+#define mFullUserData(T, t) cFullUserData<T>(t, #T)
+
 /** Encapsulated utility class for getting arguments and returning values.
  */
 class ScriptParams {
@@ -150,6 +188,12 @@ class ScriptParams {
      */
     void returnvar(void* userdata);
 
+    /** Helper function for returning full user data.
+    Increases the return count by one and returns the state.
+    @returns the lua state
+     */
+    lua_State* returnFullUserData();
+
     /** Internal. Gets the number of return values that has been added.
     @returns the return count.
      */
@@ -163,15 +207,15 @@ class ScriptParams {
      */
     int getArgumentCount();
 
-    /** Internal. Get the lua state.
-    @returns the lua state
-     */
-    lua_State* getState();
-
     /** Internal. Gets the validated status.
     @return true if the item has been validated, false if not.
      */
     bool isValidated();
+
+    /** Get the lua state.
+    @returns the lua state
+     */
+    lua_State* getState();
 
     /** Marks the params as validated.
      */
@@ -221,14 +265,13 @@ class ScriptRegister {
  */
 ScriptRegister* GetGlobalScriptRegister();
 
-/** Register a script function. The function to add should have the following
-structure:
-void MyFunc(ScriptParams* params){ ]
+/** Basic script function
 @param name the name of the function surrounded by quotes like "MyFunc"
-@param func the function to register
+@param func the callback function
+@param luafunc the lua callback function name
  */
-#define REGISTER_SCRIPT_FUNCTION(name, func) \
-  int Lua_callback_for_##func(lua_State* state) { \
+#define SCRIPT_FUNCTION(name, func, luafunc) \
+  int luafunc(lua_State* state) { \
     try {\
       ScriptParams params(state);\
       func(&params);\
@@ -237,7 +280,16 @@ void MyFunc(ScriptParams* params){ ]
     } catch(...) {\
       return internal::HandleLuaException(name, state);\
     }\
-  }\
+  }
+
+/** Register a script function. The function to add should have the following
+structure:
+void MyFunc(ScriptParams* params){ ]
+@param name the name of the function surrounded by quotes like "MyFunc"
+@param func the function to register
+ */
+#define REGISTER_SCRIPT_FUNCTION(name, func) \
+  SCRIPT_FUNCTION(name, func, Lua_callback_for_##func)\
   class Lua_class_register_ ## func { \
     public:\
       Lua_class_register_##func() { \

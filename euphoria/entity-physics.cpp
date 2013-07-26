@@ -344,11 +344,19 @@ namespace scriptingphysics {
     float x = 0;
     float y = 0;
     float z = 0;
+    vec3* force = 0;
 
     if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
       assert(obj);
       assert(obj->body);
       obj->body->applyCentralForce(btVector3(x, y, z));
+    } else if (ScriptOverload(params) << cLightUserData(&obj)
+               << mFullUserData(vec3, &force)) {
+      assert(obj);
+      assert(obj->body);
+      assert(force);
+      obj->body->applyCentralForce(btVector3((*force)[0], (*force)[1],
+                                             (*force)[2]));
     }
   }
   REGISTER_SCRIPT_FUNCTION("ApplyForce", ApplyForce);
