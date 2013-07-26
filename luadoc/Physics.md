@@ -1,9 +1,9 @@
 Physics
 ===========
 
-GetPhysics
+GetPhysics()
 -----------
-Gets the physics object of a entity.It is not tested what happens when a entity doesnt have a physics object.
+Gets the physics object of a entity.
 
 ###Arguments
   - *Entity* The entity to get the physics from
@@ -12,7 +12,7 @@ Gets the physics object of a entity.It is not tested what happens when a entity 
   - *PhsyObj* The physics object.
 
 
-ApplyForce
+ApplyForce()
 -----------
 Applies force to a physics object.
 
@@ -23,7 +23,7 @@ Applies force to a physics object.
   - *Float* The z axis of the force
 
 
-ApplyForce
+ApplyForce()
 -----------
 Applies force to a physics object.
 

@@ -124,6 +124,14 @@ if(USE_DOXYGEN_BUILD)
 	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir 			${CMAKE_SOURCE_DIR}/euphoria")
 endif(USE_DOXYGEN_BUILD)
 
+if(USE_LUADOCGEN)
+	add_custom_command(TARGET main
+					   PRE_LINK
+					   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running CppLint" VERBATIM)
+endif(USE_LUADOCGEN)
+
 message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
 message(STATUS "Linking with SFML ${SFML_LIBRARIES}")
 message(STATUS "Linking with wxWidgets ${wxWidgets_LIBRARIES}")

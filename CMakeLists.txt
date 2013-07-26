@@ -14,6 +14,7 @@ option(USE_ASTYLE_BUILD "Add astyle to the build" ON)
 option(USE_CPPLINT_BUILD "Add cpplint to the build" ON)
 option(USE_DOXYGEN_BUILD "Add doxygen to the build" ON)
 option(USE_TWEAKABLES "Use tweakables" ON)
+option(USE_LUADOCGEN "parse all sources and build lua doc from it" ON)
 
 if(WIN32)
 	#on windows, link to sfml static, to avoid crash on exit with ati cards

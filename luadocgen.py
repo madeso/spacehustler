@@ -35,7 +35,7 @@ class Func:
 	def addret(self, ret):
 		self.ret.append(ret)
 	def write(self, target):
-		print(self.name, file=target)
+		print(self.name + "()", file=target)
 		print("-----------", file=target)
 		print(self.doc, file=target)
 		print("", file=target)

@@ -328,7 +328,6 @@ namespace scriptingphysics {
   // -- Function: GetPhysics
   // -- Description:
   // -- Gets the physics object of a entity.
-  // -- It is not tested what happens when a entity doesnt have a physics object.
   // -- Arguments:
   // -- Entity The entity to get the physics from
   // -- Returns:
