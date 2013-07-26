@@ -82,6 +82,8 @@ class Mods:
 				print("Module: " + name, file=target)
 				print("===========", file=target)
 				print("", file=target)
+				print("[Index](index.md)", file=target)
+				print("", file=target)
 				mod.write(name, target)
 		allfilename = os.path.join(dir, "index.md")
 		with open(allfilename, 'w') as allfile:
