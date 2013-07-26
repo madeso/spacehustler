@@ -107,6 +107,15 @@ class Mods:
 				print("[Index](index.md)", file=target)
 				print("", file=target)
 				mod.write(self, name, target)
+		modulesfilename = os.path.join(dir, "modules.md")
+		with open(modulesfilename, 'w') as modulesfile:
+			print("All functions", file=modulesfile)
+			print("===========", file=modulesfile)
+			print("", file=modulesfile)
+			print("[Index](index.md)", file=modulesfile)
+			for name, mod in self.mods.iteritems():
+				if mod.truemodule:
+					mod.write(self, name, modulesfile)
 		indexfilename = os.path.join(dir, "index.md")
 		with open(indexfilename, 'w') as indexfile:
 			print(os.path.basename(os.getcwd()) + " documentation", file=indexfile)
@@ -114,6 +123,7 @@ class Mods:
 			print("", file=indexfile)
 			print("Modules:", file=indexfile)
 			print("--------", file=indexfile)
+			print("[All functions](modules.md)", file=indexfile)
 			print("", file=indexfile)
 			for name, mod in self.mods.iteritems():
 				if mod.truemodule:
