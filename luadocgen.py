@@ -34,20 +34,22 @@ class Func:
 		self.arg.append(arg)
 	def addret(self, ret):
 		self.ret.append(ret)
-	def write(self, target):
-		print(self.name + "()", file=target)
+	def write(self, modulename, target):
+		print("", file=target)
 		print("-----------", file=target)
+		print("", file=target)
+		print("### " + modulename + "." + self.name + "()", file=target)
 		print(self.doc, file=target)
 		print("", file=target)
 		
 		if len(self.arg) > 0:
-			print("###Arguments", file=target)
+			print("#####Arguments:", file=target)
 			for a in self.arg:
 				print("  - " + firstbold(a), file=target)
 			print("", file=target)
 		
 		if len(self.ret) > 0:
-			print("###Returns", file=target)
+			print("#####Returns:", file=target)
 			for r in self.ret:
 				print("  - " + firstbold(r), file=target)
 			print("", file=target)
@@ -59,9 +61,9 @@ class Mod:
 		self.funcs = []
 	def addfunc(self, func):
 		self.funcs.append(func)
-	def write(self, target):
+	def write(self, mod, target):
 		for file in self.funcs:
-			file.write(target)
+			file.write(mod, target)
 
 class Mods:
 	def __init__(self):
@@ -77,10 +79,10 @@ class Mods:
 		for name, mod in self.mods.iteritems():
 			filename = os.path.join(dir,name+'.md')
 			with open(filename, 'w') as target:
-				print(name, file=target)
+				print("Module: " + name, file=target)
 				print("===========", file=target)
 				print("", file=target)
-				mod.write(target)
+				mod.write(name, target)
 
 module = ""
 function = ""

@@ -1,33 +1,39 @@
-Physics
+Module: Physics
 ===========
 
-GetPhysics()
+
 -----------
+
+### Physics.GetPhysics()
 Gets the physics object of a entity.
 
-###Arguments
+#####Arguments:
   - *Entity* The entity to get the physics from
 
-###Returns
+#####Returns:
   - *PhsyObj* The physics object.
 
 
-ApplyForce()
+
 -----------
+
+### Physics.ApplyForce()
 Applies force to a physics object.
 
-###Arguments
+#####Arguments:
   - *PhysObj* The physics object
   - *Float* The x axis of the force
   - *Float* The y axis of the force
   - *Float* The z axis of the force
 
 
-ApplyForce()
+
 -----------
+
+### Physics.ApplyForce()
 Applies force to a physics object.
 
-###Arguments
+#####Arguments:
   - *PhysObj* The physics object
   - *vec3* The force
 
