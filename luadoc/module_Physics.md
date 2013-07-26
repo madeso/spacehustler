@@ -37,6 +37,6 @@ Applies force to a physics object by providing a force vector
 
 ###Arguments:
   - **PhysObj** The physics object
-  - [vec3](module_vec3.md) The force
+  - [vec3](type_vec3.md) The force
 
 

@@ -28,7 +28,7 @@ def firstbold(mods, s):
 		type = s[0:index]
 		doc = s[index:]
 		if mods.hastype(type):
-			return "[" + type + "](module_" + type + ".md)"+ doc
+			return "[" + type + "](type_" + type + ".md)"+ doc
 		else:
 			return "**" + type + "**" + doc
 
@@ -44,9 +44,12 @@ class Func:
 		self.arg.append(arg)
 	def addret(self, ret):
 		self.ret.append(ret)
-	def write(self, mods, modulename, target):
+	def write(self, mods, modulename, truemodule, target):
 		print("", file=target)
-		print(modulename + "." + self.name + "()", file=target)
+		if truemodule:
+			print(modulename + "." + self.name + "()", file=target)
+		else:
+			print(self.name + "()", file=target)
 		print("-----------", file=target)
 		print("", file=target)
 		print(self.doc, file=target)
@@ -69,11 +72,12 @@ class Func:
 class Mod:
 	def __init__(self):
 		self.funcs = []
+		self.truemodule = True
 	def addfunc(self, func):
 		self.funcs.append(func)
-	def write(self, mods, mod, target):
+	def write(self, mods, modulename, target):
 		for file in self.funcs:
-			file.write(mods, mod, target)
+			file.write(mods, modulename, self.truemodule, target)
 
 class Mods:
 	def __init__(self):
@@ -89,9 +93,15 @@ class Mods:
 		return name in self.mods
 	def write(self, dir):
 		for name, mod in self.mods.iteritems():
-			filename = os.path.join(dir,"module_" + name+'.md')
+			prefix = "module"
+			if mod.truemodule == False:
+				prefix = "type"
+			filename = os.path.join(dir, prefix+"_" + name+'.md')
 			with open(filename, 'w') as target:
-				print("Module: " + name, file=target)
+				if mod.truemodule:
+					print("Module: " + name, file=target)
+				else:
+					print("Type: " + name, file=target)
 				print("===========", file=target)
 				print("", file=target)
 				print("[Index](index.md)", file=target)
@@ -102,14 +112,26 @@ class Mods:
 			print(os.path.basename(os.getcwd()) + " documentation", file=allfile)
 			print("========", file=allfile)
 			print("", file=allfile)
+			print("Modules:", file=allfile)
+			print("--------", file=allfile)
+			print("", file=allfile)
 			for name, mod in self.mods.iteritems():
-				print("* [" + name + " module](module_" + name + ".md)", file=allfile)
+				if mod.truemodule:
+					print("* [" + name + " module](module_" + name + ".md)", file=allfile)
+			print("", file=allfile)
+			print("Type:", file=allfile)
+			print("--------", file=allfile)
+			print("", file=allfile)
+			for name, mod in self.mods.iteritems():
+				if mod.truemodule==False:
+					print("* [" + name + " module](type_" + name + ".md)", file=allfile)
 
 module = ""
 function = ""
 createnewfunction = True
 mods = Mods()
 func = None
+truemodule = True
 
 def addToFunc(func, c, line):
 	if c == CMD_DESCRIPTION:
@@ -127,6 +149,7 @@ def handleCmd(c, line):
 	global createnewfunction
 	global mods
 	global func
+	global truemodule
 	
 	if c == CMD_MODULE:
 		module = module + line
@@ -136,7 +159,9 @@ def handleCmd(c, line):
 		if c == CMD_DESCRIPTION:
 			if createnewfunction:
 				func = Func(function)
-				mods.mod(module).addfunc(func)
+				m = mods.mod(module)
+				m.truemodule = truemodule
+				m.addfunc(func)
 			createnewfunction = False
 		else:
 			createnewfunction = True
@@ -145,6 +170,7 @@ def main():
 	global module
 	global function
 	global mods
+	global truemodule
 	parser = argparse.ArgumentParser(description='Generate a list of lua markup documents.')
 	parser.add_argument('outputdir', help='output directory wher to place the md files')
 	parser.add_argument('input', metavar='FILE', type=argparse.FileType('r'), nargs='+',
@@ -166,6 +192,11 @@ def main():
 						l = l[index+1:].strip()
 					if cmd == "module":
 						module = ""
+						truemodule = True
+						command = CMD_MODULE
+					elif cmd == "type":
+						module = ""
+						truemodule = False
 						command = CMD_MODULE
 					elif cmd == "function":
 						function = ""

@@ -37,7 +37,7 @@ namespace {
     , {NULL, NULL}
   };
 
-  // -- Module: vec3
+  // -- Type: vec3
   // -- Function: add
   // -- Description: Add two vectors.
   // -- Arguments:

@@ -15,7 +15,7 @@ Creates a 3 dimensional vector
   - **Number** The Z coordinate
 
 ####Returns:
-  - [vec3](module_vec3.md) a vector
+  - [vec3](type_vec3.md) a vector
 
 
 
@@ -25,6 +25,6 @@ cvec3.create()
 Creates a vector at origin
 
 ####Returns:
-  - [vec3](module_vec3.md) a vector placed at origin
+  - [vec3](type_vec3.md) a vector placed at origin
 
 
