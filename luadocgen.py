@@ -164,6 +164,13 @@ def main():
 					else:
 						handleCmd(command, l)
 		dir = os.path.abspath(args.outputdir)
+		for file in os.listdir(dir):
+			path = os.path.join(dir, file)
+			try:
+				if os.path.isfile(path):
+					os.unlink(path)
+			except Exception, e:
+				print(e)
 		mods.write(dir)
 
 if __name__ == '__main__':
