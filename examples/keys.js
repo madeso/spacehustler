@@ -1,1 +1,1 @@
-[{"name":"force", "scriptvar":"force", "key":"Space"}]
+[{"name":"force", "scriptvar":"forcekey", "key":"Space"}]

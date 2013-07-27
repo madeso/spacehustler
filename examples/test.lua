@@ -1,7 +1,6 @@
 function test(entity, dt)
-	local a = cvec3.create()
-	local b = cvec3.create(-2, 0, 0)
-	local c = a+b
-	local phys = Physics.Get(entity)
-	Physics.ApplyForce(phys, c)
+	if forcekey > 0.5 then
+		local phys = Physics.Get(entity)
+		Physics.ApplyForce(phys, 0, 18, 0)
+	end
 end
