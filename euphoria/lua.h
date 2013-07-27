@@ -105,6 +105,12 @@ class Lua {
      */
     void runCode(const std::string& code);
 
+    /** Set a global float.
+    @param name the name of the global
+    @param value the value of the global
+     */
+    void setGlobal(const std::string& name, float value);
+
     /** Gets the state.
     @returns the state
      */

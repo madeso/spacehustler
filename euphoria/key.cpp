@@ -11,7 +11,8 @@ namespace {
   class Keyname {
     public:
       Keyname() {
-        bind(Key::None, "None");
+        bind(Key::Invalid, "<invalid>");
+        bind(Key::Unbound, "<unbound>");
         bind(Key::A, "A");
         bind(Key::B, "B");
         bind(Key::C, "C");
@@ -135,9 +136,12 @@ namespace {
       }
 
       Key::Type fromString(const std::string& keyname) const {
+        if (keyname == "") {
+          return Key::Unbound;
+        }
         auto r = strtokey.find(ToLower(keyname));
         if (r == strtokey.end()) {
-          return Key::None;
+          return Key::Invalid;
         } else {
           return r->second;
         }

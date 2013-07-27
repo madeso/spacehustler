@@ -164,6 +164,13 @@ void Lua::runCode(const std::string& code) {
   ThrowIfError(state, luaL_dostring(state, code.c_str()));
 }
 
+void Lua::setGlobal(const std::string& name, float value) {
+  assert(this);
+  assert(state);
+  lua_pushnumber(state, value);
+  lua_setglobal(state, name.c_str());
+}
+
 lua_State* Lua::getState() {
   assert(this);
   assert(state);

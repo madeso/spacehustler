@@ -14,7 +14,8 @@ namespace Key {
   /** A key code
    */
   enum Type {
-    None             /// No key
+    Invalid           /// Invalid key
+    , Unbound           /// No key
     , A              /// The A key
     , B              /// The B key
     , C              /// The C key
