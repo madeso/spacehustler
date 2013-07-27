@@ -31,8 +31,27 @@ namespace internal {
   };
 }  // namespace internal
 
+/** A lua table.
+*/
+class Table {
+  public:
+    /** Constructor.
+    @param astate the state where to create the table.
+     */
+    explicit Table(lua_State* astate);
+    ~Table();
+
+    /** Pushes the table to the stack
+    @param astate the state that contains the stack.
+     */
+    void pushTable(lua_State* astate) const;
+  private:
+    lua_State* state;
+    int reference;
+};
+
 /** Function call.
-Only instansiate once.
+Only instantiate once.
  */
 class FunctionCall {
   public:
@@ -51,6 +70,11 @@ class FunctionCall {
     @param i the int
      */
     void arg(int i);
+
+    /** Supply a table.
+    @param t the table
+     */
+    void arg(const Table& t);
 
     /** Supply a float argument.
     @param f the float

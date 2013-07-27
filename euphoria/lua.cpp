@@ -30,6 +30,29 @@ namespace {
   }
 }  // namespace
 
+Table::Table(lua_State* astate)
+  : state(astate)
+  , reference(LUA_NOREF) {
+  assert(this);
+  assert(state);
+  lua_createtable(state, 0, 0);
+  reference = luaL_ref(state, LUA_REGISTRYINDEX);
+}
+
+Table::~Table() {
+  assert(this);
+  assert(state);
+  luaL_unref(state, LUA_REGISTRYINDEX, reference);
+  reference = LUA_NOREF;
+}
+
+void Table::pushTable(lua_State* astate) const {
+  assert(this);
+  assert(state);
+  assert(state == astate);
+  lua_rawgeti(state, LUA_REGISTRYINDEX, reference);
+}
+
 class IntFunctionReturn : public internal::FunctionReturn {
   public:
     explicit IntFunctionReturn(int* i) : theint(i) {
@@ -84,6 +107,14 @@ void FunctionCall::arg(float f) {
   assert(state);
   assert(valid);
   lua_pushnumber(state, f);
+  ++args;
+}
+
+void FunctionCall::arg(const Table& t) {
+  assert(this);
+  assert(state);
+  assert(valid);
+  t.pushTable(state);
   ++args;
 }
 

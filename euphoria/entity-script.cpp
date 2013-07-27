@@ -14,17 +14,22 @@ const std::string ScriptingSystemType = "Script";
 
 class ScriptType : public ComponentType {
   public:
-    explicit ScriptType(const Json::Value& data) {
+    ScriptType(const Json::Value& data, Lua* script)
+      : table(script->getState()) {
     }
+
+    Table table;
 };
 
 class ScriptObject {
   public:
-    ScriptObject(Entity* entity, ScriptType* type)
-      : entity(entity) {
+    ScriptObject(Entity* entity, ScriptType* type, Lua* script)
+      : entity(entity)
+      , table(script->getState()) {
     }
 
     Entity* entity;
+    Table table;
 };
 
 /// @todo add init function and 1 self table per object so variables can be
@@ -32,14 +37,24 @@ class ScriptObject {
 class ScriptSystem : public System {
   public:
     ScriptSystem(Json::Value data, Lua* ascript)
-      : script(ascript), functionname(data.get("function", "").asString()) {
+      : script(ascript)
+      , typefunction(data.get("typefunction", "").asString())
+      , componentfunction(data.get("componentfunction", "").asString())
+      , stepfunction(data.get("stepfunction", "").asString()) {
       assert(this);
     }
 
     ComponentType* addType(const Json::Value& data) {
       assert(this);
-      std::shared_ptr<ScriptType> type(new ScriptType(data));
+      std::shared_ptr<ScriptType> type(new ScriptType(data, script));
       types.push_back(type);
+
+      Json::Value temp = data;
+      FunctionCall f(script->getState(), typefunction);
+      f.arg(type->table);
+      f.arg(&temp);
+      f.call();
+
       return type.get();
     }
 
@@ -47,26 +62,40 @@ class ScriptSystem : public System {
       assert(this);
       assert(entity);
       assert(type);
-      objects.push_back(ScriptObject(entity, static_cast<ScriptType*>(type)));
+
+      ScriptType* stype = static_cast<ScriptType*>(type);
+
+      std::shared_ptr<ScriptObject> o(new ScriptObject(entity, stype , script));
+
+      FunctionCall f(script->getState(), componentfunction);
+      f.arg(o->table);
+      f.arg(stype->table);
+      f.call();
+
+      objects.push_back(o);
     }
 
     void step(float dt) {
       assert(this);
 
       for (auto & o : objects) {
-        /// @todo move function lookup outside when caching is implemented
-        FunctionCall f(script->getState(), functionname);
-        f.arg(o.entity);
-        f.arg(dt);
-        f.call();  /// @todo add more arguments
+        if (stepfunction.empty() == false) {
+          FunctionCall f(script->getState(), stepfunction);
+          f.arg(o->table);
+          f.arg(o->entity);
+          f.arg(dt);
+          f.call();  /// @todo add more arguments
+        }
       }
     }
 
   private:
     Lua* script;
-    const std::string functionname;
-    std::vector<std::shared_ptr<ScriptType> > types;
-    std::vector<ScriptObject> objects;
+    const std::string typefunction;
+    const std::string componentfunction;
+    const std::string stepfunction;
+    std::vector<std::shared_ptr<ScriptType>> types;
+    std::vector<std::shared_ptr<ScriptObject>> objects;
 };
 
 
