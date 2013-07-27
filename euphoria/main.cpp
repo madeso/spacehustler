@@ -34,6 +34,7 @@
 #include "euphoria/tweak.h"
 #include "euphoria/entity.h"
 #include "euphoria/systems.h"
+#include "euphoria/lua.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
@@ -78,13 +79,16 @@ void logic() {
   ShaderCache shadercache;
   World world("world.js", &texturecache, &shadercache);
 
+  Lua script;
+  script.runFile("main.lua");
+
   Camera camera;
   camera.setFov(45);
   camera.setNearFar(0.1f, 800.0f);
 
   SystemContainer container;
   LoadSystems("systemdefs.js", CreateSystemArg(&container, &world,
-              &texturecache, &shadercache, &camera));
+              &texturecache, &shadercache, &camera, &script));
 
   EntityList entities;
   entities.addDefs(&container, "entity.js");

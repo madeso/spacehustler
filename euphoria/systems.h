@@ -20,6 +20,7 @@ class World;
 class TextureCache;
 class ShaderCache;
 class Camera;
+class Lua;
 
 /** Arguments for creating a system.
  */
@@ -31,13 +32,15 @@ class CreateSystemArg {
     @param atexturecache the texture cache
     @param ashadercache the shader cache
     @param acamera the camera
+    @param ascript the lua engine
      */
     CreateSystemArg(
       SystemContainer* acontainer,
       World* aworld,
       TextureCache* atexturecache,
       ShaderCache* ashadercache,
-      Camera* acamera);
+      Camera* acamera,
+      Lua* ascript);
 
     /** The system container.
      */
@@ -58,6 +61,10 @@ class CreateSystemArg {
     /** The camera.
      */
     Camera* camera;
+
+    /** The main lua engine.
+     */
+    Lua* script;
 };
 
 /** Callback function for creating systems.

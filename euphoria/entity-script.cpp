@@ -31,11 +31,9 @@ class ScriptObject {
 /// kept between updates
 class ScriptSystem : public System {
   public:
-    explicit ScriptSystem(Json::Value data)
-      : functionname(data.get("function", "").asString()) {
+    ScriptSystem(Json::Value data, Lua* ascript)
+      : script(ascript), functionname(data.get("function", "").asString()) {
       assert(this);
-      const std::string filename = data.get("file", "").asString();
-      script.runFile(filename);
     }
 
     ComponentType* addType(const Json::Value& data) {
@@ -57,7 +55,7 @@ class ScriptSystem : public System {
 
       for (auto & o : objects) {
         /// @todo move function lookup outside when caching is implemented
-        FunctionCall f(script.getState(), functionname);
+        FunctionCall f(script->getState(), functionname);
         f.arg(o.entity);
         f.arg(dt);
         f.call();  /// @todo add more arguments
@@ -65,7 +63,7 @@ class ScriptSystem : public System {
     }
 
   private:
-    Lua script;
+    Lua* script;
     const std::string functionname;
     std::vector<std::shared_ptr<ScriptType> > types;
     std::vector<ScriptObject> objects;
@@ -74,7 +72,7 @@ class ScriptSystem : public System {
 
 void AddScriptCallback(CreateSystemArg arg, Json::Value data) {
   const std::string name(data.get("name", "").asString());
-  std::shared_ptr<System> sys(new ScriptSystem(data));
+  std::shared_ptr<System> sys(new ScriptSystem(data, arg.script));
   arg.container->add(name, sys);
 }
 

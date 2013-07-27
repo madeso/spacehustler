@@ -21,17 +21,20 @@ CreateSystemArg::CreateSystemArg(SystemContainer* acontainer,
                                  World* aworld,
                                  TextureCache* atexturecache,
                                  ShaderCache* ashadercache,
-                                 Camera* acamera) :
+                                 Camera* acamera,
+                                 Lua* ascript) :
   container(acontainer),
   world(aworld),
   texturecache(atexturecache),
   shadercache(ashadercache),
-  camera(acamera) {
+  camera(acamera),
+  script(ascript) {
   assert(container);
   assert(world);
   assert(texturecache);
   assert(shadercache);
   assert(camera);
+  assert(script);
 }
 
 SystemCreatorList::SystemCreatorList() {
