@@ -58,6 +58,13 @@ class KeybindList {
     @param down true if the key was just pressed down, false if got released
      */
     void onKey(Key::Type key, bool down);
+
+    /** React on mouse move.
+    @param dx the relative mouse movement in x
+    @param dy the relative mouse movement in y
+     */
+    void onMouse(float dx, float dy);
+
   private:
     Lua* lua;
     std::vector<Keybind> keys;

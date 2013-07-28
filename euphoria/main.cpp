@@ -276,8 +276,13 @@ void logic() {
   settings.majorVersion = 2;
   settings.minorVersion = 1;
 
-  sf::Window window(sf::VideoMode(800, 600), "Euphoria", sf::Style::Default,
-                    settings);
+  int width = 800;
+  int height = 600;
+
+  sf::Window window(sf::VideoMode(width, height), "Euphoria",
+                    sf::Style::Default, settings);
+
+  sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 
   const GLenum err = glewInit();
   if (err != GLEW_OK) {
@@ -290,7 +295,7 @@ void logic() {
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
-  TwWindowSize(800, 600);
+  TwWindowSize(width, height);
 #endif
 
   OglDebug ogldebug(OglDebug::IsSupported());
@@ -335,6 +340,7 @@ void logic() {
   RUNTWEAKCODE(TweakerStore tweakers);
 
   sf::Clock clock;
+  bool hasFocus = true;
   while (game.keepRunning()) {
     OglDebug::Verify();
 
@@ -354,6 +360,7 @@ void logic() {
     // check all the window's events that were triggered since the last
     // iteration of the loop
     sf::Event event;
+    sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2));
     while (window.pollEvent(event)) {
 #ifdef USE_TWEAKABLES
       if (tweaking) {
@@ -374,12 +381,29 @@ void logic() {
         keybinds.onKey(ToKey(event.mouseButton), down);
       }
 
+      if (event.type == sf::Event::GainedFocus) {
+        sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2));
+        hasFocus = true;
+      }
+
+      if (event.type == sf::Event::LostFocus) {
+        hasFocus = false;
+      }
+
       if (event.type == sf::Event::Closed) {
         game.quit();
       }
     }
 
     RUNTWEAKCODE(tweakers.update());
+
+    if (hasFocus) {
+      const sf::Vector2i mp = sf::Mouse::getPosition();
+      sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2));
+      const float dx = (mp.x / static_cast<float>(width)) - 0.5f;
+      const float dy = (mp.y / static_cast<float>(height)) - 0.5f;
+      keybinds.onMouse(dx, dy);
+    }
 
     const sf::Time elapsed = clock.restart();
     container.step(elapsed.asSeconds());

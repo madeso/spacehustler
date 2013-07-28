@@ -12,22 +12,27 @@
 Keybind::Keybind(const std::string& aname, const std::string& avar,
                  const Key::Type akey)
   : name(aname), var(avar), key(akey) {
+  assert(this);
 }
 
 const std::string Keybind::getLuaVar() const {
+  assert(this);
   return var;
 }
 
 const Key::Type Keybind::getKey() const {
+  assert(this);
   return key;
 }
 
 KeybindList::KeybindList(Lua* alua)
   : lua(alua) {
+  assert(this);
   assert(lua);
 }
 
 void KeybindList::load(const std::string& filename) {
+  assert(this);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
@@ -59,6 +64,8 @@ void KeybindList::load(const std::string& filename) {
 }
 
 void KeybindList::onKey(Key::Type key, bool down) {
+  assert(this);
+  assert(lua);
   if (key == Key::Invalid) {
     assert(0 && "Invalid key in onKey");
     return;
@@ -73,4 +80,11 @@ void KeybindList::onKey(Key::Type key, bool down) {
       lua->setGlobal(k.getLuaVar(), state);
     }
   }
+}
+
+void KeybindList::onMouse(float dx, float dy) {
+  assert(this);
+  assert(lua);
+  lua->setGlobal("mousex", dx);
+  lua->setGlobal("mousey", dy);
 }
