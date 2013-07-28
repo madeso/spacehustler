@@ -36,6 +36,7 @@
 #include "euphoria/systems.h"
 #include "euphoria/lua.h"
 #include "euphoria/keybind.h"
+#include "euphoria/game.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
@@ -306,6 +307,8 @@ void logic() {
   ShaderCache shadercache;
   World world("world.js", &texturecache, &shadercache);
 
+  Game game;
+
   Lua script;
   script.runFile("main.lua");
 
@@ -332,8 +335,7 @@ void logic() {
   RUNTWEAKCODE(TweakerStore tweakers);
 
   sf::Clock clock;
-  bool running = true;
-  while (running) {
+  while (game.keepRunning()) {
     OglDebug::Verify();
 
     glClearColor(0, 0, 0, 1);  // black
@@ -373,7 +375,7 @@ void logic() {
       }
 
       if (event.type == sf::Event::Closed) {
-        running = false;
+        game.quit();
       }
     }
 

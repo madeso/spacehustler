@@ -55,10 +55,10 @@ Applies force to a physics object by providing a force vector
 
 
 
-cvec3.create()
+Game.Quit()
 -----------
 
-Creates a 3 dimensional vector
+Quits the game.Creates a 3 dimensional vector
 
 ###Arguments:
   - **Number** The X coordinate

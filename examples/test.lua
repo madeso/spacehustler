@@ -11,4 +11,7 @@ function test_step(self, entity, dt)
 		local phys = Physics.Get(entity)
 		Physics.ApplyForce(phys, 0, self.force, 0)
 	end
+	if quitkey > 0.5 then
+		Game.Quit()
+	end
 end

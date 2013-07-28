@@ -7,6 +7,7 @@ Modules:
 
 * [Json module](module_Json.md)
 * [Physics module](module_Physics.md)
+* [Game module](module_Game.md)
 * [cvec3 module](module_cvec3.md)
 
 Type:
