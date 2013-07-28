@@ -341,6 +341,7 @@ void logic() {
 
   sf::Clock clock;
   bool hasFocus = true;
+  sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
   while (game.keepRunning()) {
     OglDebug::Verify();
 
@@ -355,12 +356,9 @@ void logic() {
 
     window.display();
 
-    bool boolean = true;
-
     // check all the window's events that were triggered since the last
     // iteration of the loop
     sf::Event event;
-    sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2));
     while (window.pollEvent(event)) {
 #ifdef USE_TWEAKABLES
       if (tweaking) {
@@ -382,7 +380,7 @@ void logic() {
       }
 
       if (event.type == sf::Event::GainedFocus) {
-        sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2));
+        sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
         hasFocus = true;
       }
 
@@ -398,11 +396,14 @@ void logic() {
     RUNTWEAKCODE(tweakers.update());
 
     if (hasFocus) {
-      const sf::Vector2i mp = sf::Mouse::getPosition();
-      sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2));
-      const float dx = (mp.x / static_cast<float>(width)) - 0.5f;
-      const float dy = (mp.y / static_cast<float>(height)) - 0.5f;
+      const sf::Vector2i mp = sf::Mouse::getPosition(window);
+      sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
+      float dx = (mp.x / static_cast<float>(width)) - 0.5f;
+      float dy = (mp.y / static_cast<float>(height)) - 0.5f;
       keybinds.onMouse(dx, dy);
+      window.setMouseCursorVisible(false);
+    } else {
+      window.setMouseCursorVisible(true);
     }
 
     const sf::Time elapsed = clock.restart();

@@ -62,6 +62,7 @@ class KeybindList {
     /** React on mouse move.
     @param dx the relative mouse movement in x
     @param dy the relative mouse movement in y
+    @todo move to a axis binder instead
      */
     void onMouse(float dx, float dy);
 
