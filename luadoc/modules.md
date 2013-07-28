@@ -58,7 +58,14 @@ Applies force to a physics object by providing a force vector
 Game.Quit()
 -----------
 
-Quits the game.Creates a 3 dimensional vector
+Quits the game.
+
+
+
+cvec3.create()
+-----------
+
+Creates a 3 dimensional vector
 
 ###Arguments:
   - **Number** The X coordinate

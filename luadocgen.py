@@ -164,7 +164,9 @@ def handleCmd(c, line):
 	if c == CMD_MODULE:
 		module = module + line
 	elif c == CMD_FUNCTION:
-		function = function + line
+		if len(line) > 0:
+			function = function + line
+			createnewfunction = True
 	else:
 		if c == CMD_DESCRIPTION:
 			if createnewfunction:
