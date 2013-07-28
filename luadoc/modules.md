@@ -55,6 +55,30 @@ Applies force to a physics object by providing a force vector
 
 
 
+Physics.ApplyTorque()
+-----------
+
+Applies torque to a physics object by providing the values
+
+###Arguments:
+  - **PhysObj** The physics object
+  - **Float** The x axis of the torque
+  - **Float** The y axis of the torque
+  - **Float** The z axis of the torque
+
+
+
+Physics.ApplyTorque()
+-----------
+
+Applies torque to a physics object by providing a torque vector
+
+###Arguments:
+  - **PhysObj** The physics object
+  - [vec3](type_vec3.md) The torque
+
+
+
 Game.Quit()
 -----------
 

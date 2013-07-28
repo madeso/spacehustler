@@ -381,4 +381,41 @@ namespace scriptingphysics {
     }
   }
   REGISTER_SCRIPT_FUNCTION("ApplyForce", ApplyForce);
+
+  // -- Function: ApplyTorque
+  // -- Description:
+  // -- Applies torque to a physics object by providing the values
+  // -- Arguments:
+  // -- PhysObj The physics object
+  // -- Float The x axis of the torque
+  // -- Float The y axis of the torque
+  // -- Float The z axis of the torque
+  // -- Description:
+  // -- Applies torque to a physics object by providing a torque vector
+  // -- Arguments:
+  // -- PhysObj The physics object
+  // -- vec3 The torque
+  void ApplyTorque(ScriptParams* params) {
+    assert(params);
+    PhysicsObject* obj = 0;
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    vec3* force = 0;
+
+    if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
+      assert(obj);
+      assert(obj->body);
+      obj->body->applyTorque(btVector3(x, y, z));
+    } else if (ScriptOverload(params) << cLightUserData(&obj)
+               << mFullUserData(vec3, &force)) {
+      assert(obj);
+      assert(obj->body);
+      assert(force);
+      obj->body->applyTorque(btVector3((*force)[0], (*force)[1],
+                                       (*force)[2]));
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("ApplyTorque", ApplyTorque);
+
 }  // namespace scriptingphysics
