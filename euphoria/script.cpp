@@ -52,6 +52,7 @@ namespace internal {
       const std::string& aname)
     : data(adata), name(aname) {
     assert(this);
+    assert(data);
   }
 
   bool FullUserDataScriptArgument::isValid(lua_State* state, int position) {
@@ -61,6 +62,7 @@ namespace internal {
 
   void FullUserDataScriptArgument::get(lua_State* state, int position) {
     assert(this);
+    assert(data);
     *data = luaL_checkudata(state, position, name.c_str());
   }
 
@@ -74,21 +76,53 @@ namespace {
   class FloatScriptArgument : public internal::ScriptArgument {
     public:
       explicit FloatScriptArgument(float* adata) : data(adata) {
+        assert(this);
+        assert(data);
       }
 
       virtual bool isValid(lua_State* state, int position) {
+        assert(this);
         return lua_isnumber(state, position) == 1;
       }
 
       virtual void get(lua_State* state, int position) {
+        assert(this);
+        assert(data);
         *data = static_cast<float>(lua_tonumber(state, position));
       }
 
       std::string toString() const {
+        assert(this);
         return "float";
       }
 
       float* data;
+  };
+
+  class StringScriptArgument : public internal::ScriptArgument {
+    public:
+      explicit StringScriptArgument(std::string* adata) : data(adata) {
+        assert(this);
+        assert(data);
+      }
+
+      virtual bool isValid(lua_State* state, int position) {
+        assert(this);
+        return lua_isstring(state, position) == 1;
+      }
+
+      virtual void get(lua_State* state, int position) {
+        assert(this);
+        assert(data);
+        *data = lua_tostring(state, position);
+      }
+
+      std::string toString() const {
+        assert(this);
+        return "string";
+      }
+
+      std::string* data;
   };
 }  // namespace
 
@@ -108,6 +142,13 @@ ScriptOverload& ScriptOverload::operator<<(
 ScriptOverload& ScriptOverload::operator<<(float* f) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new FloatScriptArgument(f));
+  arguments.push_back(ol);
+  return *this;
+}
+
+ScriptOverload& ScriptOverload::operator<<(std::string* s) {
+  assert(this);
+  std::shared_ptr<internal::ScriptArgument> ol(new StringScriptArgument(s));
   arguments.push_back(ol);
   return *this;
 }
@@ -246,7 +287,15 @@ void ScriptParams::addFailure(const std::string& f) {
 void ScriptParams::returnvar(void* userdata) {
   assert(this);
   assert(state);
+  assert(userdata);
   lua_pushlightuserdata(state, userdata);
+  ++retcount;
+}
+
+void ScriptParams::returnvar(float f) {
+  assert(this);
+  assert(state);
+  lua_pushnumber(state, f);
   ++retcount;
 }
 

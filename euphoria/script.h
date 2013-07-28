@@ -122,6 +122,12 @@ class ScriptOverload {
      */
     ScriptOverload& operator<<(float* f);
 
+    /** Add a string argument.
+    @param s the argument
+    @return this
+     */
+    ScriptOverload& operator<<(std::string* s);
+
   protected:
     /** Internal. Validate and update the supplied arguments.
     @param argcount the number of arguments.
@@ -187,6 +193,11 @@ class ScriptParams {
     @param userdata the light userdata to return
      */
     void returnvar(void* userdata);
+
+    /** Return a float.
+    @param f the float to return
+     */
+    void returnvar(float f);
 
     /** Helper function for returning full user data.
     Increases the return count by one and returns the state.

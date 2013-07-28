@@ -9,6 +9,7 @@
 
 #include "euphoria/entity.h"
 #include "euphoria/lua.h"
+#include "euphoria/script.h"
 
 const std::string ScriptingSystemType = "Script";
 
@@ -109,3 +110,29 @@ void Entity_AddScript(SystemCreatorList* sc) {
   sc->add(ScriptingSystemType, AddScriptCallback);
 }
 
+namespace scriptingjson {
+  // -- Module: Json
+  const std::string LUA_MODULE_NAME = "Json";
+
+  // -- Function: Get
+  // -- Description: Gets a value from the json data
+  // -- Arguments:
+  // -- Json the json data to get the value from
+  // -- String the name of the variable
+  // -- Number the default
+  // -- Returns:
+  // -- Number the value or the default
+  void GetValue(ScriptParams* params) {
+    assert(params);
+    Json::Value* value = 0;
+    std::string name = "";
+
+    float f = 0.0f;
+
+    if (ScriptOverload(params) << cLightUserData(&value) << &name << &f) {
+      float ret = value->get(name, f).asFloat();
+      params->returnvar(ret);
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("Get", GetValue);
+}  // namespace scriptingjson
