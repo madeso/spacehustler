@@ -324,7 +324,7 @@ void Entity_AddPhysics(SystemCreatorList* sc) {
 
 namespace scriptingphysics {
   // -- Module: Physics
-  const std::string LUA_NAMESPACE_NAME = "Physics";
+  const std::string LUA_MODULE_NAME = "Physics";
   // -- Function: GetPhysics
   // -- Description:
   // -- Gets the physics object of a entity.

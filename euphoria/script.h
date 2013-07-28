@@ -294,7 +294,7 @@ void MyFunc(ScriptParams* params){ ]
     public:\
       Lua_class_register_##func() { \
         assert(GetGlobalScriptRegister());\
-        GetGlobalScriptRegister()->add(LUA_NAMESPACE_NAME, name, \
+        GetGlobalScriptRegister()->add(LUA_MODULE_NAME, name, \
                                        Lua_callback_for_##func);\
       }\
   } Lua_static_var_register_ ## func
