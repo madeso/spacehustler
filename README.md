@@ -7,7 +7,7 @@ Current Features
 =======
 * Model loading through assimp
 * Instancing meshes in a world
-* Global tweak system (uses anttweakbar internally)
+* Global tweak system (uses anttweakbar internally, can be disabled)
 * Physics system (bullet)
 * Scripting support (lua)
 
@@ -15,13 +15,13 @@ Build tools
 =======
 * CMake
 * C++11 compiler
-* Python, for running cpplint during build (should be possible to disable)
-* Doxygen, for building documentation (should be possible to disable)
-* Astyle, for styling the code (should be possible to disable)
+* Python, for running cpplint during build (can be disabled)
+* Doxygen, for building documentation (can be disabled)
+* Astyle, for styling the code (can be disabled)
 * AssImp, for importing meshes
 * OpenGL library
 * SFML, for launching a window and providing a input layer
-* wxWidgets for displaying error messages
+* wxWidgets for displaying error messages (should be possible to disable)
 * bullet for physics
 
 Planned Features
