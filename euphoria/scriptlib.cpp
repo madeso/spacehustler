@@ -113,13 +113,13 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.newindex", vec3_newindex, lvec3_newindex)
 
-    void vec3_unm(ScriptParams* p) {
-      vec3* a;
-      if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
-        assert(a);
-        vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
-        *r = -*a;
-      }
+  void vec3_unm(ScriptParams* p) {
+    vec3* a;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
+      assert(a);
+      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      *r = -*a;
+    }
   }
   SCRIPT_FUNCTION("vec3.unm", vec3_unm, lvec3_unm)
 
@@ -154,7 +154,7 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.add", vec3_add, lvec3_add)
 
-  
+
 
   void vec3_sub(ScriptParams* p) {
     vec3* a;
@@ -294,6 +294,113 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.minimize", vec3_minimize, lvec3_minimize)
 
+  void vec3_toString(ScriptParams* p) {
+    vec3* a;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
+      assert(a);
+      p->returnvar(Str() << "(" << (*a)[0] << ", " << (*a)[1]  << ", "
+                   << (*a)[2] << ")");
+    }
+  }
+  SCRIPT_FUNCTION("vec3.toString", vec3_toString, lvec3_toString)
+
+  void vec3_dot(ScriptParams* p) {
+    vec3* a;
+    vec3* b;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)
+        << mFullUserData(vec3, &b)) {
+      assert(a);
+      assert(b);
+      p->returnvar(dot(*a, *b));
+    }
+  }
+  SCRIPT_FUNCTION("vec3.dot", vec3_dot, lvec3_dot)
+
+  void vec3_cross(ScriptParams* p) {
+    vec3* a;
+    vec3* b;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)
+        << mFullUserData(vec3, &b)) {
+      assert(a);
+      assert(b);
+      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      *r = cross(*a, *b);
+    }
+  }
+  SCRIPT_FUNCTION("vec3.cross", vec3_cross, lvec3_cross)
+
+  void vec3_crossnorm(ScriptParams* p) {
+    /// @todo No check for small magnitude is made; if the input vectors are
+    /// parallel or nearly parallel the result may be invalid.
+    vec3* a;
+    vec3* b;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)
+        << mFullUserData(vec3, &b)) {
+      assert(a);
+      assert(b);
+      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      *r = unit_cross(*a, *b);
+    }
+  }
+  SCRIPT_FUNCTION("vec3.crossnorm", vec3_crossnorm, lvec3_crossnorm)
+
+  void vec3_rotate(ScriptParams* p) {
+    vec3* a;
+    vec3* axis;
+    float angle;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)
+        << mFullUserData(vec3, &axis) << &angle) {
+      assert(a);
+      assert(axis);
+      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      *r = rotate_vector(*a, *axis, angle);
+    }
+  }
+  SCRIPT_FUNCTION("vec3.rotate", vec3_rotate, lvec3_rotate)
+
+  void vec3_angle(ScriptParams* p) {
+    vec3* a;
+    vec3* b;
+    vec3* c;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)
+        << mFullUserData(vec3, &b)) {
+      assert(a);
+      assert(b);
+      const float angle = unsigned_angle(*a, *b);
+      p->returnvar(angle);
+    } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
+               << mFullUserData(vec3, &b)
+               << mFullUserData(vec3, &c)) {
+      assert(a);
+      assert(b);
+      assert(c);
+      const float angle = signed_angle(*a, *b, *c);
+      p->returnvar(angle);
+    }
+  }
+  SCRIPT_FUNCTION("vec3.angle", vec3_angle, lvec3_angle)
+
+  void vec3_normalize(ScriptParams* p) {
+    vec3* a;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
+      assert(a);
+      /// @todo No checking for near-zero magnitude is performed.
+      *a = normalize(*a);
+    }
+  }
+  SCRIPT_FUNCTION("vec3.normalize", vec3_normalize, lvec3_normalize)
+
+  void vec3_getnormalized(ScriptParams* p) {
+    vec3* a;
+    if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
+      assert(a);
+      /// @todo No checking for near-zero magnitude is performed.
+      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      *r = normalize(*a);
+    }
+  }
+  SCRIPT_FUNCTION("vec3.getnormalized", vec3_getnormalized, lvec3_getnormalized)
+
   static const luaL_Reg fvec[] = {
     {"__gc", GCMethod<vec3> }
     , {"__index", lvec3_index }
@@ -309,14 +416,15 @@ namespace {
     , {"set", lvec3_set }
     , {"maximize", lvec3_maximize }
     , {"minimize", lvec3_minimize }
+    , {"__tostring", lvec3_toString }
+    , {"dot", lvec3_dot }
+    , {"cross", lvec3_cross }
+    , {"crossnorm", lvec3_crossnorm }
+    , {"rotate", lvec3_rotate }
+    , {"normalize", lvec3_normalize }
+    , {"getNormalized", lvec3_getnormalized }
     , {NULL, NULL}
   };
-
-  // add:
-  // toString
-  // dot, cross
-  // angles
-  // normalize
 
   void createmeta(lua_State* state) {
     luaL_newmetatable(state, "vec3");

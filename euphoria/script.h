@@ -205,6 +205,11 @@ class ScriptParams {
      */
     void returnvar(float f);
 
+    /** Return a string.
+    @param s the string to return
+     */
+    void returnvar(const std::string& s);
+
     /** Helper function for returning full user data.
     Increases the return count by one and returns the state.
     @returns the lua state

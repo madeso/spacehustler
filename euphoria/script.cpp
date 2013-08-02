@@ -325,6 +325,13 @@ void ScriptParams::returnvar(void* userdata) {
   ++retcount;
 }
 
+void ScriptParams::returnvar(const std::string& s) {
+  assert(this);
+  assert(state);
+  lua_pushstring(state, s.c_str());
+  ++retcount;
+}
+
 void ScriptParams::returnvar(float f) {
   assert(this);
   assert(state);
