@@ -30,6 +30,7 @@ Planned Features
 * Move from SFML to SDL for forcebeedback and joystick names (optionally)
 * audio and music support
 * add oculus rift support
+* change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * change from json to yaml/protobuf?
 * menu support (ce gui?)
 * hud/2d support (ce gui too, how much can it be skinned?)
