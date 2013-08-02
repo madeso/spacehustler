@@ -27,10 +27,12 @@ Build tools
 Planned Features
 =======
 * lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
+* Move from SFML to SDL for forcebeedback and joystick names (optionally)
 * audio and music support
+* add oculus rift support
 * change from json to yaml/protobuf?
-* menu support (ce gui)
-* hud/2d support
+* menu support (ce gui?)
+* hud/2d support (ce gui too, how much can it be skinned?)
 * implement all the todos
 * add loading of shaders from files with preprocessor
 * lights and shaddows
