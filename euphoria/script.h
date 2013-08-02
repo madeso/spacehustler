@@ -122,6 +122,12 @@ class ScriptOverload {
      */
     ScriptOverload& operator<<(float* f);
 
+    /** Add a integer argument.
+    @param i the argument
+    @return this
+     */
+    ScriptOverload& operator<<(int* i);
+
     /** Add a string argument.
     @param s the argument
     @return this

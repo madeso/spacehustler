@@ -99,6 +99,32 @@ namespace {
       float* data;
   };
 
+  class IntScriptArgument : public internal::ScriptArgument {
+    public:
+      explicit IntScriptArgument(int* adata) : data(adata) {
+        assert(this);
+        assert(data);
+      }
+
+      virtual bool isValid(lua_State* state, int position) {
+        assert(this);
+        return lua_isnumber(state, position) == 1;
+      }
+
+      virtual void get(lua_State* state, int position) {
+        assert(this);
+        assert(data);
+        *data = static_cast<int>(lua_tonumber(state, position));
+      }
+
+      std::string toString() const {
+        assert(this);
+        return "int";
+      }
+
+      int* data;
+  };
+
   class StringScriptArgument : public internal::ScriptArgument {
     public:
       explicit StringScriptArgument(std::string* adata) : data(adata) {
@@ -142,6 +168,13 @@ ScriptOverload& ScriptOverload::operator<<(
 ScriptOverload& ScriptOverload::operator<<(float* f) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new FloatScriptArgument(f));
+  arguments.push_back(ol);
+  return *this;
+}
+
+ScriptOverload& ScriptOverload::operator<<(int* i) {
+  assert(this);
+  std::shared_ptr<internal::ScriptArgument> ol(new IntScriptArgument(i));
   arguments.push_back(ol);
   return *this;
 }
