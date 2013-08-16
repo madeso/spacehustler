@@ -9,7 +9,7 @@ Debug rendering.
 
 #include <vector>
 
-#include "euphoria/colors.h"  // include colorS so that users can use all the colors
+#include "euphoria/colors.h"  // include colors so that users can use all the colors
 #include "euphoria/math.h"
 #include "euphoria/openglraii.h"
 #include "euphoria/shader.h"
@@ -29,7 +29,7 @@ class DebugRenderer {
     @param t the to point
     @param c the color
      */
-    void line(const vec3& f, const vec3& t, const Color& c);
+    void Line(const vec3& f, const vec3& t, const Color& c);
 
     /** Add a line.
     @param f the from point
@@ -37,25 +37,25 @@ class DebugRenderer {
     @param fc the from color
     @param tc the to color
      */
-    void line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
+    void Line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
 
 
     /** Render the debug lines.
      */
-    void render(const Camera& camera);
+    void Render(const Camera& camera);
 
   protected:
     /** Updates the internal data in the debug renderer.
      */
-    void update();
+    void Update();
 
   private:
-    unsigned int linecount;
-    std::vector<GLfloat> pending;
-    std::vector<GLfloat> points;
-    std::shared_ptr<internal::Vao> vao;
-    std::shared_ptr<internal::ArrayBuffer> vbo;
-    std::shared_ptr<Program> prog;
+    unsigned int linecount_;
+    std::vector<GLfloat> pending_;
+    std::vector<GLfloat> points_;
+    std::shared_ptr<internal::Vao> vao_;
+    std::shared_ptr<internal::ArrayBuffer> vbo_;
+    std::shared_ptr<Program> prog_;
 };
 
 #endif  // EUPHORIA_DEBUGRENDERER_H_

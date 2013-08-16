@@ -64,7 +64,7 @@ void World::render(const Camera& camera) {
     i->render(camera);
   }
 
-  debugrenderer.render(camera);
+  debugrenderer.Render(camera);
 }
 
 DebugRenderer& World::debug() {

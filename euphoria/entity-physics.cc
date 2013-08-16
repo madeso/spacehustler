@@ -181,7 +181,7 @@ class DebugDrawing : public btIDebugDraw {
                   const btVector3& color) {
       assert(this);
       assert(world);
-      world->debug().line(C(from), C(to), ToColor(color));
+      world->debug().Line(C(from), C(to), ToColor(color));
     }
 
     void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
