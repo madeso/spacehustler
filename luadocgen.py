@@ -46,10 +46,15 @@ class Func:
 		self.ret.append(ret)
 	def write(self, mods, modulename, truemodule, target):
 		print("", file=target)
-		if truemodule:
-			print(modulename + "." + self.name + "()", file=target)
+		name = self.name
+		if self.isOperator:
+			name = "Operator " + name
 		else:
-			print(self.name + "()", file=target)
+			name = name + "()"
+		if truemodule:
+			print(modulename + "." + name, file=target)
+		else:
+			print(name, file=target)
 		print("-----------", file=target)
 		print("", file=target)
 		print(self.doc, file=target)
@@ -142,6 +147,7 @@ createnewfunction = True
 mods = Mods()
 func = None
 truemodule = True
+isoperator = False
 
 def addToFunc(func, c, line):
 	if c == CMD_DESCRIPTION:
@@ -160,6 +166,7 @@ def handleCmd(c, line):
 	global mods
 	global func
 	global truemodule
+	global isoperator
 	
 	if c == CMD_MODULE:
 		module = module + line
@@ -171,6 +178,7 @@ def handleCmd(c, line):
 		if c == CMD_DESCRIPTION:
 			if createnewfunction:
 				func = Func(function)
+				func.isOperator = isoperator
 				m = mods.mod(module)
 				m.truemodule = truemodule
 				m.addfunc(func)
@@ -183,6 +191,7 @@ def main():
 	global function
 	global mods
 	global truemodule
+	global isoperator
 	parser = argparse.ArgumentParser(description='Generate a list of lua markup documents.')
 	parser.add_argument('outputdir', help='output directory wher to place the md files')
 	parser.add_argument('input', metavar='FILE', type=argparse.FileType('r'), nargs='+',
@@ -212,6 +221,11 @@ def main():
 						command = CMD_MODULE
 					elif cmd == "function":
 						function = ""
+						isoperator = False
+						command = CMD_FUNCTION
+					elif cmd == "operator":
+						function = ""
+						isoperator = True
 						command = CMD_FUNCTION
 					elif cmd == "description":
 						command = CMD_DESCRIPTION
