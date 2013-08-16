@@ -32,19 +32,19 @@ class EnumType {
     @param name the unique name of the value.
     @returns the enum value.
      */
-    const EnumValue toEnum(const std::string& name);
+    const EnumValue ToEnum(const std::string& name);
 
     /** Adds a valid enum value.
     Pretty much only usable during loading.
     @param name the unique name.
      */
-    void addEnum(const std::string& name);
+    void AddEnum(const std::string& name);
 
     /** Stops adding values to the enum.
     Puts the type in static mode, meaning no new values can be added and added
     values are verified against the valid values.
      */
-    void stopAdding();
+    void StopAdding();
 
   protected:
     friend class EnumValue;
@@ -54,18 +54,18 @@ class EnumType {
     @param v the enum.
     @returns the string representation.
      */
-    const std::string& toString(size_t v) const;
+    const std::string& ToString(size_t v) const;
 
   private:
     typedef std::map<size_t, std::string> List;
     typedef std::map<std::string, size_t> Map;
-    List list;
-    Map map;
+    List list_;
+    Map map_;
 
-    List createdButNotAddedList;
-    Map createdButNotAddedMap;
-    bool isAdding;
-    size_t nextIndex;
+    List created_but_not_added_list;
+    Map created_but_not_added_map;
+    bool is_adding;
+    size_t next_index;
 };
 
 /** Adds values from a file to a EnumType.
@@ -82,12 +82,12 @@ class EnumValue {
     Useful for debugging and displaying stuff.
     @returns the string representation.
      */
-    const std::string toString() const;
+    const std::string ToString() const;
 
     /** Gets the actual value.
     @return the value.
      */
-    const size_t toValue() const;
+    const size_t ToValue() const;
 
     /** Equal operator.
     @param other the other value.
@@ -117,8 +117,8 @@ class EnumValue {
     EnumValue(const EnumType* const type, size_t value);
 
   private:
-    const EnumType* const type;
-    const size_t value;
+    const EnumType* const type_;
+    const size_t value_;
 };
 
 /** Output the EnumValue to a stream.

@@ -10,23 +10,23 @@
 #include "json/json.h"
 
 EnumType::EnumType()
-  : isAdding(true)
-  , nextIndex(0) {
+  : is_adding(true)
+  , next_index(0) {
 }
 
 EnumType::~EnumType() {
-  assert(isAdding == false);
-  assert(createdButNotAddedList.empty() == true);
+  assert(is_adding == false);
+  assert(created_but_not_added_list.empty() == true);
 }
 
-const std::string& EnumType::toString(size_t v) const {
-  assert(v < nextIndex);
-  List::const_iterator f = list.find(v);
-  if (f != list.end()) {
+const std::string& EnumType::ToString(size_t v) const {
+  assert(v < next_index);
+  List::const_iterator f = list_.find(v);
+  if (f != list_.end()) {
     return f->second;
   } else {
-    List::const_iterator i = createdButNotAddedList.find(v);
-    if (i == createdButNotAddedList.end()) {
+    List::const_iterator i = created_but_not_added_list.find(v);
+    if (i == created_but_not_added_list.end()) {
       throw "unknown index";
     } else {
       return i->second;
@@ -34,52 +34,52 @@ const std::string& EnumType::toString(size_t v) const {
   }
 }
 
-const EnumValue EnumType::toEnum(const std::string& name) {
-  Map::const_iterator r = map.find(name);
-  if (r == map.end()) {
-    if (isAdding) {
-      const size_t id = nextIndex;
-      ++nextIndex;
-      createdButNotAddedList.insert(List::value_type(id, name));
-      createdButNotAddedMap.insert(Map::value_type(name, id));
-      map.insert(Map::value_type(name, id));
+const EnumValue EnumType::ToEnum(const std::string& name) {
+  Map::const_iterator r = map_.find(name);
+  if (r == map_.end()) {
+    if (is_adding) {
+      const size_t id = next_index;
+      ++next_index;
+      created_but_not_added_list.insert(List::value_type(id, name));
+      created_but_not_added_map.insert(Map::value_type(name, id));
+      map_.insert(Map::value_type(name, id));
       return EnumValue(this, id);
     } else {
-      throw "loading has finished, enum doesnt exist or is misspelled";
+      throw "loading has finished, enum doesn't exist or is misspelled";
     }
   } else {
     return EnumValue(this, r->second);
   }
 }
 
-void EnumType::addEnum(const std::string& name) {
-  assert(isAdding == true);
-  Map::const_iterator r = map.find(name);
-  if (r == map.end()) {
-    const size_t id = nextIndex;
-    ++nextIndex;
-    list.insert(List::value_type(id, name));
-    map.insert(Map::value_type(name, id));
+void EnumType::AddEnum(const std::string& name) {
+  assert(is_adding == true);
+  Map::const_iterator r = map_.find(name);
+  if (r == map_.end()) {
+    const size_t id = next_index;
+    ++next_index;
+    list_.insert(List::value_type(id, name));
+    map_.insert(Map::value_type(name, id));
   } else {
-    Map::iterator f = createdButNotAddedMap.find(name);
-    if (f == createdButNotAddedMap.end()) {
+    Map::iterator f = created_but_not_added_map.find(name);
+    if (f == created_but_not_added_map.end()) {
       throw "enum already added";
     } else {
       // move to list
       const size_t id = f->second;
-      List::iterator i = createdButNotAddedList.find(id);
+      List::iterator i = created_but_not_added_list.find(id);
       // createdButNotAdded list/map inconsistencies
-      assert(i != createdButNotAddedList.end());
-      createdButNotAddedList.erase(i);
-      createdButNotAddedMap.erase(f);
+      assert(i != created_but_not_added_list.end());
+      created_but_not_added_list.erase(i);
+      created_but_not_added_map.erase(f);
     }
   }
 }
 
-void EnumType::stopAdding() {
-  assert(isAdding == true);
-  isAdding = false;
-  assert(createdButNotAddedList.empty() == true);  // if this isn't empty,
+void EnumType::StopAdding() {
+  assert(is_adding == true);
+  is_adding = false;
+  assert(created_but_not_added_list.empty() == true);  // if this isn't empty,
   // some enums have not been added or misspelling has occurred,
   // see throw above
 }
@@ -103,37 +103,37 @@ void Load(EnumType* type, const std::string& filename) {
   }
 
   for (Json::Value::ArrayIndex index = 0; index < root.size(); ++index) {
-    type->addEnum(root[index].asString());
+    type->AddEnum(root[index].asString());
   }
 
-  type->stopAdding();
+  type->StopAdding();
 }
 
-EnumValue::EnumValue(const EnumType* const t, size_t v)
-  : type(t)
-  , value(v) {
+EnumValue::EnumValue(const EnumType* const type, size_t value)
+  : type_(type)
+  , value_(value) {
 }
 
-const std::string EnumValue::toString() const {
-  return type->toString(value);
+const std::string EnumValue::ToString() const {
+  return type_->ToString(value_);
 }
 
-const size_t EnumValue::toValue() const {
-  return value;
+const size_t EnumValue::ToValue() const {
+  return value_;
 }
 
 bool EnumValue::operator==(const EnumValue& other) const {
-  assert(type == other.type);
-  return value == other.value;
+  assert(type_ == other.type_);
+  return value_ == other.value_;
 }
 bool EnumValue::operator!=(const EnumValue& other) const {
   return !(*this == other);
 }
 bool EnumValue::operator<(const EnumValue& other) const {
-  assert(type == other.type);
-  return value < other.value;
+  assert(type_ == other.type_);
+  return value_ < other.value_;
 }
 std::ostream& operator<<(std::ostream& s, const EnumValue& v) {
-  s << v.toString();
+  s << v.ToString();
   return s;
 }
