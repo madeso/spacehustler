@@ -315,7 +315,7 @@ void logic() {
   Game game;
 
   Lua script;
-  script.runFile("main.lua");
+  script.RunFile("main.lua");
 
   KeybindList keybinds(&script);
   keybinds.Load("keys.js");

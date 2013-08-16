@@ -59,7 +59,7 @@ void KeybindList::Load(const std::string& filename) {
   }
 
   for (auto k : keys_) {
-    lua_->setGlobal(k.var(), 0.0f);
+    lua_->SetGlobal(k.var(), 0.0f);
   }
 }
 
@@ -77,7 +77,7 @@ void KeybindList::OnKey(Key::Type key, bool down) {
   for (auto k : keys_) {
     if (k.key() == key) {
       const float state = down ? 1.0f : 0.0f;
-      lua_->setGlobal(k.var(), state);
+      lua_->SetGlobal(k.var(), state);
     }
   }
 }
@@ -85,6 +85,6 @@ void KeybindList::OnKey(Key::Type key, bool down) {
 void KeybindList::OnMouse(float dx, float dy) {
   assert(this);
   assert(lua_);
-  lua_->setGlobal("mousex", dx);
-  lua_->setGlobal("mousey", dy);
+  lua_->SetGlobal("mousex", dx);
+  lua_->SetGlobal("mousey", dy);
 }

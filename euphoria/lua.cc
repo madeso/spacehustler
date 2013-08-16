@@ -31,179 +31,173 @@ namespace {
 }  // namespace
 
 Table::Table(lua_State* astate)
-  : state(astate)
-  , reference(LUA_NOREF) {
+  : state_(astate)
+  , reference_(LUA_NOREF) {
   assert(this);
-  assert(state);
-  lua_createtable(state, 0, 0);
-  reference = luaL_ref(state, LUA_REGISTRYINDEX);
+  assert(state_);
+  lua_createtable(state_, 0, 0);
+  reference_ = luaL_ref(state_, LUA_REGISTRYINDEX);
 }
 
 Table::~Table() {
   assert(this);
-  assert(state);
-  luaL_unref(state, LUA_REGISTRYINDEX, reference);
-  reference = LUA_NOREF;
+  assert(state_);
+  luaL_unref(state_, LUA_REGISTRYINDEX, reference_);
+  reference_ = LUA_NOREF;
 }
 
-void Table::pushTable(lua_State* astate) const {
+void Table::PushToState(lua_State* astate) const {
   assert(this);
-  assert(state);
-  assert(state == astate);
-  lua_rawgeti(state, LUA_REGISTRYINDEX, reference);
+  assert(state_);
+  assert(state_ == astate);
+  lua_rawgeti(state_, LUA_REGISTRYINDEX, reference_);
 }
 
 class IntFunctionReturn : public internal::FunctionReturn {
   public:
-    explicit IntFunctionReturn(int* i) : theint(i) {
-      assert(theint);
+    explicit IntFunctionReturn(int* i) : int_(i) {
+      assert(int_);
       assert(this);
     }
 
-    void get(lua_State* state) {
-      assert(theint);
+    void Get(lua_State* state) {
+      assert(int_);
       assert(this);
-      *theint = lua_tointeger(state, -1);
+      *int_ = lua_tointeger(state, -1);
     }
 
-    int* theint;
+  private:
+    int* int_;
 };
 
 class StringFunctionReturn : public internal::FunctionReturn {
   public:
-    explicit StringFunctionReturn(std::string* s) : thestring(s) {
-      assert(thestring);
+    explicit StringFunctionReturn(std::string* s) : string_(s) {
+      assert(string_);
       assert(this);
     }
 
-    void get(lua_State* state) {
-      assert(thestring);
+    void Get(lua_State* state) {
+      assert(string_);
       assert(this);
-      *thestring = lua_tostring(state, -1);
+      *string_ = lua_tostring(state, -1);
     }
 
-    std::string* thestring;
+  private:
+    std::string* string_;
 };
 
 FunctionCall::FunctionCall(lua_State* astate, const std::string& name)
-  : valid(true), state(astate), args(0) {
+  : state_(astate), args_(0) {
   assert(this);
-  assert(state);
+  assert(state_);
   /// @todo save and push in call function so multiple calls can be made
   /// from a single function lookup
-  lua_getglobal(state, name.c_str());
+  lua_getglobal(state_, name.c_str());
 }
 
-void FunctionCall::arg(const std::string& str) {
+void FunctionCall::Argument(const std::string& str) {
   assert(this);
-  assert(state);
-  assert(valid);
-  lua_pushstring(state, str.c_str());
-  ++args;
+  assert(state_);
+  lua_pushstring(state_, str.c_str());
+  ++args_;
 }
 
-void FunctionCall::arg(float f) {
+void FunctionCall::Argument(float f) {
   assert(this);
-  assert(state);
-  assert(valid);
-  lua_pushnumber(state, f);
-  ++args;
+  assert(state_);
+  lua_pushnumber(state_, f);
+  ++args_;
 }
 
-void FunctionCall::arg(const Table& t) {
+void FunctionCall::Argument(const Table& t) {
   assert(this);
-  assert(state);
-  assert(valid);
-  t.pushTable(state);
-  ++args;
+  assert(state_);
+  t.PushToState(state_);
+  ++args_;
 }
 
-void FunctionCall::arg(int i) {
+void FunctionCall::Argument(int i) {
   assert(this);
-  assert(state);
-  assert(valid);
-  lua_pushnumber(state, i);
-  ++args;
+  assert(state_);
+  lua_pushnumber(state_, i);
+  ++args_;
 }
 
-void FunctionCall::arg(void* v) {
+void FunctionCall::Argument(void* v) {
   assert(this);
-  assert(state);
+  assert(state_);
   assert(v);
-  assert(valid);
-  lua_pushlightuserdata(state, v);
-  ++args;
+  lua_pushlightuserdata(state_, v);
+  ++args_;
 }
 
-void FunctionCall::ret(std::string* str) {
+void FunctionCall::Return(std::string* str) {
   assert(this);
-  assert(state);
+  assert(state_);
   assert(str);
-  assert(valid);
   std::shared_ptr<internal::FunctionReturn> r(new StringFunctionReturn(str));
-  returns.push_back(r);
+  returns_.push_back(r);
 }
 
-void FunctionCall::ret(int* i) {
+void FunctionCall::Return(int* i) {
   assert(this);
-  assert(state);
+  assert(state_);
   assert(i);
-  assert(valid);
   std::shared_ptr<internal::FunctionReturn> r(new IntFunctionReturn(i));
-  returns.push_back(r);
+  returns_.push_back(r);
 }
 
-void FunctionCall::call() {
+void FunctionCall::Call() {
   assert(this);
-  assert(state);
-  assert(args >= 0);
-  assert(valid);
-  ThrowIfError(state, lua_pcall(state, args, returns.size(), 0));
-  for (auto a : returns) {
-    a->get(state);
-    lua_pop(state, 1);
+  assert(state_);
+  assert(args_ >= 0);
+  ThrowIfError(state_, lua_pcall(state_, args_, returns_.size(), 0));
+  for (auto a : returns_) {
+    a->Get(state_);
+    lua_pop(state_, 1);
   }
-  args = 0;
-  returns.clear();
+  args_ = 0;
+  returns_.clear();
 }
 
-Lua::Lua() : state(luaL_newstate()) {
+Lua::Lua() : state_(luaL_newstate()) {
   assert(this);
-  assert(state);
+  assert(state_);
 
-  luaL_openlibs(state);
-  scriptlib_register(state);
+  luaL_openlibs(state_);
+  scriptlib_register(state_);
   assert(GetGlobalScriptRegister());
-  GetGlobalScriptRegister()->registerAll(state);
+  GetGlobalScriptRegister()->registerAll(state_);
 }
 
 Lua::~Lua() {
   assert(this);
-  assert(state);
-  lua_close(state);
+  assert(state_);
+  lua_close(state_);
 }
 
-void Lua::runFile(const std::string& filename) {
+void Lua::RunFile(const std::string& filename) {
   assert(this);
-  assert(state);
-  ThrowIfError(state, luaL_dofile(state, filename.c_str()));
+  assert(state_);
+  ThrowIfError(state_, luaL_dofile(state_, filename.c_str()));
 }
 
-void Lua::runCode(const std::string& code) {
+void Lua::RunCode(const std::string& code) {
   assert(this);
-  assert(state);
-  ThrowIfError(state, luaL_dostring(state, code.c_str()));
+  assert(state_);
+  ThrowIfError(state_, luaL_dostring(state_, code.c_str()));
 }
 
-void Lua::setGlobal(const std::string& name, float value) {
+void Lua::SetGlobal(const std::string& name, float value) {
   assert(this);
-  assert(state);
-  lua_pushnumber(state, value);
-  lua_setglobal(state, name.c_str());
+  assert(state_);
+  lua_pushnumber(state_, value);
+  lua_setglobal(state_, name.c_str());
 }
 
-lua_State* Lua::getState() {
+lua_State* Lua::state() {
   assert(this);
-  assert(state);
-  return state;
+  assert(state_);
+  return state_;
 }

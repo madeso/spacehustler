@@ -16,7 +16,7 @@ const std::string ScriptingSystemType = "Script";
 class ScriptType : public ComponentType {
   public:
     ScriptType(const Json::Value& data, Lua* script)
-      : table(script->getState()) {
+      : table(script->state()) {
     }
 
     Table table;
@@ -26,7 +26,7 @@ class ScriptObject {
   public:
     ScriptObject(Entity* entity, ScriptType* type, Lua* script)
       : entity(entity)
-      , table(script->getState()) {
+      , table(script->state()) {
     }
 
     Entity* entity;
@@ -51,10 +51,10 @@ class ScriptSystem : public System {
       types_.push_back(type);
 
       Json::Value temp = data;
-      FunctionCall f(script_->getState(), type_function_);
-      f.arg(type->table);
-      f.arg(&temp);
-      f.call();
+      FunctionCall f(script_->state(), type_function_);
+      f.Argument(type->table);
+      f.Argument(&temp);
+      f.Call();
 
       return type.get();
     }
@@ -69,10 +69,10 @@ class ScriptSystem : public System {
       std::shared_ptr<ScriptObject> o(new ScriptObject(entity, script_type,
                                       script_));
 
-      FunctionCall f(script_->getState(), component_function_);
-      f.arg(o->table);
-      f.arg(script_type->table);
-      f.call();
+      FunctionCall f(script_->state(), component_function_);
+      f.Argument(o->table);
+      f.Argument(script_type->table);
+      f.Call();
 
       objects_.push_back(o);
     }
@@ -82,11 +82,11 @@ class ScriptSystem : public System {
 
       for (auto & o : objects_) {
         if (step_function_.empty() == false) {
-          FunctionCall f(script_->getState(), step_function_);
-          f.arg(o->table);
-          f.arg(o->entity);
-          f.arg(dt);
-          f.call();  /// @todo add more arguments
+          FunctionCall f(script_->state(), step_function_);
+          f.Argument(o->table);
+          f.Argument(o->entity);
+          f.Argument(dt);
+          f.Call();  /// @todo add more arguments
         }
       }
     }

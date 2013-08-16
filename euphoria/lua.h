@@ -27,7 +27,7 @@ namespace internal {
       /** Get the stored lua value.
       @param state the state to get it from.
        */
-      virtual void get(lua_State* state) = 0;
+      virtual void Get(lua_State* state) = 0;
   };
 }  // namespace internal
 
@@ -36,18 +36,18 @@ namespace internal {
 class Table {
   public:
     /** Constructor.
-    @param astate the state where to create the table.
+    @param state the state where to create the table.
      */
-    explicit Table(lua_State* astate);
+    explicit Table(lua_State* state);
     ~Table();
 
     /** Pushes the table to the stack
-    @param astate the state that contains the stack.
+    @param state the state that contains the stack.
      */
-    void pushTable(lua_State* astate) const;
+    void PushToState(lua_State* state) const;
   private:
-    lua_State* state;
-    int reference;
+    lua_State* state_;
+    int reference_;
 };
 
 /** Function call.
@@ -56,55 +56,54 @@ Only instantiate once.
 class FunctionCall {
   public:
     /** Call a lua function.
-    @param astate the state to use
+    @param state the state to use
     @param name the name of the function
      */
-    FunctionCall(lua_State* astate, const std::string& name);
+    FunctionCall(lua_State* state, const std::string& name);
 
     /** Supply a string argument.
     @param str the string
      */
-    void arg(const std::string& str);
+    void Argument(const std::string& str);
 
     /** Supply a integer argument.
     @param i the int
      */
-    void arg(int i);
+    void Argument(int i);
 
     /** Supply a table.
     @param t the table
      */
-    void arg(const Table& t);
+    void Argument(const Table& t);
 
     /** Supply a float argument.
     @param f the float
      */
-    void arg(float f);
+    void Argument(float f);
 
     /** Supply a light user data.
     @param v the light user data.
      */
-    void arg(void* v);
+    void Argument(void* v);
 
     /** Get a return string.
     @param str where to store the string.
      */
-    void ret(std::string* str);
+    void Return(std::string* str);
 
     /** Get a return int.
     @param i where to store the int.
      */
-    void ret(int* i);
+    void Return(int* i);
 
     /** Call the function.
      */
-    void call();
+    void Call();
 
   private:
-    bool valid;
-    lua_State* state;
-    int args;
-    std::vector<std::shared_ptr<internal::FunctionReturn>> returns;
+    lua_State* state_;
+    int args_;
+    std::vector<std::shared_ptr<internal::FunctionReturn>> returns_;
 };
 
 /** Util class for creating and destroying a lua state.
@@ -122,26 +121,26 @@ class Lua {
     /** Run file.
     @param filename the file to run.
      */
-    void runFile(const std::string& filename);
+    void RunFile(const std::string& filename);
 
     /** Run code.
     @param code the code to run.
      */
-    void runCode(const std::string& code);
+    void RunCode(const std::string& code);
 
     /** Set a global float.
     @param name the name of the global
     @param value the value of the global
      */
-    void setGlobal(const std::string& name, float value);
+    void SetGlobal(const std::string& name, float value);
 
     /** Gets the state.
     @returns the state
      */
-    lua_State* getState();
+    lua_State* state();
 
   private:
-    lua_State* state;
+    lua_State* state_;
 };
 
 #endif  // EUPHORIA_LUA_H_
