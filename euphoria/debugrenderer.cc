@@ -68,7 +68,7 @@ void DebugRenderer::render(const Camera& camera) {
 
     prog->bind();
 
-    prog->setUniform("camera", camera.view);
+    prog->setUniform("camera", camera.view());
     prog->setUniform("projection", camera.GetProjection());
 
     vao->bind();

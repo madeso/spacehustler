@@ -9,7 +9,7 @@ Camera::Camera()
   , aspect_(800.0f / 600)
   , znear_(0.1f)
   , zfar_(100.0f) {
-  view = cmat44(cvec3zero(), cquatIdent());
+  view_ = cmat44(cvec3zero(), cquatIdent());
   UpdateProjection();
 }
 
@@ -23,6 +23,16 @@ void Camera::SetFov(float fov) {
 
   fov_ = fov;
   UpdateProjection();
+}
+
+const mat44& Camera::view() const {
+  assert(this);
+  return view_;
+}
+
+void Camera::view(const mat44& view) {
+  assert(this);
+  view_ = view;
 }
 
 void Camera::SetNearFar(float near, float far) {
