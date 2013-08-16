@@ -110,3 +110,16 @@ Creates a vector at origin
   - [vec3](type_vec3.md) a vector placed at origin
 
 
+
+cvec3.cardinal()
+-----------
+
+Create a cardinal vector.
+
+###Arguments:
+  - **Number** The cardinal vector index, pass 1 to create (1,0,0) etc.
+
+####Returns:
+  - **The** created vector.
+
+

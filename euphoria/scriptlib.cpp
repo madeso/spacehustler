@@ -12,31 +12,36 @@
 namespace {
   // -- Module: cvec3
   // -- Function: create
-  // -- Description: Creates a 3 dimensional vector
-  // -- Arguments:
-  // -- Number The X coordinate
-  // -- Number The Y coordinate
-  // -- Number The Z coordinate
-  // -- Returns: vec3 a vector
-  // -- Description: Creates a vector at origin
-  // -- Returns: vec3 a vector placed at origin
   void cvec3_create(ScriptParams* p) {
     float x = 0;
     float y = 0;
     float z = 0;
 
     if (ScriptOverload(p) << &x << &y << &z) {
+      // -- Description: Creates a 3 dimensional vector
+      // -- Arguments:
+      // -- Number The X coordinate
+      // -- Number The Y coordinate
+      // -- Number The Z coordinate
+      // -- Returns: vec3 a vector
       lua_pushobject(p->returnFullUserData(), vec3)(x, y, z);
     } else if (ScriptOverload(p)) {
+      // -- Description: Creates a vector at origin
+      // -- Returns: vec3 a vector placed at origin
       lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
     }
   }
   SCRIPT_FUNCTION("cvec3.create", cvec3_create, lcvec3_create)
 
+  // -- Function: cardinal
   void cvec3_cardinal(ScriptParams* p) {
     int i = 0;
 
     if (ScriptOverload(p) << &i) {
+      // -- Description: Create a cardinal vector.
+      // -- Arguments:
+      // -- Number The cardinal vector index, pass 1 to create (1,0,0) etc.
+      // -- Returns: The created vector.
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       if (i > 3) {
         throw "Invalid cardinal index";
@@ -55,11 +60,18 @@ namespace {
     , {NULL, NULL}
   };
 
+  // -- Type: vec3
+
+  // -- Operator: .
   void vec3_index(ScriptParams* p) {
     vec3* a;
     std::string key;
     int index;
     if (ScriptOverload(p) << mFullUserData(vec3, &a) << &key) {
+      // -- Description: Get or sets a value from the vector
+      // -- Arguments:
+      // -- String the name, x for x, y for z for z
+      // -- Returns: Number the value of x, y or z
       assert(a);
       if (key == "x") {
         p->returnvar((*a)[0]);
@@ -71,6 +83,10 @@ namespace {
         throw "Invalid key";
       }
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a) << &index) {
+      // -- Description: Getor sets a value from the vector
+      // -- Arguments:
+      // -- Number the index between 1 and 3 that indicates the x,y or z value
+      // -- Returns: Number The value
       assert(a);
       if (index <= 0) {
         throw "Invalid index";
@@ -83,6 +99,7 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.index", vec3_index, lvec3_index)
 
+  // documented above
   void vec3_newindex(ScriptParams* p) {
     vec3* a;
     std::string key;
@@ -113,9 +130,13 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.newindex", vec3_newindex, lvec3_newindex)
 
+  // -- Operator: unary -
   void vec3_unm(ScriptParams* p) {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
+      // -- Description: Returns a negative representation of the vector
+      // -- Arguments: vec3 the vector to negate
+      // -- Returns: vec3 the negated vector
       assert(a);
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = -*a;
@@ -123,13 +144,7 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.unm", vec3_unm, lvec3_unm)
 
-  // -- Type: vec3
-  // -- Function: add
-  // -- Description: Add two vectors.
-  // -- Arguments:
-  // -- vec3 the left operand
-  // -- vec3 the right operand
-  // -- Returns: vec3 the sum of the 2 vectors.
+  // -- Operator: +
   void vec3_add(ScriptParams* p) {
     vec3* a;
     vec3* b;
@@ -138,11 +153,21 @@ namespace {
         << mFullUserData(vec3, &b)) {
       assert(a);
       assert(b);
+      // -- Description: Add two vectors.
+      // -- Arguments:
+      // -- vec3 the left operand
+      // -- vec3 the right operand
+      // -- Returns: vec3 the sum of the 2 vectors.
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = *a + *b;
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << &f) {
       assert(a);
+      // -- Description: Add a vector and a number.
+      // -- Arguments:
+      // -- vec3 the left operand
+      // -- Number the number to add
+      // -- Returns: vec3 the sum of the vector and the float
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = *a + vec3(f, f, f);
     }
@@ -154,8 +179,7 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.add", vec3_add, lvec3_add)
 
-
-
+  // -- Operator: -
   void vec3_sub(ScriptParams* p) {
     vec3* a;
     vec3* b;
@@ -164,15 +188,24 @@ namespace {
         << mFullUserData(vec3, &b)) {
       assert(a);
       assert(b);
+      // -- Description: Substract two vectors.
+      // -- Arguments:
+      // -- vec3 the left operand
+      // -- vec3 the right operand
+      // -- Returns: vec3 the result.
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = *a - *b;
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << &f) {
       assert(a);
+      // -- Description: Subtract a vector and a number.
+      // -- Arguments:
+      // -- vec3 the left operand
+      // -- Number the number to subtract
+      // -- Returns: vec3 the result
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = *a - vec3(f, f, f);
-    }
-    if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
+    } else if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
       assert(a);
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = vec3(f, f, f) - *a;
@@ -180,62 +213,86 @@ namespace {
   }
   SCRIPT_FUNCTION("vec3.sub", vec3_sub, lvec3_sub)
 
+  // -- Operator: *
   void vec3_mul(ScriptParams* p) {
     vec3* a;
     float f;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)
         << &f) {
       assert(a);
+      // -- Description: Multiply a vector and a number.
+      // -- Arguments:
+      // -- vec3 the left operand
+      // -- float the number to multiply with
+      // -- Returns: vec3 the result
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = *a * f;
     }
     if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
       assert(a);
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
-      *r = f** a;
+      *r = *a * f;
     }
   }
   SCRIPT_FUNCTION("vec3.mul", vec3_mul, lvec3_mul)
 
+  // -- Operator: /
   void vec3_div(ScriptParams* p) {
     vec3* a;
     float f;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)
         << &f) {
       assert(a);
+      // -- Description: Divide a vector and a number.
+      // -- Arguments:
+      // -- vec3 the left operand
+      // -- float the number to divide
+      // -- Returns: vec3 the result
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = *a / f;
     }
   }
   SCRIPT_FUNCTION("vec3.div", vec3_div, lvec3_div)
 
+  // -- Function: length
   void vec3_length(ScriptParams* p) {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
       assert(a);
+      // -- Description: Gets the length of the vector.
+      // -- Arguments: vec3 the vector
+      // -- Returns: Number the length
       p->returnvar(a->length());
     }
   }
   SCRIPT_FUNCTION("vec3.length", vec3_length, lvec3_length)
 
+  // -- Function: length2
   void vec3_length2(ScriptParams* p) {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
       assert(a);
+      // -- Description: Returns the squared length.
+      // -- Arguments: vec3 the vector
+      // -- Returns: Number the length squared
       p->returnvar(a->length_squared());
     }
   }
   SCRIPT_FUNCTION("vec3.length2", vec3_length2, lvec3_length2)
 
+  // -- Function: zero
   void vec3_zero(ScriptParams* p) {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
       assert(a);
+      // -- Description: Sets all values to 0
+      // -- Arguments: vec3 the vector to clear.
       a->zero();
     }
   }
   SCRIPT_FUNCTION("vec3.zero", vec3_zero, lvec3_zero)
 
+  // -- Function: set
   void vec3_set(ScriptParams* p) {
     vec3* a;
     float x;
@@ -244,14 +301,22 @@ namespace {
     float all;
     if (ScriptOverload(p) << mFullUserData(vec3, &a) << &x << &y << &z) {
       assert(a);
+      // -- Description: sets the value of all values
+      // -- Arguments:
+      // -- Number the X
+      // -- Number the Y
+      // -- Number the Z
       a->set(x, y, z);
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a) << &all) {
       assert(a);
+      // -- Description: sets the values to a single value
+      // -- Arguments: Number the the value of X, Y and Z
       a->set(all, all, all);
     }
   }
   SCRIPT_FUNCTION("vec3.set", vec3_set, lvec3_set)
 
+  // -- Function: maximize
   void vec3_maximize(ScriptParams* p) {
     vec3* a;
     float x;
@@ -260,14 +325,28 @@ namespace {
     float all;
     vec3* o;
     if (ScriptOverload(p) << mFullUserData(vec3, &a) << &x << &y << &z) {
+      // -- Description: Sets the vector to the pairwise maximum.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- Number the X
+      // -- Number the Y
+      // -- Number the Z
       assert(a);
       a->maximize(vec3(x, y, z));
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a) << &all) {
       assert(a);
+      // -- Description: Sets the vector to the pairwise maximum.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- Number the X, Y and Z
       a->maximize(vec3(all, all, all));
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << mFullUserData(vec3, &o)) {
       assert(a);
+      // -- Description: Sets the vector to the pairwise maximum.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- vec3 the other vector
       a->maximize(*o);
     }
   }
@@ -282,13 +361,27 @@ namespace {
     vec3* o;
     if (ScriptOverload(p) << mFullUserData(vec3, &a) << &x << &y << &z) {
       assert(a);
+      // -- Description: Sets the vector to the pairwise minimum.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- Number the X
+      // -- Number the Y
+      // -- Number the Z
       a->minimize(vec3(x, y, z));
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a) << &all) {
       assert(a);
+      // -- Description: Sets the vector to the pairwise minimum.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- Number the X, Y and Z
       a->minimize(vec3(all, all, all));
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << mFullUserData(vec3, &o)) {
       assert(a);
+      // -- Description: Sets the vector to the pairwise minimum.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- vec3 the other vector
       a->minimize(*o);
     }
   }
@@ -298,6 +391,11 @@ namespace {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
       assert(a);
+      // -- Function: toString
+      // -- Description: Generate a string representation of the vector.
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- Returns: string the resulting string
       p->returnvar(Str() << "(" << (*a)[0] << ", " << (*a)[1]  << ", "
                    << (*a)[2] << ")");
     }
@@ -311,6 +409,12 @@ namespace {
         << mFullUserData(vec3, &b)) {
       assert(a);
       assert(b);
+      // -- Function: dot
+      // -- Description: Calculates the dot product
+      // -- Arguments:
+      // -- vec3 the lhs
+      // -- vec3 the rhs
+      // -- Returns: Number the dot product between lhs and rhs
       p->returnvar(dot(*a, *b));
     }
   }
@@ -323,6 +427,12 @@ namespace {
         << mFullUserData(vec3, &b)) {
       assert(a);
       assert(b);
+      // -- Function: cross
+      // -- Description: Calculates the cross product
+      // -- Arguments:
+      // -- vec3 the lhs
+      // -- vec3 the rhs
+      // -- Returns: vec3 the cross product between lhs and rhs
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = cross(*a, *b);
     }
@@ -338,6 +448,12 @@ namespace {
         << mFullUserData(vec3, &b)) {
       assert(a);
       assert(b);
+      // -- Function: crossnorm
+      // -- Returns: Number the normalized cross product of two vec3
+      // -- Arguments:
+      // -- vec3 the lhs
+      // -- vec3 the rhs
+      // -- Returns: Number the normalized cross product of lhs and rhs
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = unit_cross(*a, *b);
     }
@@ -352,6 +468,12 @@ namespace {
         << mFullUserData(vec3, &axis) << &angle) {
       assert(a);
       assert(axis);
+      // -- Function: rotate
+      // -- Description: Rotate a vector around a unitlength axis
+      // -- Arguments:
+      // -- vec3 the vector
+      // -- vec3 the axis
+      // -- Number the angle in radians
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = rotate_vector(*a, *axis, angle);
     }
@@ -366,6 +488,13 @@ namespace {
         << mFullUserData(vec3, &b)) {
       assert(a);
       assert(b);
+      // -- Function: angle
+      // -- Description: Returnsd the unsigned angle between 2 vectors of
+      // -- arbitary length
+      // -- Arguments:
+      // -- vec3 the first vector
+      // -- vec3 the second vector
+      // -- Returns: Number the angle in radians
       const float angle = unsigned_angle(*a, *b);
       p->returnvar(angle);
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
@@ -374,6 +503,15 @@ namespace {
       assert(a);
       assert(b);
       assert(c);
+      // -- Function: angle
+      // -- Description: Returns the signed angle between 2 vectors relative
+      // -- to a third.
+      // -- Arguments:
+      // -- vec3 the first vector
+      // -- vec3 the second vector
+      // -- vec3 the reference vector
+      // -- Returns:
+      // -- Number the singed angle in radians, measured from the first vector
       const float angle = signed_angle(*a, *b, *c);
       p->returnvar(angle);
     }
@@ -384,6 +522,10 @@ namespace {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
       assert(a);
+      // -- Function: normalize
+      // -- Description: Normalize the vector.
+      // -- Arguments:
+      // -- vec3 the vector to normalize
       /// @todo No checking for near-zero magnitude is performed.
       *a = normalize(*a);
     }
@@ -394,6 +536,12 @@ namespace {
     vec3* a;
     if (ScriptOverload(p) << mFullUserData(vec3, &a)) {
       assert(a);
+      // -- Function: getNormalized
+      // -- Description: Gets the normalized vector without modifying
+      // -- the argument
+      // -- Arguments:
+      // -- vec3 the vector to normalize
+      // -- Returns: vec3 the normalized vector
       /// @todo No checking for near-zero magnitude is performed.
       vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
       *r = normalize(*a);
