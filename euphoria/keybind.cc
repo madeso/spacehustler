@@ -9,29 +9,29 @@
 #include "euphoria/str.h"
 #include "json/json.h"
 
-Keybind::Keybind(const std::string& aname, const std::string& avar,
-                 const Key::Type akey)
-  : name(aname), var(avar), key(akey) {
+Keybind::Keybind(const std::string& name, const std::string& var,
+                 const Key::Type key)
+  : name_(name), var_(var), key_(key) {
   assert(this);
 }
 
-const std::string Keybind::getLuaVar() const {
+const std::string Keybind::var() const {
   assert(this);
-  return var;
+  return var_;
 }
 
-const Key::Type Keybind::getKey() const {
+const Key::Type Keybind::key() const {
   assert(this);
-  return key;
+  return key_;
 }
 
-KeybindList::KeybindList(Lua* alua)
-  : lua(alua) {
+KeybindList::KeybindList(Lua* lua)
+  : lua_(lua) {
   assert(this);
-  assert(lua);
+  assert(lua_);
 }
 
-void KeybindList::load(const std::string& filename) {
+void KeybindList::Load(const std::string& filename) {
   assert(this);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
@@ -55,17 +55,17 @@ void KeybindList::load(const std::string& filename) {
       throw std::logic_error(Str() << "Invalid key for " << name
                              << ", got: " << keyname);
     }
-    keys.push_back(Keybind(name, var, key));
+    keys_.push_back(Keybind(name, var, key));
   }
 
-  for (auto k : keys) {
-    lua->setGlobal(k.getLuaVar(), 0.0f);
+  for (auto k : keys_) {
+    lua_->setGlobal(k.var(), 0.0f);
   }
 }
 
-void KeybindList::onKey(Key::Type key, bool down) {
+void KeybindList::OnKey(Key::Type key, bool down) {
   assert(this);
-  assert(lua);
+  assert(lua_);
   if (key == Key::Invalid) {
     assert(0 && "Invalid key in onKey");
     return;
@@ -74,17 +74,17 @@ void KeybindList::onKey(Key::Type key, bool down) {
     assert(0 && "Unbound key in onKey");
     return;
   }
-  for (auto k : keys) {
-    if (k.getKey() == key) {
+  for (auto k : keys_) {
+    if (k.key() == key) {
       const float state = down ? 1.0f : 0.0f;
-      lua->setGlobal(k.getLuaVar(), state);
+      lua_->setGlobal(k.var(), state);
     }
   }
 }
 
-void KeybindList::onMouse(float dx, float dy) {
+void KeybindList::OnMouse(float dx, float dy) {
   assert(this);
-  assert(lua);
-  lua->setGlobal("mousex", dx);
-  lua->setGlobal("mousey", dy);
+  assert(lua_);
+  lua_->setGlobal("mousex", dx);
+  lua_->setGlobal("mousey", dy);
 }

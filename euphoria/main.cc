@@ -318,7 +318,7 @@ void logic() {
   script.runFile("main.lua");
 
   KeybindList keybinds(&script);
-  keybinds.load("keys.js");
+  keybinds.Load("keys.js");
 
   Camera camera;
   camera.set_fov(45);
@@ -370,13 +370,13 @@ void logic() {
       if (event.type == sf::Event::KeyPressed
           || event.type == sf::Event::KeyReleased) {
         const bool down = event.type == sf::Event::KeyPressed;
-        keybinds.onKey(ToKey(event.key), down);
+        keybinds.OnKey(ToKey(event.key), down);
       }
 
       if (event.type == sf::Event::MouseButtonPressed
           || event.type == sf::Event::MouseButtonReleased) {
         const bool down = event.type == sf::Event::MouseButtonPressed;
-        keybinds.onKey(ToKey(event.mouseButton), down);
+        keybinds.OnKey(ToKey(event.mouseButton), down);
       }
 
       if (event.type == sf::Event::GainedFocus) {
@@ -400,7 +400,7 @@ void logic() {
       sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
       float dx = (mp.x / static_cast<float>(width)) - 0.5f;
       float dy = (mp.y / static_cast<float>(height)) - 0.5f;
-      keybinds.onMouse(dx, dy);
+      keybinds.OnMouse(dx, dy);
       window.setMouseCursorVisible(false);
     } else {
       window.setMouseCursorVisible(true);
