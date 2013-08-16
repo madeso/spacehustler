@@ -329,7 +329,7 @@ void logic() {
               &texturecache, &shadercache, &camera, &script));
 
   EntityList entities;
-  entities.addDefs(&container, "entity.js");
+  entities.AddDefs(&container, "entity.js");
 
   LoadEntities(&entities, "entities.js");
 
@@ -407,7 +407,7 @@ void logic() {
     }
 
     const sf::Time elapsed = clock.restart();
-    container.step(elapsed.asSeconds());
+    container.Step(elapsed.asSeconds());
   }
 
   RUNTWEAKCODE(TwTerminate());

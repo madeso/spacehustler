@@ -241,14 +241,14 @@ class PhysicsSystem : public System {
       globalInstance = 0;
     }
 
-    ComponentType* addType(const Json::Value& data) {
+    ComponentType* AddType(const Json::Value& data) {
       assert(this);
       std::shared_ptr<PhysicsType> type(new PhysicsType(data));
       types.push_back(type);
       return type.get();
     }
 
-    virtual void addComponent(Entity* entity, ComponentType* type) {
+    virtual void AddComponent(Entity* entity, ComponentType* type) {
       assert(this);
       assert(entity);
       assert(type);
@@ -258,7 +258,7 @@ class PhysicsSystem : public System {
       objects.push_back(PhysicsObject(entity, dynamicsWorld, *pt));
     }
 
-    void step(float dt) {
+    void Step(float dt) {
       assert(this);
       dynamicsWorld->stepSimulation(dt, 10);
       for (auto & o : objects) {
@@ -313,7 +313,7 @@ PhysicsSystem* PhysicsSystem::globalInstance = 0;
 void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
   assert(arg.container);
   std::shared_ptr<System> sys(new PhysicsSystem(arg.world));
-  arg.container->add(PhysicsSystemType, sys);
+  arg.container->Add(PhysicsSystemType, sys);
 }
 
 void Entity_AddPhysics(SystemCreatorList* sc) {

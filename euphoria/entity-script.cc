@@ -45,7 +45,7 @@ class ScriptSystem : public System {
       assert(this);
     }
 
-    ComponentType* addType(const Json::Value& data) {
+    ComponentType* AddType(const Json::Value& data) {
       assert(this);
       std::shared_ptr<ScriptType> type(new ScriptType(data, script));
       types.push_back(type);
@@ -59,7 +59,7 @@ class ScriptSystem : public System {
       return type.get();
     }
 
-    virtual void addComponent(Entity* entity, ComponentType* type) {
+    virtual void AddComponent(Entity* entity, ComponentType* type) {
       assert(this);
       assert(entity);
       assert(type);
@@ -76,7 +76,7 @@ class ScriptSystem : public System {
       objects.push_back(o);
     }
 
-    void step(float dt) {
+    void Step(float dt) {
       assert(this);
 
       for (auto & o : objects) {
@@ -103,7 +103,7 @@ class ScriptSystem : public System {
 void AddScriptCallback(CreateSystemArg arg, Json::Value data) {
   const std::string name(data.get("name", "").asString());
   std::shared_ptr<System> sys(new ScriptSystem(data, arg.script));
-  arg.container->add(name, sys);
+  arg.container->Add(name, sys);
 }
 
 void Entity_AddScript(SystemCreatorList* sc) {

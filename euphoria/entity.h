@@ -54,19 +54,19 @@ class System {
     /** Update function.
     @param dt the delta t (in seconds).
      */
-    virtual void step(float dt) = 0;
+    virtual void Step(float dt) = 0;
 
     /** Add a component type of this system type to the system.
     @param data the data to the component.
     @returns the component type.
      */
-    virtual ComponentType* addType(const Json::Value& data) = 0;
+    virtual ComponentType* AddType(const Json::Value& data) = 0;
 
     /** Add a component to a entity.
     @param entity the entity.
     @param type the type created by the System.
      */
-    virtual void addComponent(Entity* entity, ComponentType* type) = 0;
+    virtual void AddComponent(Entity* entity, ComponentType* type) = 0;
 
     // list of components
 };
@@ -86,13 +86,13 @@ class SystemContainer {
     /** Step all systems.
     @param dt the delta t (in seconds).
      */
-    void step(float dt);
+    void Step(float dt);
 
     /** Add a system to the container.
     @param name the name of the system.
     @param sys the system to add.
      */
-    void add(const std::string& name, std::shared_ptr<System> sys);
+    void Add(const std::string& name, std::shared_ptr<System> sys);
 
     /** Get a system that has already been added.
     @param name the name of the system
@@ -103,7 +103,7 @@ class SystemContainer {
 
   private:
     typedef std::map<std::string, std::shared_ptr<System> > SystemMap;
-    SystemMap systems;
+    SystemMap systems_;
 };
 
 /** The definition of a entity.
@@ -119,10 +119,10 @@ class EntityDef {
     /** Add components to a entity.
     @param entity the entity.
      */
-    void addComponents(Entity* entity);
+    void AddComponents(Entity* entity);
   private:
     std::vector<std::pair<std::shared_ptr<System>, ComponentType*>>
-        componenttypes;
+        component_types_;
 };
 
 /** List of entities.
@@ -137,20 +137,20 @@ class EntityList {
     @param container the system container
     @param filename the filename
      */
-    void addDefs(SystemContainer* container, const std::string& filename);
+    void AddDefs(SystemContainer* container, const std::string& filename);
 
     /** Create entity.
     @param entity the entity name
     @param pos the position of the entity
     @param rot the rotation of the entity
      */
-    void createEntity(const std::string& entity, const vec3& pos,
+    void CreateEntity(const std::string& entity, const vec3& pos,
                       const quat& rot);
 
   private:
     typedef std::map<std::string, EntityDef> EntityDefs;
-    EntityDefs entitydefs;
-    std::vector<std::shared_ptr<Entity>> entities;
+    EntityDefs entitydefs_;
+    std::vector<std::shared_ptr<Entity>> entities_;
 };
 
 /** Load entities from a file.

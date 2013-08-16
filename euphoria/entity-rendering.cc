@@ -44,14 +44,14 @@ class RenderingSystem : public System {
       assert(sc);
     }
 
-    ComponentType* addType(const Json::Value& data) {
+    ComponentType* AddType(const Json::Value& data) {
       assert(this);
       std::shared_ptr<RenderType> type(new RenderType(data, tc, sc));
       types.push_back(type);
       return type.get();
     }
 
-    virtual void addComponent(Entity* entity, ComponentType* type) {
+    virtual void AddComponent(Entity* entity, ComponentType* type) {
       assert(this);
       assert(entity);
       assert(type);
@@ -62,7 +62,7 @@ class RenderingSystem : public System {
       objects.push_back(RenderObject(entity, instance));
     }
 
-    void step(float dt) {
+    void Step(float dt) {
       assert(this);
       for (auto & o : objects) {
         o.instance->transform = cmat44(o.entity->position,
@@ -83,7 +83,7 @@ class RenderingSystem : public System {
 void AddRenderingCallback(CreateSystemArg arg, Json::Value data) {
   std::shared_ptr<System> sys(new RenderingSystem(arg.world, arg.texturecache,
                               arg.shadercache));
-  arg.container->add(RenderingSystemType, sys);
+  arg.container->Add(RenderingSystemType, sys);
 }
 
 void Entity_AddRendering(SystemCreatorList* sc) {
