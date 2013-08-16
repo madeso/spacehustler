@@ -344,7 +344,7 @@ namespace scriptingphysics {
         throw std::logic_error("Physics system is not initialized.");
       }
       PhysicsObject* obj = PhysicsSystem::globalInstance->getObject(entity);
-      params->returnvar(obj);
+      params->Return(obj);
     }
   }
   REGISTER_SCRIPT_FUNCTION("Get", GetPhysics);

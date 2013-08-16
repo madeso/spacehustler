@@ -132,7 +132,7 @@ namespace scriptingjson {
 
     if (ScriptOverload(params) << cLightUserData(&value) << &name << &f) {
       float ret = value->get(name, f).asFloat();
-      params->returnvar(ret);
+      params->Return(ret);
     }
   }
   REGISTER_SCRIPT_FUNCTION("Get", GetValue);

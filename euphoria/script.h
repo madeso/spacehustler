@@ -36,17 +36,17 @@ namespace internal {
       @param position the position of this argument in the stack
       @returns true if the argument is valid, false if not.
        */
-      virtual bool isValid(lua_State* state, int position) = 0;
+      virtual bool IsValid(lua_State* state, int position) = 0;
 
       /** Get the argument to the provided member.
       @param state the lua state
       @param position the position of this argument in the stack
       */
-      virtual void get(lua_State* state, int position) = 0;
+      virtual void Get(lua_State* state, int position) = 0;
 
       /** Generates a string representation of the argument type.
        */
-      virtual std::string toString() const = 0;
+      virtual std::string ToString() const = 0;
   };
 
   /** Class representing a argument for light user data.
@@ -54,14 +54,14 @@ namespace internal {
   class LightUserDataScriptArgument : public internal::ScriptArgument {
     public:
       /** Constructor.
-      @param adata the data
+      @param data the data
        */
-      explicit LightUserDataScriptArgument(void** adata);
-      bool isValid(lua_State* state, int position);
-      void get(lua_State* state, int position);
-      std::string toString() const;
+      explicit LightUserDataScriptArgument(void** data);
+      bool IsValid(lua_State* state, int position);
+      void Get(lua_State* state, int position);
+      std::string ToString() const;
     private:
-      void** data;
+      void** data_;
   };
 
   /** Class representing a argument for full user data.
@@ -69,16 +69,16 @@ namespace internal {
   class FullUserDataScriptArgument : public internal::ScriptArgument {
     public:
       /** Constructor.
-      @param adata the data
-      @param aname the name of the data
+      @param data the data
+      @param name the name of the data
        */
-      FullUserDataScriptArgument(void** adata, const std::string& aname);
-      bool isValid(lua_State* state, int position);
-      void get(lua_State* state, int position);
-      std::string toString() const;
+      FullUserDataScriptArgument(void** data, const std::string& name);
+      bool IsValid(lua_State* state, int position);
+      void Get(lua_State* state, int position);
+      std::string ToString() const;
     private:
-      void** data;
-      std::string name;
+      void** data_;
+      std::string name_;
   };
 
   /** Called in a exception handler as a return code when everything has failed.
@@ -140,12 +140,12 @@ class ScriptOverload {
     @param state the lua state.
     @returns true if everything validated and is updated, false if not.
      */
-    bool validate(int argcount, lua_State* state);
+    bool Validate(int argcount, lua_State* state);
 
   private:
-    ScriptParams* params;
-    std::vector<std::shared_ptr<internal::ScriptArgument>> arguments;
-    bool valid;
+    ScriptParams* parameters_;
+    std::vector<std::shared_ptr<internal::ScriptArgument>> arguments_;
+    bool is_valid_;
 };
 
 
@@ -193,33 +193,33 @@ class ScriptParams {
 
     /** Determine the overload to use or abort if no one can be found.
      */
-    void post();
+    void Post();
 
     /** Return some light userdata.
     @param userdata the light userdata to return
      */
-    void returnvar(void* userdata);
+    void Return(void* userdata);
 
     /** Return a float.
     @param f the float to return
      */
-    void returnvar(float f);
+    void Return(float f);
 
     /** Return a string.
     @param s the string to return
      */
-    void returnvar(const std::string& s);
+    void Return(const std::string& s);
 
     /** Helper function for returning full user data.
     Increases the return count by one and returns the state.
     @returns the lua state
      */
-    lua_State* returnFullUserData();
+    lua_State* ReturnFullUserData();
 
     /** Internal. Gets the number of return values that has been added.
     @returns the return count.
      */
-    int getReturnCount();
+    int number_of_returns();
 
   protected:
     friend class ScriptOverload;
@@ -227,34 +227,34 @@ class ScriptParams {
     /** Internal. Gets the number of arguments supplied to the lua function call.
     @returns the number of arguments.
      */
-    int getArgumentCount();
+    int number_of_arguments();
 
     /** Internal. Gets the validated status.
     @return true if the item has been validated, false if not.
      */
-    bool isValidated();
+    bool is_validated();
 
     /** Get the lua state.
     @returns the lua state
      */
-    lua_State* getState();
+    lua_State* state();
 
     /** Marks the params as validated.
      */
-    void setValidated();
+    void SetValidated();
 
     /** Add a validation failure for easier script debugging and better error
     messages.
-    @param f the validation failure message/status.
+    @param failure the validation failure message/status.
      */
-    void addFailure(const std::string& f);
+    void addFailure(const std::string& failure);
 
   private:
-    lua_State* state;
-    int retcount;
-    int argumentcount;
-    bool validated;
-    std::vector<std::string> failures;
+    lua_State* state_;
+    int number_of_returns_;
+    int number_of_arguments_;
+    bool is_validated_;
+    std::vector<std::string> failures_;
 };
 
 /** Utility class for registring script functions.
@@ -270,16 +270,16 @@ class ScriptRegister {
     @param name the name of the function.
     @param func the function.
      */
-    void add(const std::string& namespaceName, const std::string& name,
+    void Add(const std::string& namespaceName, const std::string& name,
              lua_CFunction func);
 
     /** Register all functions on a state.
     @param state the state to register to.
      */
-    void registerAll(lua_State* state);
+    void RegisterAll(lua_State* state);
   private:
     typedef std::map<std::string, lua_CFunction> Functions;
-    std::map<std::string, Functions> functions;
+    std::map<std::string, Functions> functions_;
 };
 
 /** Get the global script registrer.
@@ -297,8 +297,8 @@ ScriptRegister* GetGlobalScriptRegister();
     try {\
       ScriptParams params(state);\
       func(&params);\
-      params.post();\
-      return params.getReturnCount();\
+      params.Post();\
+      return params.number_of_returns();\
     } catch(...) {\
       return internal::HandleLuaException(name, state);\
     }\
@@ -316,7 +316,7 @@ void MyFunc(ScriptParams* params){ ]
     public:\
       Lua_class_register_##func() { \
         assert(GetGlobalScriptRegister());\
-        GetGlobalScriptRegister()->add(LUA_MODULE_NAME, name, \
+        GetGlobalScriptRegister()->Add(LUA_MODULE_NAME, name, \
                                        Lua_callback_for_##func);\
       }\
   } Lua_static_var_register_ ## func

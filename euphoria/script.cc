@@ -28,47 +28,47 @@ namespace internal {
   }
 
   LightUserDataScriptArgument::LightUserDataScriptArgument(void** adata)
-    : data(adata) {
+    : data_(adata) {
     assert(this);
   }
 
-  bool LightUserDataScriptArgument::isValid(lua_State* state, int position) {
+  bool LightUserDataScriptArgument::IsValid(lua_State* state, int position) {
     assert(this);
     auto ret = lua_islightuserdata(state, position) == 1;
     return ret;
   }
 
-  void LightUserDataScriptArgument::get(lua_State* state, int position) {
+  void LightUserDataScriptArgument::Get(lua_State* state, int position) {
     assert(this);
-    *data = lua_touserdata(state, position);
+    *data_ = lua_touserdata(state, position);
   }
 
-  std::string LightUserDataScriptArgument::toString() const {
+  std::string LightUserDataScriptArgument::ToString() const {
     assert(this);
     return "light user data";
   }
 
   FullUserDataScriptArgument::FullUserDataScriptArgument(void** adata,
       const std::string& aname)
-    : data(adata), name(aname) {
+    : data_(adata), name_(aname) {
     assert(this);
-    assert(data);
+    assert(data_);
   }
 
-  bool FullUserDataScriptArgument::isValid(lua_State* state, int position) {
+  bool FullUserDataScriptArgument::IsValid(lua_State* state, int position) {
     assert(this);
-    return luaL_checkudata(state, position, name.c_str()) != 0;
+    return luaL_checkudata(state, position, name_.c_str()) != 0;
   }
 
-  void FullUserDataScriptArgument::get(lua_State* state, int position) {
+  void FullUserDataScriptArgument::Get(lua_State* state, int position) {
     assert(this);
-    assert(data);
-    *data = luaL_checkudata(state, position, name.c_str());
+    assert(data_);
+    *data_ = luaL_checkudata(state, position, name_.c_str());
   }
 
-  std::string FullUserDataScriptArgument::toString() const {
+  std::string FullUserDataScriptArgument::ToString() const {
     assert(this);
-    return name;
+    return name_;
   }
 }  // namespace internal
 
@@ -80,18 +80,18 @@ namespace {
         assert(data);
       }
 
-      virtual bool isValid(lua_State* state, int position) {
+      virtual bool IsValid(lua_State* state, int position) {
         assert(this);
         return lua_isnumber(state, position) == 1;
       }
 
-      virtual void get(lua_State* state, int position) {
+      virtual void Get(lua_State* state, int position) {
         assert(this);
         assert(data);
         *data = static_cast<float>(lua_tonumber(state, position));
       }
 
-      std::string toString() const {
+      std::string ToString() const {
         assert(this);
         return "float";
       }
@@ -106,18 +106,18 @@ namespace {
         assert(data);
       }
 
-      virtual bool isValid(lua_State* state, int position) {
+      virtual bool IsValid(lua_State* state, int position) {
         assert(this);
         return lua_isnumber(state, position) == 1;
       }
 
-      virtual void get(lua_State* state, int position) {
+      virtual void Get(lua_State* state, int position) {
         assert(this);
         assert(data);
         *data = static_cast<int>(lua_tonumber(state, position));
       }
 
-      std::string toString() const {
+      std::string ToString() const {
         assert(this);
         return "int";
       }
@@ -132,18 +132,18 @@ namespace {
         assert(data);
       }
 
-      virtual bool isValid(lua_State* state, int position) {
+      virtual bool IsValid(lua_State* state, int position) {
         assert(this);
         return lua_isstring(state, position) == 1;
       }
 
-      virtual void get(lua_State* state, int position) {
+      virtual void Get(lua_State* state, int position) {
         assert(this);
         assert(data);
         *data = lua_tostring(state, position);
       }
 
-      std::string toString() const {
+      std::string ToString() const {
         assert(this);
         return "string";
       }
@@ -152,84 +152,84 @@ namespace {
   };
 }  // namespace
 
-ScriptOverload::ScriptOverload(ScriptParams* aparams) : params(aparams)
-  , valid(false) {
+ScriptOverload::ScriptOverload(ScriptParams* aparams) : parameters_(aparams)
+  , is_valid_(false) {
   assert(this);
-  assert(params);
+  assert(parameters_);
 }
 
 ScriptOverload& ScriptOverload::operator<<(
   std::shared_ptr < internal::ScriptArgument > arg) {
   assert(this);
-  arguments.push_back(arg);
+  arguments_.push_back(arg);
   return *this;
 }
 
 ScriptOverload& ScriptOverload::operator<<(float* f) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new FloatScriptArgument(f));
-  arguments.push_back(ol);
+  arguments_.push_back(ol);
   return *this;
 }
 
 ScriptOverload& ScriptOverload::operator<<(int* i) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new IntScriptArgument(i));
-  arguments.push_back(ol);
+  arguments_.push_back(ol);
   return *this;
 }
 
 ScriptOverload& ScriptOverload::operator<<(std::string* s) {
   assert(this);
   std::shared_ptr<internal::ScriptArgument> ol(new StringScriptArgument(s));
-  arguments.push_back(ol);
+  arguments_.push_back(ol);
   return *this;
 }
 
 ScriptOverload::operator bool() {
   assert(this);
-  assert(params->isValidated() == false);
+  assert(parameters_->is_validated() == false);
 
-  bool val = validate(params->getArgumentCount(), params->getState());
+  bool val = Validate(parameters_->number_of_arguments(), parameters_->state());
   if (val) {
-    params->setValidated();
+    parameters_->SetValidated();
   } else {
     std::vector<std::string> ret;
-    for (auto a : arguments) {
-      ret.push_back(a->toString());
+    for (auto a : arguments_) {
+      ret.push_back(a->ToString());
     }
-    params->addFailure(StringMerger::Array().generate(ret));
+    parameters_->addFailure(StringMerger::Array().generate(ret));
   }
   return val;
 }
 
-bool ScriptOverload::validate(int argcount, lua_State* state) {
+bool ScriptOverload::Validate(int argcount, lua_State* state) {
   assert(this);
-  if (argcount != arguments.size()) {
+  if (argcount != arguments_.size()) {
     return false;
   }
 
   for (int n = 0; n < argcount; ++n) {
-    if (false == arguments[n]->isValid(state, n + 1)) {
+    if (false == arguments_[n]->IsValid(state, n + 1)) {
       return false;
     }
   }
 
   for (int n = 0; n < argcount; ++n) {
-    assert(arguments[n]->isValid(state, n + 1));
-    arguments[n]->get(state, n + 1);
+    assert(arguments_[n]->IsValid(state, n + 1));
+    arguments_[n]->Get(state, n + 1);
   }
-  valid = true;
+  is_valid_ = true;
   return true;
 }
 
-ScriptParams::ScriptParams(lua_State* astate) : state(astate), retcount(0)
-  , argumentcount(0), validated(false) {
+ScriptParams::ScriptParams(lua_State* state) : state_(state),
+  number_of_returns_(0) , number_of_arguments_(0), is_validated_(false) {
   assert(this);
-  assert(astate);
+  assert(state);
   /// @todo move to the initializer list for speed and the ability make the
   /// variable a const
-  argumentcount = lua_gettop(astate);
+  number_of_arguments_ = lua_gettop(state);
 }
 
 std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
@@ -275,25 +275,25 @@ std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
   return ret;
 }
 
-int ScriptParams::getArgumentCount() {
+int ScriptParams::number_of_arguments() {
   assert(this);
-  return argumentcount;
+  return number_of_arguments_;
 }
 
-lua_State* ScriptParams::getState() {
+lua_State* ScriptParams::state() {
   assert(this);
-  assert(state);
-  return state;
+  assert(state_);
+  return state_;
 }
 
-void ScriptParams::post() {
+void ScriptParams::Post() {
   assert(this);
-  if (isValidated() == false) {
+  if (is_validated() == false) {
     const std::string calledwith = StringMerger::Array()
-                                   .generate(GetArgumentList(state,
-                                       argumentcount));
+                                   .generate(GetArgumentList(state_,
+                                       number_of_arguments_));
     const std::string alloverloads = StringMerger::EnglishOr()
-                                     .generate(failures);
+                                     .generate(failures_);
 
     throw std::logic_error(Str() <<
                            "Unable to determine function overload, called with "
@@ -302,68 +302,68 @@ void ScriptParams::post() {
   }
 }
 
-bool ScriptParams::isValidated() {
+bool ScriptParams::is_validated() {
   assert(this);
-  return validated;
+  return is_validated_;
 }
 
-void ScriptParams::setValidated() {
+void ScriptParams::SetValidated() {
   assert(this);
-  validated = true;
+  is_validated_ = true;
 }
 
 void ScriptParams::addFailure(const std::string& f) {
   assert(this);
-  failures.push_back(f);
+  failures_.push_back(f);
 }
 
-void ScriptParams::returnvar(void* userdata) {
+void ScriptParams::Return(void* userdata) {
   assert(this);
-  assert(state);
+  assert(state_);
   assert(userdata);
-  lua_pushlightuserdata(state, userdata);
-  ++retcount;
+  lua_pushlightuserdata(state_, userdata);
+  ++number_of_returns_;
 }
 
-void ScriptParams::returnvar(const std::string& s) {
+void ScriptParams::Return(const std::string& s) {
   assert(this);
-  assert(state);
-  lua_pushstring(state, s.c_str());
-  ++retcount;
+  assert(state_);
+  lua_pushstring(state_, s.c_str());
+  ++number_of_returns_;
 }
 
-void ScriptParams::returnvar(float f) {
+void ScriptParams::Return(float f) {
   assert(this);
-  assert(state);
-  lua_pushnumber(state, f);
-  ++retcount;
+  assert(state_);
+  lua_pushnumber(state_, f);
+  ++number_of_returns_;
 }
 
-lua_State* ScriptParams::returnFullUserData() {
+lua_State* ScriptParams::ReturnFullUserData() {
   assert(this);
-  assert(state);
-  ++retcount;
-  return state;
+  assert(state_);
+  ++number_of_returns_;
+  return state_;
 }
 
-int ScriptParams::getReturnCount() {
+int ScriptParams::number_of_returns() {
   assert(this);
-  return retcount;
+  return number_of_returns_;
 }
 
 ScriptRegister::ScriptRegister() {
   assert(this);
 }
 
-void ScriptRegister::add(const std::string& namespaceName,
+void ScriptRegister::Add(const std::string& namespaceName,
                          const std::string& name, lua_CFunction func) {
   assert(this);
-  functions[namespaceName].insert(std::make_pair(name, func));
+  functions_[namespaceName].insert(std::make_pair(name, func));
 }
 
-void ScriptRegister::registerAll(lua_State* state) {
+void ScriptRegister::RegisterAll(lua_State* state) {
   assert(this);
-  for (auto ns : functions) {
+  for (auto ns : functions_) {
     lua_newtable(state);  /// @todo change to luaL_newlibtable / luaL_newlib
     for (auto f : ns.second) {
       lua_pushstring(state, f.first.c_str());

@@ -24,11 +24,11 @@ namespace {
       // -- Number The Y coordinate
       // -- Number The Z coordinate
       // -- Returns: vec3 a vector
-      lua_pushobject(p->returnFullUserData(), vec3)(x, y, z);
+      lua_pushobject(p->ReturnFullUserData(), vec3)(x, y, z);
     } else if (ScriptOverload(p)) {
       // -- Description: Creates a vector at origin
       // -- Returns: vec3 a vector placed at origin
-      lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
     }
   }
   SCRIPT_FUNCTION("cvec3.create", cvec3_create, lcvec3_create)
@@ -42,7 +42,7 @@ namespace {
       // -- Arguments:
       // -- Number The cardinal vector index, pass 1 to create (1,0,0) etc.
       // -- Returns: The created vector.
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       if (i > 3) {
         throw "Invalid cardinal index";
       }
@@ -74,11 +74,11 @@ namespace {
       // -- Returns: Number the value of x, y or z
       assert(a);
       if (key == "x") {
-        p->returnvar((*a)[0]);
+        p->Return((*a)[0]);
       } else if (key == "y") {
-        p->returnvar((*a)[1]);
+        p->Return((*a)[1]);
       } else if (key == "z") {
-        p->returnvar((*a)[2]);
+        p->Return((*a)[2]);
       } else {
         throw "Invalid key";
       }
@@ -94,7 +94,7 @@ namespace {
       if (index > 3) {
         throw "Invalid index";
       }
-      p->returnvar((*a)[index - 1]);
+      p->Return((*a)[index - 1]);
     }
   }
   SCRIPT_FUNCTION("vec3.index", vec3_index, lvec3_index)
@@ -138,7 +138,7 @@ namespace {
       // -- Arguments: vec3 the vector to negate
       // -- Returns: vec3 the negated vector
       assert(a);
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = -*a;
     }
   }
@@ -158,7 +158,7 @@ namespace {
       // -- vec3 the left operand
       // -- vec3 the right operand
       // -- Returns: vec3 the sum of the 2 vectors.
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a + *b;
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << &f) {
@@ -168,12 +168,12 @@ namespace {
       // -- vec3 the left operand
       // -- Number the number to add
       // -- Returns: vec3 the sum of the vector and the float
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a + vec3(f, f, f);
     }
     if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
       assert(a);
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = vec3(f, f, f) + *a;
     }
   }
@@ -193,7 +193,7 @@ namespace {
       // -- vec3 the left operand
       // -- vec3 the right operand
       // -- Returns: vec3 the result.
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a - *b;
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << &f) {
@@ -203,11 +203,11 @@ namespace {
       // -- vec3 the left operand
       // -- Number the number to subtract
       // -- Returns: vec3 the result
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a - vec3(f, f, f);
     } else if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
       assert(a);
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = vec3(f, f, f) - *a;
     }
   }
@@ -225,12 +225,12 @@ namespace {
       // -- vec3 the left operand
       // -- float the number to multiply with
       // -- Returns: vec3 the result
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a * f;
     }
     if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
       assert(a);
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a * f;
     }
   }
@@ -248,7 +248,7 @@ namespace {
       // -- vec3 the left operand
       // -- float the number to divide
       // -- Returns: vec3 the result
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = *a / f;
     }
   }
@@ -262,7 +262,7 @@ namespace {
       // -- Description: Gets the length of the vector.
       // -- Arguments: vec3 the vector
       // -- Returns: Number the length
-      p->returnvar(a->length());
+      p->Return(a->length());
     }
   }
   SCRIPT_FUNCTION("vec3.length", vec3_length, lvec3_length)
@@ -275,7 +275,7 @@ namespace {
       // -- Description: Returns the squared length.
       // -- Arguments: vec3 the vector
       // -- Returns: Number the length squared
-      p->returnvar(a->length_squared());
+      p->Return(a->length_squared());
     }
   }
   SCRIPT_FUNCTION("vec3.length2", vec3_length2, lvec3_length2)
@@ -396,8 +396,8 @@ namespace {
       // -- Arguments:
       // -- vec3 the vector
       // -- Returns: string the resulting string
-      p->returnvar(Str() << "(" << (*a)[0] << ", " << (*a)[1]  << ", "
-                   << (*a)[2] << ")");
+      p->Return(Str() << "(" << (*a)[0] << ", " << (*a)[1]  << ", "
+                << (*a)[2] << ")");
     }
   }
   SCRIPT_FUNCTION("vec3.toString", vec3_toString, lvec3_toString)
@@ -415,7 +415,7 @@ namespace {
       // -- vec3 the lhs
       // -- vec3 the rhs
       // -- Returns: Number the dot product between lhs and rhs
-      p->returnvar(dot(*a, *b));
+      p->Return(dot(*a, *b));
     }
   }
   SCRIPT_FUNCTION("vec3.dot", vec3_dot, lvec3_dot)
@@ -433,7 +433,7 @@ namespace {
       // -- vec3 the lhs
       // -- vec3 the rhs
       // -- Returns: vec3 the cross product between lhs and rhs
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = cross(*a, *b);
     }
   }
@@ -454,7 +454,7 @@ namespace {
       // -- vec3 the lhs
       // -- vec3 the rhs
       // -- Returns: Number the normalized cross product of lhs and rhs
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = unit_cross(*a, *b);
     }
   }
@@ -474,7 +474,7 @@ namespace {
       // -- vec3 the vector
       // -- vec3 the axis
       // -- Number the angle in radians
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = rotate_vector(*a, *axis, angle);
     }
   }
@@ -496,7 +496,7 @@ namespace {
       // -- vec3 the second vector
       // -- Returns: Number the angle in radians
       const float angle = unsigned_angle(*a, *b);
-      p->returnvar(angle);
+      p->Return(angle);
     } else if (ScriptOverload(p) << mFullUserData(vec3, &a)
                << mFullUserData(vec3, &b)
                << mFullUserData(vec3, &c)) {
@@ -513,7 +513,7 @@ namespace {
       // -- Returns:
       // -- Number the singed angle in radians, measured from the first vector
       const float angle = signed_angle(*a, *b, *c);
-      p->returnvar(angle);
+      p->Return(angle);
     }
   }
   SCRIPT_FUNCTION("vec3.angle", vec3_angle, lvec3_angle)
@@ -543,7 +543,7 @@ namespace {
       // -- vec3 the vector to normalize
       // -- Returns: vec3 the normalized vector
       /// @todo No checking for near-zero magnitude is performed.
-      vec3* r = lua_pushobject(p->returnFullUserData(), vec3)(0, 0, 0);
+      vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
       *r = normalize(*a);
     }
   }

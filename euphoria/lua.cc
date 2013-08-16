@@ -168,7 +168,7 @@ Lua::Lua() : state_(luaL_newstate()) {
   luaL_openlibs(state_);
   scriptlib_register(state_);
   assert(GetGlobalScriptRegister());
-  GetGlobalScriptRegister()->registerAll(state_);
+  GetGlobalScriptRegister()->RegisterAll(state_);
 }
 
 Lua::~Lua() {
