@@ -15,7 +15,7 @@ Instance::Instance(std::shared_ptr<CompiledMesh> m, const mat44& t)
 
 void Instance::render(const Camera& camera) {
   assert(this);
-  mesh->render(camera, transform);
+  mesh->Render(camera, transform);
 }
 
 World::World(const std::string& filename, TextureCache* texturecache,

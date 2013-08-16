@@ -35,20 +35,20 @@ namespace internal {
        @param u the U texture coordinate.
        @param v the V texture coordinate.
        */
-      void addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
+      void AddPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
 
       /** Add a face to the mesh.
       @param a the first index.
       @param b the second index;
       @param c the third index.
        */
-      void addFace(unsigned int a, unsigned int b, unsigned int c);
+      void AddFace(unsigned int a, unsigned int b, unsigned int c);
 
       /** Utility function for getting a vertex.
       @param p the index for the vertex to get
       @return the vertex
        */
-      vec3 getVertex(unsigned int p) const;
+      vec3 GetVertex(unsigned int p) const;
 
       /** The vertices.
        */
@@ -160,16 +160,16 @@ namespace internal {
       @param camera through the camera.
       @param model the model matrix
        */
-      void render(const Camera& camera, const mat44& model);
+      void Render(const Camera& camera, const mat44& model);
 
     private:
-      Vao vao;
-      ArrayBuffer vbo;
-      ElementArrayBuffer elements;
+      Vao vao_;
+      ArrayBuffer vbo_;
+      ElementArrayBuffer elements_;
 
-      const std::shared_ptr<Program> program;
-      std::shared_ptr<Texture> texture;
-      GLsizei elementCount;
+      const std::shared_ptr<Program> program_;
+      std::shared_ptr<Texture> texture_;
+      GLsizei elementCount_;
   };
 
 }  // namespace internal
@@ -192,9 +192,9 @@ class CompiledMesh {
       @param camera through the camera.
       @param model the model matrix
        */
-    void render(const Camera& camera, const mat44& model);
+    void Render(const Camera& camera, const mat44& model);
   private:
-    std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts;
+    std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts_;
 };
 
 #endif  // EUPHORIA_MESH_H_

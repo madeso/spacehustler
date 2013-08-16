@@ -128,9 +128,9 @@ class StaticMesh {
         const unsigned int p1 = part.faces[fb + 0];
         const unsigned int p2 = part.faces[fb + 1];
         const unsigned int p3 = part.faces[fb + 2];
-        const vec3 v1 = part.getVertex(p1);
-        const vec3 v2 = part.getVertex(p2);
-        const vec3 v3 = part.getVertex(p3);
+        const vec3 v1 = part.GetVertex(p1);
+        const vec3 v2 = part.GetVertex(p2);
+        const vec3 v3 = part.GetVertex(p3);
         mesh->addTriangle(C(v1), C(v2), C(v3));
       }
 

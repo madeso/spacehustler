@@ -24,7 +24,7 @@ namespace internal {
     : points(0) {
   }
 
-  void MeshPart::addPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u,
+  void MeshPart::AddPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u,
                           GLfloat v) {
     assert(this);
 
@@ -38,7 +38,7 @@ namespace internal {
     ++points;
   }
 
-  void MeshPart::addFace(unsigned int a, unsigned int b, unsigned int c) {
+  void MeshPart::AddFace(unsigned int a, unsigned int b, unsigned int c) {
     assert(this);
 
     assert(IsWithinUnsignedShortRange(a));
@@ -50,7 +50,7 @@ namespace internal {
     faces.push_back(c);
   }
 
-  vec3 MeshPart::getVertex(unsigned int p) const {
+  vec3 MeshPart::GetVertex(unsigned int p) const {
     assert(p < points);
     const unsigned int b = p * 5;
     const float x = vertices[b + 0];
@@ -78,11 +78,11 @@ namespace internal {
   CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
                                      std::shared_ptr<Program> prog,
                                      std::shared_ptr<Texture> tex)
-    : program(prog)
-    , texture(tex)
-    , elementCount(mesh.faces.size()) {
-    vao.bind();
-    vbo.bind();
+    : program_(prog)
+    , texture_(tex)
+    , elementCount_(mesh.faces.size()) {
+    vao_.bind();
+    vbo_.bind();
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*mesh.vertices.size(),
                  &mesh.vertices[0], GL_STATIC_DRAW);
@@ -90,43 +90,43 @@ namespace internal {
     const GLsizei stride = 5 * sizeof(GLfloat);
     const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
 
-    glEnableVertexAttribArray(program->attrib("vert"));
-    glVertexAttribPointer(program->attrib("vert"), 3, GL_FLOAT, GL_FALSE, stride
-                          , NULL);
+    glEnableVertexAttribArray(program_->attrib("vert"));
+    glVertexAttribPointer(program_->attrib("vert"), 3, GL_FLOAT, GL_FALSE,
+                          stride, NULL);
 
-    glEnableVertexAttribArray(program->attrib("vertuv"));
-    glVertexAttribPointer(program->attrib("vertuv"), 2, GL_FLOAT, GL_TRUE,
+    glEnableVertexAttribArray(program_->attrib("vertuv"));
+    glVertexAttribPointer(program_->attrib("vertuv"), 2, GL_FLOAT, GL_TRUE,
                           stride, uvoffset);
 
-    elements.bind();
+    elements_.bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort),
                  &mesh.faces[0], GL_STATIC_DRAW);
-    elements.unbind();
+    elements_.unbind();
 
-    vbo.unbind();
-    vao.unbind();
+    vbo_.unbind();
+    vao_.unbind();
   }
 
   CompiledMeshPart::~CompiledMeshPart() {
   }
 
-  void CompiledMeshPart::render(const Camera& camera, const mat44& model) {
+  void CompiledMeshPart::Render(const Camera& camera, const mat44& model) {
     /// @todo don't bind everything all the time,
     /// sort and bind only when necessary
-    program->bind();
-    program->setUniform("camera", camera.view());
-    program->setUniform("projection", camera.projection());
-    program->setUniform("model", model);
-    texture->bind(0);
-    program->setUniform("tex", 0);
-    vao.bind();
-    elements.bind();
+    program_->bind();
+    program_->setUniform("camera", camera.view());
+    program_->setUniform("projection", camera.projection());
+    program_->setUniform("model", model);
+    texture_->bind(0);
+    program_->setUniform("tex", 0);
+    vao_.bind();
+    elements_.bind();
     const GLvoid* stride = 0;
-    glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_SHORT, stride);
-    elements.unbind();
-    vao.unbind();
+    glDrawElements(GL_TRIANGLES, elementCount_, GL_UNSIGNED_SHORT, stride);
+    elements_.unbind();
+    vao_.unbind();
 
-    program->unbind();
+    program_->unbind();
   }
 
   ///////////////////////////
@@ -158,12 +158,12 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
     Material m = materials[mesh.parts[i].material];
     std::shared_ptr<internal::CompiledMeshPart> part(
       new internal::CompiledMeshPart(mesh.parts[i], m.program, m.texture));
-    parts.push_back(part);
+    parts_.push_back(part);
   }
 }
 
-void CompiledMesh::render(const Camera& camera, const mat44& model) {
-  for (auto part : parts) {
-    part->render(camera, model);
+void CompiledMesh::Render(const Camera& camera, const mat44& model) {
+  for (auto part : parts_) {
+    part->Render(camera, model);
   }
 }

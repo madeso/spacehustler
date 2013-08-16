@@ -44,9 +44,9 @@ namespace {
   }
 
   void AddMaterials(Mesh* ret, const aiScene* scene) {
-    for (unsigned int materialId = 0; materialId < scene->mNumMaterials;
-         ++materialId) {
-      const aiMaterial* mat = scene->mMaterials[materialId];
+    for (unsigned int material_id = 0; material_id < scene->mNumMaterials;
+         ++material_id) {
+      const aiMaterial* mat = scene->mMaterials[material_id];
       if (mat->GetTextureCount(aiTextureType_DIFFUSE) <= 0) {
         throw "Missing texture";
       }
@@ -66,9 +66,9 @@ namespace {
   }
 
   void AddFaces(internal::MeshPart* part, const aiMesh* mesh) {
-    for (unsigned int faceid = 0; faceid < mesh->mNumFaces; ++faceid) {
-      const aiFace& face = mesh->mFaces[faceid];
-      part->addFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
+    for (unsigned int face_id = 0; face_id < mesh->mNumFaces; ++face_id) {
+      const aiFace& face = mesh->mFaces[face_id];
+      part->AddFace(face.mIndices[0], face.mIndices[1], face.mIndices[2]);
     }
   }
 
@@ -82,7 +82,7 @@ namespace {
         u = uv.x;
         v = uv.y;
       }
-      part->addPoint(vertex.x, vertex.y, vertex.z, u, v);
+      part->AddPoint(vertex.x, vertex.y, vertex.z, u, v);
     }
   }
 
