@@ -36,18 +36,21 @@ class RenderObject {
 
 class RenderingSystem : public System {
   public:
-    RenderingSystem(World* world, TextureCache* tc, ShaderCache* sc)
-      : world(world), tc(tc), sc(sc) {
+    RenderingSystem(World* world, TextureCache* texture_cache,
+                    ShaderCache* shader_cache)
+      : world_(world), texture_cache_(texture_cache),
+        shader_cache_(shader_cache) {
       assert(this);
       assert(world);
-      assert(tc);
-      assert(sc);
+      assert(texture_cache);
+      assert(shader_cache);
     }
 
     ComponentType* AddType(const Json::Value& data) {
       assert(this);
-      std::shared_ptr<RenderType> type(new RenderType(data, tc, sc));
-      types.push_back(type);
+      std::shared_ptr<RenderType> type(new RenderType(data, texture_cache_,
+                                       shader_cache_));
+      types_.push_back(type);
       return type.get();
     }
 
@@ -58,25 +61,25 @@ class RenderingSystem : public System {
       RenderType* st = static_cast<RenderType*>(type);
       mat44 mat = cmat44(entity->position, entity->rotation);
       std::shared_ptr<Instance> instance(new Instance(st->mesh, mat));
-      world->add(instance);
-      objects.push_back(RenderObject(entity, instance));
+      world_->add(instance);
+      objects_.push_back(RenderObject(entity, instance));
     }
 
     void Step(float dt) {
       assert(this);
-      for (auto & o : objects) {
+      for (auto & o : objects_) {
         o.instance->transform = cmat44(o.entity->position,
                                        o.entity->rotation);
       }
     }
 
   private:
-    World* world;
-    TextureCache* tc;
-    ShaderCache* sc;
+    World* world_;
+    TextureCache* texture_cache_;
+    ShaderCache* shader_cache_;
 
-    std::vector<std::shared_ptr<RenderType> > types;
-    std::vector<RenderObject> objects;
+    std::vector<std::shared_ptr<RenderType> > types_;
+    std::vector<RenderObject> objects_;
 };
 
 
