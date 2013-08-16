@@ -26,23 +26,23 @@ class Camera {
     /** Sets the view matrix.
     @param view the view matrix.
      */
-    void view(const mat44& view);
+    void set_view(const mat44& view);
 
     /** Get the projection matrix.
     @return the projection matrix.
      */
-    const mat44 GetProjection() const;
+    const mat44 projection() const;
 
     /** Set the new Field of view.
-    @param newfov the new FOV.
+    @param fov the new FOV.
      */
-    void SetFov(float newfov);
+    void set_fov(float fov);
 
     /** Changes the new/far planes.
     @param near the new near plane position.
     @param far the new far plane position.
      */
-    void SetNearFar(float near, float far);
+    void set_near_far(float near, float far);
 
   private:
     mat44 view_;

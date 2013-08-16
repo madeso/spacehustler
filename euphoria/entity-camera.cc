@@ -56,8 +56,8 @@ class CameraSystem : public System {
 
       for (auto & o : objects) {
         TWEAK(o.entity->rotation);
-        camera->view(cmat44(o.entity->rotation)
-                     * cmat44(vec3(-o.entity->position)));
+        camera->set_view(cmat44(o.entity->rotation)
+                         * cmat44(vec3(-o.entity->position)));
       }
     }
 

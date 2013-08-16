@@ -13,12 +13,12 @@ Camera::Camera()
   UpdateProjection();
 }
 
-const mat44 Camera::GetProjection() const {
+const mat44 Camera::projection() const {
   assert(this);
   return projection_;
 }
 
-void Camera::SetFov(float fov) {
+void Camera::set_fov(float fov) {
   assert(this);
 
   fov_ = fov;
@@ -30,12 +30,12 @@ const mat44& Camera::view() const {
   return view_;
 }
 
-void Camera::view(const mat44& view) {
+void Camera::set_view(const mat44& view) {
   assert(this);
   view_ = view;
 }
 
-void Camera::SetNearFar(float near, float far) {
+void Camera::set_near_far(float near, float far) {
   assert(this);
 
   znear_ = near;

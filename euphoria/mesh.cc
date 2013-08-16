@@ -115,7 +115,7 @@ namespace internal {
     /// sort and bind only when necessary
     program->bind();
     program->setUniform("camera", camera.view());
-    program->setUniform("projection", camera.GetProjection());
+    program->setUniform("projection", camera.projection());
     program->setUniform("model", model);
     texture->bind(0);
     program->setUniform("tex", 0);
