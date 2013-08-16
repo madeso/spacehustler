@@ -14,7 +14,7 @@ namespace {
 }
 
 Game::Game()
-  : shouldKeepRunning(true) {
+  : keep_running_(true) {
   assert(this);
   assert(Instance() == 0);
   Instance() = this;
@@ -26,14 +26,14 @@ Game::~Game() {
   Instance() = 0;
 }
 
-bool Game::keepRunning() {
+bool Game::keep_running() const {
   assert(this);
-  return shouldKeepRunning;
+  return keep_running_;
 }
 
-void Game::quit() {
+void Game::Quit() {
   assert(this);
-  shouldKeepRunning = false;
+  keep_running_ = false;
 }
 
 namespace scriptinggame {
@@ -45,7 +45,7 @@ namespace scriptinggame {
   void Quit(ScriptParams* params) {
     if (ScriptOverload(params)) {
       assert(Instance());
-      Instance()->quit();
+      Instance()->Quit();
     }
   }
   REGISTER_SCRIPT_FUNCTION("Quit", Quit);

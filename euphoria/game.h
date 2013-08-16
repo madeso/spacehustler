@@ -19,14 +19,14 @@ class Game {
     /** Returns if the game should keep running.
     @returns true if it should keep running, false if not.
      */
-    bool keepRunning();
+    bool keep_running() const;
 
     /** Quit the game.
     Sets the internal run variable to false.
      */
-    void quit();
+    void Quit();
   private:
-    bool shouldKeepRunning;
+    bool keep_running_;
 };
 
 #endif  // EUPHORIA_GAME_H_

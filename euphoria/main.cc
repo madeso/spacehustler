@@ -342,7 +342,7 @@ void logic() {
   sf::Clock clock;
   bool hasFocus = true;
   sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
-  while (game.keepRunning()) {
+  while (game.keep_running()) {
     OglDebug::Verify();
 
     glClearColor(0, 0, 0, 1);  // black
@@ -389,7 +389,7 @@ void logic() {
       }
 
       if (event.type == sf::Event::Closed) {
-        game.quit();
+        game.Quit();
       }
     }
 
