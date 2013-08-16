@@ -69,7 +69,7 @@ void DebugRenderer::render(const Camera& camera) {
     prog->bind();
 
     prog->setUniform("camera", camera.view);
-    prog->setUniform("projection", camera.getProjection());
+    prog->setUniform("projection", camera.GetProjection());
 
     vao->bind();
     vbo->bind();

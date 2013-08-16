@@ -321,8 +321,8 @@ void logic() {
   keybinds.load("keys.js");
 
   Camera camera;
-  camera.setFov(45);
-  camera.setNearFar(0.1f, 800.0f);
+  camera.SetFov(45);
+  camera.SetNearFar(0.1f, 800.0f);
 
   SystemContainer container;
   LoadSystems("systemdefs.js", CreateSystemArg(&container, &world,

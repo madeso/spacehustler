@@ -5,36 +5,36 @@
 #include <cassert>
 
 Camera::Camera()
-  : fov(45.0f)
-  , aspect(800.0f / 600)
-  , znear(0.1f)
-  , zfar(100.0f) {
+  : fov_(45.0f)
+  , aspect_(800.0f / 600)
+  , znear_(0.1f)
+  , zfar_(100.0f) {
   view = cmat44(cvec3zero(), cquatIdent());
-  updateProjection();
+  UpdateProjection();
 }
 
-const mat44 Camera::getProjection() const {
+const mat44 Camera::GetProjection() const {
   assert(this);
-  return projection;
+  return projection_;
 }
 
-void Camera::setFov(float newfov) {
+void Camera::SetFov(float fov) {
   assert(this);
 
-  fov = newfov;
-  updateProjection();
+  fov_ = fov;
+  UpdateProjection();
 }
 
-void Camera::setNearFar(float newnear, float newfar) {
+void Camera::SetNearFar(float near, float far) {
   assert(this);
 
-  znear = newnear;
-  zfar = newfar;
-  updateProjection();
+  znear_ = near;
+  zfar_ = far;
+  UpdateProjection();
 }
 
-void Camera::updateProjection() {
+void Camera::UpdateProjection() {
   assert(this);
-  cml::matrix_perspective_xfov_LH(projection, fov, aspect, znear, zfar,
+  cml::matrix_perspective_xfov_LH(projection_, fov_, aspect_, znear_, zfar_,
                                   cml::z_clip_zero);
 }

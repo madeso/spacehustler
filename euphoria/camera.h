@@ -25,29 +25,29 @@ class Camera {
     /** Get the projection matrix.
     @return the projection matrix.
      */
-    const mat44 getProjection() const;
+    const mat44 GetProjection() const;
 
     /** Set the new Field of view.
     @param newfov the new FOV.
      */
-    void setFov(float newfov);
+    void SetFov(float newfov);
 
     /** Changes the new/far planes.
-    @param newnear the new near plane position.
-    @param newfar the new far plane position.
+    @param near the new near plane position.
+    @param far the new far plane position.
      */
-    void setNearFar(float newnear, float newfar);
+    void SetNearFar(float near, float far);
 
   private:
-    float fov;
-    float aspect;
-    float znear;
-    float zfar;
+    float fov_;
+    float aspect_;
+    float znear_;
+    float zfar_;
 
-    mat44 projection;
+    mat44 projection_;
 
   private:
-    void updateProjection();
+    void UpdateProjection();
 };
 
 #endif  // EUPHORIA_CAMERA_H_
