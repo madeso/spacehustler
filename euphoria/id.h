@@ -27,16 +27,16 @@ class IdGenerator : boost::noncopyable {
     @see Id
     @returns the new id.
      */
-    const ID generate();
+    const ID Generate();
 
     /** Release a id that is no longer required.
     @see Id
     @param id the id to be removed.
      */
-    void release(const ID id);
+    void Release(const ID id);
   private:
-    ID current;
-    std::vector<ID> released;
+    ID current_;
+    std::vector<ID> released_;
 };
 
 /** A id container.
@@ -53,11 +53,12 @@ class Id : boost::noncopyable {
      */
     ~Id();
 
-    /** The actual value of the id.
+    /** Get the actual value of the id.
      */
-    const IdGenerator::ID value;
+    const IdGenerator::ID value() const;
   private:
-    IdGenerator* generator;
+    const IdGenerator::ID value_;
+    IdGenerator* generator_;
 };
 
 #endif  // EUPHORIA_ID_H_

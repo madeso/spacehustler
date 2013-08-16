@@ -3,30 +3,34 @@
 #include "euphoria/id.h"
 
 IdGenerator::IdGenerator()
-  : current(1) {
+  : current_(1) {
 }
 
-const IdGenerator::ID IdGenerator::generate() {
-  if (released.empty()) {
-    const ID value = current;
-    ++current;
+const IdGenerator::ID IdGenerator::Generate() {
+  if (released_.empty()) {
+    const ID value = current_;
+    ++current_;
     return value;
   } else {
-    const ID value = *released.rbegin();
-    released.pop_back();
+    const ID value = *released_.rbegin();
+    released_.pop_back();
     return value;
   }
 }
 
-void IdGenerator::release(const IdGenerator::ID id) {
-  released.push_back(id);
+void IdGenerator::Release(const IdGenerator::ID id) {
+  released_.push_back(id);
 }
 
 Id::Id(IdGenerator* generator)
-  : value(generator->generate())
-  , generator(generator) {
+  : value_(generator->Generate())
+  , generator_(generator) {
 }
 
 Id::~Id() {
-  generator->release(value);
+  generator_->Release(value_);
+}
+
+const IdGenerator::ID Id::value() const {
+  return value_;
 }
