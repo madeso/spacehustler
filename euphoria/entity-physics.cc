@@ -100,7 +100,7 @@ class PhysicsObject {
       connection.reset(new WorldBodyConenction(dynamicsWorld, body));
     }
 
-    void update() {
+    void Update() {
       btTransform trans;
       body->getMotionState()->getWorldTransform(trans);
       assert(entity);
@@ -169,19 +169,20 @@ namespace {
 class DebugDrawing : public btIDebugDraw {
   public:
     explicit DebugDrawing(World* w)
-      : world(w)
-      , mode(DBG_DrawWireframe | DBG_DrawAabb | DBG_DrawFeaturesText
-             | DBG_DrawContactPoints | DBG_NoDeactivation | DBG_NoHelpText
-             | DBG_DrawText | DBG_ProfileTimings | DBG_EnableSatComparison
-             | DBG_DisableBulletLCP | DBG_EnableCCD | DBG_DrawConstraints
-             | DBG_DrawConstraintLimits | DBG_FastWireframe | DBG_DrawNormals) {
+      : world_(w)
+      , mode_(DBG_DrawWireframe | DBG_DrawAabb | DBG_DrawFeaturesText
+              | DBG_DrawContactPoints | DBG_NoDeactivation | DBG_NoHelpText
+              | DBG_DrawText | DBG_ProfileTimings | DBG_EnableSatComparison
+              | DBG_DisableBulletLCP | DBG_EnableCCD | DBG_DrawConstraints
+              | DBG_DrawConstraintLimits | DBG_FastWireframe
+              | DBG_DrawNormals) {
       assert(w);
     }
     void drawLine(const btVector3& from, const btVector3& to,
                   const btVector3& color) {
       assert(this);
-      assert(world);
-      world->debug().Line(C(from), C(to), ToColor(color));
+      assert(world_);
+      world_->debug().Line(C(from), C(to), ToColor(color));
     }
 
     void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
@@ -196,41 +197,43 @@ class DebugDrawing : public btIDebugDraw {
     }
 
     void setDebugMode(int debugMode) {
-      mode = debugMode;
+      mode_ = debugMode;
     }
 
     int getDebugMode() const {
-      return mode;
+      return mode_;
     }
 
-    World* world;
-    int mode;
+  private:
+    World* world_;
+    int mode_;
 };
 
 class PhysicsSystem : public System {
   public:
     explicit PhysicsSystem(World* world)
-      : debugDrawer(world) {
+      : debug_drawer_(world) {
       assert(this);
       assert(world);
 
-      collisionConfiguration.reset(new btDefaultCollisionConfiguration());
-      dispatcher.reset(new btCollisionDispatcher(collisionConfiguration.get()));
-      overlappingPairCache.reset(new btDbvtBroadphase());
-      solver.reset(new btSequentialImpulseConstraintSolver);
-      dynamicsWorld.reset(new btDiscreteDynamicsWorld(dispatcher.get(),
-                          overlappingPairCache.get(),
-                          solver.get(),
-                          collisionConfiguration.get()));
+      collision_configuration_.reset(new btDefaultCollisionConfiguration());
+      dispatcher_.reset(new btCollisionDispatcher(collision_configuration_
+                        .get()));
+      overlapping_pair_cache_.reset(new btDbvtBroadphase());
+      solver_.reset(new btSequentialImpulseConstraintSolver);
+      dynamics_world_.reset(new btDiscreteDynamicsWorld(dispatcher_.get(),
+                            overlapping_pair_cache_.get(),
+                            solver_.get(),
+                            collision_configuration_.get()));
       /// @todo load this from file instead.
-      dynamicsWorld->setGravity(btVector3(0, -10, 0));
+      dynamics_world_->setGravity(btVector3(0, -10, 0));
 
       for (const auto & p : world->getCollisionMesh().parts) {
-        std::shared_ptr<StaticMesh> m(new StaticMesh(p, dynamicsWorld));
-        staticmeshes.push_back(m);
+        std::shared_ptr<StaticMesh> m(new StaticMesh(p, dynamics_world_));
+        staticmeshes_.push_back(m);
       }
 
-      dynamicsWorld->setDebugDrawer(&debugDrawer);
+      dynamics_world_->setDebugDrawer(&debug_drawer_);
 
       assert(globalInstance == 0);
       globalInstance = this;
@@ -244,7 +247,7 @@ class PhysicsSystem : public System {
     ComponentType* AddType(const Json::Value& data) {
       assert(this);
       std::shared_ptr<PhysicsType> type(new PhysicsType(data));
-      types.push_back(type);
+      types_.push_back(type);
       return type.get();
     }
 
@@ -253,30 +256,30 @@ class PhysicsSystem : public System {
       assert(entity);
       assert(type);
       PhysicsType* pt = static_cast<PhysicsType*>(type);
-      std::size_t index = objects.size();
-      lookup.insert(std::make_pair(entity, index));
-      objects.push_back(PhysicsObject(entity, dynamicsWorld, *pt));
+      std::size_t index = objects_.size();
+      lookup_.insert(std::make_pair(entity, index));
+      objects_.push_back(PhysicsObject(entity, dynamics_world_, *pt));
     }
 
     void Step(float dt) {
       assert(this);
-      dynamicsWorld->stepSimulation(dt, 10);
-      for (auto & o : objects) {
-        o.update();
+      dynamics_world_->stepSimulation(dt, 10);
+      for (auto & o : objects_) {
+        o.Update();
       }
       bool debugPhysics = true;
       TWEAK(debugPhysics);
       if (debugPhysics) {
-        dynamicsWorld->debugDrawWorld();
+        dynamics_world_->debugDrawWorld();
       }
     }
 
     PhysicsObject* getObject(Entity* ent) {
-      auto res = lookup.find(ent);
-      if (res == lookup.end()) {
+      auto res = lookup_.find(ent);
+      if (res == lookup_.end()) {
         return 0;
       }
-      return &objects[res->second];
+      return &objects_[res->second];
     }
 
     static PhysicsSystem* globalInstance;
@@ -284,28 +287,28 @@ class PhysicsSystem : public System {
   private:
     // collision configuration contains default setup for memory, collision
     // setup. Advanced users can create their own configuration.
-    std::shared_ptr<btDefaultCollisionConfiguration> collisionConfiguration;
+    std::shared_ptr<btDefaultCollisionConfiguration> collision_configuration_;
 
     // use the default collision dispatcher. For parallel processing you can
     // use a different dispatcher (see Extras/BulletMultiThreaded)
-    std::shared_ptr<btCollisionDispatcher> dispatcher;
+    std::shared_ptr<btCollisionDispatcher> dispatcher_;
 
     // btDbvtBroadphase is a good general purpose broad phase. You can also try
     // out btAxis3Sweep.
-    std::shared_ptr<btBroadphaseInterface> overlappingPairCache;
+    std::shared_ptr<btBroadphaseInterface> overlapping_pair_cache_;
 
     // the default constraint solver. For parallel processing you can use a
     // different solver (see Extras/BulletMultiThreaded)
-    std::shared_ptr<btSequentialImpulseConstraintSolver> solver;
+    std::shared_ptr<btSequentialImpulseConstraintSolver> solver_;
 
-    std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
+    std::shared_ptr<btDiscreteDynamicsWorld> dynamics_world_;
 
-    std::vector<std::shared_ptr<PhysicsType> > types;
-    std::vector<PhysicsObject> objects;
-    std::vector<std::shared_ptr<StaticMesh>> staticmeshes;
+    std::vector<std::shared_ptr<PhysicsType> > types_;
+    std::vector<PhysicsObject> objects_;
+    std::vector<std::shared_ptr<StaticMesh>> staticmeshes_;
 
-    std::map<Entity*, std::size_t> lookup;
-    DebugDrawing debugDrawer;
+    std::map<Entity*, std::size_t> lookup_;
+    DebugDrawing debug_drawer_;
 };
 
 PhysicsSystem* PhysicsSystem::globalInstance = 0;
