@@ -23,7 +23,7 @@ class Rng {
     /** Generate a new random number.
     @return a random number.
      */
-    uint32 next();
+    uint32 Next();
 
     /** Generate a new random number.
     @return a random number
@@ -34,11 +34,11 @@ class Rng {
     /** Generate a new random float betweeen 0 and 1.
     @return a random float.
      */
-    float nextFloat();
+    float NextFloat();
 
   private:
-    uint32 index;
-    uint32 state[16];
+    uint32 index_;
+    uint32 state_[16];
 };
 
 #endif  // EUPHORIA_RNG_H_

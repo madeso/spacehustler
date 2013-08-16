@@ -13,31 +13,31 @@ So - faster, simpler, created by the same designers 10 years later, and produces
 // http://stackoverflow.com/a/1227137
 
 Rng::Rng(uint32 seed)
-  : index(0) {
+  : index_(0) {
   for (uint32 i = 0; i < 16; ++i) {
-    state[i] = seed * i;
+    state_[i] = seed * i;
   }
 }
 
 uint32 Rng::operator()() {
-  return next();
+  return Next();
 }
 
-uint32 Rng::next() {
+uint32 Rng::Next() {
   uint32 a, b, c, d;
-  a = state[index];
-  c = state[(index + 13) & 15];
+  a = state_[index_];
+  c = state_[(index_ + 13) & 15];
   b = a ^ c ^ (a << 16) ^ (c << 15);
-  c = state[(index + 9) & 15];
+  c = state_[(index_ + 9) & 15];
   c ^= (c >> 11);
-  a = state[index] = b ^ c;
+  a = state_[index_] = b ^ c;
   d = a ^ ((a << 5) &  0xDA442D24UL);
-  index = (index + 15) & 15;
-  a = state[index];
-  state[index] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
-  return state[index];
+  index_ = (index_ + 15) & 15;
+  a = state_[index_];
+  state_[index_] = a ^ b ^ d ^ (a << 2) ^ (b << 18) ^ (c << 28);
+  return state_[index_];
 }
 
-float Rng::nextFloat() {
-  return static_cast<float>(next()) / std::numeric_limits<uint32>().max();
+float Rng::NextFloat() {
+  return static_cast<float>(Next()) / std::numeric_limits<uint32>().max();
 }
