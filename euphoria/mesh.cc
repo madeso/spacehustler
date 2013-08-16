@@ -81,8 +81,8 @@ namespace internal {
     : program_(prog)
     , texture_(tex)
     , elementCount_(mesh.faces.size()) {
-    vao_.bind();
-    vbo_.bind();
+    vao_.Bind();
+    vbo_.Bind();
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*mesh.vertices.size(),
                  &mesh.vertices[0], GL_STATIC_DRAW);
@@ -98,13 +98,13 @@ namespace internal {
     glVertexAttribPointer(program_->attrib("vertuv"), 2, GL_FLOAT, GL_TRUE,
                           stride, uvoffset);
 
-    elements_.bind();
+    elements_.Bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort),
                  &mesh.faces[0], GL_STATIC_DRAW);
-    elements_.unbind();
+    elements_.Unbind();
 
-    vbo_.unbind();
-    vao_.unbind();
+    vbo_.Unbind();
+    vao_.Unbind();
   }
 
   CompiledMeshPart::~CompiledMeshPart() {
@@ -119,12 +119,12 @@ namespace internal {
     program_->setUniform("model", model);
     texture_->bind(0);
     program_->setUniform("tex", 0);
-    vao_.bind();
-    elements_.bind();
+    vao_.Bind();
+    elements_.Bind();
     const GLvoid* stride = 0;
     glDrawElements(GL_TRIANGLES, elementCount_, GL_UNSIGNED_SHORT, stride);
-    elements_.unbind();
-    vao_.unbind();
+    elements_.Unbind();
+    vao_.Unbind();
 
     program_->unbind();
   }

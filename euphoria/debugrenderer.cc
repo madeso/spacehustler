@@ -41,8 +41,8 @@ void DebugRenderer::Update() {
   vbo_.reset(new internal::ArrayBuffer());
   points_ = pending_;
 
-  vao_->bind();
-  vbo_->bind();
+  vao_->Bind();
+  vbo_->Bind();
 
   glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * points_.size(), &points_[0],
                GL_STATIC_DRAW);
@@ -56,8 +56,8 @@ void DebugRenderer::Update() {
   glEnableVertexAttribArray(color);
   glVertexAttribPointer(color, 3, GL_FLOAT, GL_TRUE, stride, coloroffset);
 
-  vbo_->unbind();
-  vao_->unbind();
+  vbo_->Unbind();
+  vao_->Unbind();
 
   pending_.clear();
 }
@@ -71,11 +71,11 @@ void DebugRenderer::Render(const Camera& camera) {
     prog_->setUniform("camera", camera.view());
     prog_->setUniform("projection", camera.projection());
 
-    vao_->bind();
-    vbo_->bind();
+    vao_->Bind();
+    vbo_->Bind();
     glDrawArrays(GL_LINES, 0, linecount_ * 2);
-    vbo_->unbind();
-    vao_->unbind();
+    vbo_->Unbind();
+    vao_->Unbind();
     prog_->unbind();
 
     linecount_ = 0;

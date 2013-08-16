@@ -25,18 +25,18 @@ namespace internal {
       /** Get the OpenGL VAO object id.
       @return the object id.
        */
-      GLuint get() const;
+      GLuint object() const;
 
       /** Utility function for binding this VAO.
        */
-      void bind() const;
+      void Bind() const;
 
       /** Utility function for unbinding this VAO.
        */
-      void unbind();
+      void Unbind();
 
     private:
-      GLuint object;
+      GLuint object_;
   };
 
   /** A RAII class for a OpenGL Buffer Object.
@@ -55,10 +55,10 @@ namespace internal {
       /** Get the OpenGL Buffer object id.
       @return the object id.
        */
-      GLuint get() const;
+      GLuint object() const;
 
     private:
-      GLuint object;
+      GLuint object_;
   };
 
   /** A RAII class for a OpenGL Array Buffer.
@@ -67,11 +67,11 @@ namespace internal {
     public:
       /** Utility function for binding this Array Buffer.
        */
-      void bind() const;
+      void Bind() const;
 
       /** Utility function for unbinding this Array Buffer.
        */
-      void unbind();
+      void Unbind();
   };
 
   /** A RAII class for a OpenGL Element Array Buffer.
@@ -80,11 +80,11 @@ namespace internal {
     public:
       /** Utility function for binding this Element Array Buffer.
        */
-      void bind() const;
+      void Bind() const;
 
       /** Utility function for unbinding this Element Array Buffer.
        */
-      void unbind();
+      void Unbind();
   };
 }  // namespace internal
 
