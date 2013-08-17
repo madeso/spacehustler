@@ -339,6 +339,13 @@ void ScriptParams::Return(float f) {
   ++number_of_returns_;
 }
 
+void ScriptParams::ReturnNil() {
+  assert(this);
+  assert(state_);
+  lua_pushnil(state_);
+  ++number_of_returns_;
+}
+
 lua_State* ScriptParams::ReturnFullUserData() {
   assert(this);
   assert(state_);

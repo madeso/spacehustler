@@ -210,6 +210,10 @@ class ScriptParams {
      */
     void Return(const std::string& s);
 
+    /** Return a nil value.
+     */
+    void ReturnNil();
+
     /** Helper function for returning full user data.
     Increases the return count by one and returns the state.
     @returns the lua state
