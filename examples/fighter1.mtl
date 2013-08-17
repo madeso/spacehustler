@@ -1,0 +1,7 @@
+newmtl fighter1
+kd 0.498039 0.498039 0.498039
+ka 0 0 0
+ks 0 0 0
+d 1
+illum 1
+map_kd psionic.jpg
