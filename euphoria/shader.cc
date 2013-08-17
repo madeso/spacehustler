@@ -10,39 +10,39 @@
 #include "euphoria/ogldebug.h"
 
 Shader::Shader(const Type& type)
-  : shader(glCreateShader(type == Shader::Vertex ? GL_VERTEX_SHADER :
-                          GL_FRAGMENT_SHADER)) {
+  : object_(glCreateShader(type == Shader::kVertexShader ? GL_VERTEX_SHADER :
+                           GL_FRAGMENT_SHADER)) {
   assert(this);
 
-  if (shader == 0) {
+  if (object_ == 0) {
     throw "glCreateShader failed";
   }
 }
 
-std::shared_ptr<Shader> Shader::FromSource(const std::string& source,
+std::shared_ptr<Shader> Shader::CreateFromSource(const std::string& source,
     const Type& type) {
   std::shared_ptr<Shader> shader(new Shader(type));
-  shader->compile(source);
+  shader->Compile(source);
   return shader;
 }
 
-void Shader::compile(const std::string& source) {
+void Shader::Compile(const std::string& source) {
   assert(this);
-  assert(shader != 0);
+  assert(object_ != 0);
 
   const char* code = source.c_str();
-  glShaderSource(shader, 1, (const GLchar**)&code, NULL);
-  glCompileShader(shader);
+  glShaderSource(object_, 1, (const GLchar**)&code, NULL);
+  glCompileShader(object_);
 
   GLint status;
-  glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+  glGetShaderiv(object_, GL_COMPILE_STATUS, &status);
   if (status == GL_FALSE) {
     std::string msg("Compile failure in shader:\n");
 
     GLint infoLogLength;
-    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+    glGetShaderiv(object_, GL_INFO_LOG_LENGTH, &infoLogLength);
     std::unique_ptr<char[]> strInfoLog(new char[infoLogLength + 1]);
-    glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog.get());
+    glGetShaderInfoLog(object_, infoLogLength, NULL, strInfoLog.get());
     msg += strInfoLog.get();
     throw msg;
   }
@@ -50,16 +50,16 @@ void Shader::compile(const std::string& source) {
 
 Shader::~Shader() {
   assert(this);
-  assert(shader != 0);
+  assert(object_ != 0);
 
-  glDeleteShader(shader);
+  glDeleteShader(object_);
 }
 
-GLuint Shader::get() const {
+GLuint Shader::object() const {
   assert(this);
-  assert(shader != 0);
+  assert(object_ != 0);
 
-  return shader;
+  return object_;
 }
 
 /////////////////////
@@ -74,10 +74,10 @@ ShaderList& ShaderList::operator()(std::shared_ptr<Shader> shader) {
 /////////////////////
 
 Program::Program()
-  : program(glCreateProgram()) {
+  : object_(glCreateProgram()) {
   assert(this);
 
-  if (program == 0) {
+  if (object_ == 0) {
     throw "glCreateProgram failed";
   }
 }
@@ -90,22 +90,23 @@ std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
   std::shared_ptr<Program> program(new Program());
 
   for (auto sh : shaders.shaders) {
-    glAttachShader(program->get(), sh->get());
+    glAttachShader(program->object(), sh->object());
   }
-  glLinkProgram(program->get());
+  glLinkProgram(program->object());
   for (auto sh : shaders.shaders) {
-    glDetachShader(program->get(), sh->get());
+    glDetachShader(program->object(), sh->object());
   }
 
   GLint status;
-  glGetProgramiv(program->get(), GL_LINK_STATUS, &status);
+  glGetProgramiv(program->object(), GL_LINK_STATUS, &status);
   if (status == GL_FALSE) {
     std::string msg("Program linking failure: ");
 
     GLint infoLogLength;
-    glGetProgramiv(program->get(), GL_INFO_LOG_LENGTH, &infoLogLength);
+    glGetProgramiv(program->object(), GL_INFO_LOG_LENGTH, &infoLogLength);
     std::unique_ptr<char[]> strInfoLog(new char[infoLogLength + 1]);
-    glGetProgramInfoLog(program->get(), infoLogLength, NULL, strInfoLog.get());
+    glGetProgramInfoLog(program->object(), infoLogLength, NULL,
+                        strInfoLog.get());
     msg += strInfoLog.get();
     throw msg;
   }
@@ -113,29 +114,29 @@ std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
   return program;
 }
 
-GLuint Program::get() const {
+GLuint Program::object() const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
 
-  return program;
+  return object_;
 }
 
-GLint Program::attrib(const std::string& name) const {
+GLint Program::LookupAttribute(const std::string& name) const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
 
-  const GLint attrib = glGetAttribLocation(program, name.c_str());
+  const GLint attrib = glGetAttribLocation(object_, name.c_str());
   if (attrib == -1) {
     throw "Program attribute not found: " + name;
   }
   return attrib;
 }
 
-GLint Program::uniform(const std::string& name) const {
+GLint Program::LookupUniform(const std::string& name) const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
 
-  const GLint attrib = glGetUniformLocation(program, name.c_str());
+  const GLint attrib = glGetUniformLocation(object_, name.c_str());
   if (attrib == -1) {
     throw "Program uniform not found: " + name;
   }
@@ -144,9 +145,9 @@ GLint Program::uniform(const std::string& name) const {
 
 Program::~Program() {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
 
-  glDeleteProgram(program);
+  glDeleteProgram(object_);
 }
 
 namespace {
@@ -156,35 +157,35 @@ namespace {
   }
 }
 
-void Program::setUniform(const std::string& name, int i) const {
+void Program::SetUniform(const std::string& name, int i) const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
   assert(CurrentBoundProgram() == this);
-  const GLint uni = uniform(name);
+  const GLint uni = LookupUniform(name);
   glUniform1i(uni, i);
 }
 
-void Program::setUniform(const std::string& name, const mat44& m) const {
+void Program::SetUniform(const std::string& name, const mat44& m) const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
   assert(CurrentBoundProgram() == this);
-  const GLint uni = uniform(name);
+  const GLint uni = LookupUniform(name);
   glUniformMatrix4fv(uni, 1, GL_FALSE, m.data());
 }
 
-void Program::bind() const {
+void Program::Bind() const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
 
   assert(CurrentBoundProgram() == 0);
   CurrentBoundProgram() = this;
 
-  glUseProgram(program);
+  glUseProgram(object_);
 }
 
-void Program::unbind() const {
+void Program::Unbind() const {
   assert(this);
-  assert(program != 0);
+  assert(object_ != 0);
 
   assert(CurrentBoundProgram() == this);
   CurrentBoundProgram() = 0;

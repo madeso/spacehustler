@@ -26,11 +26,11 @@ class Shader
     enum Type {
       /** The vertex shader type.
        */
-      Vertex,
+      kVertexShader,
 
       /** The fragment shader type.
        */
-      Fragment
+      kFragmentShader
     };
 
     /** Create a shader from source.
@@ -38,7 +38,7 @@ class Shader
     @param type the shader type, if it's a vertex or a fragment shader.
     @return a new shader.
      */
-    static std::shared_ptr<Shader> FromSource(const std::string& source,
+    static std::shared_ptr<Shader> CreateFromSource(const std::string& source,
         const Type& type);
 
     /** Destructs the shader.
@@ -48,11 +48,11 @@ class Shader
     /** Gets the OpenGL shader object.
     @return the shader object.
      */
-    GLuint get() const;
+    GLuint object() const;
   private:
     explicit Shader(const Type& type);
-    void compile(const std::string& source);
-    GLuint shader;
+    void Compile(const std::string& source);
+    GLuint object_;
 };
 
 /** Helper combiner class for specifying multiple shaders.
@@ -89,43 +89,43 @@ class Program
     /** Get the OpenGL program id.
     @return the program id.
      */
-    GLuint get() const;
+    GLuint object() const;
 
     /** Do a attribute lookup.
     @param name the attribute name.
     @return the OpenGL attribute id.
      */
-    GLint attrib(const std::string& name) const;
+    GLint LookupAttribute(const std::string& name) const;
 
     /** Do a uniform lookup.
     @param name the uniform name.
     @return the OpenGL uniform id.
      */
-    GLint uniform(const std::string& name) const;
+    GLint LookupUniform(const std::string& name) const;
 
     /** Set a uniform integer.
     @param name the uniform name.
     @param i the integer value to set to.
      */
-    void setUniform(const std::string& name, int i) const;
+    void SetUniform(const std::string& name, int i) const;
 
     /** Set a uniform 4x4 matrix.
     @param name the uniform name.
     @param m the 4x4 matrix value to set to.
      */
-    void setUniform(const std::string& name, const mat44& m) const;
+    void SetUniform(const std::string& name, const mat44& m) const;
 
     /** Binds this program.
      */
-    void bind() const;
+    void Bind() const;
 
     /** Unbinds this program.
      */
-    void unbind() const;
+    void Unbind() const;
 
   private:
     Program();
-    GLuint program;
+    GLuint object_;
 };
 
 /** Load a shader from a file.

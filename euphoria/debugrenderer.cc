@@ -49,8 +49,8 @@ void DebugRenderer::Update() {
 
   const GLsizei stride = 6 * sizeof(GLfloat);
   const GLvoid* coloroffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
-  const auto vert = prog_->attrib("vert");
-  const auto color = prog_->attrib("color");
+  const auto vert = prog_->LookupAttribute("vert");
+  const auto color = prog_->LookupAttribute("color");
   glEnableVertexAttribArray(vert);
   glVertexAttribPointer(vert, 3, GL_FLOAT, GL_FALSE, stride, NULL);
   glEnableVertexAttribArray(color);
@@ -66,17 +66,17 @@ void DebugRenderer::Render(const Camera& camera) {
   if (linecount_ != 0) {
     Update();
 
-    prog_->bind();
+    prog_->Bind();
 
-    prog_->setUniform("camera", camera.view());
-    prog_->setUniform("projection", camera.projection());
+    prog_->SetUniform("camera", camera.view());
+    prog_->SetUniform("projection", camera.projection());
 
     vao_->Bind();
     vbo_->Bind();
     glDrawArrays(GL_LINES, 0, linecount_ * 2);
     vbo_->Unbind();
     vao_->Unbind();
-    prog_->unbind();
+    prog_->Unbind();
 
     linecount_ = 0;
   }

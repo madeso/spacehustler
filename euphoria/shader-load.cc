@@ -21,7 +21,7 @@ void LoadSingleShader(Json::Value data, Shader::Type type, ShaderList* list) {
   ss << f.rdbuf();
   const std::string content = ss.str();
 
-  (*list)(Shader::FromSource(content, type));
+  (*list)(Shader::CreateFromSource(content, type));
 }
 
 void LoadShaders(Json::Value data, Shader::Type type, ShaderList* list) {
@@ -46,8 +46,8 @@ std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename) {
 
   ShaderList shaders;
 
-  LoadShaders(root["vertices"], Shader::Vertex, &shaders);
-  LoadShaders(root["fragments"], Shader::Fragment, &shaders);
+  LoadShaders(root["vertices"], Shader::kVertexShader, &shaders);
+  LoadShaders(root["fragments"], Shader::kFragmentShader, &shaders);
 
   return Program::FromShaderList(shaders);
 }

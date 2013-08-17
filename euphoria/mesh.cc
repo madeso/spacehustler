@@ -90,13 +90,13 @@ namespace internal {
     const GLsizei stride = 5 * sizeof(GLfloat);
     const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
 
-    glEnableVertexAttribArray(program_->attrib("vert"));
-    glVertexAttribPointer(program_->attrib("vert"), 3, GL_FLOAT, GL_FALSE,
-                          stride, NULL);
+    glEnableVertexAttribArray(program_->LookupAttribute("vert"));
+    glVertexAttribPointer(program_->LookupAttribute("vert"), 3, GL_FLOAT,
+                          GL_FALSE, stride, NULL);
 
-    glEnableVertexAttribArray(program_->attrib("vertuv"));
-    glVertexAttribPointer(program_->attrib("vertuv"), 2, GL_FLOAT, GL_TRUE,
-                          stride, uvoffset);
+    glEnableVertexAttribArray(program_->LookupAttribute("vertuv"));
+    glVertexAttribPointer(program_->LookupAttribute("vertuv"), 2, GL_FLOAT,
+                          GL_TRUE, stride, uvoffset);
 
     elements_.Bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort),
@@ -113,12 +113,12 @@ namespace internal {
   void CompiledMeshPart::Render(const Camera& camera, const mat44& model) {
     /// @todo don't bind everything all the time,
     /// sort and bind only when necessary
-    program_->bind();
-    program_->setUniform("camera", camera.view());
-    program_->setUniform("projection", camera.projection());
-    program_->setUniform("model", model);
+    program_->Bind();
+    program_->SetUniform("camera", camera.view());
+    program_->SetUniform("projection", camera.projection());
+    program_->SetUniform("model", model);
     texture_->bind(0);
-    program_->setUniform("tex", 0);
+    program_->SetUniform("tex", 0);
     vao_.Bind();
     elements_.Bind();
     const GLvoid* stride = 0;
@@ -126,7 +126,7 @@ namespace internal {
     elements_.Unbind();
     vao_.Unbind();
 
-    program_->unbind();
+    program_->Unbind();
   }
 
   ///////////////////////////
