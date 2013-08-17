@@ -438,10 +438,34 @@ namespace scriptingphysics {
       assert(obj->body);
       const btQuaternion orientation = obj->body->getOrientation();
       quat* rot = ReturnQuat(params);
-      *rot = quat(orientation.getX(), orientation.getY(), orientation.getZ(),
-                  orientation.getW());
+      *rot = C(orientation);
     }
   }
   REGISTER_SCRIPT_FUNCTION("GetOrientation", GetOrientation);
+
+  // -- Function: SetOrientation
+  // -- Description:
+  // -- Gets the orientation of a physics object.
+  // -- Arguments:
+  // -- PhysObj The physics object
+  // -- Returns:
+  // -- quat The orientation
+  void SetOrientation(ScriptParams* params) {
+    assert(params);
+    PhysicsObject* obj = 0;
+    quat* rot;
+
+    if (ScriptOverload(params) << cLightUserData(&obj)
+        << mFullUserData(quat, &rot)) {
+      assert(obj);
+      assert(obj->body);
+      assert(rot);
+
+      btTransform trans = obj->body->getWorldTransform();
+      trans.setRotation(C(*rot));
+      obj->body->setWorldTransform(trans);
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("SetOrientation", SetOrientation);
 
 }  // namespace scriptingphysics

@@ -267,3 +267,16 @@ Gets the orientation of a physics object.
   - [quat](type_quat.md) The orientation
 
 
+
+Physics.SetOrientation()
+-----------
+
+Gets the orientation of a physics object.
+
+###Arguments:
+  - **PhysObj** The physics object
+
+####Returns:
+  - [quat](type_quat.md) The orientation
+
+
