@@ -43,10 +43,10 @@ namespace {
   };
 }  // namespace
 
-std::shared_ptr<Texture> TextureCache::get(
+std::shared_ptr<Texture> TextureCache::GetOrCreate(
   const TextureLoadingInstruction& instructions) {
   assert(this);
   static TextureCreator c;
-  return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(&cache,
+  return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(&cache_,
          c, instructions);
 }

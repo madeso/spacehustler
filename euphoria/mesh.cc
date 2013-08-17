@@ -148,8 +148,8 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
   std::vector<Material> materials;
   for (auto src : mesh.materials) {
     Material m;
-    m.texture = texturecache->get(TextureLoadingInstruction(src.texture,
-                                  src.wraps, src.wrapt));
+    m.texture = texturecache->GetOrCreate(TextureLoadingInstruction(src.texture,
+                                          src.wraps, src.wrapt));
     m.program = shadercache->GetOrCreate("default.js");
     materials.push_back(m);
   }

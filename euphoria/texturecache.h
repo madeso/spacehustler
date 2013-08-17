@@ -55,10 +55,10 @@ class TextureCache {
     @param instructions the instructions on how to load the texture.
     @returns the texture.
      */
-    std::shared_ptr<Texture> get(
+    std::shared_ptr<Texture> GetOrCreate(
       const TextureLoadingInstruction& instructions);
   private:
-    std::map<TextureLoadingInstruction, std::weak_ptr<Texture> > cache;
+    std::map<TextureLoadingInstruction, std::weak_ptr<Texture> > cache_;
 };
 
 #endif  // EUPHORIA_TEXTURECACHE_H_
