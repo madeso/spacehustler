@@ -26,18 +26,20 @@ Build tools
 
 Planned Features
 =======
+* add joystick support
+* add oculus rift support
+* audio and music support
+* lights and shaddows
+* particle systems
+* add leap motion support
 * lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
 * Move from SFML to SDL for forcebeedback and joystick names (optionally)
-* audio and music support
-* add oculus rift support
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * change from json to yaml/protobuf?
 * menu support (ce gui?)
 * hud/2d support (ce gui too, how much can it be skinned?)
 * implement all the todos
 * add loading of shaders from files with preprocessor
-* lights and shaddows
-* particle systems
 * godrays
 * panning materials
 * normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
