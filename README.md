@@ -45,7 +45,9 @@ Planned Features
 * culling + world editor
 * replace filehandling with a vfs
 * deffered rendering
-* hdr
+* hdr/bloom
+* adaptive tone mapping
+* enviromental reflection
 * possible support older systems
 
 Supported platforms
