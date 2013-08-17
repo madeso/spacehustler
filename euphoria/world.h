@@ -34,7 +34,7 @@ class Instance {
     @see World::render()
     @param camera the camera to render through.
      */
-    void render(const Camera& camera);
+    void Render(const Camera& camera);
 
     /** The mesh to be rendered.
      */
@@ -62,27 +62,27 @@ class World {
     /** Add a instance to the world.
     @param instance the instance to add.
      */
-    void add(std::shared_ptr<Instance> instance);
+    void Add(std::shared_ptr<Instance> instance);
 
     /** Render the world through a camera.
     @param camera the camera.
      */
-    void render(const Camera& camera);
+    void Render(const Camera& camera);
 
     /** Get the debug render.
     @returns the debug renderer.
      */
-    DebugRenderer& debug();
+    DebugRenderer& debug_renderer();
 
     /** Gets the collision mesh.
     @returns the collision mesh
      */
-    const Mesh& getCollisionMesh() const;
+    const Mesh& collisionmesh() const;
 
   private:
-    std::vector<std::shared_ptr<Instance>> instances;
-    Mesh collisionmesh;
-    DebugRenderer debugrenderer;
+    std::vector<std::shared_ptr<Instance>> instances_;
+    Mesh collisionmesh_;
+    DebugRenderer debug_renderer_;
 };
 
 #endif  // EUPHORIA_WORLD_H_

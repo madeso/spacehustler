@@ -13,13 +13,13 @@ Instance::Instance(std::shared_ptr<CompiledMesh> m, const mat44& t)
   , transform(t) {  // NOLINT
 }
 
-void Instance::render(const Camera& camera) {
+void Instance::Render(const Camera& camera) {
   assert(this);
   mesh->Render(camera, transform);
 }
 
 World::World(const std::string& filename, TextureCache* texturecache,
-             ShaderCache* shadercache) : debugrenderer(shadercache) {
+             ShaderCache* shadercache) : debug_renderer_(shadercache) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
@@ -35,7 +35,7 @@ World::World(const std::string& filename, TextureCache* texturecache,
   const std::string collisionmeshfilename = root
       .get("collisionmesh", "").asString();
   if (false == collisionmeshfilename.empty()) {
-    collisionmesh = LoadMesh(collisionmeshfilename);
+    collisionmesh_ = LoadMesh(collisionmeshfilename);
   }
   Json::Value meshes = root["meshes"];
   for (Json::ArrayIndex i = 0; i < meshes.size(); ++i) {
@@ -47,31 +47,31 @@ World::World(const std::string& filename, TextureCache* texturecache,
     mat44 worldmat = cmat44(cvec3zero());
 
     std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
-    add(wi);
+    Add(wi);
   }
 }
 
-void World::add(std::shared_ptr<Instance> instance) {
+void World::Add(std::shared_ptr<Instance> instance) {
   assert(this);
-  instances.push_back(instance);
+  instances_.push_back(instance);
 }
 
-void World::render(const Camera& camera) {
+void World::Render(const Camera& camera) {
   assert(this);
 
   /// @todo investigate http://www.opengl.org/registry/specs/ARB/draw_instanced.txt
-  for (auto i : instances) {
-    i->render(camera);
+  for (auto i : instances_) {
+    i->Render(camera);
   }
 
-  debugrenderer.Render(camera);
+  debug_renderer_.Render(camera);
 }
 
-DebugRenderer& World::debug() {
-  return debugrenderer;
+DebugRenderer& World::debug_renderer() {
+  return debug_renderer_;
 }
 
-const Mesh& World::getCollisionMesh() const {
+const Mesh& World::collisionmesh() const {
   assert(this);
-  return collisionmesh;
+  return collisionmesh_;
 }

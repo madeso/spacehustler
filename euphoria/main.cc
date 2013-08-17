@@ -348,7 +348,7 @@ void logic() {
     glClearColor(0, 0, 0, 1);  // black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    world.render(camera);
+    world.Render(camera);
 
     if (tweaking) {
       RUNTWEAKCODE(TwDraw());

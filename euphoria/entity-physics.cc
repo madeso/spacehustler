@@ -182,7 +182,7 @@ class DebugDrawing : public btIDebugDraw {
                   const btVector3& color) {
       assert(this);
       assert(world_);
-      world_->debug().Line(C(from), C(to), ToColor(color));
+      world_->debug_renderer().Line(C(from), C(to), ToColor(color));
     }
 
     void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
@@ -228,7 +228,7 @@ class PhysicsSystem : public System {
       /// @todo load this from file instead.
       dynamics_world_->setGravity(btVector3(0, -10, 0));
 
-      for (const auto & p : world->getCollisionMesh().parts) {
+      for (const auto & p : world->collisionmesh().parts) {
         std::shared_ptr<StaticMesh> m(new StaticMesh(p, dynamics_world_));
         staticmeshes_.push_back(m);
       }
