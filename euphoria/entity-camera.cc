@@ -76,5 +76,5 @@ void AddCameraCallback(CreateSystemArg arg, Json::Value data) {
 }
 
 void Entity_AddCamera(SystemCreatorList* sc) {
-  sc->add(CameraSystemType, AddCameraCallback);
+  sc->Add(CameraSystemType, AddCameraCallback);
 }

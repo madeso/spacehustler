@@ -108,7 +108,7 @@ void AddScriptCallback(CreateSystemArg arg, Json::Value data) {
 }
 
 void Entity_AddScript(SystemCreatorList* sc) {
-  sc->add(ScriptingSystemType, AddScriptCallback);
+  sc->Add(ScriptingSystemType, AddScriptCallback);
 }
 
 namespace scriptingjson {

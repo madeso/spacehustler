@@ -85,16 +85,16 @@ class SystemCreatorList {
     @param name the name of the system
     @param callback the callback to use.
      */
-    void add(const std::string& name, Callback callback);
+    void Add(const std::string& name, Callback callback);
 
     /** Get a previously added callback.
     @param name the name of the system
     @throws exception if the callback couldn't be found
     @returns the callback if found
      */
-    Callback get(const std::string& name) const;
+    Callback Get(const std::string& name) const;
   private:
-    std::map<std::string, Callback> creators;
+    std::map<std::string, Callback> creators_;
 };
 
 /** Loads system definitions from a file.

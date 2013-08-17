@@ -40,18 +40,18 @@ CreateSystemArg::CreateSystemArg(SystemContainer* acontainer,
 SystemCreatorList::SystemCreatorList() {
 }
 
-void SystemCreatorList::add(const std::string& name, Callback callback) {
-  creators.insert(std::make_pair(name, callback));
+void SystemCreatorList::Add(const std::string& name, Callback callback) {
+  creators_.insert(std::make_pair(name, callback));
 }
 
-Callback SystemCreatorList::get(const std::string& name) const {
-  auto r = creators.find(name);
-  if (r == creators.end()) {
+Callback SystemCreatorList::Get(const std::string& name) const {
+  auto r = creators_.find(name);
+  if (r == creators_.end()) {
     throw std::logic_error(Str() << "Unable to create built-in system "
                            << name
                            << ", valid systems are: "
                            << StringMerger::EnglishAnd()
-                           .Generate(Keys(creators)));
+                           .Generate(Keys(creators_)));
   }
   return r->second;
 }
@@ -80,6 +80,6 @@ void LoadSystems(const std::string& filename, CreateSystemArg arg) {
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     const std::string systemname = root[i].get("system", "").asString();
     auto data = root[i]["data"];
-    creators.get(systemname)(arg, data);
+    creators.Get(systemname)(arg, data);
   }
 }

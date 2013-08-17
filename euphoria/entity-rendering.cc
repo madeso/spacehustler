@@ -90,6 +90,6 @@ void AddRenderingCallback(CreateSystemArg arg, Json::Value data) {
 }
 
 void Entity_AddRendering(SystemCreatorList* sc) {
-  sc->add(RenderingSystemType, AddRenderingCallback);
+  sc->Add(RenderingSystemType, AddRenderingCallback);
 }
 

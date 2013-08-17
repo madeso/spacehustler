@@ -320,7 +320,7 @@ void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
 }
 
 void Entity_AddPhysics(SystemCreatorList* sc) {
-  sc->add(PhysicsSystemType, AddPhysicsCallback);
+  sc->Add(PhysicsSystemType, AddPhysicsCallback);
 }
 
 //////////////////////////////////////////////////////////////////////////
