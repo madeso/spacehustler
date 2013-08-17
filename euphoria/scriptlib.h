@@ -7,6 +7,8 @@ Functions for binding basic types to lua.
 #ifndef EUPHORIA_SCRIPTLIB_H_
 #define EUPHORIA_SCRIPTLIB_H_
 
+#include "euphoria/math.h"
+
 extern "C" {
   struct lua_State;
 }
@@ -15,5 +17,13 @@ extern "C" {
 @param state the lua state.
  */
 void scriptlib_register(lua_State* state);
+
+class ScriptParams;
+
+/** Add a return quaternion.
+@param params the lua params
+@returns the returned quaternion
+ */
+quat* ReturnQuat(ScriptParams* params);
 
 #endif  // EUPHORIA_SCRIPTLIB_H_

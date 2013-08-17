@@ -10,6 +10,7 @@
 #include "euphoria/world.h"
 #include "euphoria/tweak.h"
 #include "euphoria/script.h"
+#include "euphoria/scriptlib.h"
 
 #include "btBulletDynamicsCommon.h"  // NOLINT this is the proper way to include bullet
 
@@ -420,5 +421,27 @@ namespace scriptingphysics {
     }
   }
   REGISTER_SCRIPT_FUNCTION("ApplyTorque", ApplyTorque);
+
+  // -- Function: GetOrientation
+  // -- Description:
+  // -- Gets the orientation of a physics object.
+  // -- Arguments:
+  // -- PhysObj The physics object
+  // -- Returns:
+  // -- quat The orientation
+  void GetOrientation(ScriptParams* params) {
+    assert(params);
+    PhysicsObject* obj = 0;
+
+    if (ScriptOverload(params) << cLightUserData(&obj)) {
+      assert(obj);
+      assert(obj->body);
+      const btQuaternion orientation = obj->body->getOrientation();
+      quat* rot = ReturnQuat(params);
+      *rot = quat(orientation.getX(), orientation.getY(), orientation.getZ(),
+                  orientation.getW());
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("GetOrientation", GetOrientation);
 
 }  // namespace scriptingphysics

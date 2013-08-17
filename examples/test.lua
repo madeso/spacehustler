@@ -31,7 +31,9 @@ function test_step(self, entity, dt)
 	end
 	
 	if forcekey > 0.5 then
-		Physics.ApplyForce(phys, 0, self.force, 0)
+		local q = Physics.GetOrientation(phys)
+		local a = q:gety()
+		Physics.ApplyForce(phys, a*self.force)
 	end
 	if quitkey > 0.5 then
 		Game.Quit()

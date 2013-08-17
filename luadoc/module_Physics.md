@@ -64,3 +64,16 @@ Applies torque to a physics object by providing a torque vector
   - [vec3](type_vec3.md) The torque
 
 
+
+Physics.GetOrientation()
+-----------
+
+Gets the orientation of a physics object.
+
+###Arguments:
+  - **PhysObj** The physics object
+
+####Returns:
+  - [quat](type_quat.md) The orientation
+
+

@@ -230,8 +230,7 @@ namespace {
         // -- Returns: vec3 the result
         vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
         *r = *a * f;
-      }
-      if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
+      } else if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
         assert(a);
         vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
         *r = *a * f;
@@ -690,6 +689,11 @@ namespace {
 
   static const luaL_Reg quatlib[] = {
     { "identity", cquat::identity }
+    , { "worldx", cquat::worldx }
+    , { "worldy", cquat::worldy }
+    , { "worldz", cquat::worldz }
+    , { "axisangle", cquat::axisangle }
+    , { "yawpitchroll", cquat::yawpitchroll }
     , {NULL, NULL}
   };
 
@@ -762,8 +766,10 @@ namespace {
 
   static const luaL_Reg fquat[] = {
     {"__gc", GCMethod<quat> }
-    , {"__unm", lquat::unm }
     , {"getx", lquat::getx}
+    , {"gety", lquat::gety}
+    , {"getz", lquat::getz}
+    , {"__unm", lquat::unm }
     , {NULL, NULL}
   };
 
@@ -779,4 +785,8 @@ void scriptlib_register(lua_State* state) {
   lua_pop(state, 1);
   luaL_requiref(state, "cquat", scriptlib_quat_open, 1);
   lua_pop(state, 1);
+}
+
+quat* ReturnQuat(ScriptParams* params) {
+  return lua_pushobject(params->ReturnFullUserData(), quat)();
 }
