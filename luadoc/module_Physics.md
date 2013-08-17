@@ -10,7 +10,7 @@ Physics.GetPhysics()
 Gets the physics object of a entity.
 
 ###Arguments:
-  - **Entity** The entity to get the physics from
+  - [Entity](type_Entity.md) The entity to get the physics from
 
 ####Returns:
   - **PhsyObj** The physics object.

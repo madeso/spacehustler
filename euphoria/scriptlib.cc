@@ -790,3 +790,7 @@ void scriptlib_register(lua_State* state) {
 quat* ReturnQuat(ScriptParams* params) {
   return lua_pushobject(params->ReturnFullUserData(), quat)();
 }
+
+vec3* ReturnVec3(ScriptParams* params) {
+  return lua_pushobject(params->ReturnFullUserData(), vec3)();
+}

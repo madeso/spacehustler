@@ -11,6 +11,9 @@
 #include "euphoria/stringmerger.h"
 #include "euphoria/stdutils.h"
 
+#include "euphoria/script.h"
+#include "euphoria/scriptlib.h"
+
 #include "json/json.h"
 
 // no implementation needed for the Entity.
@@ -157,3 +160,87 @@ void LoadEntities(EntityList* list, const std::string& filename) {
     list->CreateEntity(enttype, ToVec3(ent["pos"]), ToQuat(ent["rot"]));
   }
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+namespace scriptingentity {
+  // -- Module: Entity
+  const std::string LUA_MODULE_NAME = "Entity";
+  // -- Function: GetPosition
+  // -- Description:
+  // -- Gets the position a entity.
+  // -- Arguments:
+  // -- Entity The entity
+  // -- Returns:
+  // -- vec3 the position
+  void GetPosition(ScriptParams* params) {
+    assert(params);
+    Entity* entity = 0;
+
+    if (ScriptOverload(params) << cLightUserData(&entity)) {
+      assert(entity);
+      vec3* v = ReturnVec3(params);
+      *v = entity->position;
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("GetPosition", GetPosition);
+
+  // -- Function: SetPosition
+  // -- Description:
+  // -- Sets the position a entity.
+  // -- Arguments:
+  // -- Entity The entity
+  // -- vec3 the position
+  void SetPosition(ScriptParams* params) {
+    assert(params);
+    Entity* entity = 0;
+    vec3* p = 0;
+
+    if (ScriptOverload(params) << cLightUserData(&entity)
+        << mFullUserData(vec3, &p)) {
+      assert(entity);
+      assert(p);
+      entity->position = *p;
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("SetPosition", SetPosition);
+
+  // -- Function: GetRotation
+  // -- Description:
+  // -- Gets the rotation a entity.
+  // -- Arguments:
+  // -- Entity The entity
+  // -- Returns:
+  // -- quat the rotation
+  void GetRotation(ScriptParams* params) {
+    assert(params);
+    Entity* entity = 0;
+
+    if (ScriptOverload(params) << cLightUserData(&entity)) {
+      assert(entity);
+      quat* v = ReturnQuat(params);
+      *v = entity->rotation;
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("GetRotation", GetRotation);
+
+  // -- Function: SetRotation
+  // -- Description:
+  // -- Sets the rotation a entity.
+  // -- Arguments:
+  // -- Entity The entity
+  // -- quat the rotation
+  void SetRotation(ScriptParams* params) {
+    assert(params);
+    Entity* entity = 0;
+    quat* p = 0;
+
+    if (ScriptOverload(params) << cLightUserData(&entity)
+        << mFullUserData(quat, &p)) {
+      assert(entity);
+      assert(p);
+      entity->rotation = *p;
+    }
+  }
+  REGISTER_SCRIPT_FUNCTION("SetRotation", SetRotation);
+}  // namespace scriptingentity

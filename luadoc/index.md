@@ -7,6 +7,7 @@ Modules:
 
 * [quat module](module_quat.md)
 * [Game module](module_Game.md)
+* [Entity module](module_Entity.md)
 * [Json module](module_Json.md)
 * [cquat module](module_cquat.md)
 * [cvec3 module](module_cvec3.md)

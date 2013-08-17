@@ -26,4 +26,10 @@ class ScriptParams;
  */
 quat* ReturnQuat(ScriptParams* params);
 
+/** Add a return vec3.
+@param params the lua params
+@returns the returned vec3
+ */
+vec3* ReturnVec3(ScriptParams* params);
+
 #endif  // EUPHORIA_SCRIPTLIB_H_
