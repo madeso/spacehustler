@@ -4,7 +4,7 @@
 			"data" : {"file": "fighter1.3ds"}}
 		,{"system": "Physics",
 			"data" : {"mass":1, "width":18, "height":4, "depth":25}}
-		,{"system": "test", "data": {"force": 18}}
+		,{"system": "test", "data": {"force": 50}}
 	] }
 	
 	,{ "name" : "camera",  "data": [
