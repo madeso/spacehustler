@@ -24,9 +24,9 @@ class ShaderCache {
     @param path the path to the shader.
     @returns the shader.
      */
-    std::shared_ptr<Program> get(const std::string& path);
+    std::shared_ptr<Program> GetOrCreate(const std::string& path);
   private:
-    std::map<std::string, std::weak_ptr<Program> > cache;
+    std::map<std::string, std::weak_ptr<Program> > cache_;
 };
 
 #endif  // EUPHORIA_SHADERCACHE_H_

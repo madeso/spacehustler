@@ -150,7 +150,7 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
     Material m;
     m.texture = texturecache->get(TextureLoadingInstruction(src.texture,
                                   src.wraps, src.wrapt));
-    m.program = shadercache->get("default.js");
+    m.program = shadercache->GetOrCreate("default.js");
     materials.push_back(m);
   }
 

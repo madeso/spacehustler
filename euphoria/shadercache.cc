@@ -18,8 +18,8 @@ namespace {
   };
 }  // namespace
 
-std::shared_ptr<Program> ShaderCache::get(const std::string& path) {
+std::shared_ptr<Program> ShaderCache::GetOrCreate(const std::string& path) {
   assert(this);
   static ShaderCreator c;
-  return Cache_Get(&cache, c, path);
+  return Cache_Get(&cache_, c, path);
 }

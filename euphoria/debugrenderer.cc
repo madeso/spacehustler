@@ -6,7 +6,7 @@
 
 DebugRenderer::DebugRenderer(ShaderCache* shadercache)
   : linecount_(0) {
-  prog_ = shadercache->get("debuglines.js");
+  prog_ = shadercache->GetOrCreate("debuglines.js");
 }
 
 namespace {
