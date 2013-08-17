@@ -24,7 +24,7 @@ class Str {
     @see operator std::string()
     @return the generated string.
      */
-    std::string toString() const;
+    std::string ToString() const;
 
     /** Add stuff to the stream.
     @param t object to add to the stream.
@@ -32,12 +32,12 @@ class Str {
      */
     template<typename Type>
     Str& operator<<(const Type& t) {
-      stream << t;
+      stream_ << t;
       return *this;
     }
 
   private:
-    std::ostringstream stream;
+    std::ostringstream stream_;
 };
 
 #endif  // EUPHORIA_STR_H_

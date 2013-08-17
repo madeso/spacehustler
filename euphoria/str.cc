@@ -7,10 +7,10 @@
 
 Str::operator std::string() const {
   assert(this);
-  return toString();
+  return ToString();
 }
 
-std::string Str::toString() const {
+std::string Str::ToString() const {
   assert(this);
-  return stream.str();
+  return stream_.str();
 }
