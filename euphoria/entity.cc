@@ -51,7 +51,7 @@ std::shared_ptr<System> SystemContainer::getSystem(const std::string& name) {
     throw std::logic_error(Str() << "Unknown system: " << name
                            << ", valid systems are: "
                            << StringMerger::EnglishAnd()
-                           .generate(Keys(systems_)));
+                           .Generate(Keys(systems_)));
   }
   return res->second;
 }

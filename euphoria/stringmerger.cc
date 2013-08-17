@@ -9,17 +9,17 @@
 
 #include "euphoria/str.h"
 
-std::string StringMerger::generate(
+std::string StringMerger::Generate(
   const std::vector<std::string>& strings) const {
   assert(this);
 
   if (strings.empty()) {
-    return Str() << start << mempty << end;
+    return Str() << start_ << empty_ << end_;
   }
 
   std::ostringstream ss;
 
-  ss << start;
+  ss << start_;
 
   const auto count = strings.size();
   for (std::vector<std::string>::size_type index = 0; index < count; ++index) {
@@ -27,61 +27,61 @@ std::string StringMerger::generate(
 
     if (count != index + 1) {  // if this item isn't the last one in the list
       if (count == index + 2) {
-        ss << fisep;
+        ss << final_separator_;
       } else {
-        ss << sep;
+        ss << separator_;
       }
     }
   }
 
-  ss << end;
+  ss << end_;
 
   return ss.str();
 }
 
 const StringMerger& StringMerger::EnglishAnd() {
-  static const StringMerger sep = StringMerger().between(", ", " and ")
-                                  .startend("", "");
+  static const StringMerger sep = StringMerger().set_separator(", ", " and ")
+                                  .set_start_end("", "");
   return sep;
 }
 
 const StringMerger& StringMerger::EnglishOr() {
-  static const StringMerger sep = StringMerger().between(", ", " or ")
-                                  .startend("", "");
+  static const StringMerger sep = StringMerger().set_separator(", ", " or ")
+                                  .set_start_end("", "");
   return sep;
 }
 
 const StringMerger& StringMerger::Array() {
-  static const StringMerger sep = StringMerger().between(", ")
-                                  .startend("[", "]");
+  static const StringMerger sep = StringMerger().set_separator(", ")
+                                  .set_start_end("[", "]");
   return sep;
 }
 
-StringMerger& StringMerger::between(const std::string& seperator,
-                                    const std::string finalSeperator) {
+StringMerger& StringMerger::set_separator(const std::string& separator,
+    const std::string final_separator) {
   assert(this);
-  sep = seperator;
-  fisep = finalSeperator;
+  separator_ = separator;
+  final_separator_ = final_separator;
   return *this;
 }
 
-StringMerger& StringMerger::between(const std::string& seperator) {
+StringMerger& StringMerger::set_separator(const std::string& separator) {
   assert(this);
-  sep = seperator;
-  fisep = seperator;
+  separator_ = separator;
+  final_separator_ = separator;
   return *this;
 }
 
-StringMerger& StringMerger::empty(const std::string& empty) {
+StringMerger& StringMerger::set_empty(const std::string& empty) {
   assert(this);
-  mempty = empty;
+  empty_ = empty;
   return *this;
 }
 
-StringMerger& StringMerger::startend(const std::string& astart,
-                                     const std::string& aend) {
+StringMerger& StringMerger::set_start_end(const std::string& start,
+    const std::string& end) {
   assert(this);
-  start = astart;
-  end = aend;
+  start_ = start;
+  end_ = end;
   return *this;
 }

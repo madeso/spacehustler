@@ -198,7 +198,7 @@ ScriptOverload::operator bool() {
     for (auto a : arguments_) {
       ret.push_back(a->ToString());
     }
-    parameters_->addFailure(StringMerger::Array().generate(ret));
+    parameters_->addFailure(StringMerger::Array().Generate(ret));
   }
   return val;
 }
@@ -290,10 +290,10 @@ void ScriptParams::Post() {
   assert(this);
   if (is_validated() == false) {
     const std::string calledwith = StringMerger::Array()
-                                   .generate(GetArgumentList(state_,
+                                   .Generate(GetArgumentList(state_,
                                        number_of_arguments_));
     const std::string alloverloads = StringMerger::EnglishOr()
-                                     .generate(failures_);
+                                     .Generate(failures_);
 
     throw std::logic_error(Str() <<
                            "Unable to determine function overload, called with "

@@ -30,47 +30,47 @@ class StringMerger {
      */
     static const StringMerger& Array();
 
-    /** Sets the seperator arguments.
-    @param seperator the seperator to use.
-    @param finalSeperator the seperator to use at the last element.
+    /** Sets the separator arguments.
+    @param separator the separator to use.
+    @param final_separator the separator to use at the last element.
     @returns this for easy chaining.
      */
-    StringMerger& between(const std::string& seperator,
-                          const std::string finalSeperator);
+    StringMerger& set_separator(const std::string& separator,
+                                const std::string final_separator);
 
-    /** Sets the seperator arguments.
-    @param seperator the seperator to use.
+    /** Sets the separator arguments.
+    @param separator the separator to use.
     @returns this for easy chaining.
      */
-    StringMerger& between(const std::string& seperator);
+    StringMerger& set_separator(const std::string& separator);
 
     /** Sets the empty string.
     This string is returned when a request is made on a a empty set.
     @param empty the empty string.
     @returns this for easy chaining.
      */
-    StringMerger& empty(const std::string& empty);
+    StringMerger& set_empty(const std::string& empty);
 
     /** Sets the start and end text. This data is always added.
-    @param astart the start string.
-    @param aend the end string.
+    @param start the start string.
+    @param end the end string.
     @returns this for easy chaining.
      */
-    StringMerger& startend(const std::string& astart,
-                           const std::string& aend);
+    StringMerger& set_start_end(const std::string& start,
+                                const std::string& end);
 
     /** Generate a string representation based on the current settings.
     @param strings the strings.
     @returns the combined string.
      */
-    std::string generate(const std::vector<std::string>& strings) const;
+    std::string Generate(const std::vector<std::string>& strings) const;
 
   private:
-    std::string sep;
-    std::string fisep;
-    std::string mempty;
-    std::string start;
-    std::string end;
+    std::string separator_;
+    std::string final_separator_;
+    std::string empty_;
+    std::string start_;
+    std::string end_;
 };
 
 #endif  // EUPHORIA_STRINGMERGER_H_

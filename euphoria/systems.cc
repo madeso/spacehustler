@@ -51,7 +51,7 @@ Callback SystemCreatorList::get(const std::string& name) const {
                            << name
                            << ", valid systems are: "
                            << StringMerger::EnglishAnd()
-                           .generate(Keys(creators)));
+                           .Generate(Keys(creators)));
   }
   return r->second;
 }
