@@ -600,12 +600,92 @@ namespace {
     void cquat_identity(ScriptParams* p) {
       if (ScriptOverload(p)) {
         // -- Description: Creates a identity quaternion
-        // -- Returns quat the identity quaternion
+        // -- Returns: quat the quaternion
         quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
         q->identity();
       }
     }
     SCRIPT_FUNCTION("cquat.identity", cquat_identity, identity)
+
+    // -- Function: worldx
+    void cquat_worldx(ScriptParams* p) {
+      float angle = 0.0f;
+      if (ScriptOverload(p) << &angle) {
+        // -- Description: Creates a rotation quaternion around world x
+        // -- Arguments:
+        // -- Number the angle in radians
+        // -- Returns: quat the quaternion
+        quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
+        quaternion_rotation_world_axis(*q, 0, angle);
+      }
+    }
+    SCRIPT_FUNCTION("cquat.worldx", cquat_worldx, worldx)
+
+    // -- Function: worldy
+    void cquat_worldy(ScriptParams* p) {
+      float angle = 0.0f;
+      if (ScriptOverload(p) << &angle) {
+        // -- Description: Creates a rotation quaternion around world y
+        // -- Arguments:
+        // -- Number the angle in radians
+        // -- Returns: quat the identity quaternion
+        quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
+        quaternion_rotation_world_axis(*q, 1, angle);
+      }
+    }
+    SCRIPT_FUNCTION("cquat.worldy", cquat_worldy, worldy)
+
+    // -- Function: worldz
+    void cquat_worldz(ScriptParams* p) {
+      float angle = 0.0f;
+      if (ScriptOverload(p) << &angle) {
+        // -- Description: Creates a rotation quaternion around world z
+        // -- Arguments:
+        // -- Number the angle in radians
+        // -- Returns: quat the quaternion
+        quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
+        quaternion_rotation_world_axis(*q, 2, angle);
+      }
+    }
+    SCRIPT_FUNCTION("cquat.worldz", cquat_worldz, worldz)
+
+    // -- Function: axisangle
+    void cquat_axisangle(ScriptParams* p) {
+      vec3* axis = 0;
+      float angle = 0.0f;
+      if (ScriptOverload(p) << mFullUserData(vec3, &axis) << &angle) {
+        assert(axis);
+        // -- Description: Creates a rotation quaternion from axis and angle
+        // -- Arguments:
+        // -- vec3 the axis
+        // -- Number the angle in radians
+        // -- Returns: quat the quaternion
+        quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
+        quaternion_rotation_axis_angle(*q, *axis, angle);
+      }
+    }
+    SCRIPT_FUNCTION("cquat.axisangle", cquat_axisangle, axisangle)
+
+    // -- Function: yawpitchroll
+    void cquat_yawpitchroll(ScriptParams* p) {
+      float yaw = 0.0f;
+      float pitch = 0.0f;
+      float roll = 0.0f;
+      if (ScriptOverload(p) << &yaw << &pitch << &roll) {
+        // -- Description:
+        // -- Creates a rotation quaternion from yaw, pitch and roll
+        // -- Arguments:
+        // -- vec3 the axis
+        // -- Number the yaw
+        // -- Number the pitch
+        // -- Number the roll
+        // -- Returns: quat the quaternion
+        quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
+        quaternion_rotation_euler(*q, yaw, pitch, roll,
+                                  cml::EulerOrder::euler_order_xyz);
+      }
+    }
+    SCRIPT_FUNCTION("cquat.yawpitchroll", cquat_yawpitchroll, yawpitchroll)
   }  // namespace cquat NOLINT
 
   static const luaL_Reg quatlib[] = {
@@ -630,10 +710,59 @@ namespace {
       }
     }
     SCRIPT_FUNCTION("quat.getx", quat_getx, getx)
+
+    // -- Function: gety
+    void quat_gety(ScriptParams* p) {
+      quat* q = 0;
+
+      if (ScriptOverload(p) << mFullUserData(quat, &q)) {
+        assert(q);
+        // -- Description: Gets the y base vector
+        // -- Arguments:
+        // -- quat The quaternion
+        // -- Returns: vec3 the basis vector
+        vec3* ret = lua_pushobject(p->ReturnFullUserData(), vec3)();
+        *ret = quaternion_get_basis_vector(*q, 1);
+      }
+    }
+    SCRIPT_FUNCTION("quat.gety", quat_gety, gety)
+
+    // -- Function: getz
+    void quat_getz(ScriptParams* p) {
+      quat* q = 0;
+
+      if (ScriptOverload(p) << mFullUserData(quat, &q)) {
+        assert(q);
+        // -- Description: Gets the z base vector
+        // -- Arguments:
+        // -- quat The quaternion
+        // -- Returns: vec3 the basis vector
+        vec3* ret = lua_pushobject(p->ReturnFullUserData(), vec3)();
+        *ret = quaternion_get_basis_vector(*q, 0);
+      }
+    }
+    SCRIPT_FUNCTION("quat.getz", quat_getz, getz)
+
+    // -- operator: unary -
+    void quat_unm(ScriptParams* p) {
+      quat* q = 0;
+
+      if (ScriptOverload(p) << mFullUserData(quat, &q)) {
+        assert(q);
+        // -- Description: Gets the conjugate of the quaterion
+        // -- Arguments:
+        // -- quat The quaternion
+        // -- Returns: quat the conjugate
+        quat* ret = lua_pushobject(p->ReturnFullUserData(), quat)();
+        *ret = q->conjugate();
+      }
+    }
+    SCRIPT_FUNCTION("quat.unm", quat_unm, unm)
   }  // namespace lquat NOLINT
 
   static const luaL_Reg fquat[] = {
     {"__gc", GCMethod<quat> }
+    , {"__unm", lquat::unm }
     , {"getx", lquat::getx}
     , {NULL, NULL}
   };
