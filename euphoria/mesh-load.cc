@@ -31,13 +31,13 @@ namespace {
   Texture::WrapMode GetTextureWrappingMode(const int mode) {
     switch (mode) {
       case aiTextureMapMode_Wrap:
-        return Texture::Wrap_Repeat;
+        return Texture::kWrap_Repeat;
       case aiTextureMapMode_Clamp:
-        return Texture::Wrap_ClampToEdge;
+        return Texture::kWrap_ClampToEdge;
       case aiTextureMapMode_Decal:
         throw "Unsupported texture wrapping mode: decal";
       case aiTextureMapMode_Mirror:
-        return Texture::Wrap_MirrorRepeat;
+        return Texture::kWrap_MirrorRepeat;
       default:
         throw "Unhandled texture wrapping mode";
     }

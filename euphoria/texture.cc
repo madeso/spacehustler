@@ -28,45 +28,45 @@ namespace {
 
 namespace internal {
   TextureObject::TextureObject()
-    : object(0) {
+    : object_(0) {
     assert(this);
 
-    glGenTextures(1, &object);
-    if (object == 0) {
+    glGenTextures(1, &object_);
+    if (object_ == 0) {
       throw "Failed to create texture object";
     }
   }
 
   TextureObject::~TextureObject() {
     assert(this);
-    assert(object > 0);
+    assert(object_ > 0);
 
-    glDeleteTextures(1, &object);
+    glDeleteTextures(1, &object_);
   }
 
-  GLuint TextureObject::get() const {
+  GLuint TextureObject::object() const {
     assert(this);
-    assert(object > 0);
+    assert(object_ > 0);
 
-    return object;
+    return object_;
   }
 
   TextureObject::operator GLuint() const {
     assert(this);
-    assert(object > 0);
+    assert(object_ > 0);
 
-    return get();
+    return object();
   }
 }  // namespace internal
 
 namespace {
   GLint C(Texture::WrapMode mode) {
     switch (mode) {
-      case Texture::Wrap_Repeat:
+      case Texture::kWrap_Repeat:
         return GL_REPEAT;
-      case Texture::Wrap_MirrorRepeat:
+      case Texture::kWrap_MirrorRepeat:
         return GL_MIRRORED_REPEAT;
-      case Texture::Wrap_ClampToEdge:
+      case Texture::kWrap_ClampToEdge:
         return GL_CLAMP_TO_EDGE;
       default:
         throw "Unknown texture wrap mode";
@@ -75,9 +75,9 @@ namespace {
 
   GLint C(Texture::FilterMode mode) {
     switch (mode) {
-      case Texture::Filter_Linear:
+      case Texture::kFilter_Linear:
         return GL_LINEAR;
-      case Texture::Filter_Nearest:
+      case Texture::kFilter_Nearest:
         return GL_NEAREST;
       default:
         throw "Unknown texture filter mode";
@@ -86,13 +86,13 @@ namespace {
 
   GLint C(Texture::Type type) {
     switch (type) {
-      case Texture::Type_Rgb:
+      case Texture::kType_Rgb:
         return GL_RGB;
-      case Texture::Type_Rgba:
+      case Texture::kType_Rgba:
         return GL_RGBA;
-      case Texture::Type_CompressedRgb:
+      case Texture::kType_CompressedRgb:
         return GL_COMPRESSED_RGB;
-      case Texture::Type_CompressedRgba:
+      case Texture::kType_CompressedRgba:
         return GL_COMPRESSED_RGBA;
       default:
         throw "Unknown texture type";
@@ -115,7 +115,7 @@ Texture::Texture(const std::string& path, Texture::Type textureType
   Soil soil(SOIL_load_image(path.c_str(), &width, &height,
                             &channels, SOIL_LOAD_RGBA));
 
-  glBindTexture(GL_TEXTURE_2D, tex);
+  glBindTexture(GL_TEXTURE_2D, texture_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wraps));
@@ -131,7 +131,7 @@ Texture::~Texture() {
   assert(this);
 }
 
-void Texture::bind(unsigned int index) const {
+void Texture::Bind(unsigned int index) const {
   glActiveTexture(GL_TEXTURE0 + index);
-  glBindTexture(GL_TEXTURE_2D, tex);
+  glBindTexture(GL_TEXTURE_2D, texture_);
 }

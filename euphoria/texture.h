@@ -30,7 +30,7 @@ namespace internal {
       /** Get the OpenGL texture object handle.
       @return the texture object handle.
        */
-      GLuint get() const;
+      GLuint object() const;
 
       /** Utility function for getting the OpenGL texture object handle.
       @see get()
@@ -38,7 +38,7 @@ namespace internal {
        */
       operator GLuint() const;
     private:
-      GLuint object;
+      GLuint object_;
   };
 }  // namespace internal
 
@@ -53,15 +53,15 @@ class Texture {
     enum WrapMode {
       /** Repeat it.
        */
-      Wrap_Repeat,
+      kWrap_Repeat,
 
       /** Repeat, but mirror instead of restarting.
        */
-      Wrap_MirrorRepeat,
+      kWrap_MirrorRepeat,
 
       /** Clamp to the edge.
        */
-      Wrap_ClampToEdge
+      kWrap_ClampToEdge
     };
 
     /** The texture filtering mode.
@@ -69,11 +69,11 @@ class Texture {
     enum FilterMode {
       /** Nearest filtering. Good for images that doesn't look good when scaled.
        */
-      Filter_Nearest,
+      kFilter_Nearest,
 
       /** Linear filtering. Good for textures.
        */
-      Filter_Linear
+      kFilter_Linear
     };
 
     /** How the image is stored.
@@ -81,19 +81,19 @@ class Texture {
     enum Type {
       /** Store it as RGB without alpha.
        */
-      Type_Rgb,
+      kType_Rgb,
 
       /** Store is a RGB with alpha.
        */
-      Type_Rgba,
+      kType_Rgba,
 
       /** Store it as compressed RGB without alpha.
        */
-      Type_CompressedRgb,
+      kType_CompressedRgb,
 
       /** Store it as compressed RGB with alpha.
        */
-      Type_CompressedRgba
+      kType_CompressedRgba
     };
 
     /** Construct a new texture object.
@@ -113,10 +113,10 @@ class Texture {
     /** Binds the current texture.
     @param index bind to this index.
      */
-    void bind(unsigned int index) const;
+    void Bind(unsigned int index) const;
 
   private:
-    internal::TextureObject tex;
+    internal::TextureObject texture_;
 };
 
 #endif  // EUPHORIA_TEXTURE_H_

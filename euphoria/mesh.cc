@@ -60,8 +60,8 @@ namespace internal {
   }
 
   Material::Material()
-    : wraps(Texture::Wrap_Repeat)
-    , wrapt(Texture::Wrap_Repeat) {
+    : wraps(Texture::kWrap_Repeat)
+    , wrapt(Texture::kWrap_Repeat) {
   }
 
 }  // namespace internal
@@ -117,7 +117,7 @@ namespace internal {
     program_->SetUniform("camera", camera.view());
     program_->SetUniform("projection", camera.projection());
     program_->SetUniform("model", model);
-    texture_->bind(0);
+    texture_->Bind(0);
     program_->SetUniform("tex", 0);
     vao_.Bind();
     elements_.Bind();

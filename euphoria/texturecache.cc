@@ -34,10 +34,10 @@ namespace {
     std::shared_ptr<Texture> operator()(
       const TextureLoadingInstruction& instructions) {
       std::shared_ptr<Texture> ret(new Texture(instructions.file,
-                                   Texture::Type_CompressedRgb,
+                                   Texture::kType_CompressedRgb,
                                    instructions.wraps,
                                    instructions.wrapt,
-                                   Texture::Filter_Linear));
+                                   Texture::kFilter_Linear));
       return ret;
     }
   };
