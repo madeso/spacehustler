@@ -47,14 +47,20 @@ namespace {
     for (unsigned int material_id = 0; material_id < scene->mNumMaterials;
          ++material_id) {
       const aiMaterial* mat = scene->mMaterials[material_id];
+
+      internal::Material material;
+
       if (mat->GetTextureCount(aiTextureType_DIFFUSE) <= 0) {
-        throw "Missing texture";
+        // throw "Missing texture";
+        /// @todo change to a better path, possible configurable or a auto
+        /// generated one
+        material.texture = "hazard.png";
+      } else {
+        aiString texture;
+        mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture);
+        material.texture = texture.C_Str();
       }
 
-      aiString texture;
-      internal::Material material;
-      mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture);
-      material.texture = texture.C_Str();
       int u = 0;
       int v = 0;
       mat->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE, 0), u);
