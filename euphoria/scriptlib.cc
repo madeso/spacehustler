@@ -742,7 +742,7 @@ namespace {
         // -- quat The quaternion
         // -- Returns: vec3 the basis vector
         vec3* ret = lua_pushobject(p->ReturnFullUserData(), vec3)();
-        *ret = quaternion_get_basis_vector(*q, 0);
+        *ret = quaternion_get_basis_vector(*q, 2);
       }
     }
     SCRIPT_FUNCTION("quat.getz", quat_getz, getz)
