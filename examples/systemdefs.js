@@ -6,7 +6,15 @@
 		, "stepfunction":"test_step"
 		}
 	 }
+	,{"system":"Script", "data" : {
+		  "name":"3rdperson"
+		, "typefunction":"thirdperson_type"
+		, "componentfunction":"thirdperson_component"
+		, "stepfunction":"thirdperson_step"
+		}
+	 }
 	, {"system":"Physics", "data" : {}}
 	,{"system":"Rendering", "data" : {}}
 	,{"system":"Camera", "data" : {}}
+	,{"system":"Name", "data" : {}}
 ]

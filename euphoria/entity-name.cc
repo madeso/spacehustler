@@ -41,7 +41,7 @@ class NameSystem : public System {
   public:
     NameSystem() {
       assert(this);
-      assert(Instance());
+      assert(Instance() == NULL);
       Instance() = this;
     }
 
@@ -95,7 +95,7 @@ void Entity_AddName(SystemCreatorList* sc) {
 }
 
 namespace name {
-  // -- Module: Physics
+  // -- Module: Names
   const std::string LUA_MODULE_NAME = "Names";
   // -- Function: FromName
   void FromName(ScriptParams* params) {

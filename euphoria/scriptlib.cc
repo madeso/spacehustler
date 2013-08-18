@@ -173,8 +173,7 @@ namespace {
         // -- Returns: vec3 the sum of the vector and the float
         vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
         *r = *a + vec3(f, f, f);
-      }
-      if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
+      } else if (ScriptOverload(p) << &f << mFullUserData(vec3, &a)) {
         assert(a);
         vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
         *r = vec3(f, f, f) + *a;
