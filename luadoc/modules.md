@@ -3,6 +3,20 @@ All functions
 
 [Index](index.md)
 
+quat.mul()
+-----------
+
+Multiplies two quaternions
+
+###Arguments:
+  - [quat](type_quat.md) The first quaternion
+  - [quat](type_quat.md) The second quaternion
+
+####Returns:
+  - **The** multiplied quaternion
+
+
+
 quat.getx()
 -----------
 

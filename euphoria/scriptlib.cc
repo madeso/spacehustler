@@ -664,6 +664,12 @@ namespace {
     }
     SCRIPT_FUNCTION("cquat.axisangle", cquat_axisangle, axisangle)
 
+    quat crquat(int index, float val) {
+      quat t;
+      quaternion_rotation_world_axis(t, index, val);
+      return t;
+    }
+
     // -- Function: yawpitchroll
     void cquat_yawpitchroll(ScriptParams* p) {
       float yaw = 0.0f;
@@ -679,8 +685,10 @@ namespace {
         // -- Number the roll
         // -- Returns: quat the quaternion
         quat* q = lua_pushobject(p->ReturnFullUserData(), quat)();
-        quaternion_rotation_euler(*q, yaw, pitch, roll,
-                                  cml::EulerOrder::euler_order_xyz);
+        const quat qroll = crquat(2, roll);
+        const quat qpitch = crquat(0, pitch);
+        const quat qyaw = crquat(1, yaw);
+        *q = qroll * qpitch * qyaw;
       }
     }
     SCRIPT_FUNCTION("cquat.yawpitchroll", cquat_yawpitchroll, yawpitchroll)
@@ -698,6 +706,27 @@ namespace {
 
   namespace lquat {
     // -- Module: quat
+
+    // -- Function: mul
+    void quat_mul(ScriptParams* p) {
+      quat* a = 0;
+      quat* b = 0;
+
+      if (ScriptOverload(p) << mFullUserData(quat, &a)
+          << mFullUserData(quat, &b)) {
+        assert(a);
+        assert(b);
+        // -- Description: Multiplies two quaternions
+        // -- Arguments:
+        // -- quat The first quaternion
+        // -- quat The second quaternion
+        // -- Returns: The multiplied quaternion
+        quat* ret = ReturnQuat(p);
+        *ret = *a** b;
+      }
+    }
+    SCRIPT_FUNCTION("quat.mul", quat_mul, mul)
+
     // -- Function: getx
     void quat_getx(ScriptParams* p) {
       quat* q = 0;
@@ -768,6 +797,7 @@ namespace {
 
   static const luaL_Reg fquat[] = {
     {"__gc", GCMethod<quat> }
+    , {"__mul", lquat::mul }
     , {"getx", lquat::getx}
     , {"gety", lquat::gety}
     , {"getz", lquat::getz}
