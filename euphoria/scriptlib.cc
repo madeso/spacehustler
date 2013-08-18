@@ -705,9 +705,9 @@ namespace {
   };
 
   namespace lquat {
-    // -- Module: quat
+    // -- Type: quat
 
-    // -- Function: mul
+    // -- Operator: *
     void quat_mul(ScriptParams* p) {
       quat* a = 0;
       quat* b = 0;
@@ -775,7 +775,7 @@ namespace {
     }
     SCRIPT_FUNCTION("quat.getz", quat_getz, getz)
 
-    // -- operator: unary -
+    // -- Operator: unary -
     void quat_unm(ScriptParams* p) {
       quat* q = 0;
       quat* junk = 0;

@@ -5,7 +5,6 @@ Modules:
 --------
 [All functions](modules.md)
 
-* [quat module](module_quat.md)
 * [Game module](module_Game.md)
 * [Entity module](module_Entity.md)
 * [Json module](module_Json.md)
@@ -16,4 +15,5 @@ Modules:
 Type:
 --------
 
+* [quat module](type_quat.md)
 * [vec3 module](type_vec3.md)

@@ -1,10 +1,10 @@
-Module: quat
+Type: quat
 ===========
 
 [Index](index.md)
 
 
-quat.mul()
+Operator *
 -----------
 
 Multiplies two quaternions
@@ -18,7 +18,7 @@ Multiplies two quaternions
 
 
 
-quat.getx()
+getx()
 -----------
 
 Gets the x base vector
@@ -31,7 +31,7 @@ Gets the x base vector
 
 
 
-quat.gety()
+gety()
 -----------
 
 Gets the y base vector
@@ -44,7 +44,7 @@ Gets the y base vector
 
 
 
-quat.getz()
+getz()
 -----------
 
 Gets the z base vector
@@ -57,7 +57,7 @@ Gets the z base vector
 
 
 
-quat.Operator unary -
+Operator unary -
 -----------
 
 Gets the conjugate of the quaterion
