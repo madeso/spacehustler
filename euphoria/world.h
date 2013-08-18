@@ -80,6 +80,7 @@ class World {
     const Mesh& collisionmesh() const;
 
   private:
+    bool debug_transforms_;
     std::vector<std::shared_ptr<Instance>> instances_;
     Mesh collisionmesh_;
     DebugRenderer debug_renderer_;

@@ -81,3 +81,14 @@ void DebugRenderer::Render(const Camera& camera) {
     linecount_ = 0;
   }
 }
+
+void Debug(DebugRenderer* debug, const mat44& mat) {
+  const float orthoLen = 20;
+  vec3 start = matrix_get_translation(mat);
+  debug->Line(start, start + matrix_get_x_basis_vector(mat)*orthoLen,
+              Color(0.7f, 0, 0));
+  debug->Line(start, start + matrix_get_y_basis_vector(mat)*orthoLen,
+              Color(0, 0.7f, 0));
+  debug->Line(start, start + matrix_get_z_basis_vector(mat)*orthoLen,
+              Color(0, 0, 0.7f));
+}

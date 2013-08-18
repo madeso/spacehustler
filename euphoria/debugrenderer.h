@@ -39,7 +39,6 @@ class DebugRenderer {
      */
     void Line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
 
-
     /** Render the debug lines.
      */
     void Render(const Camera& camera);
@@ -57,5 +56,11 @@ class DebugRenderer {
     std::shared_ptr<internal::ArrayBuffer> vbo_;
     std::shared_ptr<Program> prog_;
 };
+
+/** Add a debug view for a matrix.
+@param debug the debug renderer
+    @param mat the matrix
+     */
+void Debug(DebugRenderer* debug, const mat44& mat);
 
 #endif  // EUPHORIA_DEBUGRENDERER_H_

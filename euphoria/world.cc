@@ -19,7 +19,8 @@ void Instance::Render(const Camera& camera) {
 }
 
 World::World(const std::string& filename, TextureCache* texturecache,
-             ShaderCache* shadercache) : debug_renderer_(shadercache) {
+             ShaderCache* shadercache) : debug_transforms_(true)
+  , debug_renderer_(shadercache) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
@@ -62,6 +63,9 @@ void World::Render(const Camera& camera) {
   /// @todo investigate http://www.opengl.org/registry/specs/ARB/draw_instanced.txt
   for (auto i : instances_) {
     i->Render(camera);
+    if (debug_transforms_) {
+      Debug(&debug_renderer_, i->transform);
+    }
   }
 
   debug_renderer_.Render(camera);
