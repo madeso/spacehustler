@@ -749,15 +749,18 @@ namespace {
     // -- operator: unary -
     void quat_unm(ScriptParams* p) {
       quat* q = 0;
+      quat* junk = 0;
 
-      if (ScriptOverload(p) << mFullUserData(quat, &q)) {
+      if (ScriptOverload(p) << mFullUserData(quat, &q)
+          << mFullUserData(quat, &junk)) {
         assert(q);
         // -- Description: Gets the conjugate of the quaterion
         // -- Arguments:
         // -- quat The quaternion
         // -- Returns: quat the conjugate
         quat* ret = lua_pushobject(p->ReturnFullUserData(), quat)();
-        *ret = q->conjugate();
+        *ret = *q;
+        ret->conjugate();
       }
     }
     SCRIPT_FUNCTION("quat.unm", quat_unm, unm)

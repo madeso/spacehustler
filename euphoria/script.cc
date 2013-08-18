@@ -8,6 +8,7 @@
 #include <vector>
 #include "euphoria/str.h"
 #include "euphoria/stringmerger.h"
+#include "euphoria/exception.h"
 
 extern "C" {
 #include "lua/lua.h"
@@ -20,9 +21,9 @@ namespace internal {
   }
 
   int HandleLuaException(const std::string& name, lua_State* state) {
-    /// @todo grab exception information
+    const std::string exception = GrabExceptionInformation();
     const std::string error =
-      Str() << "Lua C function failure inside " << name;
+      Str() << "Lua C function failure inside " << name << ": " << exception;
     lua_pushstring(state, error.c_str());
     return lua_error(state);
   }
@@ -236,40 +237,7 @@ std::vector<std::string> GetArgumentList(lua_State* state, int argcount) {
   std::vector<std::string> ret;
   for (int i = 1; i <= argcount; ++i) {
     const auto type = lua_type(state, i);
-    /// @todo replace with lua_typename
-    std::string luatypename = "";
-    switch (type) {
-      case LUA_TNONE:
-        luatypename = "none";
-        break;
-      case LUA_TNIL:
-        luatypename = "nil";
-        break;
-      case LUA_TBOOLEAN:
-        luatypename = "boolean";
-        break;
-      case LUA_TLIGHTUSERDATA:
-        luatypename = "light user data";
-        break;
-      case LUA_TNUMBER:
-        luatypename = "number";
-        break;
-      case LUA_TSTRING:
-        luatypename = "string";
-        break;
-      case LUA_TTABLE:
-        luatypename = "table";
-        break;
-      case LUA_TFUNCTION:
-        luatypename = "function";
-        break;
-      case LUA_TUSERDATA:
-        luatypename = "full user data";
-        break;
-      case LUA_TTHREAD:
-        luatypename = "thread";
-        break;
-    }
+    const std::string luatypename = lua_typename(state, type);
     ret.push_back(luatypename);
   }
   return ret;

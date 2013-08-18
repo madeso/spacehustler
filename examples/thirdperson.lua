@@ -10,6 +10,6 @@ function thirdperson_step(self, entity, dt)
 	local player = Names.FromName("Player")
 	local playerpos = Entity.GetPosition(player)
 	local playerrot = Entity.GetRotation(player)
-	Entity.SetRotation(entity, -playerrot)
-	Entity.SetPosition(entity, playerpos + playerrot:getz() * 50)
+	Entity.SetRotation(entity, playerrot)
+	Entity.SetPosition(entity, playerpos - playerrot:getz() * 50)
 end

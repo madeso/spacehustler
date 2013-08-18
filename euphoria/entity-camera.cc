@@ -55,9 +55,11 @@ class CameraSystem : public System {
       assert(camera);
 
       for (auto & o : objects_) {
-        TWEAK(o.entity->rotation);
-        camera->set_view(cmat44(o.entity->rotation)
-                         * cmat44(vec3(-o.entity->position)));
+        quat temp = o.entity->rotation;
+        temp.conjugate();
+        camera->set_view(
+          cmat44(temp)
+          * cmat44(vec3(-o.entity->position)));
       }
     }
 

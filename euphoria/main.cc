@@ -37,6 +37,7 @@
 #include "euphoria/lua.h"
 #include "euphoria/keybind.h"
 #include "euphoria/game.h"
+#include "euphoria/exception.h"
 
 const float pi = 3.141592653589793238462643383279502884f;
 
@@ -413,21 +414,6 @@ void logic() {
   RUNTWEAKCODE(TwTerminate());
 
   return;
-}
-
-std::string GrabExceptionInformation() {
-  try {
-    throw;
-  } catch (const std::exception& e) {
-    return e.what();
-  } catch (const char* const err) {
-    return err;
-  } catch (const std::string& err) {
-    return err;
-  } catch (...) {
-    return "unknown error";
-  }
-  return "missing exception";
 }
 
 class MyApp: public wxApp {
