@@ -355,9 +355,9 @@ namespace scriptingphysics {
   // -- Applies force to a physics object by providing the values
   // -- Arguments:
   // -- PhysObj The physics object
-  // -- Float The x axis of the force
-  // -- Float The y axis of the force
-  // -- Float The z axis of the force
+  // -- Number The x axis of the force
+  // -- Number The y axis of the force
+  // -- Number The z axis of the force
   // -- Description:
   // -- Applies force to a physics object by providing a force vector
   // -- Arguments:
@@ -391,9 +391,9 @@ namespace scriptingphysics {
   // -- Applies torque to a physics object by providing the values
   // -- Arguments:
   // -- PhysObj The physics object
-  // -- Float The x axis of the torque
-  // -- Float The y axis of the torque
-  // -- Float The z axis of the torque
+  // -- Number The x axis of the torque
+  // -- Number The y axis of the torque
+  // -- Number The z axis of the torque
   // -- Description:
   // -- Applies torque to a physics object by providing a torque vector
   // -- Arguments:
