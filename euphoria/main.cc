@@ -303,6 +303,7 @@ void logic() {
 
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+  glEnable(GL_CULL_FACE);
 
   /*if(!GLEW_VERSION_3_2)
   {
