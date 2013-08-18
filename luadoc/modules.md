@@ -186,7 +186,7 @@ Create a cardinal vector.
   - **Number** The cardinal vector index, pass 1 to create (1,0,0) etc.
 
 ####Returns:
-  - **The** created vector.
+  - [vec3](type_vec3.md) The created vector.
 
 
 

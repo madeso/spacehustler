@@ -14,7 +14,7 @@ Multiplies two quaternions
   - [quat](type_quat.md) The second quaternion
 
 ####Returns:
-  - **The** multiplied quaternion
+  - [quat](type_quat.md) The multiplied quaternion
 
 
 

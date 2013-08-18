@@ -42,7 +42,7 @@ namespace {
         // -- Description: Create a cardinal vector.
         // -- Arguments:
         // -- Number The cardinal vector index, pass 1 to create (1,0,0) etc.
-        // -- Returns: The created vector.
+        // -- Returns: vec3 The created vector.
         vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
         if (i > 3) {
           throw "Invalid cardinal index";
@@ -720,7 +720,7 @@ namespace {
         // -- Arguments:
         // -- quat The first quaternion
         // -- quat The second quaternion
-        // -- Returns: The multiplied quaternion
+        // -- Returns: quat The multiplied quaternion
         quat* ret = ReturnQuat(p);
         *ret = *a** b;
       }
