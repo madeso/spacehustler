@@ -24,13 +24,14 @@ Build tools
 * wxWidgets for displaying error messages (should be possible to disable)
 * bullet for physics
 
-Planned Features
+Planned Features and stuff that needs to be done
 =======
 * add joystick support
 * add oculus rift support
 * audio and music support
 * lights and shaddows
 * particle systems
+* fix luadocgen
 * add leap motion support
 * lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
 * Move from SFML to SDL for forcebeedback and joystick names (optionally)
