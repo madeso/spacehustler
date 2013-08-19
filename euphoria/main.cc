@@ -400,10 +400,11 @@ void logic() {
     RUNTWEAKCODE(tweakers.update());
 
     if (hasFocus) {
+      const float size = std::max(desktop.height, desktop.width);
       const sf::Vector2i mp = sf::Mouse::getPosition(window);
       sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
-      float dx = (mp.x / static_cast<float>(width)) - 0.5f;
-      float dy = (mp.y / static_cast<float>(height)) - 0.5f;
+      float dx = (mp.x - (width / 2.0f)) / size;
+      float dy = (mp.y - (height / 2.0f)) / size;
       keybinds.OnMouse(dx, dy);
       window.setMouseCursorVisible(false);
     } else {

@@ -42,10 +42,10 @@ function test_step(self, entity, dt)
 		Physics.ApplyTorque(phys, a*-self.force)
 	end
 	
-	if forcekey > 0.5 then
+	if forcekey > 0.0 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:gety()
-		Physics.ApplyForce(phys, a*self.force)
+		Physics.ApplyForce(phys, a*self.force*forcekey)
 	end
 	
 	if resetkey > 0.5 then

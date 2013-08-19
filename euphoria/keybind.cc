@@ -127,6 +127,7 @@ void KeybindList::OnKey(Key::Type key, bool down) {
 
 void KeybindList::OnKey(Key::Type key, float state) {
   assert(this);
+
   if (key == Key::Invalid) {
     assert(0 && "Invalid key in onKey");
     return;
@@ -137,7 +138,14 @@ void KeybindList::OnKey(Key::Type key, float state) {
   }
   for (auto k : keys_) {
     if (k.key() == key) {
-      k.setState(state);
+      float state01 = state;
+      if (state01 < 0.0f) {
+        state01 = 0.0f;
+      }
+      if (state01 > 1.0f) {
+        state01 = 1.0f;
+      }
+      k.setState(state01);
     }
   }
 }
@@ -156,9 +164,9 @@ void SendAxis(KeybindList* list, float value, Key::Type positive,
 
 void KeybindList::OnMouse(float dx, float dy) {
   assert(this);
-  const float scale = 0.1f;
-  const float dxscaled = dx * scale;
-  const float dyscaled = dy * scale;
+  const float sensitivity = 10.0f;
+  const float dxscaled = dx * sensitivity;
+  const float dyscaled = dy * sensitivity;
   SendAxis(this, dxscaled, Key::MouseXPositive, Key::MouseXNegative);
-  SendAxis(this, dyscaled, Key::MouseYPositive, Key::MouseYNegative);
+  SendAxis(this, dyscaled, Key::MouseYNegative, Key::MouseYPositive);
 }
