@@ -104,20 +104,26 @@ void KeybindList::Load(ActionMap* actions, const std::string& filename) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
                            << reader.getFormattedErrorMessages());
   }
-
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
-    Json::Value va = root[i];
-    const std::string actionname = va.get("action", "").asString();
-    const std::string keyname = va.get("key", "").asString();
-    const int device = va.get("device", 0).asInt();
+    Json::Value item = root[i];
+    const std::string name = item.get("name", "").asString();
+    if (name == "default") {
+      Json::Value keybind = item["keys"];
+      for (Json::ArrayIndex i = 0; i < keybind.size(); ++i) {
+        Json::Value va = keybind[i];
+        const std::string actionname = va.get("action", "").asString();
+        const std::string keyname = va.get("key", "").asString();
+        const int device = va.get("device", 0).asInt();
 
-    Action* const action = actions->getAction(actionname);
-    const Key::Type key = Key::FromString(keyname);
-    if (key == Key::Invalid) {
-      throw std::logic_error(Str() << "Invalid key for " << actionname
-                             << ", got: " << keyname);
+        Action* const action = actions->getAction(actionname);
+        const Key::Type key = Key::FromString(keyname);
+        if (key == Key::Invalid) {
+          throw std::logic_error(Str() << "Invalid key for " << actionname
+                                 << ", got: " << keyname);
+        }
+        keys_.push_back(Keybind(action, key, device));
+      }
     }
-    keys_.push_back(Keybind(action, key, device));
   }
 }
 
