@@ -23,10 +23,10 @@ Build tools
 * SFML, for launching a window and providing a input layer
 * wxWidgets for displaying error messages (should be possible to disable)
 * bullet for physics
+* joystick support
 
 Planned Features and stuff that needs to be done
 =======
-* add joystick support
 * add oculus rift support
 * audio and music support
 * lights and shaddows
@@ -38,6 +38,7 @@ Planned Features and stuff that needs to be done
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * change from json to yaml/protobuf?
 * menu support (ce gui?)
+* look into joystick support and improve
 * hud/2d support (ce gui too, how much can it be skinned?)
 * implement all the todos
 * add loading of shaders from files with preprocessor
