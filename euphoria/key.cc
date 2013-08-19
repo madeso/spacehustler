@@ -119,6 +119,10 @@ namespace {
         bind(Key::MouseMiddle, "MMB");
         bind(Key::MouseXButton1, "MouseXButton1");
         bind(Key::MouseXButton2, "MouseXButton2");
+        bind(Key::MouseXPositive, "MouseX+");
+        bind(Key::MouseXNegative, "MouseX-");
+        bind(Key::MouseYPositive, "MouseY+");
+        bind(Key::MouseYNegative, "MouseY-");
       }
 
       void bind(Key::Type key, const std::string name) {

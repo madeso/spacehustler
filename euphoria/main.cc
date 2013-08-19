@@ -319,8 +319,10 @@ void logic() {
   Lua script;
   script.RunFile("main.lua");
 
-  KeybindList keybinds(&script);
-  keybinds.Load("keys.js");
+  ActionMap actions("actions.js", &script);
+
+  KeybindList keybinds;
+  keybinds.Load(&actions, "keys.js");
 
   Camera camera;
   camera.set_fov(45);
