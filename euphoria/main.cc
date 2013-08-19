@@ -374,13 +374,13 @@ void logic() {
       if (event.type == sf::Event::KeyPressed
           || event.type == sf::Event::KeyReleased) {
         const bool down = event.type == sf::Event::KeyPressed;
-        keybinds.OnKey(ToKey(event.key), down);
+        keybinds.OnKey(ToKey(event.key), 0, down);
       }
 
       if (event.type == sf::Event::MouseButtonPressed
           || event.type == sf::Event::MouseButtonReleased) {
         const bool down = event.type == sf::Event::MouseButtonPressed;
-        keybinds.OnKey(ToKey(event.mouseButton), down);
+        keybinds.OnKey(ToKey(event.mouseButton), 0, down);
       }
 
       if (event.type == sf::Event::GainedFocus) {

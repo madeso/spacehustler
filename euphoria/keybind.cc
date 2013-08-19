@@ -120,12 +120,12 @@ void KeybindList::Load(ActionMap* actions, const std::string& filename) {
   }
 }
 
-void KeybindList::OnKey(Key::Type key, bool down) {
+void KeybindList::OnKey(Key::Type key, int device, bool down) {
   const float state = down ? 1.0f : 0.0f;
-  OnKey(key, state);
+  OnKey(key, device, state);
 }
 
-void KeybindList::OnKey(Key::Type key, float state) {
+void KeybindList::OnKey(Key::Type key, int device, float state) {
   assert(this);
 
   if (key == Key::Invalid) {
@@ -137,7 +137,7 @@ void KeybindList::OnKey(Key::Type key, float state) {
     return;
   }
   for (auto k : keys_) {
-    if (k.key() == key) {
+    if (k.key() == key && k.device() == device) {
       float state01 = state;
       if (state01 < 0.0f) {
         state01 = 0.0f;
@@ -151,22 +151,25 @@ void KeybindList::OnKey(Key::Type key, float state) {
 }
 
 void SendAxis(KeybindList* list, float value, Key::Type positive,
-              Key::Type negative) {
+              Key::Type negative, int device) {
   assert(list);
   if (value >= 0.0f) {
-    list->OnKey(positive, value);
-    list->OnKey(negative, 0.0f);
+    list->OnKey(positive, device, value);
+    list->OnKey(negative, device, 0.0f);
   } else {
-    list->OnKey(positive, 0.0f);
-    list->OnKey(negative, -value);
+    list->OnKey(positive, device, 0.0f);
+    list->OnKey(negative, device, -value);
   }
 }
 
 void KeybindList::OnMouse(float dx, float dy) {
   assert(this);
+  const int kMouseDevice = 0;
   const float sensitivity = 10.0f;
   const float dxscaled = dx * sensitivity;
   const float dyscaled = dy * sensitivity;
-  SendAxis(this, dxscaled, Key::MouseXPositive, Key::MouseXNegative);
-  SendAxis(this, dyscaled, Key::MouseYNegative, Key::MouseYPositive);
+  SendAxis(this, dxscaled, Key::MouseXPositive, Key::MouseXNegative,
+           kMouseDevice);
+  SendAxis(this, dyscaled, Key::MouseYNegative, Key::MouseYPositive,
+           kMouseDevice);
 }

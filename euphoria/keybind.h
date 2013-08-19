@@ -107,15 +107,17 @@ class KeybindList {
 
     /** React on press or release of a key.
     @param key the key
+    @param device the device
     @param down true if the key was just pressed down, false if got released
      */
-    void OnKey(Key::Type key, bool down);
+    void OnKey(Key::Type key, int device, bool down);
 
     /** React on state change of a key.
     @param key the key
+    @param device the device
     @param state the state
      */
-    void OnKey(Key::Type key, float state);
+    void OnKey(Key::Type key, int device, float state);
 
     /** React on mouse move.
     @param dx the relative mouse movement in x
