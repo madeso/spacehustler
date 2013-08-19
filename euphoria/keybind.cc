@@ -173,8 +173,37 @@ namespace {
   class AxisPositiveNegative {
     public:
       AxisPositiveNegative() {
-        bind(Axis::MouseX, Key::MouseXPositive, Key::MouseXNegative);
-        bind(Axis::MouseY, Key::MouseYPositive, Key::MouseYNegative);
+        bind(Axis::MouseX,
+             Key::MouseXPositive,
+             Key::MouseXNegative);
+        bind(Axis::MouseY,
+             Key::MouseYPositive,
+             Key::MouseYNegative);
+
+        bind(Axis::JoystickX,
+             Key::JoystickXPositive,
+             Key::JoystickXNegative);
+        bind(Axis::JoystickY,
+             Key::JoystickYPositive,
+             Key::JoystickYNegative);
+        bind(Axis::JoystickZ,
+             Key::JoystickZPositive,
+             Key::JoystickZNegative);
+        bind(Axis::JoystickR,
+             Key::JoystickRPositive,
+             Key::JoystickRNegative);
+        bind(Axis::JoystickU,
+             Key::JoystickUPositive,
+             Key::JoystickUNegative);
+        bind(Axis::JoystickV,
+             Key::JoystickVPositive,
+             Key::JoystickVNegative);
+        bind(Axis::JoystickPovX,
+             Key::JoystickPovXPositive,
+             Key::JoystickPovXNegative);
+        bind(Axis::JoystickPovY,
+             Key::JoystickPovYPositive,
+             Key::JoystickPovYNegative);
       }
 
       void bind(Axis::Type axis, Key::Type pos, Key::Type neg) {

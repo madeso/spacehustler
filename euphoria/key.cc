@@ -155,22 +155,22 @@ namespace {
         bind(Key::JoystickButton30, "JoystickButton30");
         bind(Key::JoystickButton31, "JoystickButton31");
         bind(Key::JoystickButton32, "JoystickButton32");
-        bind(Key::JoystickXPositive, "JoystickXPositive");
-        bind(Key::JoystickYPositive, "JoystickYPositive");
-        bind(Key::JoystickZPositive, "JoystickZPositive");
-        bind(Key::JoystickRPositive, "JoystickRPositive");
-        bind(Key::JoystickUPositive, "JoystickUPositive");
-        bind(Key::JoystickVPositive, "JoystickVPositive");
-        bind(Key::JoystickPovXPositive, "JoystickPovXPositive");
-        bind(Key::JoystickPovYPositive, "JoystickPovYPositive");
-        bind(Key::JoystickXNegative, "JoystickXNegative");
-        bind(Key::JoystickYNegative, "JoystickYNegative");
-        bind(Key::JoystickZNegative, "JoystickZNegative");
-        bind(Key::JoystickRNegative, "JoystickRNegative");
-        bind(Key::JoystickUNegative, "JoystickUNegative");
-        bind(Key::JoystickVNegative, "JoystickVNegative");
-        bind(Key::JoystickPovXNegative, "JoystickPovXNegative");
-        bind(Key::JoystickPovYNegative, "JoystickPovYNegative");
+        bind(Key::JoystickXPositive, "JoystickX+");
+        bind(Key::JoystickYPositive, "JoystickY+");
+        bind(Key::JoystickZPositive, "JoystickZ+");
+        bind(Key::JoystickRPositive, "JoystickR+");
+        bind(Key::JoystickUPositive, "JoystickU+");
+        bind(Key::JoystickVPositive, "JoystickV+");
+        bind(Key::JoystickPovXPositive, "JoystickPovX+");
+        bind(Key::JoystickPovYPositive, "JoystickPovY+");
+        bind(Key::JoystickXNegative, "JoystickX-");
+        bind(Key::JoystickYNegative, "JoystickY-");
+        bind(Key::JoystickZNegative, "JoystickZ-");
+        bind(Key::JoystickRNegative, "JoystickR-");
+        bind(Key::JoystickUNegative, "JoystickU-");
+        bind(Key::JoystickVNegative, "JoystickV-");
+        bind(Key::JoystickPovXNegative, "JoystickPovX-");
+        bind(Key::JoystickPovYNegative, "JoystickPovY-");
       }
 
       void bind(Key::Type key, const std::string name) {
