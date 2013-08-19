@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream> // NOLINT for loading data
 #include <stdexcept>
+#include <utility>
 #include "euphoria/str.h"
 #include "json/json.h"
 
@@ -162,14 +163,37 @@ void SendAxis(KeybindList* list, float value, Key::Type positive,
   }
 }
 
-void KeybindList::OnMouse(float dx, float dy) {
+namespace {
+  class AxisPositiveNegative {
+    public:
+      AxisPositiveNegative() {
+        bind(Axis::MouseX, Key::MouseXPositive, Key::MouseXNegative);
+        bind(Axis::MouseY, Key::MouseYPositive, Key::MouseYNegative);
+      }
+
+      void bind(Axis::Type axis, Key::Type pos, Key::Type neg) {
+        binds_.insert(std::make_pair(axis, std::make_pair(pos, neg)));
+      }
+
+      std::pair<Key::Type, Key::Type> get(Axis::Type axis) {
+        auto ret = binds_.find(axis);
+        assert(ret != binds_.end());
+        return ret->second;
+      }
+
+    private:
+      std::map<Axis::Type, std::pair<Key::Type, Key::Type>> binds_;
+  };
+
+  std::pair<Key::Type, Key::Type> AxixsLookup(Axis::Type axis) {
+    static AxisPositiveNegative apn;
+    return apn.get(axis);
+  }
+}  // namespace
+
+void KeybindList::OnAxis(Axis::Type axis, int device, float state) {
   assert(this);
-  const int kMouseDevice = 0;
-  const float sensitivity = 10.0f;
-  const float dxscaled = dx * sensitivity;
-  const float dyscaled = dy * sensitivity;
-  SendAxis(this, dxscaled, Key::MouseXPositive, Key::MouseXNegative,
-           kMouseDevice);
-  SendAxis(this, dyscaled, Key::MouseYNegative, Key::MouseYPositive,
-           kMouseDevice);
+
+  const auto buttons = AxixsLookup(axis);
+  SendAxis(this, state, buttons.first, buttons.second, device);
 }

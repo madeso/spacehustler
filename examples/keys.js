@@ -10,6 +10,6 @@
 	, {"action":"quit", "key":"Esc", "device":0}
 	, {"action":"camright", "key":"MouseX+", "device":0}
 	, {"action":"camleft", "key":"MouseX-", "device":0}
-	, {"action":"camup", "key":"MouseY+", "device":0}
-	, {"action":"camdown", "key":"MouseY-", "device":0}
+	, {"action":"camup", "key":"MouseY-", "device":0}
+	, {"action":"camdown", "key":"MouseY+", "device":0}
 ]

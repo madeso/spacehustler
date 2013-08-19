@@ -246,6 +246,7 @@ Key::Type ToKey(sf::Event::KeyEvent key) {
     case sf::Keyboard::Pause:
       return Key::Pause;
     default:
+      assert(0 && "Invalid keyboard button");
       return Key::Invalid;
   }
 }
@@ -263,7 +264,104 @@ Key::Type ToKey(sf::Event::MouseButtonEvent mouse) {
     case sf::Mouse::XButton2:
       return Key::MouseXButton2;
     default:
+      assert(0 && "Invalid mouse button");
       return Key::Invalid;
+  }
+}
+
+Key::Type ToKey(sf::Event::JoystickButtonEvent joy) {
+  switch (joy.button) {
+    case 0:
+      return Key::JoystickButton1;
+    case 1:
+      return Key::JoystickButton2;
+    case 2:
+      return Key::JoystickButton3;
+    case 3:
+      return Key::JoystickButton4;
+    case 4:
+      return Key::JoystickButton5;
+    case 5:
+      return Key::JoystickButton6;
+    case 6:
+      return Key::JoystickButton7;
+    case 7:
+      return Key::JoystickButton8;
+    case 8:
+      return Key::JoystickButton9;
+    case 9:
+      return Key::JoystickButton10;
+    case 10:
+      return Key::JoystickButton11;
+    case 11:
+      return Key::JoystickButton12;
+    case 12:
+      return Key::JoystickButton13;
+    case 13:
+      return Key::JoystickButton14;
+    case 14:
+      return Key::JoystickButton15;
+    case 15:
+      return Key::JoystickButton16;
+    case 16:
+      return Key::JoystickButton17;
+    case 17:
+      return Key::JoystickButton18;
+    case 18:
+      return Key::JoystickButton19;
+    case 19:
+      return Key::JoystickButton20;
+    case 20:
+      return Key::JoystickButton21;
+    case 21:
+      return Key::JoystickButton22;
+    case 22:
+      return Key::JoystickButton23;
+    case 23:
+      return Key::JoystickButton24;
+    case 24:
+      return Key::JoystickButton25;
+    case 25:
+      return Key::JoystickButton26;
+    case 26:
+      return Key::JoystickButton27;
+    case 27:
+      return Key::JoystickButton28;
+    case 28:
+      return Key::JoystickButton29;
+    case 29:
+      return Key::JoystickButton30;
+    case 30:
+      return Key::JoystickButton31;
+    case 31:
+      return Key::JoystickButton32;
+    default:
+      assert(0 && "Invalid joystick button");
+      return Key::Invalid;
+  }
+}
+
+Axis::Type ToAxis(sf::Event::JoystickMoveEvent joy) {
+  switch (joy.axis) {
+    case sf::Joystick::X:
+      return Axis::JoystickX;
+    case sf::Joystick::Y:
+      return Axis::JoystickY;
+    case sf::Joystick::Z:
+      return Axis::JoystickZ;
+    case sf::Joystick::R:
+      return Axis::JoystickR;
+    case sf::Joystick::U:
+      return Axis::JoystickU;
+    case sf::Joystick::V:
+      return Axis::JoystickV;
+    case sf::Joystick::PovX:
+      return Axis::JoystickPovX;
+    case sf::Joystick::PovY:
+      return Axis::JoystickPovY;
+    default:
+      assert(0 && "Invalid joystick axis");
+      return Axis::MouseY;
   }
 }
 
@@ -383,6 +481,19 @@ void logic() {
         keybinds.OnKey(ToKey(event.mouseButton), 0, down);
       }
 
+      if (event.type == sf::Event::JoystickButtonPressed
+          || event.type == sf::Event::JoystickButtonReleased) {
+        const bool down = event.type == sf::Event::JoystickButtonPressed;
+        keybinds.OnKey(ToKey(event.joystickButton),
+                       event.joystickButton.joystickId, down);
+      }
+
+      if (event.type == sf::Event::JoystickMoved) {
+        keybinds.OnAxis(ToAxis(event.joystickMove),
+                        event.joystickMove.joystickId,
+                        event.joystickMove.position / 100.0f);
+      }
+
       if (event.type == sf::Event::GainedFocus) {
         sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
         hasFocus = true;
@@ -405,7 +516,9 @@ void logic() {
       sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
       float dx = (mp.x - (width / 2.0f)) / size;
       float dy = (mp.y - (height / 2.0f)) / size;
-      keybinds.OnMouse(dx, dy);
+      const float sensitivity = 10.0f;
+      keybinds.OnAxis(Axis::MouseX, 0, dx * sensitivity);
+      keybinds.OnAxis(Axis::MouseY, 0, dy * sensitivity);
       window.setMouseCursorVisible(false);
     } else {
       window.setMouseCursorVisible(true);

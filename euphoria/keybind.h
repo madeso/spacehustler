@@ -91,6 +91,23 @@ class Keybind {
     int device_;
 };
 
+namespace Axis {
+  /** Axis types.
+   */
+  enum Type {
+    MouseX          /// Mouse X
+    , MouseY        /// Mouse Y
+    , JoystickX     /// Joystick X
+    , JoystickY     /// Joystick Y
+    , JoystickZ     /// Joystick Z
+    , JoystickR     /// Joystick R
+    , JoystickU     /// Joystick U
+    , JoystickV     /// Joystick V
+    , JoystickPovX  /// Joystick PovX
+    , JoystickPovY  /// Joystick PovY
+  };
+}  // namespace Axis
+
 /** A list of key binds.
  */
 class KeybindList {
@@ -119,12 +136,12 @@ class KeybindList {
      */
     void OnKey(Key::Type key, int device, float state);
 
-    /** React on mouse move.
-    @param dx the relative mouse movement in x
-    @param dy the relative mouse movement in y
-    @todo move to a axis binder instead
+    /** React on axis
+    @param axis the axis
+    @param device the device
+    @param state the new state
      */
-    void OnMouse(float dx, float dy);
+    void OnAxis(Axis::Type axis, int device, float state);
 
   private:
     std::vector<Keybind> keys_;
