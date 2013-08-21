@@ -12,6 +12,7 @@ Key binding related code
 #include <map>
 #include "euphoria/key.h"
 #include "euphoria/lua.h"
+#include "euphoria/axis.h"
 
 /** A action that can be made in game.
  */
@@ -90,23 +91,6 @@ class Keybind {
     Key::Type key_;
     int device_;
 };
-
-namespace Axis {
-  /** Axis types.
-   */
-  enum Type {
-    MouseX          /// Mouse X
-    , MouseY        /// Mouse Y
-    , JoystickX     /// Joystick X
-    , JoystickY     /// Joystick Y
-    , JoystickZ     /// Joystick Z
-    , JoystickR     /// Joystick R
-    , JoystickU     /// Joystick U
-    , JoystickV     /// Joystick V
-    , JoystickPovX  /// Joystick PovX
-    , JoystickPovY  /// Joystick PovY
-  };
-}  // namespace Axis
 
 /** A list of key binds.
  */

@@ -171,6 +171,16 @@ namespace {
         bind(Key::JoystickVNegative, "JoystickV-");
         bind(Key::JoystickPovXNegative, "JoystickPovX-");
         bind(Key::JoystickPovYNegative, "JoystickPovY-");
+        bind(Key::MouseX, "MouseX");
+        bind(Key::MouseY, "MouseY");
+        bind(Key::JoystickX, "JoystickX");
+        bind(Key::JoystickY, "JoystickY");
+        bind(Key::JoystickZ, "JoystickZ");
+        bind(Key::JoystickR, "JoystickR");
+        bind(Key::JoystickU, "JoystickU");
+        bind(Key::JoystickV, "JoystickV");
+        bind(Key::JoystickPovX, "JoystickPovX");
+        bind(Key::JoystickPovY, "JoystickPovY");
       }
 
       void bind(Key::Type key, const std::string name) {

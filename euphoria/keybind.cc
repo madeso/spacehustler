@@ -226,9 +226,41 @@ namespace {
   }
 }  // namespace
 
+Key::Type ToKey(Axis::Type axis) {
+  switch (axis) {
+    case Axis::MouseX:
+      return Key::MouseX;
+    case Axis::MouseY:
+      return Key::MouseY;
+    case Axis::JoystickX:
+      return Key::JoystickX;
+    case Axis::JoystickY:
+      return Key::JoystickY;
+    case Axis::JoystickZ:
+      return Key::JoystickZ;
+    case Axis::JoystickR:
+      return Key::JoystickR;
+    case Axis::JoystickU:
+      return Key::JoystickU;
+    case Axis::JoystickV:
+      return Key::JoystickV;
+    case Axis::JoystickPovX:
+      return Key::JoystickPovX;
+    case Axis::JoystickPovY:
+      return Key::JoystickPovY;
+    default:
+      assert(0 && "Invalid axis");
+      return Key::Unbound;
+  }
+}
+
 void KeybindList::OnAxis(Axis::Type axis, int device, float state) {
   assert(this);
 
   const auto buttons = AxixsLookup(axis);
   SendAxis(this, state, buttons.first, buttons.second, device);
+  const Key::Type key = ToKey(axis);
+  if (key != Key::Unbound) {
+    OnKey(key, device, (state + 1.0f) / 2.0f);
+  }
 }
