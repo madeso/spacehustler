@@ -20,7 +20,7 @@
 	,{
 		"name": "default"
 		,"keys": [
-			{"action":"force", "key":"JoystickZ", "device":0}
+			{"action":"force", "key":"JoystickZ", "device":0, "invert":true}
 			, {"action":"yaw+", "key":"JoystickR+", "device":0}
 			, {"action":"yaw-", "key":"JoystickR-", "device":0}
 			, {"action":"pitch+", "key":"JoystickY-", "device":0}

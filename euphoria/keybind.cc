@@ -65,8 +65,9 @@ Action* const ActionMap::getAction(const std::string& actionname) {
   return ret;
 }
 
-Keybind::Keybind(Action* const action, const Key::Type key, int device)
-  : action_(action), key_(key), device_(device) {
+Keybind::Keybind(Action* const action, const Key::Type key, int device,
+                 bool invert)
+  : action_(action), key_(key), device_(device), invert_(invert) {
   assert(this);
   assert(action_);
 }
@@ -84,7 +85,11 @@ const int Keybind::device() const {
 void Keybind::setState(float v) {
   assert(this);
   assert(action_);
-  action_->set_state(v);
+  if (invert_) {
+    action_->set_state(1.0f - v);
+  } else {
+    action_->set_state(v);
+  }
 }
 
 KeybindList::KeybindList() {
@@ -113,6 +118,7 @@ void KeybindList::Load(ActionMap* actions, const std::string& filename) {
         Json::Value va = keybind[i];
         const std::string actionname = va.get("action", "").asString();
         const std::string keyname = va.get("key", "").asString();
+        const bool invert = va.get("invert", false).asBool();
         const int device = va.get("device", 0).asInt();
 
         Action* const action = actions->getAction(actionname);
@@ -121,7 +127,7 @@ void KeybindList::Load(ActionMap* actions, const std::string& filename) {
           throw std::logic_error(Str() << "Invalid key for " << actionname
                                  << ", got: " << keyname);
         }
-        keys_.push_back(Keybind(action, key, device));
+        keys_.push_back(Keybind(action, key, device, invert));
       }
     }
   }

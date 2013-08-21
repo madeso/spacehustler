@@ -68,8 +68,9 @@ class Keybind {
     @param action the action to perform
     @param key the key to react to
     @param device the device the key belongs to
+    @param invert true if the value should be inverted, false if not
      */
-    Keybind(Action* const action, const Key::Type key, int device);
+    Keybind(Action* const action, const Key::Type key, int device, bool invert);
 
     /** Get the actual key of the bind.
     @returns the key
@@ -90,6 +91,7 @@ class Keybind {
     Action* const action_;
     Key::Type key_;
     int device_;
+    bool invert_;
 };
 
 /** A list of key binds.
