@@ -382,64 +382,7 @@ void logic() {
                     sf::Style::Default, settings);
 
   sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-
-  const GLenum err = glewInit();
-  if (err != GLEW_OK) {
-    std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));
-    throw msg;
-  }
-
-#ifdef USE_TWEAKABLES
-  const int twintitresult = TwInit(TW_OPENGL_CORE, NULL);  // 3.2 core profile
-  if (twintitresult == 0) {
-    throw TwGetLastError();
-  }
-  TwWindowSize(width, height);
-#endif
-
-  OglDebug ogldebug(OglDebug::IsSupported());
-
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
-  glEnable(GL_CULL_FACE);
-
-  /*if(!GLEW_VERSION_3_2)
-  {
-      throw "System not supporting opengl 3.2";
-  }*/
-
-  TextureCache texturecache;
-  ShaderCache shadercache;
-  World world("world.js", &texturecache, &shadercache);
-
-  Game game;
-
-  Lua script;
-  script.RunFile("main.lua");
-
-  ActionMap actions("actions.js", &script);
-
-  KeybindList keybinds;
-  keybinds.Load(&actions, "keys.js");
-
-  Camera camera;
-  camera.set_fov(45);
-  camera.set_near_far(0.1f, 800.0f);
-
-  SystemContainer container;
-  LoadSystems("systemdefs.js", CreateSystemArg(&container, &world,
-              &texturecache, &shadercache, &camera, &script));
-
-  EntityList entities;
-  entities.AddDefs(&container, "entity.js");
-
-  LoadEntities(&entities, "entities.js");
-
-  OglDebug::Verify();
-
-  bool tweaking = true;
-
-  RUNTWEAKCODE(TweakerStore tweakers);
+  Game game(width, height);
 
   sf::Clock clock;
   bool hasFocus = true;
@@ -450,11 +393,7 @@ void logic() {
     glClearColor(0, 0, 0, 1);  // black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    world.Render(camera);
-
-    if (tweaking) {
-      RUNTWEAKCODE(TwDraw());
-    }
+    game.Render();
 
     window.display();
 
@@ -463,7 +402,7 @@ void logic() {
     sf::Event event;
     while (window.pollEvent(event)) {
 #ifdef USE_TWEAKABLES
-      if (tweaking) {
+      if (game.istweaking()) {
         const int handled = TwEventSFML(&event, SFML_VERSION_MAJOR,
                                         SFML_VERSION_MINOR);
       }
@@ -472,26 +411,26 @@ void logic() {
       if (event.type == sf::Event::KeyPressed
           || event.type == sf::Event::KeyReleased) {
         const bool down = event.type == sf::Event::KeyPressed;
-        keybinds.OnKey(ToKey(event.key), 0, down);
+        game.OnKey(ToKey(event.key), 0, down);
       }
 
       if (event.type == sf::Event::MouseButtonPressed
           || event.type == sf::Event::MouseButtonReleased) {
         const bool down = event.type == sf::Event::MouseButtonPressed;
-        keybinds.OnKey(ToKey(event.mouseButton), 0, down);
+        game.OnKey(ToKey(event.mouseButton), 0, down);
       }
 
       if (event.type == sf::Event::JoystickButtonPressed
           || event.type == sf::Event::JoystickButtonReleased) {
         const bool down = event.type == sf::Event::JoystickButtonPressed;
-        keybinds.OnKey(ToKey(event.joystickButton),
-                       event.joystickButton.joystickId, down);
+        game.OnKey(ToKey(event.joystickButton),
+                   event.joystickButton.joystickId, down);
       }
 
       if (event.type == sf::Event::JoystickMoved) {
-        keybinds.OnAxis(ToAxis(event.joystickMove),
-                        event.joystickMove.joystickId,
-                        event.joystickMove.position / 100.0f);
+        game.OnAxis(ToAxis(event.joystickMove),
+                    event.joystickMove.joystickId,
+                    event.joystickMove.position / 100.0f);
       }
 
       if (event.type == sf::Event::GainedFocus) {
@@ -508,8 +447,6 @@ void logic() {
       }
     }
 
-    RUNTWEAKCODE(tweakers.update());
-
     if (hasFocus) {
       const float size = std::max(desktop.height, desktop.width);
       const sf::Vector2i mp = sf::Mouse::getPosition(window);
@@ -517,18 +454,16 @@ void logic() {
       float dx = (mp.x - (width / 2.0f)) / size;
       float dy = (mp.y - (height / 2.0f)) / size;
       const float sensitivity = 10.0f;
-      keybinds.OnAxis(Axis::MouseX, 0, dx * sensitivity);
-      keybinds.OnAxis(Axis::MouseY, 0, dy * sensitivity);
+      game.OnAxis(Axis::MouseX, 0, dx * sensitivity);
+      game.OnAxis(Axis::MouseY, 0, dy * sensitivity);
       window.setMouseCursorVisible(false);
     } else {
       window.setMouseCursorVisible(true);
     }
 
     const sf::Time elapsed = clock.restart();
-    container.Step(elapsed.asSeconds());
+    game.Update(elapsed.asSeconds());
   }
-
-  RUNTWEAKCODE(TwTerminate());
 
   return;
 }

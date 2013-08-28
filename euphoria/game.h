@@ -7,13 +7,28 @@ Game related code.
 #ifndef EUPHORIA_GAME_H_
 #define EUPHORIA_GAME_H_
 
+#include <memory>
+
+#include "euphoria/keybind.h"
+
+class OglDebug;
+class TextureCache;
+class ShaderCache;
+class World;
+class Lua;
+class ActionMap;
+class Camera;
+class SystemContainer;
+class EntityList;
+class TweakerStore;
+
 /** Contains common game data.
  */
 class Game {
   public:
     /** Constructor.
      */
-    Game();
+    Game(int width, int height);
     ~Game();
 
     /** Returns if the game should keep running.
@@ -21,12 +36,55 @@ class Game {
      */
     bool keep_running() const;
 
+    /** Render the game.
+     */
+    void Render();
+
+    /** Update the game.
+    @param dt the elapsed time in seconds
+     */
+    void Update(float dt);
+
+    /** React on state change of a key.
+    @param key the key
+    @param device the device
+    @param state the state
+    @see KeybindList::OnKey()
+     */
+    void OnKey(Key::Type key, int device, float state);
+
+    /** React on axis
+    @param axis the axis
+    @param device the device
+    @param state the new state
+    @see KeybindList::OnAxis()
+     */
+    void OnAxis(Axis::Type axis, int device, float state);
+
+    /** Tests if tweaking is enabled or not.
+    @returns true if tweaking is enabled, false if not
+     */
+    bool istweaking() const;
+
     /** Quit the game.
     Sets the internal run variable to false.
      */
     void Quit();
+
   private:
     bool keep_running_;
+    std::unique_ptr<OglDebug> ogldebug_;
+    std::unique_ptr<TextureCache> texturecache_;
+    std::unique_ptr<ShaderCache> shadercache_;
+    std::unique_ptr<World> world_;
+    std::unique_ptr<Lua> script_;
+    std::unique_ptr<ActionMap> actions_;
+    std::unique_ptr<KeybindList> keybinds_;
+    std::unique_ptr<Camera> camera_;
+    std::unique_ptr<SystemContainer> container_;
+    std::unique_ptr<EntityList> entities_;
+    bool istweaking_;
+    std::unique_ptr<TweakerStore> tweakers_;
 };
 
 #endif  // EUPHORIA_GAME_H_
