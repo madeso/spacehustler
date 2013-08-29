@@ -102,11 +102,13 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	source_group("" FILES "main/main-${LauncherName}.cc")
 	
 	add_executable(${TargetName} WIN32 ${all_src} "main/main-${LauncherName}.cc")
+	
+	GET_FILENAME_COMPONENT(mainsrc "main/main-${LauncherName}.cc" ABSOLUTE)
 
 	if(USE_ASTYLE_BUILD)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
-						   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src}
+						   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src} ${mainsrc}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running astyle" VERBATIM)
 	endif(USE_ASTYLE_BUILD)
@@ -114,7 +116,7 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	if(USE_CPPLINT_BUILD)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
-						   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src}
+						   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src} ${mainsrc}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running CppLint" VERBATIM)
 	endif(USE_CPPLINT_BUILD)
