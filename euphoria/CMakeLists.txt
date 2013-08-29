@@ -125,7 +125,6 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 						   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running Doxygen" VERBATIM)
-		message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir 			${CMAKE_SOURCE_DIR}/euphoria")
 	endif(USE_DOXYGEN_BUILD)
 
 	if(USE_LUADOCGEN)
@@ -136,16 +135,22 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 						   COMMENT "Running CppLint" VERBATIM)
 	endif(USE_LUADOCGEN)
 
-	message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
 	message(STATUS "Linking with launcher ${LauncherName} ${LauncherLibraries}")
-	message(STATUS "Linking with wxWidgets ${wxWidgets_LIBRARIES}")
-	message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
-	message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
 
 	target_link_libraries(${TargetName} ${OPENGL_LIBRARIES} ${LauncherLibraries} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES})
 ENDMACRO(GenerateMain)
 
+message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
+message(STATUS "Linking with wxWidgets ${wxWidgets_LIBRARIES}")
+message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
+message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
+
+if(USE_DOXYGEN_BUILD)
+	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir ${CMAKE_SOURCE_DIR}/euphoria")
+endif(USE_DOXYGEN_BUILD)
+
 option(USE_MAIN_SFML "Use sfml as launch library" ON)
+option(USE_MAIN_SDL2 "Use sdl2 as launch library" ON)
 
 if(USE_MAIN_SFML)
 	if(WIN32)
@@ -166,3 +171,9 @@ if(USE_MAIN_SFML)
 	
 	GenerateMain("sfml" main-sfml "${SFML_INCLUDE_DIR}" "${SFML_LIBRARIES}")
 endif(USE_MAIN_SFML)
+
+if(USE_MAIN_SDL2)
+	find_package(SDL2 REQUIRED)
+	
+	GenerateMain("sdl2" main-sdl2 "${SDL2_INCLUDE_DIR}" "${SDL2_LIBRARY}")
+endif(USE_MAIN_SDL2)
