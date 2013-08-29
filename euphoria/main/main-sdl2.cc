@@ -1,12 +1,16 @@
 ﻿  // Euphoria - Copyright (c) Gustav
 // Euphoria is awesome: 幸福感是真棒
 
+#include <boost/noncopyable.hpp>
+
 #include <SDL.h>
 #include <string>
 #include <vector>
 #include <cassert>
 #include <memory>
 #include <iostream> // NOLINT for error reporting when messagebox has failed.
+
+#include "euphoria/exception.h"
 
 void Error(const std::string& title, const std::string& text) {
   const int result = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
@@ -16,80 +20,29 @@ void Error(const std::string& title, const std::string& text) {
   }
 }
 
-class Sdl {
+void ReportFail() {
+  const std::string error = SDL_GetError();
+  throw error;
+}
+
+void HandleStatus(int code) {
+  if (code < 0) {
+    ReportFail();
+  }
+}
+
+class Sdl : boost::noncopyable {
   public:
-    Sdl() : initialized_(false) {
+    Sdl() {
       assert(this);
-      const int result = SDL_Init(SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK
-                                  | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
-      if (result >= 0) {
-        initialized_ = true;
-      } else {
-        error_ = SDL_GetError();
-      }
+      HandleStatus(SDL_Init(SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK
+                            | SDL_INIT_VIDEO | SDL_INIT_EVENTS));
     }
-    bool initialized() const {
-      assert(this);
-      return initialized_;
-    }
-    const std::string& error() const {
-      assert(this);
-      return error_;
-    }
+
     ~Sdl() {
       assert(this);
-      if (initialized_) {
-        SDL_Quit();
-      }
+      SDL_Quit();
     }
-
-  private:
-    bool initialized_;
-    std::string error_;
-};
-
-class SDLCore {
-  public:
-    bool initialized() const {
-      return initialized_;
-    }
-    const std::string& error() const {
-      return error_;
-    }
-
-    bool HasFailed() const {
-      return initialized() == false;
-    }
-
-  protected:
-    SDLCore() : initialized_(false) {
-      assert(this);
-    }
-
-    bool HandleStatus(int code) {
-      assert(this);
-      if (code < 0) {
-        ReportFail();
-        return false;
-      } else {
-        return true;
-      }
-    }
-
-    void ReportFail() {
-      assert(this);
-      initialized_ = false;
-      error_ = SDL_GetError();
-    }
-
-    void ReportOk() {
-      assert(this);
-      initialized_ = true;
-    }
-
-  private:
-    bool initialized_;
-    std::string error_;
 };
 
 class VideoMode {
@@ -129,14 +82,12 @@ class VideoMode {
     std::string pixelFormat_;
 };
 
-class DisplayInfo : public SDLCore {
+class DisplayInfo {
   public:
     explicit DisplayInfo(int id) {
       assert(this);
       SDL_Rect bounds;
-      if (HandleStatus(SDL_GetDisplayBounds(id, &bounds)) == false) {
-        return;
-      }
+      HandleStatus(SDL_GetDisplayBounds(id, &bounds));
       width_ = bounds.w;
       height_ = bounds.h;
       x_ = bounds.x;
@@ -154,12 +105,9 @@ class DisplayInfo : public SDLCore {
       }
       for (int modeid = 0; modeid < nummodes; ++modeid) {
         SDL_DisplayMode mode;
-        if (HandleStatus(SDL_GetDisplayMode(id, modeid, &mode)) == false) {
-          return;
-        }
+        HandleStatus(SDL_GetDisplayMode(id, modeid, &mode));
         modes_.push_back(VideoMode(mode));
       }
-      ReportOk();
     }
 
     int width() const {
@@ -201,7 +149,7 @@ class DisplayInfo : public SDLCore {
     std::vector<VideoMode> modes_;
 };
 
-class VideoDisplays : public SDLCore {
+class VideoDisplays {
   public:
     VideoDisplays() {
       assert(this);
@@ -213,7 +161,6 @@ class VideoDisplays : public SDLCore {
       for (int displayid = 0; displayid < numberofdisplays; ++displayid) {
         displays_.push_back(DisplayInfo(displayid));
       }
-      ReportOk();
     }
 
     const std::vector<DisplayInfo>& displays() const {
@@ -230,7 +177,7 @@ class VideoDisplays : public SDLCore {
     std::vector<DisplayInfo> displays_;
 };
 
-class Window : SDLCore {
+class Window : boost::noncopyable {
   public:
     Window(const std::string title, int x, int y, int width, int height,
            bool main)
@@ -243,7 +190,6 @@ class Window : SDLCore {
       if (window_ == NULL) {
         ReportFail();
       }
-      ReportOk();
     }
 
     ~Window() {
@@ -265,7 +211,8 @@ class Window : SDLCore {
       int result = SDL_SetWindowDisplayMode(window_, NULL);
       if (result < 0) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                     "Failed to set displaymode: %d", SDL_GetWindowID(window_));
+                     "Failed to set display mode: %d",
+                     SDL_GetWindowID(window_));
       }
     }
 
@@ -273,15 +220,17 @@ class Window : SDLCore {
       if (truefullscreen) {
         const int fullscreen = SDL_SetWindowFullscreen(window_,
                                SDL_WINDOW_FULLSCREEN);
-        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-                    "Setting window fullscreen: %d - %d",
-                    SDL_GetWindowID(window_), fullscreen);
         if (fullscreen < 0) {
+          SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                      "Failed to set true full screen: %d - %s",
+                      SDL_GetWindowID(window_), SDL_GetError());
           const int fullscreendesktop = SDL_SetWindowFullscreen(window_,
                                         SDL_WINDOW_FULLSCREEN_DESKTOP);
-          SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-                      "Setting window fake fullscreen: %d - %d",
-                      SDL_GetWindowID(window_), fullscreendesktop);
+          if (fullscreendesktop < 0) {
+            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                        "Failed to set fake full screen: %d - %s",
+                        SDL_GetWindowID(window_), SDL_GetError());
+          }
           return fullscreendesktop >= 0;
         } else {
           return true;
@@ -289,9 +238,11 @@ class Window : SDLCore {
       } else {
         const int fullscreendesktop = SDL_SetWindowFullscreen(window_,
                                       SDL_WINDOW_FULLSCREEN_DESKTOP);
-        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-                    "Setting window fake fullscreen: %d - %d",
-                    SDL_GetWindowID(window_), fullscreendesktop);
+        if (fullscreendesktop < 0) {
+          SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                      "Setting window fake fullscreen: %d - %s",
+                      SDL_GetWindowID(window_), SDL_GetError());
+        }
         return fullscreendesktop >= 0;
       }
     }
@@ -300,7 +251,7 @@ class Window : SDLCore {
     SDL_Window* window_;
 };
 
-class BlackRenderer : SDLCore {
+class BlackRenderer : boost::noncopyable {
   public:
     explicit BlackRenderer(Window* window)
       : renderer_(SDL_CreateRenderer(window->window(), -1,
@@ -311,7 +262,6 @@ class BlackRenderer : SDLCore {
         ReportFail();
       }
       SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
-      ReportOk();
     }
 
     void Render() {
@@ -386,21 +336,13 @@ class Timer {
     Uint64 start_;
 };
 
-int main(int argc, char* argv[]) {
+void logic() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
 
   Sdl sdl;
-  if (sdl.initialized() == false) {
-    Error("FATAL", sdl.error());
-    return 0;
-  }
   SDL_DisableScreenSaver();
   VideoDisplays displays;
-  if (displays.HasFailed()) {
-    Error("Display failed", displays.error());
-    return 0;
-  }
 
   std::shared_ptr<Window> primaryscreen;
   std::vector<std::shared_ptr<Window> > windows;
@@ -467,6 +409,16 @@ int main(int argc, char* argv[]) {
       }
     }
   }
+}
 
-  return 0;
+
+int main(int argc, char* argv[]) {
+  try {
+    logic();
+    return 0;
+  } catch (...) {
+    const std::string message = GrabExceptionInformation();
+    Error("Error!", message);
+    return 1;
+  }
 }
