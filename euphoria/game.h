@@ -11,6 +11,8 @@ Game related code.
 
 #include "euphoria/keybind.h"
 
+#include "euphoria-config.h" // NOLINT this is the default way to include cmake files
+
 class OglDebug;
 class TextureCache;
 class ShaderCache;
@@ -20,7 +22,10 @@ class ActionMap;
 class Camera;
 class SystemContainer;
 class EntityList;
+
+#ifdef USE_TWEAKABLES
 class TweakerStore;
+#endif
 
 /** Contains common game data.
  */
@@ -84,7 +89,9 @@ class Game {
     std::unique_ptr<SystemContainer> container_;
     std::unique_ptr<EntityList> entities_;
     bool istweaking_;
+#ifdef USE_TWEAKABLES
     std::unique_ptr<TweakerStore> tweakers_;
+#endif
 };
 
 #endif  // EUPHORIA_GAME_H_

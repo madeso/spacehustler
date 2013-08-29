@@ -2,7 +2,9 @@
 
 #include "euphoria/game.h"
 
+#ifdef USE_TWEAKABLES
 #include <AntTweakBar.h>
+#endif
 
 #include <cassert>
 #include <string>
@@ -17,9 +19,10 @@
 #include "euphoria/world.h"
 #include "euphoria/lua.h"
 #include "euphoria/keybind.h"
-#include "euphoria/tweak.h"
 #include "euphoria/entity.h"
 #include "euphoria/systems.h"
+
+#include "euphoria/tweak.h"
 
 namespace {
   Game*& GameInstance() {
@@ -52,10 +55,9 @@ Game::Game(int width, int height)
   glDepthFunc(GL_LESS);
   glEnable(GL_CULL_FACE);
 
-  /*if(!GLEW_VERSION_3_2)
-  {
-      throw "System not supporting opengl 3.2";
-  }*/
+  if (!GLEW_VERSION_3_2) {
+    throw "System not supporting opengl 3.2";
+  }
 
   texturecache_.reset(new TextureCache());
   shadercache_.reset(new ShaderCache());
@@ -98,7 +100,7 @@ Game::~Game() {
   assert(this == GameInstance());
   GameInstance() = 0;
 
-  TwTerminate();
+  RUNTWEAKCODE(TwTerminate());
 }
 
 bool Game::keep_running() const {
