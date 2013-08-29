@@ -20,26 +20,8 @@
 #include <wx/wx.h>  // NOLINT
 #endif
 
-#include "euphoria/opengl.h"
-
-#include "euphoria/shader.h"
-#include "euphoria/mesh.h"
-#include "euphoria/texture.h"
-#include "euphoria/color.h"
-#include "euphoria/rng.h"
-#include "euphoria/ogldebug.h"
-#include "euphoria/math.h"
-#include "euphoria/camera.h"
-#include "euphoria/world.h"
-#include "euphoria/tweak.h"
-#include "euphoria/entity.h"
-#include "euphoria/systems.h"
-#include "euphoria/lua.h"
-#include "euphoria/keybind.h"
 #include "euphoria/game.h"
 #include "euphoria/exception.h"
-
-const float pi = 3.141592653589793238462643383279502884f;
 
 Key::Type ToKey(sf::Event::KeyEvent key) {
   switch (key.code) {
@@ -388,11 +370,6 @@ void logic() {
   bool hasFocus = true;
   sf::Mouse::setPosition(sf::Vector2i(width / 2, height / 2), window);
   while (game.keep_running()) {
-    OglDebug::Verify();
-
-    glClearColor(0, 0, 0, 1);  // black
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     game.Render();
 
     window.display();

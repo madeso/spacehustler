@@ -108,6 +108,11 @@ bool Game::keep_running() const {
 
 void Game::Render() {
   assert(this);
+  OglDebug::Verify();
+
+  glClearColor(0, 0, 0, 1);  // black
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
   world_->Render(*camera_.get());
 
   if (istweaking_) {
