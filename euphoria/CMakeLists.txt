@@ -99,7 +99,9 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	include_directories(${LauncherIncludes})
 	message(STATUS "Including launcher ${LauncherName} ${LauncherIncludes}")
 
-	add_executable(${TargetName} WIN32 ${all_src})
+	source_group("" FILES "main/main-${LauncherName}.cc")
+	
+	add_executable(${TargetName} WIN32 ${all_src} "main/main-${LauncherName}.cc")
 
 	if(USE_ASTYLE_BUILD)
 		add_custom_command(TARGET ${TargetName}
