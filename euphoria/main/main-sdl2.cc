@@ -10,6 +10,7 @@
 #include <memory>
 #include <iostream> // NOLINT for error reporting when messagebox has failed.
 
+#include "euphoria/game.h"
 #include "euphoria/exception.h"
 
 void Error(const std::string& title, const std::string& text) {
@@ -336,6 +337,42 @@ class Timer {
     Uint64 start_;
 };
 
+class Context : boost::noncopyable {
+  public:
+    explicit Context(Window* window)
+      : window_(window->window()), context_(SDL_GL_CreateContext(
+                                              window->window())) {
+      assert(this);
+      assert(window);
+      assert(window_);
+      if (context_ == NULL) {
+        ReportFail();
+      }
+    }
+
+    ~Context() {
+      assert(this);
+      SDL_GL_DeleteContext(context_);
+    }
+
+    void Swap() {
+      SDL_GL_SwapWindow(window_);
+    }
+
+    void MakeCurrent() {
+      const int ret = SDL_GL_MakeCurrent(window_, context_);
+      if (ret < 0) {
+        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                    "Failed chaning the context: %d - %s",
+                    SDL_GetWindowID(window_), SDL_GetError());
+      }
+    }
+
+  private:
+    SDL_Window* window_;
+    SDL_GLContext context_;
+};
+
 void logic() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
@@ -347,6 +384,13 @@ void logic() {
   std::shared_ptr<Window> primaryscreen;
   std::vector<std::shared_ptr<Window> > windows;
   std::vector<std::shared_ptr<BlackRenderer> > blacks;
+
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                      SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+  // The core profile causes http://www.opengl.org/wiki/GLAPI/glGenVertexArrays
+  // to crash, weird...
 
   for (size_t i = 0; i < displays.displays().size(); ++i) {
     const bool isprimaryscrreen = i == displays.PrimaryScreen();
@@ -376,8 +420,10 @@ void logic() {
     }
   }
 
+  Context context(primaryscreen.get());
+
   if (settings.fullscreen()) {
-    /* Setting black window fullscreen messes with the primary fullscreen
+    /* Setting the black windows fullscreen messes with the primary fullscreen
     for(auto screen:windows) {
         if( screen != primaryscreen ){
             screen->SetFullscreen(false);
@@ -387,24 +433,31 @@ void logic() {
   }
 
   Timer timer;
-  bool running = true;
 
-  while (running) {
+  context.MakeCurrent();
+  Game game(settings.width(), settings.height());
+
+  while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();
     timer.Reset();
+    game.Update(delta);
 
     for (auto black : blacks) {
       black->Render();
     }
 
+    context.MakeCurrent();
+    game.Render();
+    context.Swap();
+
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
-        running = false;
+        game.Quit();
       }
       if (event.type == SDL_KEYDOWN) {
         if (event.key.keysym.sym == SDLK_ESCAPE) {
-          running = false;
+          game.Quit();
         }
       }
     }
