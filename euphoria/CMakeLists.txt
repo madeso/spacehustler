@@ -92,50 +92,75 @@ set(all_src ${game_src} "${PROJECT_SOURCE_DIR}/euphoria-config-in.h" ${src_glew}
 
 if(USE_TWEAKABLES)
 	source_group(anttweakbar FILES ${src_anttweakbar})
-	
 	set(all_src ${all_src} ${src_anttweakbar})
 endif(USE_TWEAKABLES)
 
+MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
+	include_directories(${LauncherIncludes})
+	message(STATUS "Including launcher ${LauncherName} ${LauncherIncludes}")
 
-add_executable(main WIN32 ${all_src})
+	add_executable(${TargetName} WIN32 ${all_src})
 
-if(USE_ASTYLE_BUILD)
-	add_custom_command(TARGET main
-					   PRE_BUILD
-					   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src}
-					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					   COMMENT "Running astyle" VERBATIM)
-endif(USE_ASTYLE_BUILD)
+	if(USE_ASTYLE_BUILD)
+		add_custom_command(TARGET ${TargetName}
+						   PRE_BUILD
+						   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src}
+						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						   COMMENT "Running astyle" VERBATIM)
+	endif(USE_ASTYLE_BUILD)
 
-if(USE_CPPLINT_BUILD)
-	add_custom_command(TARGET main
-					   PRE_BUILD
-					   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src}
-					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					   COMMENT "Running CppLint" VERBATIM)
-endif(USE_CPPLINT_BUILD)
+	if(USE_CPPLINT_BUILD)
+		add_custom_command(TARGET ${TargetName}
+						   PRE_BUILD
+						   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src}
+						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						   COMMENT "Running CppLint" VERBATIM)
+	endif(USE_CPPLINT_BUILD)
 
-if(USE_DOXYGEN_BUILD)
-	add_custom_command(TARGET main
-					   PRE_LINK
-					   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
-					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					   COMMENT "Running Doxygen" VERBATIM)
-	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir 			${CMAKE_SOURCE_DIR}/euphoria")
-endif(USE_DOXYGEN_BUILD)
+	if(USE_DOXYGEN_BUILD)
+		add_custom_command(TARGET ${TargetName}
+						   PRE_LINK
+						   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
+						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						   COMMENT "Running Doxygen" VERBATIM)
+		message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir 			${CMAKE_SOURCE_DIR}/euphoria")
+	endif(USE_DOXYGEN_BUILD)
 
-if(USE_LUADOCGEN)
-	add_custom_command(TARGET main
-					   PRE_LINK
-					   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
-					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					   COMMENT "Running CppLint" VERBATIM)
-endif(USE_LUADOCGEN)
+	if(USE_LUADOCGEN)
+		add_custom_command(TARGET ${TargetName}
+						   PRE_LINK
+						   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
+						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						   COMMENT "Running CppLint" VERBATIM)
+	endif(USE_LUADOCGEN)
 
-message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
-message(STATUS "Linking with SFML ${SFML_LIBRARIES}")
-message(STATUS "Linking with wxWidgets ${wxWidgets_LIBRARIES}")
-message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
-message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
+	message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
+	message(STATUS "Linking with launcher ${LauncherName} ${LauncherLibraries}")
+	message(STATUS "Linking with wxWidgets ${wxWidgets_LIBRARIES}")
+	message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
+	message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
 
-target_link_libraries(main ${OPENGL_LIBRARIES} ${SFML_LIBRARIES} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES})
+	target_link_libraries(${TargetName} ${OPENGL_LIBRARIES} ${LauncherLibraries} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES})
+ENDMACRO(GenerateMain)
+
+option(USE_MAIN_SFML "Use sfml as launch library" ON)
+
+if(USE_MAIN_SFML)
+	if(WIN32)
+		#on windows, link to sfml static, to avoid crash on exit with ati cards
+		set(SFML_STATIC_LIBRARIES TRUE)
+		message(STATUS "using static sfml libraries")
+	else(WIN32)
+		#on linux, link with dynamic since static library dependencies are horrible on linux
+		message(STATUS "using non-static libraries")
+	endif(WIN32)
+
+	#on windows main is needed, not on linux
+	if(WIN32)
+		find_package(SFML 2 COMPONENTS system window main REQUIRED)
+	else(WIN32)
+		find_package(SFML 2 COMPONENTS system window REQUIRED)
+	endif(WIN32)
+	
+	GenerateMain("sfml" main-sfml "${SFML_INCLUDE_DIR}" "${SFML_LIBRARIES}")
+endif(USE_MAIN_SFML)

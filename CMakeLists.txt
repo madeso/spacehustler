@@ -16,22 +16,13 @@ option(USE_DOXYGEN_BUILD "Add doxygen to the build" ON)
 option(USE_TWEAKABLES "Use tweakables" ON)
 option(USE_LUADOCGEN "parse all sources and build lua doc from it" ON)
 
+# compiler flags
 if(WIN32)
-	#on windows, link to sfml static, to avoid crash on exit with ati cards
-	set(SFML_STATIC_LIBRARIES TRUE)
-	message(STATUS "using static sfml libraries")
+	ADD_DEFINITIONS(/D _CRT_SECURE_NO_WARNINGS)
 else(WIN32)
-	#on linux, link with dynamic since static library dependencies are horrible on linux
-	#set(SFML_STATIC_LIBRARIES OFF)
-	message(STATUS "using non-static libraries")
-	
 	#also add c++11 flags
 	SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ ${CMAKE_CXX_FLAGS}")
 endif(WIN32)
-
-IF(WIN32)
-	ADD_DEFINITIONS(/D _CRT_SECURE_NO_WARNINGS)
-ENDIF(WIN32)
 
 # force visual studio and the like to only have debug and release builds
 if(CMAKE_CONFIGURATION_TYPES)
@@ -45,13 +36,6 @@ find_package(Bullet REQUIRED)
 find_package(wxWidgets REQUIRED core base)
 include( "${wxWidgets_USE_FILE}" )
 find_package(AssImp REQUIRED)
-
-#on windows main is needed, not on linux
-if(WIN32)
-	find_package(SFML 2 COMPONENTS system window main REQUIRED)
-else(WIN32)
-	find_package(SFML 2 COMPONENTS system window REQUIRED)
-endif(WIN32)
 
 # option(BUILD_SHARED_LIBS "build shared libraries" OFF)
 set(BUILD_SHARED_LIBS OFF)
@@ -72,12 +56,11 @@ include_directories("external/lua")
 include_directories(${ASSIMP_INCLUDE_DIR})
 include_directories(${BULLET_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${SFML_INCLUDE_DIR})
+
 
 message(STATUS "Including Assimp ${ASSIMP_INCLUDE_DIR}")
 message(STATUS "Including Bullet ${BULLET_INCLUDE_DIR}")
 message(STATUS "Including Cmake Source ${CMAKE_SOURCE_DIR}")
-message(STATUS "Including SFML ${SFML_INCLUDE_DIR}")
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
