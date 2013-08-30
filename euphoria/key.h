@@ -174,16 +174,16 @@ namespace Key {
     , JoystickVNegative     /// Joystick V-
     , JoystickPovXNegative  /// Joystick PovX-
     , JoystickPovYNegative  /// Joystick PovY-
-    , MouseX        /// Mouse axis X
-    , MouseY        /// Mouse axis Y
-    , JoystickX     /// Joystick axis X
-    , JoystickY     /// Joystick axis Y
-    , JoystickZ     /// Joystick axis Z
-    , JoystickR     /// Joystick axis R
-    , JoystickU     /// Joystick axis U
-    , JoystickV     /// Joystick axis V
-    , JoystickPovX  /// Joystick axis PovX
-    , JoystickPovY  /// Joystick axis PovY
+    , MouseX                /// Mouse axis X
+    , MouseY                /// Mouse axis Y
+    , JoystickX             /// Joystick axis X
+    , JoystickY             /// Joystick axis Y
+    , JoystickZ             /// Joystick axis Z
+    , JoystickR             /// Joystick axis R
+    , JoystickU             /// Joystick axis U
+    , JoystickV             /// Joystick axis V
+    , JoystickPovX          /// Joystick axis PovX
+    , JoystickPovY          /// Joystick axis PovY
   };
 
   /** Generate a string representation of the given key
