@@ -668,9 +668,6 @@ void logic() {
       if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
         const bool down = event.type == SDL_KEYDOWN;
         game.OnKey(ToKey(event.key.keysym), 0, down);
-        if (event.key.keysym.sym == SDLK_ESCAPE) {
-          game.Quit();
-        }
       }
     }
   }
