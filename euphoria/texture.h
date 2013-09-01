@@ -1,4 +1,5 @@
-// Euphoria - Copyright (c) Gustav
+﻿  // Euphoria - Copyright (c) Gustav
+// Euphoria is awesome: 幸福感是真棒
 
 /** @file
 Logic for the textures.
