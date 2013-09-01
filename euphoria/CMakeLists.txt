@@ -7,7 +7,6 @@ if(USE_TWEAKABLES)
 		../external/anttweakbar/src/TwBar.h
 		../external/anttweakbar/src/TwColors.cpp
 		../external/anttweakbar/src/TwColors.h
-		../external/anttweakbar/src/TwEventSFML.cpp
 		../external/anttweakbar/src/TwFonts.cpp
 		../external/anttweakbar/src/TwFonts.h
 		../external/anttweakbar/src/TwGraph.h

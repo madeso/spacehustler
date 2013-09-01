@@ -1,6 +1,6 @@
 [
 	{
-		"name": "keyboard"
+		"name": "default"
 		,"keys": [
 			{"action":"force", "key":"Space", "device":0}
 			, {"action":"yaw+", "key":"D", "device":0}
@@ -18,7 +18,7 @@
 		]
 	}
 	,{
-		"name": "default"
+		"name": "joystick"
 		,"keys": [
 			{"action":"force", "key":"JoystickZ", "device":0, "invert":true}
 			, {"action":"yaw+", "key":"JoystickR+", "device":0}

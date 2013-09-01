@@ -186,7 +186,8 @@ class Window : boost::noncopyable {
                                  main ? (SDL_WINDOW_OPENGL
                                          | SDL_WINDOW_INPUT_FOCUS
                                          | SDL_WINDOW_MOUSE_FOCUS)
-                                 : SDL_WINDOW_BORDERLESS)) {
+                                 : SDL_WINDOW_BORDERLESS))
+      , width_(width), height_(height) {
       assert(this);
       if (window_ == NULL) {
         ReportFail();
@@ -199,6 +200,14 @@ class Window : boost::noncopyable {
         SDL_DestroyWindow(window_);
         window_ = 0;
       }
+    }
+
+    int width() const {
+      return width_;
+    }
+
+    int height() const {
+      return height_;
     }
 
     SDL_Window* window() {
@@ -250,6 +259,8 @@ class Window : boost::noncopyable {
 
   private:
     SDL_Window* window_;
+    int width_;
+    int height_;
 };
 
 class BlackRenderer : boost::noncopyable {
@@ -661,15 +672,36 @@ void logic() {
     context.Swap();
 
     SDL_Event event;
+
+    int xrel = 0;
+    int yrel = 0;
+
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
         game.Quit();
-      }
-      if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+      } else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
         const bool down = event.type == SDL_KEYDOWN;
         game.OnKey(ToKey(event.key.keysym), 0, down);
+      } else if (event.type == SDL_MOUSEMOTION) {
+        xrel += event.motion.xrel;
+        yrel += event.motion.yrel;
+      } else if (event.type == SDL_WINDOWEVENT) {
+        const auto mouseEvent = event.window.event;
+        if (mouseEvent == SDL_WINDOWEVENT_ENTER
+            || mouseEvent == SDL_WINDOWEVENT_LEAVE) {
+          const bool lock = mouseEvent == SDL_WINDOWEVENT_ENTER;
+          SDL_SetRelativeMouseMode(lock ? SDL_TRUE : SDL_FALSE);
+        }
       }
     }
+
+    const float size = static_cast<float>(std::max(primaryscreen->height(),
+                                          primaryscreen->width()));
+    float dx = xrel / size;
+    float dy = yrel / size;
+    const float sensitivity = 10.0f;
+    game.OnAxis(Axis::MouseX, 0, dx * sensitivity);
+    game.OnAxis(Axis::MouseY, 0, dy * sensitivity);
   }
 }
 
