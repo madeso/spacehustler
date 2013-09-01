@@ -348,6 +348,35 @@ class Timer {
     Uint64 start_;
 };
 
+class Joystick {
+  public:
+    explicit Joystick(int id) : id_(id), joystick_(SDL_JoystickOpen(id)) {
+      if (joystick_ == NULL) {
+        throw "Failed to open joystick";
+      }
+
+      SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                  "Opened joystick %s on %d: #axes: %d /"
+                  " #buttons: %d / #balls: %d",
+                  SDL_JoystickNameForIndex(id_),
+                  id_,
+                  SDL_JoystickNumAxes(joystick_),
+                  SDL_JoystickNumButtons(joystick_),
+                  SDL_JoystickNumBalls(joystick_));
+    }
+
+    ~Joystick() {
+      if (SDL_JoystickGetAttached(joystick_) == SDL_TRUE) {
+        SDL_JoystickClose(joystick_);
+        joystick_ = NULL;
+      }
+    }
+
+  private:
+    int id_;
+    SDL_Joystick* joystick_;
+};
+
 class Context : boost::noncopyable {
   public:
     explicit Context(Window* window)
@@ -374,7 +403,7 @@ class Context : boost::noncopyable {
       const int ret = SDL_GL_MakeCurrent(window_, context_);
       if (ret < 0) {
         SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-                    "Failed chaning the context: %d - %s",
+                    "Failed changing the context: %d - %s",
                     SDL_GetWindowID(window_), SDL_GetError());
       }
     }
@@ -383,6 +412,78 @@ class Context : boost::noncopyable {
     SDL_Window* window_;
     SDL_GLContext context_;
 };
+
+Key::Type ToKey(SDL_JoyButtonEvent button) {
+  switch (button.button) {
+    case 0:
+      return Key::JoystickButton1;
+    case 1:
+      return Key::JoystickButton2;
+    case 2:
+      return Key::JoystickButton3;
+    case 3:
+      return Key::JoystickButton4;
+    case 4:
+      return Key::JoystickButton5;
+    case 5:
+      return Key::JoystickButton6;
+    case 6:
+      return Key::JoystickButton7;
+    case 7:
+      return Key::JoystickButton8;
+    case 8:
+      return Key::JoystickButton9;
+    case 9:
+      return Key::JoystickButton10;
+    case 10:
+      return Key::JoystickButton11;
+    case 11:
+      return Key::JoystickButton12;
+    case 12:
+      return Key::JoystickButton13;
+    case 13:
+      return Key::JoystickButton14;
+    case 14:
+      return Key::JoystickButton15;
+    case 15:
+      return Key::JoystickButton16;
+    case 16:
+      return Key::JoystickButton17;
+    case 17:
+      return Key::JoystickButton18;
+    case 18:
+      return Key::JoystickButton19;
+    case 19:
+      return Key::JoystickButton20;
+    case 20:
+      return Key::JoystickButton21;
+    case 21:
+      return Key::JoystickButton22;
+    case 22:
+      return Key::JoystickButton23;
+    case 23:
+      return Key::JoystickButton24;
+    case 24:
+      return Key::JoystickButton25;
+    case 25:
+      return Key::JoystickButton26;
+    case 26:
+      return Key::JoystickButton27;
+    case 27:
+      return Key::JoystickButton28;
+    case 28:
+      return Key::JoystickButton29;
+    case 29:
+      return Key::JoystickButton30;
+    case 30:
+      return Key::JoystickButton31;
+    case 31:
+      return Key::JoystickButton32;
+    default:
+      assert(0 && "Invalid joystick button");
+      return Key::Invalid;
+  }
+}
 
 Key::Type ToKey(SDL_Keysym key) {
   switch (key.sym) {
@@ -594,6 +695,30 @@ Key::Type ToKey(SDL_Keysym key) {
   }
 }
 
+Axis::Type ToAxis(SDL_JoyAxisEvent joy) {
+  switch (joy.axis) {
+    case 0:
+      return Axis::JoystickX;
+    case 1:
+      return Axis::JoystickY;
+    case 2:
+      return Axis::JoystickZ;
+    case 3:
+      return Axis::JoystickR;
+    case 4:
+      return Axis::JoystickU;
+    case 5:
+      return Axis::JoystickV;
+    case 6:
+      return Axis::JoystickPovX;
+    case 7:
+      return Axis::JoystickPovY;
+    default:
+      assert(0 && "Invalid joystick axis");
+      return Axis::MouseY;
+  }
+}
+
 void logic() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
@@ -653,6 +778,18 @@ void logic() {
     primaryscreen->SetFullscreen(true);
   }
 
+  std::vector<std::shared_ptr<Joystick>> joysticks;
+
+  const int numberofjoysticks = SDL_NumJoysticks();
+  for (int i = 0; i < numberofjoysticks; ++i) {
+    const char* const name = SDL_JoystickNameForIndex(i);
+    if (name == NULL) {
+      ReportFail();
+    }
+    std::shared_ptr<Joystick> js(new Joystick(i));
+    joysticks.push_back(js);
+  }
+
   Timer timer;
 
   context.MakeCurrent();
@@ -685,6 +822,14 @@ void logic() {
       } else if (event.type == SDL_MOUSEMOTION) {
         xrel += event.motion.xrel;
         yrel += event.motion.yrel;
+      } else if (event.type == SDL_JOYBUTTONDOWN
+                 || event.type == SDL_JOYBUTTONUP) {
+        const bool down = event.type == SDL_JOYBUTTONDOWN;
+        game.OnKey(ToKey(event.jbutton), event.jbutton.which, down);
+      } else if (event.type == SDL_JOYAXISMOTION) {
+        game.OnAxis(ToAxis(event.jaxis),
+                    event.jaxis.which,
+                    event.jaxis.value / 32768.0f);
       } else if (event.type == SDL_WINDOWEVENT) {
         const auto mouseEvent = event.window.event;
         if (mouseEvent == SDL_WINDOWEVENT_ENTER
