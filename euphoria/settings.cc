@@ -14,7 +14,8 @@ Settings::Settings()
   , width_(800)
   , height_(600)
   , fullscreen_(false)
-  , controlScheme_("keyboard") {
+  , controlScheme_("keyboard")
+  , window_(0) {
   assert(this);
 }
 
@@ -39,6 +40,7 @@ void Settings::Load() {
   height_ = root.get("height", height()).asInt();
   fullscreen_ = root.get("fullscreen", fullscreen()).asBool();
   controlScheme_ = root.get("controlscheme", constrolScheme()).asString();
+  window_ = root.get("window", window()).asInt();
 }
 
 const bool Settings::blackout() const {
@@ -64,4 +66,9 @@ const bool Settings::fullscreen() const {
 const std::string Settings::constrolScheme() const {
   assert(this);
   return controlScheme_;
+}
+
+int Settings::window() const {
+  assert(this);
+  return window_;
 }

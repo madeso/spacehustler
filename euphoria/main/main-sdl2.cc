@@ -170,11 +170,6 @@ class VideoDisplays {
       return displays_;
     }
 
-    int PrimaryScreen() {
-      assert(this);
-      return 0;
-    }
-
   private:
     std::vector<DisplayInfo> displays_;
 };
@@ -749,7 +744,7 @@ void logic() {
   // to crash, weird...
 
   for (size_t i = 0; i < displays.displays().size(); ++i) {
-    const bool isprimaryscrreen = i == displays.PrimaryScreen();
+    const bool isprimaryscrreen = i == settings.window();
     const bool createscreen = isprimaryscrreen || settings.blackout();
 
     if (createscreen) {
@@ -776,8 +771,11 @@ void logic() {
     }
   }
 
-  Context context(primaryscreen.get());
+  if (primaryscreen.get() == NULL) {
+    throw "Unable to find primary screen";
+  }
 
+  Context context(primaryscreen.get());
   if (settings.fullscreen()) {
     /* Setting the black windows fullscreen messes with the primary fullscreen
     for(auto screen:windows) {

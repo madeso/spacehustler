@@ -47,12 +47,18 @@ class Settings {
      */
     const std::string constrolScheme() const;
 
+    /** The window to launch at.
+    @returns the window id to launch at.
+     */
+    int window() const;
+
   private:
     bool blackout_;
     int width_;
     int height_;
     bool fullscreen_;
     std::string controlScheme_;
+    int window_;
 };
 
 
