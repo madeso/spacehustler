@@ -53,7 +53,7 @@ class VideoMode {
       : width_(mode.w)
       , height_(mode.h)
       , refreshRate_(mode.refresh_rate)
-      , pixelFormat_(SDL_GetPixelFormatName(mode.format)) {
+      , pixel_format_(SDL_GetPixelFormatName(mode.format)) {
       assert(this);
     }
 
@@ -72,16 +72,16 @@ class VideoMode {
       return refreshRate_;
     }
 
-    const std::string& pixelFormat() const {
+    const std::string& pixel_format() const {
       assert(this);
-      return pixelFormat_;
+      return pixel_format_;
     }
 
   private:
     int width_;
     int height_;
     int refreshRate_;
-    std::string pixelFormat_;
+    std::string pixel_format_;
 };
 
 class DisplayInfo {
@@ -744,7 +744,7 @@ void logic() {
   // to crash, weird...
 
   for (size_t i = 0; i < displays.displays().size(); ++i) {
-    const bool isprimaryscrreen = i == settings.window();
+    const bool isprimaryscrreen = i == settings.primary_display_id();
     const bool createscreen = isprimaryscrreen || settings.blackout();
 
     if (createscreen) {
@@ -801,7 +801,7 @@ void logic() {
   Timer timer;
 
   context.MakeCurrent();
-  Game game(settings.width(), settings.height(), settings.constrolScheme());
+  Game game(settings.width(), settings.height(), settings.control_scheme());
 
   while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();

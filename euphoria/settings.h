@@ -45,20 +45,20 @@ class Settings {
     /** The name of the control scheme.
     @returns the name of the scheme.
      */
-    const std::string constrolScheme() const;
+    const std::string control_scheme() const;
 
     /** The window to launch at.
     @returns the window id to launch at.
      */
-    int window() const;
+    int primary_display_id() const;
 
   private:
     bool blackout_;
     int width_;
     int height_;
     bool fullscreen_;
-    std::string controlScheme_;
-    int window_;
+    std::string control_scheme_;
+    int primary_display_id_;
 };
 
 

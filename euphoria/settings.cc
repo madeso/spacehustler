@@ -14,8 +14,8 @@ Settings::Settings()
   , width_(800)
   , height_(600)
   , fullscreen_(false)
-  , controlScheme_("keyboard")
-  , window_(0) {
+  , control_scheme_("keyboard")
+  , primary_display_id_(0) {
   assert(this);
 }
 
@@ -39,8 +39,8 @@ void Settings::Load() {
   width_ = root.get("width", width()).asInt();
   height_ = root.get("height", height()).asInt();
   fullscreen_ = root.get("fullscreen", fullscreen()).asBool();
-  controlScheme_ = root.get("controlscheme", constrolScheme()).asString();
-  window_ = root.get("window", window()).asInt();
+  control_scheme_ = root.get("controlscheme", control_scheme()).asString();
+  primary_display_id_ = root.get("window", primary_display_id()).asInt();
 }
 
 const bool Settings::blackout() const {
@@ -63,12 +63,12 @@ const bool Settings::fullscreen() const {
   return fullscreen_;
 }
 
-const std::string Settings::constrolScheme() const {
+const std::string Settings::control_scheme() const {
   assert(this);
-  return controlScheme_;
+  return control_scheme_;
 }
 
-int Settings::window() const {
+int Settings::primary_display_id() const {
   assert(this);
-  return window_;
+  return primary_display_id_;
 }
