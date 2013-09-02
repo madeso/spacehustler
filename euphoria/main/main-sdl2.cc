@@ -723,6 +723,36 @@ Axis::Type ToAxis(SDL_JoyAxisEvent joy) {
   }
 }
 
+int FindOculusDisplay(const VideoDisplays& displays) {
+  for (size_t i = 0; i < displays.displays().size(); ++i) {
+    DisplayInfo di = displays.displays()[i];
+    if (di.name() == "Rift DK1") {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int DeterminePrimaryDisplayId(const Settings& settings,
+                              const VideoDisplays& displays
+                              , bool* foundoculus) {
+  assert(foundoculus);
+  if (settings.oculus_vr_detection() == OculusVrDetection::Auto) {
+    const int vrid = FindOculusDisplay(displays);
+    if (vrid != -1) {
+      *foundoculus = true;
+      return vrid;
+    } else {
+      *foundoculus = false;
+      return settings.primary_display_id();
+    }
+  } else {
+    *foundoculus = settings.oculus_vr_detection()
+                   == OculusVrDetection::Oculusvr;
+    return settings.primary_display_id();
+  }
+}
+
 void logic() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
@@ -743,16 +773,28 @@ void logic() {
   // The core profile causes http://www.opengl.org/wiki/GLAPI/glGenVertexArrays
   // to crash, weird...
 
+  bool renderoculus = false;
+
+  int displayid = DeterminePrimaryDisplayId(settings, displays, &renderoculus);
+
   for (size_t i = 0; i < displays.displays().size(); ++i) {
-    const bool isprimaryscrreen = i == settings.primary_display_id();
+    const bool isprimaryscrreen = i == displayid;
     const bool createscreen = isprimaryscrreen || settings.blackout();
 
     if (createscreen) {
       DisplayInfo di = displays.displays()[i];
+
       const int width = isprimaryscrreen == false || settings.width() == 0 ?
                         di.width() : settings.width();
       const int height = isprimaryscrreen == false || settings.height() == 0 ?
                          di.height() : settings.height();
+      if (width > di.width()) {
+        throw "Target width is too large";
+      }
+      if (height > di.height()) {
+        throw "height is too large";
+      }
+
       const int x = di.x() + (di.width() - width) / 2;
       const int y = di.y() + (di.height() - height) / 2;
       std::shared_ptr<Window> screen(new Window(isprimaryscrreen ?
@@ -769,6 +811,14 @@ void logic() {
         blacks.push_back(br);
       }
     }
+  }
+
+  if (renderoculus) {
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                "Renders with the oculus vr");
+  } else {
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+                "Renders normally without vr support");
   }
 
   if (primaryscreen.get() == NULL) {

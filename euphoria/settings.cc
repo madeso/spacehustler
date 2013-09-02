@@ -6,8 +6,27 @@
 #include <cassert>
 #include <fstream> // NOLINT for loading data
 #include <stdexcept>
+#include <string>
+#include <map>
 #include "euphoria/str.h"
+#include "euphoria/stringmerger.h"
+#include "euphoria/stdutils.h"
 #include "json/json.h"
+
+OculusVrDetection::Type DetermineOculusVrValue(const std::string& name) {
+  std::map<std::string, OculusVrDetection::Type> values;
+  values.insert(std::make_pair("auto", OculusVrDetection::Auto));
+  values.insert(std::make_pair("normal", OculusVrDetection::Normal));
+  values.insert(std::make_pair("oculusvr", OculusVrDetection::Oculusvr));
+  const auto res = values.find(name);
+  if (res == values.end()) {
+    throw std::logic_error(Str() << "Unknown oculus value: " << name
+                           << ", valid values are: "
+                           << StringMerger::EnglishAnd()
+                           .Generate(Keys(values)));
+  }
+  return res->second;
+}
 
 Settings::Settings()
   : blackout_(false)
@@ -15,7 +34,8 @@ Settings::Settings()
   , height_(600)
   , fullscreen_(false)
   , control_scheme_("keyboard")
-  , primary_display_id_(0) {
+  , primary_display_id_(0)
+  , oculus_vr_detection_(OculusVrDetection::Auto) {
   assert(this);
 }
 
@@ -41,6 +61,9 @@ void Settings::Load() {
   fullscreen_ = root.get("fullscreen", fullscreen()).asBool();
   control_scheme_ = root.get("controlscheme", control_scheme()).asString();
   primary_display_id_ = root.get("window", primary_display_id()).asInt();
+
+  oculus_vr_detection_ = DetermineOculusVrValue(root.get("oculusvr", "auto")
+                         .asString());
 }
 
 const bool Settings::blackout() const {
@@ -71,4 +94,9 @@ const std::string Settings::control_scheme() const {
 int Settings::primary_display_id() const {
   assert(this);
   return primary_display_id_;
+}
+
+OculusVrDetection::Type Settings::oculus_vr_detection() const {
+  assert(this);
+  return oculus_vr_detection_;
 }
