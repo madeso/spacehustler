@@ -12,6 +12,7 @@
 
 #include "euphoria/game.h"
 #include "euphoria/exception.h"
+#include "euphoria/settings.h"
 
 void Error(const std::string& title, const std::string& text) {
   const int result = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
@@ -289,43 +290,6 @@ class BlackRenderer : boost::noncopyable {
 
   private:
     SDL_Renderer* renderer_;
-};
-
-class Settings {
-  public:
-    Settings()
-      : blackout_(false)
-      , width_(800)
-      , height_(600)
-      , fullscreen_(false) {
-      assert(this);
-    }
-
-    const bool blackout() const {
-      assert(this);
-      return blackout_;
-    }
-
-    const int width() const {
-      assert(this);
-      return width_;
-    }
-
-    const int height() const {
-      assert(this);
-      return height_;
-    }
-
-    const bool fullscreen() const {
-      assert(this);
-      return fullscreen_;
-    }
-
-  private:
-    bool blackout_;
-    int width_;
-    int height_;
-    bool fullscreen_;
 };
 
 class Timer {
