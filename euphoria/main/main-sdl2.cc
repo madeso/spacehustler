@@ -348,32 +348,81 @@ class Timer {
     Uint64 start_;
 };
 
+typedef std::pair<int, int> Posi;
+Posi GetHatValues(Uint8 hat) {
+  switch (hat) {
+    case SDL_HAT_LEFTUP:
+      return Posi(-1, 1);
+    case SDL_HAT_UP:
+      return Posi(0, 1);
+    case SDL_HAT_RIGHTUP  :
+      return Posi(1, 1);
+    case SDL_HAT_LEFT:
+      return Posi(-1, 0);
+    case SDL_HAT_CENTERED:
+      return Posi(0, 0);
+    case SDL_HAT_RIGHT:
+      return Posi(1, 0);
+    case SDL_HAT_LEFTDOWN:
+      return Posi(-1, -1);
+    case SDL_HAT_DOWN:
+      return Posi(0, -1);
+    case SDL_HAT_RIGHTDOWN:
+      return Posi(1, -1);
+    default:
+      assert(0 && "Invalid hat value");
+      return Posi(0, 0);
+  }
+}
+
 class Joystick {
   public:
-    explicit Joystick(int id) : id_(id), joystick_(SDL_JoystickOpen(id)) {
+    explicit Joystick(int id) : id_(id), joystick_(SDL_JoystickOpen(id))
+      , numHats_(0) {
       if (joystick_ == NULL) {
         throw "Failed to open joystick";
       }
 
+      numHats_ = SDL_JoystickNumHats(joystick_);
+
       SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
                   "Opened joystick %s on %d: #axes: %d /"
-                  " #buttons: %d / #balls: %d",
+                  " #buttons: %d / #balls: %d / #hats: %d",
                   SDL_JoystickNameForIndex(id_),
                   id_,
                   SDL_JoystickNumAxes(joystick_),
                   SDL_JoystickNumButtons(joystick_),
-                  SDL_JoystickNumBalls(joystick_));
+                  SDL_JoystickNumBalls(joystick_),
+                  numHats_);
     }
 
     ~Joystick() {
-      if (SDL_JoystickGetAttached(joystick_) == SDL_TRUE) {
+      if (IsAttached()) {
         SDL_JoystickClose(joystick_);
         joystick_ = NULL;
       }
     }
 
+    bool IsAttached() const {
+      return SDL_JoystickGetAttached(joystick_) == SDL_TRUE;
+    }
+
+    void SendPov(Game* game) {
+      if (IsAttached()) {
+        for (int i = 0; i < numHats_; ++i) {
+          const Uint8 hat = SDL_JoystickGetHat(joystick_, i);
+          const Posi values = GetHatValues(hat);
+          game->OnAxis(Axis::JoystickPovX, id_,
+                       static_cast<float>(values.first));
+          game->OnAxis(Axis::JoystickPovY, id_,
+                       static_cast<float>(values.second));
+        }
+      }
+    }
+
   private:
     int id_;
+    int numHats_;
     SDL_Joystick* joystick_;
 };
 
@@ -709,10 +758,6 @@ Axis::Type ToAxis(SDL_JoyAxisEvent joy) {
       return Axis::JoystickU;
     case 5:
       return Axis::JoystickV;
-    case 6:
-      return Axis::JoystickPovX;
-    case 7:
-      return Axis::JoystickPovY;
     default:
       assert(0 && "Invalid joystick axis");
       return Axis::MouseY;
@@ -838,6 +883,9 @@ void logic() {
           SDL_SetRelativeMouseMode(lock ? SDL_TRUE : SDL_FALSE);
         }
       }
+    }
+    for (auto js : joysticks) {
+      js->SendPov(&game);
     }
 
     const float size = static_cast<float>(std::max(primaryscreen->height(),

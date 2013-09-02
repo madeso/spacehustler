@@ -29,10 +29,10 @@
 			, {"action":"roll-","key":"JoystickX+", "device":0}
 			, {"action":"reset","key":"R", "device":0}
 			, {"action":"quit", "key":"Esc", "device":0}
-			, {"action":"camright", "key":"JoystickPovY+", "device":0}
-			, {"action":"camleft", "key":"JoystickPovY-", "device":0}
-			, {"action":"camup", "key":"JoystickPovX+", "device":0}
-			, {"action":"camdown", "key":"JoystickPovX-", "device":0}
+			, {"action":"camright", "key":"JoystickPovX+", "device":0}
+			, {"action":"camleft", "key":"JoystickPovX-", "device":0}
+			, {"action":"camup", "key":"JoystickPovY+", "device":0}
+			, {"action":"camdown", "key":"JoystickPovY-", "device":0}
 		]
 	}
 ]
