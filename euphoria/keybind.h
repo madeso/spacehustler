@@ -106,8 +106,10 @@ class KeybindList {
     /** Load key binds from a file.
     @param actions the action map
     @param filename the filename where to load from
+    @param keybindName the name of the keybindgroup to load
      */
-    void Load(ActionMap* actions, const std::string& filename);
+    void Load(ActionMap* actions, const std::string& filename,
+              const std::string& keybindName);
 
     /** React on press or release of a key.
     @param key the key

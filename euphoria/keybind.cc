@@ -97,7 +97,8 @@ KeybindList::KeybindList() {
   assert(this);
 }
 
-void KeybindList::Load(ActionMap* actions, const std::string& filename) {
+void KeybindList::Load(ActionMap* actions, const std::string& filename,
+                       const std::string& keybindName) {
   assert(this);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
@@ -113,7 +114,7 @@ void KeybindList::Load(ActionMap* actions, const std::string& filename) {
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value item = root[i];
     const std::string name = item.get("name", "").asString();
-    if (name == "default") {
+    if (name == keybindName) {
       Json::Value keybind = item["keys"];
       for (Json::ArrayIndex i = 0; i < keybind.size(); ++i) {
         Json::Value va = keybind[i];

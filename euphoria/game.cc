@@ -32,7 +32,7 @@ namespace {
   }
 }
 
-Game::Game(int width, int height)
+Game::Game(int width, int height, const std::string& keybindName)
   : keep_running_(true) {
   assert(this);
 
@@ -71,7 +71,7 @@ Game::Game(int width, int height)
   actions_.reset(new ActionMap("actions.js", script_.get()));
 
   keybinds_.reset(new KeybindList());
-  keybinds_->Load(actions_.get(), "keys.js");
+  keybinds_->Load(actions_.get(), "keys.js", keybindName);
 
   camera_.reset(new Camera());
   camera_->set_fov(45);

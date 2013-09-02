@@ -8,6 +8,8 @@ Settings related code.
 #ifndef EUPHORIA_SETTINGS_H_
 #define EUPHORIA_SETTINGS_H_
 
+#include <string>
+
 /** Class to store global settings.
  */
 class Settings {
@@ -36,11 +38,17 @@ class Settings {
      */
     const bool fullscreen() const;
 
+    /** The name of the control scheme.
+    @returns the name of the scheme.
+     */
+    const std::string constrolScheme() const;
+
   private:
     bool blackout_;
     int width_;
     int height_;
     bool fullscreen_;
+    std::string controlScheme_;
 };
 
 

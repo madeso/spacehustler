@@ -9,7 +9,8 @@ Settings::Settings()
   : blackout_(false)
   , width_(800)
   , height_(600)
-  , fullscreen_(false) {
+  , fullscreen_(false)
+  , controlScheme_("keyboard") {
   assert(this);
 }
 
@@ -31,4 +32,9 @@ const int Settings::height() const {
 const bool Settings::fullscreen() const {
   assert(this);
   return fullscreen_;
+}
+
+const std::string Settings::constrolScheme() const {
+  assert(this);
+  return controlScheme_;
 }

@@ -9,6 +9,7 @@ Game related code.
 #define EUPHORIA_GAME_H_
 
 #include <memory>
+#include <string>
 
 #include "euphoria/keybind.h"
 
@@ -34,7 +35,7 @@ class Game {
   public:
     /** Constructor.
      */
-    Game(int width, int height);
+    Game(int width, int height, const std::string& keybindName);
     ~Game();
 
     /** Returns if the game should keep running.
