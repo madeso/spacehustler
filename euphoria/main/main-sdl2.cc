@@ -731,6 +731,7 @@ Axis::Type ToAxis(SDL_JoyAxisEvent joy) {
 void logic() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
+  settings.Load();
 
   Sdl sdl;
   SDL_DisableScreenSaver();

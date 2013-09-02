@@ -4,6 +4,10 @@
 #include "euphoria/settings.h"
 
 #include <cassert>
+#include <fstream> // NOLINT for loading data
+#include <stdexcept>
+#include "euphoria/str.h"
+#include "json/json.h"
 
 Settings::Settings()
   : blackout_(false)
@@ -12,6 +16,29 @@ Settings::Settings()
   , fullscreen_(false)
   , controlScheme_("keyboard") {
   assert(this);
+}
+
+void Settings::Load() {
+  assert(this);
+
+  /// @todo move this file to userspace
+  const std::string filename = "settings.js";
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    return;
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+                           << reader.getFormattedErrorMessages());
+  }
+
+  blackout_ = root.get("blackout", blackout()).asBool();
+  width_ = root.get("width", width()).asInt();
+  height_ = root.get("height", height()).asInt();
+  fullscreen_ = root.get("fullscreen", fullscreen()).asBool();
+  controlScheme_ = root.get("controlscheme", constrolScheme()).asString();
 }
 
 const bool Settings::blackout() const {

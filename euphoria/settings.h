@@ -18,6 +18,10 @@ class Settings {
      */
     Settings();
 
+    /** Load settings.
+     */
+    void Load();
+
     /** Blackout screens other than the main one.
     @returns true if it is supposed to blackou, false if not
      */

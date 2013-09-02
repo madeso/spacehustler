@@ -18,7 +18,7 @@
 		]
 	}
 	,{
-		"name": "default"
+		"name": "joystick"
 		,"keys": [
 			{"action":"force", "key":"JoystickZ", "device":0, "invert":true}
 			, {"action":"yaw+", "key":"JoystickR+", "device":0}
