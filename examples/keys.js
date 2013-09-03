@@ -3,12 +3,12 @@
 		"name": "keyboard"
 		,"keys": [
 			{"action":"force", "key":"Space", "device":0}
-			, {"action":"yaw+", "key":"D", "device":0}
-			, {"action":"yaw-", "key":"A", "device":0}
+			, {"action":"yaw+", "key":"E", "device":0}
+			, {"action":"yaw-", "key":"Q", "device":0}
 			, {"action":"pitch+", "key":"W", "device":0}
 			, {"action":"pitch-", "key":"S", "device":0}
-			, {"action":"roll+","key":"Q", "device":0}
-			, {"action":"roll-","key":"E", "device":0}
+			, {"action":"roll+","key":"A", "device":0}
+			, {"action":"roll-","key":"D", "device":0}
 			, {"action":"reset","key":"R", "device":0}
 			, {"action":"quit", "key":"Esc", "device":0}
 			, {"action":"camright", "key":"MouseX+", "device":0}
