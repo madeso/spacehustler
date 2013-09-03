@@ -5,9 +5,9 @@
 
 #include <cassert>
 
-Camera::Camera()
+Camera::Camera(int width, int height)
   : fov_(45.0f)
-  , aspect_(800.0f / 600)
+  , aspect_(static_cast<float>(width) / height)
   , znear_(0.1f)
   , zfar_(100.0f) {
   view_ = cmat44(cvec3zero(), cquatIdent());

@@ -22,7 +22,7 @@
 #include "euphoria/keybind.h"
 #include "euphoria/entity.h"
 #include "euphoria/systems.h"
-
+#include "euphoria/settings.h"
 #include "euphoria/tweak.h"
 
 namespace {
@@ -32,7 +32,7 @@ namespace {
   }
 }
 
-Game::Game(int width, int height, const std::string& keybindName)
+Game::Game(const Settings& settings)
   : keep_running_(true) {
   assert(this);
 
@@ -47,7 +47,7 @@ Game::Game(int width, int height, const std::string& keybindName)
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
-  TwWindowSize(width, height);
+  TwWindowSize(settings.width(), settings.height());
 #endif
 
   ogldebug_.reset(new OglDebug(OglDebug::IsSupported()));
@@ -71,9 +71,9 @@ Game::Game(int width, int height, const std::string& keybindName)
   actions_.reset(new ActionMap("actions.js", script_.get()));
 
   keybinds_.reset(new KeybindList());
-  keybinds_->Load(actions_.get(), "keys.js", keybindName);
+  keybinds_->Load(actions_.get(), "keys.js", settings.control_scheme());
 
-  camera_.reset(new Camera());
+  camera_.reset(new Camera(settings.width(), settings.height()));
   camera_->set_fov(45);
   camera_->set_near_far(0.1f, 800.0f);
 

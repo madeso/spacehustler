@@ -851,7 +851,7 @@ void logic() {
   Timer timer;
 
   context.MakeCurrent();
-  Game game(settings.width(), settings.height(), settings.control_scheme());
+  Game game(settings);
 
   while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();

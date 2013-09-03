@@ -16,8 +16,10 @@ Camera related code.
 class Camera {
   public:
     /** Constructs a new camera.
+    @param width the width of the rendering area
+    @param height the height of the rendering area
      */
-    Camera();
+    Camera(int width, int height);
 
     /** Gets the view matrix.
     @returns the view matrix.

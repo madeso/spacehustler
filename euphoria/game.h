@@ -24,6 +24,7 @@ class ActionMap;
 class Camera;
 class SystemContainer;
 class EntityList;
+class Settings;
 
 #ifdef USE_TWEAKABLES
 class TweakerStore;
@@ -34,8 +35,9 @@ class TweakerStore;
 class Game {
   public:
     /** Constructor.
+    @param settings the settings
      */
-    Game(int width, int height, const std::string& keybindName);
+    explicit Game(const Settings& settings);
     ~Game();
 
     /** Returns if the game should keep running.
