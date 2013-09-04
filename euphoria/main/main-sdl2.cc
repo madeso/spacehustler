@@ -726,7 +726,8 @@ Axis::Type ToAxis(SDL_JoyAxisEvent joy) {
 int FindOculusDisplay(const VideoDisplays& displays) {
   for (size_t i = 0; i < displays.displays().size(); ++i) {
     DisplayInfo di = displays.displays()[i];
-    if (di.name() == "Rift DK1") {
+    if (di.name() == "Rift DK1" || di.name() == "Rift DK"
+        || (di.width() == 1280 && di.height() == 720)) {
       return i;
     }
   }

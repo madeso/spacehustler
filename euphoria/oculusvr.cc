@@ -26,10 +26,38 @@ struct OculusVr::OculusVrPimpl {
               .CreateDevice();
     if (device_.GetPtr() != NULL) {
       device_->GetDeviceInfo(&device_info_);
-    }
-    else {
+    } else {
       // no device is connected, setup dummy values for testing
-      // without a coulus connected.
+      // without a oculus connected.
+      device_info_.Type = OVR::Device_HMD;
+      strncpy(device_info_.ProductName, "Oculus Rift DK1",
+              OVR::DeviceInfo::MaxNameLength);
+      strncpy(device_info_.Manufacturer, "Oculus VR",
+              OVR::DeviceInfo::MaxNameLength);
+      device_info_.Version = 0;
+
+      device_info_.HResolution = 1280;
+      device_info_.VResolution = 800;
+      device_info_.HScreenSize = 0.149759993f;
+      device_info_.VScreenSize = 0.0935999975f;
+      device_info_.VScreenCenter = 0.0467999987f;
+      device_info_.EyeToScreenDistance = 0.0410000011f;
+      device_info_.LensSeparationDistance = 0.0635000020f;
+      device_info_.InterpupillaryDistance = 0.0625000000f;
+      device_info_.DesktopX = -1280;
+      device_info_.DesktopY = 480;
+      device_info_.DisplayId = 0;
+
+      device_info_.DistortionK[0] = 1.00000000f;
+      device_info_.DistortionK[1] = 0.219999999f;
+      device_info_.DistortionK[2] = 0.239999995f;
+      device_info_.DistortionK[3] = 0.000000000f;
+      device_info_.ChromaAbCorrection[0] = 0.995999992f;
+      device_info_.ChromaAbCorrection[1] = -0.00400000019f;
+      device_info_.ChromaAbCorrection[2] = 1.01400006f;
+      device_info_.ChromaAbCorrection[3] = 0.000000000f;
+      strncpy(device_info_.DisplayDeviceName,
+              "\\\\.\\DISPLAY3\\Monitor0", 32);
     }
     stereo_config_.SetFullViewport(OVR::Util::Render::Viewport(0, 0,
                                    Width, Height));
