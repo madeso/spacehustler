@@ -54,6 +54,10 @@ include_directories("external/glew")
 include_directories("external/anttweakbar/include")
 include_directories("external/lua")
 
+IF(USE_OCULUS)
+	include_directories("external/LibOVR/Include")
+ENDIF(USE_OCULUS)
+
 include_directories(${ASSIMP_INCLUDE_DIR})
 include_directories(${BULLET_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR})

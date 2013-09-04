@@ -24,6 +24,7 @@
 #include "euphoria/systems.h"
 #include "euphoria/settings.h"
 #include "euphoria/tweak.h"
+#include "euphoria/oculusvr.h"
 
 namespace {
   Game*& GameInstance() {
@@ -87,6 +88,8 @@ Game::Game(const Settings& settings, bool renderoculus)
   entities_->AddDefs(container_.get(), "entity.js");
 
   LoadEntities(entities_.get(), "entities.js");
+
+  oculusvr_.reset(new OculusVr());
 
   OglDebug::Verify();
   istweaking_ = true;
