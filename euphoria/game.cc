@@ -32,8 +32,9 @@ namespace {
   }
 }
 
-Game::Game(const Settings& settings)
-  : keep_running_(true) {
+Game::Game(const Settings& settings, bool renderoculus)
+  : keep_running_(true)
+  , renderoculus_(renderoculus) {
   assert(this);
 
   const GLenum err = glewInit();
@@ -116,8 +117,17 @@ void Game::Render() {
   glClearColor(0, 0, 0, 1);  // black
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  world_->Render(*camera_.get());
+  if (renderoculus_) {
+    // create left and right camera
+    SubRender(*camera_.get());
+  } else {
+    SubRender(*camera_.get());
+  }
+}
 
+void Game::SubRender(const Camera& camera) {
+  assert(this);
+  world_->Render(camera);
   if (istweaking_) {
     RUNTWEAKCODE(TwDraw());
   }

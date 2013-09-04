@@ -36,8 +36,9 @@ class Game {
   public:
     /** Constructor.
     @param settings the settings
+    @param renderoculus true if to render oculus ready data
      */
-    explicit Game(const Settings& settings);
+    Game(const Settings& settings, bool renderoculus);
     ~Game();
 
     /** Returns if the game should keep running.
@@ -81,6 +82,7 @@ class Game {
     void Quit();
 
   private:
+    void SubRender(const Camera& camera);
     bool keep_running_;
     std::unique_ptr<OglDebug> ogldebug_;
     std::unique_ptr<TextureCache> texturecache_;
@@ -93,6 +95,7 @@ class Game {
     std::unique_ptr<SystemContainer> container_;
     std::unique_ptr<EntityList> entities_;
     bool istweaking_;
+    bool renderoculus_;
 #ifdef USE_TWEAKABLES
     std::unique_ptr<TweakerStore> tweakers_;
 #endif

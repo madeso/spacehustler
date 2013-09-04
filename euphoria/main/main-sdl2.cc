@@ -851,7 +851,7 @@ void logic() {
   Timer timer;
 
   context.MakeCurrent();
-  Game game(settings);
+  Game game(settings, renderoculus);
 
   while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();
