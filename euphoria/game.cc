@@ -92,7 +92,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   oculusvr_.reset(new OculusVr());
 
   OglDebug::Verify();
-  istweaking_ = true;
+  istweaking_ = false;
 
   RUNTWEAKCODE(tweakers_.reset(new TweakerStore()));
 
@@ -116,12 +116,27 @@ bool Game::keep_running() const {
 void ModifyCamera(Camera* cam, const EyeSetup& eye) {
   const mat44 va = eye.view_adjust();
   mat44 vaa = va;
-  cml::matrix_set_translation(vaa, cml::matrix_get_translation(va));
+  cml::matrix_set_translation(vaa, cml::matrix_get_translation(va) * 10);
 
   // eye.projection()
 
-  cam->set_projection(vaa * cam->projection() * eye.projection());
-  // cam->set_view(cam->view() * vaa);
+  // cam->projection()
+  // cam->set_projection(eye.projection() * cam->projection());
+  cam->set_view(vaa * cam->view());
+}
+
+void SubRender(World* world, const Camera& camera) {
+  world->Render(camera);
+  //   if (istweaking_) {
+  //     RUNTWEAKCODE(TwDraw());
+  //   }
+}
+
+void RenderEye(Camera camera, const EyeSetup& eye, World* world) {
+  Camera cam(camera);
+  ModifyCamera(&cam, eye);
+  glViewport(eye.x(), eye.y(), eye.w(), eye.h());
+  SubRender(world, cam);
 }
 
 void Game::Render() {
@@ -134,20 +149,10 @@ void Game::Render() {
 
   if (renderoculus_) {
     // create left and right camera
-    const auto left = oculusvr_->LeftEye();
-    Camera cam(*camera_.get());
-    ModifyCamera(&cam, left);
-    SubRender(cam);
+    RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get());
+    RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get());
   } else {
-    SubRender(*camera_.get());
-  }
-}
-
-void Game::SubRender(const Camera& camera) {
-  assert(this);
-  world_->Render(camera);
-  if (istweaking_) {
-    RUNTWEAKCODE(TwDraw());
+    SubRender(world_.get(), *camera_.get());
   }
 }
 

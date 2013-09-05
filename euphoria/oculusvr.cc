@@ -113,8 +113,8 @@ struct OculusVr::OculusVrPimpl {
     // Left eye rendering parameters
     auto vp = leftEye.VP;
 
-    const float Width = device_info_.HResolution;
-    const float Height = device_info_.VResolution;
+    const float Width = 1.0f;  // device_info_.HResolution;
+    const float Height = 1.0f;  // device_info_.VResolution;
 
     auto projection = leftEye.Projection;
     auto viewAdjust = leftEye.ViewAdjust;

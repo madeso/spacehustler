@@ -83,7 +83,6 @@ class Game {
     void Quit();
 
   private:
-    void SubRender(const Camera& camera);
     bool keep_running_;
     std::unique_ptr<OglDebug> ogldebug_;
     std::unique_ptr<TextureCache> texturecache_;
