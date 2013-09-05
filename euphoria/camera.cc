@@ -51,6 +51,6 @@ void Camera::set_near_far(float near, float far) {
 
 void Camera::UpdateProjection() {
   assert(this);
-  cml::matrix_perspective_xfov_LH(projection_, fov_, aspect_, znear_, zfar_,
+  cml::matrix_perspective_xfov_RH(projection_, fov_, aspect_, znear_, zfar_,
                                   cml::z_clip_zero);
 }
