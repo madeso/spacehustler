@@ -16,6 +16,55 @@ Oculus VR related integration code.
 /** Oculus VR data for a eye.
  */
 class EyeSetup {
+  public:
+    /** Constructor.
+    @param w the width of the viewport
+    @param h the height of the viewport
+    @param x the X of the viewport
+    @param y the Y of the viewport
+    @param projection the projection matrix used with this eye.
+    @param view_adjust the translation to be applied to view matrix.
+     */
+    EyeSetup(float w, float h, float x, float y, const mat44& projection,
+             const mat44& view_adjust);
+
+    /** Get the width of the viewport
+    @return the width of the viewport
+     */
+    float w() const;
+
+    /** Get the height of the viewport
+    @return the height of the viewport
+     */
+    float h() const;
+
+    /** Get the X of the viewport
+    @return the X of the viewport
+     */
+    float x() const;
+
+    /** Get the Y of the viewport
+    @return the Y of the viewport
+     */
+    float y() const;
+
+    /** Get the projection matrix used with this eye.
+    @return the projection matrix used with this eye.
+     */
+    const mat44& projection() const;
+
+    /** Get the translation to be applied to view matrix.
+    @return the translation to be applied to view matrix.
+     */
+    const mat44& view_adjust() const;
+
+  private:
+    float w_;
+    float h_;
+    float x_;
+    float y_;
+    mat44 projection_;
+    mat44 view_adjust_;
 };
 
 /** A util class for integration of the oculus vr kit.

@@ -36,6 +36,11 @@ class Camera {
      */
     const mat44 projection() const;
 
+    /** Set the projection matrix.
+    @param projection the new projection matrix.
+     */
+    void set_projection(const mat44& projection);
+
     /** Set the new Field of view.
     @param fov the new FOV.
      */

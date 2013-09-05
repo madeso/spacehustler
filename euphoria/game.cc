@@ -113,8 +113,20 @@ bool Game::keep_running() const {
   return keep_running_;
 }
 
+void ModifyCamera(Camera* cam, const EyeSetup& eye) {
+  const mat44 va = eye.view_adjust();
+  mat44 vaa = va;
+  cml::matrix_set_translation(vaa, cml::matrix_get_translation(va));
+
+  // eye.projection()
+
+  cam->set_projection(vaa * cam->projection() * eye.projection());
+  // cam->set_view(cam->view() * vaa);
+}
+
 void Game::Render() {
   assert(this);
+  assert(oculusvr_);
   OglDebug::Verify();
 
   glClearColor(0, 0, 0, 1);  // black
@@ -122,7 +134,10 @@ void Game::Render() {
 
   if (renderoculus_) {
     // create left and right camera
-    SubRender(*camera_.get());
+    const auto left = oculusvr_->LeftEye();
+    Camera cam(*camera_.get());
+    ModifyCamera(&cam, left);
+    SubRender(cam);
   } else {
     SubRender(*camera_.get());
   }

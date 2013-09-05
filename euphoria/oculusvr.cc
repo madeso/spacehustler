@@ -7,6 +7,43 @@
 
 #include "OVR.h"  // NOLINT this is how you should include OVR
 
+EyeSetup::EyeSetup(float w, float h, float x, float y, const mat44& projection,
+                   const mat44& view_adjust)
+  : w_(w), h_(h), x_(x), y_(y)
+  , projection_(projection), view_adjust_(view_adjust) {
+}
+
+float EyeSetup::w() const {
+  assert(this);
+  return w_;
+}
+float EyeSetup::h() const {
+  assert(this);
+  return h_;
+}
+float EyeSetup::x() const {
+  assert(this);
+  return x_;
+}
+float EyeSetup::y() const {
+  assert(this);
+  return y_;
+}
+const mat44& EyeSetup::projection() const {
+  assert(this);
+  return projection_;
+}
+const mat44& EyeSetup::view_adjust() const {
+  assert(this);
+  return view_adjust_;
+}
+
+mat44 C(OVR::Matrix4f m) {
+  // matrix4f is row-major
+  // mat44 is col major
+  return cml::transpose(mat44(m.M));
+}
+
 struct OculusVr::OculusVrPimpl {
   OVR::Ptr<OVR::DeviceManager> device_manager_;
   OVR::Ptr<OVR::HMDDevice> device_;
@@ -16,11 +53,6 @@ struct OculusVr::OculusVrPimpl {
 
   OculusVrPimpl() {
     /// @todo use correct resolution when creating the stereo
-    int Width = 100;
-    int Height = 100;
-
-    OVR::System::Init(OVR::Log::ConfigureDefaultLog(OVR::LogMask_All));
-
     device_manager_ = *OVR::DeviceManager::Create();
     device_ = *device_manager_->EnumerateDevices<OVR::HMDDevice>()
               .CreateDevice();
@@ -59,6 +91,10 @@ struct OculusVr::OculusVrPimpl {
       strncpy(device_info_.DisplayDeviceName,
               "\\\\.\\DISPLAY3\\Monitor0", 32);
     }
+
+    const int Width = device_info_.HResolution;
+    const int Height = device_info_.VResolution;
+
     stereo_config_.SetFullViewport(OVR::Util::Render::Viewport(0, 0,
                                    Width, Height));
     stereo_config_.SetStereoMode(
@@ -75,17 +111,26 @@ struct OculusVr::OculusVrPimpl {
     const OVR::Util::Render::StereoEyeParams leftEye
       = stereo_config_.GetEyeRenderParams(eyeid);
     // Left eye rendering parameters
-    auto leftVP = leftEye.VP;
-    auto leftProjection = leftEye.Projection;
-    auto leftViewAdjust = leftEye.ViewAdjust;
-    return EyeSetup();
+    auto vp = leftEye.VP;
+
+    const float Width = device_info_.HResolution;
+    const float Height = device_info_.VResolution;
+
+    auto projection = leftEye.Projection;
+    auto viewAdjust = leftEye.ViewAdjust;
+    return EyeSetup(vp.w / Width, vp.h / Height, vp.x / Width, vp.y / Height,
+                    C(projection), C(viewAdjust));
   }
 };
 
-OculusVr::OculusVr() : pimpl_(new OculusVrPimpl()) {
+OculusVr::OculusVr() {
+  OVR::System::Init(OVR::Log::ConfigureDefaultLog(OVR::LogMask_All));
+  pimpl_.reset(new OculusVrPimpl());
 }
 
 OculusVr::~OculusVr() {
+  pimpl_.reset();
+  OVR::System::Destroy();
 }
 
 const EyeSetup OculusVr::LeftEye() {

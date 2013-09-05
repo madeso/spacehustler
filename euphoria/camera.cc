@@ -19,6 +19,11 @@ const mat44 Camera::projection() const {
   return projection_;
 }
 
+void Camera::set_projection(const mat44& projection) {
+  assert(this);
+  projection_ = projection;
+}
+
 void Camera::set_fov(float fov) {
   assert(this);
 
