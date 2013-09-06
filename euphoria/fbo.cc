@@ -11,22 +11,22 @@
 #include "euphoria/texture.h"
 
 RenderBuffer::RenderBuffer(int internalFormat, int width, int height)
-  : buffer(0) {
-  glGenRenderbuffers(1, &buffer);
-  bind();
+  : buffer_(0) {
+  glGenRenderbuffers(1, &buffer_);
+  Bind();
   glRenderbufferStorage(GL_RENDERBUFFER, internalFormat, width, height);
 }
 
 RenderBuffer::~RenderBuffer() {
-  glDeleteRenderbuffers(1, &buffer);
+  glDeleteRenderbuffers(1, &buffer_);
 }
 
-void RenderBuffer::bind() {
-  glBindRenderbuffer(GL_RENDERBUFFER, buffer);
+void RenderBuffer::Bind() {
+  glBindRenderbuffer(GL_RENDERBUFFER, buffer_);
 }
 
-unsigned int RenderBuffer::getBuffer() const {
-  return buffer;
+unsigned int RenderBuffer::buffer() const {
+  return buffer_;
 }
 
 
@@ -47,7 +47,7 @@ Fbo::Fbo(int w, int h, bool mipmap)
 
   depth_buffer_.reset(new RenderBuffer(GL_DEPTH_COMPONENT, width_, height_));
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                            GL_RENDERBUFFER, depth_buffer_->getBuffer());
+                            GL_RENDERBUFFER, depth_buffer_->buffer());
 
   /// @todo investigate if anistropy should be used here to...?
   // for now we just disable it

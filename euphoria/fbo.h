@@ -31,14 +31,14 @@ class RenderBuffer
 
     /** Bind this buffer.
      */
-    void bind();
+    void Bind();
 
     /** Get the buffer id.
     @returns the buffer id
      */
-    unsigned int getBuffer() const;
+    unsigned int buffer() const;
   private:
-    unsigned int buffer;
+    unsigned int buffer_;
 };
 
 /** A frame buffer object.
