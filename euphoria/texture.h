@@ -43,9 +43,46 @@ namespace internal {
   };
 }  // namespace internal
 
-class Bitmap;
+/** Get the maximum level of anistrop this computer supports.
+More info can be found on wikipedia:
+http://en.wikipedia.org/wiki/Anistropic_filtering
+@returns the anistropy level.
+ */
+float GetMaxAnistropy();
+
+/** A general open gl image
+ */
+class Image
+    : boost::noncopyable {
+  public:
+    /** Constructor.
+    @param alpha true if it should contain alpha, false if not
+    @param width the width of the image
+    @param height the height of the image
+    @param bitmapData the bitmap data to use
+    @param mipmap true if to mipmap, false if not
+    @param format the image format
+    @param anistropy the anistropy level
+    @param compress true if image should be compressed, false if not
+     */
+    Image(bool alpha, int width, int height, const char* bitmapData,
+          bool mipmap, int format, float anistropy, bool compress);
+    ~Image();
+
+    /** Bind image to a position.
+    @param position the position
+     */
+    void Bind(int position) const;
+
+    /** Get the texture id.
+     */
+    unsigned int texture() const;
+  private:
+    unsigned int texture_;
+};
 
 /** A OpenGL texture.
+@todo merge with Image
  */
 class Texture {
   public:
@@ -121,3 +158,4 @@ class Texture {
 };
 
 #endif  // EUPHORIA_TEXTURE_H_
+

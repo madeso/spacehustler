@@ -60,6 +60,65 @@ namespace internal {
   }
 }  // namespace internal
 
+
+float GetMaxAnistropy() {
+  GLfloat anisotropy = 1;
+  glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &anisotropy);
+
+  return anisotropy;
+}
+
+Image::Image(bool alpha, int width, int height, const char* bitmapData,
+             bool mipmap, int format, float anistropy, bool compress)
+  : texture_(0) {
+  glGenTextures(1, &texture_);
+
+  Bind(0);
+  const bool supportCompress = GLEW_ARB_texture_compression || GLEW_VERSION_1_3;
+  const bool doCompress = compress && supportCompress;
+  const GLint internalFormat_nc = alpha ? GL_RGBA8 : GL_RGB8;
+  const GLint internalFormat_c = alpha ? GL_COMPRESSED_RGBA : GL_COMPRESSED_RGB;
+  const GLint internalFormat = doCompress ? internalFormat_c
+                               : internalFormat_nc;
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+  const GLint minFilter = mipmap ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anistropy);
+
+  const int gmipmap = mipmap ? GL_TRUE : GL_FALSE;
+  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, gmipmap);
+  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format,
+               GL_UNSIGNED_BYTE, bitmapData);
+
+  if (doCompress) {
+    GLint result = GL_FALSE;
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_COMPRESSED, &result);
+
+    if (result != GL_TRUE) {
+      throw "failed to compress image";
+    }
+  }
+}
+
+Image::~Image() {
+  glDeleteTextures(1, &texture_);
+}
+
+void Image::Bind(int position) const {
+  assert(position >= 0);
+  glActiveTexture(GL_TEXTURE0 + position);
+  glBindTexture(GL_TEXTURE_2D, texture_);
+}
+
+unsigned int Image::texture() const {
+  return texture_;
+}
+
+
 namespace {
   GLint C(Texture::WrapMode mode) {
     switch (mode) {
