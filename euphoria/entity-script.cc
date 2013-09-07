@@ -102,7 +102,7 @@ class ScriptSystem : public System {
 };
 
 
-void AddScriptCallback(CreateSystemArg arg, Json::Value data) {
+void AddScriptCallback(const CreateSystemArg& arg, Json::Value data) {
   const std::string name(data.get("name", "").asString());
   std::shared_ptr<System> sys(new ScriptSystem(data, arg.script));
   arg.container->Add(name, sys);

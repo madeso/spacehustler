@@ -8,6 +8,8 @@ Contains systems loading code.
 #ifndef EUPHORIA_SYSTEMS_H_
 #define EUPHORIA_SYSTEMS_H_
 
+#include <boost/noncopyable.hpp>
+
 #include <string>
 #include <functional>
 #include <map>
@@ -22,10 +24,11 @@ class TextureCache;
 class ShaderCache;
 class Camera;
 class Lua;
+class Settings;
 
 /** Arguments for creating a system.
  */
-class CreateSystemArg {
+class CreateSystemArg : boost::noncopyable {
   public:
     /** Constructor.
     @param acontainer where to put the systems
@@ -34,6 +37,7 @@ class CreateSystemArg {
     @param ashadercache the shader cache
     @param acamera the camera
     @param ascript the lua engine
+    @param asettings the settings
      */
     CreateSystemArg(
       SystemContainer* acontainer,
@@ -41,7 +45,8 @@ class CreateSystemArg {
       TextureCache* atexturecache,
       ShaderCache* ashadercache,
       Camera* acamera,
-      Lua* ascript);
+      Lua* ascript,
+      const Settings& asettings);
 
     /** The system container.
      */
@@ -66,13 +71,17 @@ class CreateSystemArg {
     /** The main lua engine.
      */
     Lua* script;
+
+    /** The settings.
+     */
+    const Settings& settings;
 };
 
 /** Callback function for creating systems.
 First argument is the general arguments.
 Second argument is the per system arguments defined when creating the object.
  */
-typedef std::function<void(CreateSystemArg, Json::Value)> Callback;
+typedef std::function<void(const CreateSystemArg&, Json::Value)> Callback;
 
 /** List of system creators
  */
@@ -102,6 +111,6 @@ class SystemCreatorList {
 @param filename the file to load from
 @param arg the arguments to use.
  */
-void LoadSystems(const std::string& filename, CreateSystemArg arg);
+void LoadSystems(const std::string& filename, const CreateSystemArg& arg);
 
 #endif  // EUPHORIA_SYSTEMS_H_

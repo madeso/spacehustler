@@ -145,13 +145,13 @@ struct Material {
 @todo implement better material + shader loading routine.
  */
 CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
-                           ShaderCache* shadercache) {
+                           ShaderCache* shadercache, const Settings& settings) {
   std::vector<Material> materials;
   for (auto src : mesh.materials) {
     Material m;
     m.texture = texturecache->GetOrCreate(TextureLoadingInstruction(src.texture,
-                                          src.wraps, src.wrapt));
-    m.program = shadercache->GetOrCreate("default.js");
+                                          src.wraps, src.wrapt), settings);
+    m.program = shadercache->GetOrCreate("default.js", settings);
     materials.push_back(m);
   }
 

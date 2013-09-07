@@ -64,7 +64,8 @@ Game::Game(const Settings& settings, bool renderoculus)
 
   texturecache_.reset(new TextureCache());
   shadercache_.reset(new ShaderCache());
-  world_.reset(new World("world.js", texturecache_.get(), shadercache_.get()));
+  world_.reset(new World("world.js", texturecache_.get(), shadercache_.get()
+                         , settings));
 
 
   script_.reset(new Lua());
@@ -82,7 +83,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   container_.reset(new SystemContainer());
   LoadSystems("systemdefs.js", CreateSystemArg(container_.get(), world_.get(),
               texturecache_.get(), shadercache_.get(), camera_.get(),
-              script_.get()));
+              script_.get(), settings));
 
   entities_.reset(new EntityList());
   entities_->AddDefs(container_.get(), "entity.js");

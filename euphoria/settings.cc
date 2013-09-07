@@ -35,7 +35,8 @@ Settings::Settings()
   , fullscreen_(false)
   , control_scheme_("keyboard")
   , primary_display_id_(0)
-  , oculus_vr_detection_(OculusVrDetection::Auto) {
+  , oculus_vr_detection_(OculusVrDetection::Auto)
+  , anistropy_(1.0f) {
   assert(this);
 }
 
@@ -64,6 +65,8 @@ void Settings::Load() {
 
   oculus_vr_detection_ = DetermineOculusVrValue(root.get("oculusvr", "auto")
                          .asString());
+
+  anistropy_ = root.get("anistropy", anistropy()).asFloat();
 }
 
 const bool Settings::blackout() const {
@@ -100,3 +103,8 @@ OculusVrDetection::Type Settings::oculus_vr_detection() const {
   assert(this);
   return oculus_vr_detection_;
 }
+
+float Settings::anistropy() const {
+  assert(this);
+  return anistropy_;
+};

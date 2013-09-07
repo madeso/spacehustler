@@ -13,13 +13,16 @@
 
 #include "euphoria/mesh.h"
 
+class Settings;
+
 const std::string RenderingSystemType = "Rendering";
 
 class RenderType : public ComponentType {
   public:
-    RenderType(const Json::Value& data, TextureCache* tc, ShaderCache* sc) {
+    RenderType(const Json::Value& data, TextureCache* tc, ShaderCache* sc
+               , const Settings& settings) {
       const std::string filename = data.get("file", "").asString();
-      mesh.reset(new CompiledMesh(LoadMesh(filename) , tc, sc));
+      mesh.reset(new CompiledMesh(LoadMesh(filename) , tc, sc, settings));
     }
     std::shared_ptr< CompiledMesh > mesh;
 };
@@ -35,11 +38,12 @@ class RenderObject {
     std::shared_ptr<Instance> instance;
 };
 
-class RenderingSystem : public System {
+class RenderingSystem : public System, boost::noncopyable {
   public:
-    RenderingSystem(World* world, TextureCache* texture_cache,
+    RenderingSystem(const Settings& settings, World* world,
+                    TextureCache* texture_cache,
                     ShaderCache* shader_cache)
-      : world_(world), texture_cache_(texture_cache),
+      : settings_(settings), world_(world), texture_cache_(texture_cache),
         shader_cache_(shader_cache) {
       assert(this);
       assert(world);
@@ -50,7 +54,7 @@ class RenderingSystem : public System {
     ComponentType* AddType(const Json::Value& data) {
       assert(this);
       std::shared_ptr<RenderType> type(new RenderType(data, texture_cache_,
-                                       shader_cache_));
+                                       shader_cache_, settings_));
       types_.push_back(type);
       return type.get();
     }
@@ -75,6 +79,7 @@ class RenderingSystem : public System {
     }
 
   private:
+    const Settings& settings_;
     World* world_;
     TextureCache* texture_cache_;
     ShaderCache* shader_cache_;
@@ -84,9 +89,9 @@ class RenderingSystem : public System {
 };
 
 
-void AddRenderingCallback(CreateSystemArg arg, Json::Value data) {
-  std::shared_ptr<System> sys(new RenderingSystem(arg.world, arg.texturecache,
-                              arg.shadercache));
+void AddRenderingCallback(const CreateSystemArg& arg, Json::Value data) {
+  std::shared_ptr<System> sys(new RenderingSystem(arg.settings, arg.world,
+                              arg.texturecache, arg.shadercache));
   arg.container->Add(RenderingSystemType, sys);
 }
 

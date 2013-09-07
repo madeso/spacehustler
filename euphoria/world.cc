@@ -20,8 +20,9 @@ void Instance::Render(const Camera& camera) {
 }
 
 World::World(const std::string& filename, TextureCache* texturecache,
-             ShaderCache* shadercache) : debug_transforms_(true)
-  , debug_renderer_(shadercache) {
+             ShaderCache* shadercache, const Settings& settings)
+  : debug_transforms_(true)
+  , debug_renderer_(shadercache, settings) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
@@ -45,7 +46,7 @@ World::World(const std::string& filename, TextureCache* texturecache,
 
     std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(LoadMesh(meshfile),
                                          texturecache,
-                                         shadercache));
+                                         shadercache, settings));
     mat44 worldmat = cmat44(cvec3zero());
 
     std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));

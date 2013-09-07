@@ -56,9 +56,10 @@ class World {
     @param filename the file to load from
     @param texturecache the texture cache to load from
     @param shadercache the shader cache to load from
+    @param settings the settings to use
      */
     World(const std::string& filename, TextureCache* texturecache,
-          ShaderCache* shadercache);
+          ShaderCache* shadercache, const Settings& settings);
 
     /** Add a instance to the world.
     @param instance the instance to add.

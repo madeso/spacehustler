@@ -24,13 +24,15 @@ CreateSystemArg::CreateSystemArg(SystemContainer* acontainer,
                                  TextureCache* atexturecache,
                                  ShaderCache* ashadercache,
                                  Camera* acamera,
-                                 Lua* ascript) :
+                                 Lua* ascript,
+                                 const Settings& asettings) :
   container(acontainer),
   world(aworld),
   texturecache(atexturecache),
   shadercache(ashadercache),
   camera(acamera),
-  script(ascript) {
+  script(ascript),
+  settings(asettings) {
   assert(container);
   assert(world);
   assert(texturecache);
@@ -58,7 +60,7 @@ Callback SystemCreatorList::Get(const std::string& name) const {
   return r->second;
 }
 
-void LoadSystems(const std::string& filename, CreateSystemArg arg) {
+void LoadSystems(const std::string& filename, const CreateSystemArg& arg) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()

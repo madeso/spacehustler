@@ -71,7 +71,7 @@ class CameraSystem : public System {
     std::vector<CameraObject> objects_;
 };
 
-void AddCameraCallback(CreateSystemArg arg, Json::Value data) {
+void AddCameraCallback(const CreateSystemArg& arg, Json::Value data) {
   assert(arg.container);
   assert(arg.camera);
   std::shared_ptr<System> sys(new CameraSystem(arg.camera));

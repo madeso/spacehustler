@@ -13,14 +13,16 @@ ShaderCache::ShaderCache() {
 
 namespace {
   struct ShaderCreator {
-    std::shared_ptr<Program> operator()(const std::string& path) {
+    std::shared_ptr<Program> operator()(const std::string& path
+                                        , const Settings&) {
       return LoadShaderFromFile(path);
     }
   };
 }  // namespace
 
-std::shared_ptr<Program> ShaderCache::GetOrCreate(const std::string& path) {
+std::shared_ptr<Program> ShaderCache::GetOrCreate(const std::string& path
+    , const Settings& settings) {
   assert(this);
   static ShaderCreator c;
-  return Cache_Get(&cache_, c, path);
+  return Cache_Get(&cache_, c, path, settings);
 }

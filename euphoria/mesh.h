@@ -185,9 +185,10 @@ class CompiledMesh {
     @param mesh the MeshPart to compile.
     @param texturecache the cache from where to get the textures from
     @param shadercache the cache from where to get the shaders from
+    @param settings the settings to use
      */
     explicit CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
-                          ShaderCache* shadercache);
+                          ShaderCache* shadercache, const Settings& settings);
 
     /** Render the mesh.
       @param camera through the camera.

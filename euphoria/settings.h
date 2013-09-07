@@ -67,6 +67,12 @@ class Settings {
      */
     OculusVrDetection::Type oculus_vr_detection() const;
 
+    /** Gets the anistropy settings.
+    http://en.wikipedia.org/wiki/Anistropic_filtering
+    @returns the anistropy settings
+     */
+    float anistropy() const;
+
   private:
     bool blackout_;
     int width_;
@@ -75,6 +81,7 @@ class Settings {
     std::string control_scheme_;
     int primary_display_id_;
     OculusVrDetection::Type oculus_vr_detection_;
+    float anistropy_;
 };
 
 

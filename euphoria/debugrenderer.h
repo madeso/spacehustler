@@ -17,13 +17,17 @@ Debug rendering.
 #include "euphoria/shadercache.h"
 #include "euphoria/camera.h"
 
+class Settings;
+
 /** The debug renderer.
  */
 class DebugRenderer {
   public:
     /** Constructor.
+    @param shadercache the shader cache
+    @param settings the settings to use
      */
-    explicit DebugRenderer(ShaderCache* shadercache);
+    DebugRenderer(ShaderCache* shadercache, const Settings& settings);
 
     /** Add a line.
     @param f the from point

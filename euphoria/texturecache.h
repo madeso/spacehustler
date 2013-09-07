@@ -13,6 +13,8 @@ Texture cache related code.
 #include <map>
 #include "euphoria/texture.h"
 
+class Settings;
+
 /** Instructions on how to load a texture.
  */
 class TextureLoadingInstruction {
@@ -54,10 +56,11 @@ class TextureCache {
 
     /** Get or create a new texture.
     @param instructions the instructions on how to load the texture.
+    @param settings the settings to use
     @returns the texture.
      */
     std::shared_ptr<Texture> GetOrCreate(
-      const TextureLoadingInstruction& instructions);
+      const TextureLoadingInstruction& instructions, const Settings& settings);
   private:
     std::map<TextureLoadingInstruction, std::weak_ptr<Texture> > cache_;
 };

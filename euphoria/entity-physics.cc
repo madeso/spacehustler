@@ -315,7 +315,7 @@ class PhysicsSystem : public System {
 
 PhysicsSystem* PhysicsSystem::globalInstance = 0;
 
-void AddPhysicsCallback(CreateSystemArg arg, Json::Value data) {
+void AddPhysicsCallback(const CreateSystemArg& arg, Json::Value data) {
   assert(arg.container);
   std::shared_ptr<System> sys(new PhysicsSystem(arg.world));
   arg.container->Add(PhysicsSystemType, sys);

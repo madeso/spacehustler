@@ -84,7 +84,7 @@ class NameSystem : public System {
     std::map<std::string, Entity*> entities_;
 };
 
-void AddNameCallback(CreateSystemArg arg, Json::Value data) {
+void AddNameCallback(const CreateSystemArg& arg, Json::Value data) {
   assert(arg.container);
   assert(arg.camera);
   std::shared_ptr<System> sys(new NameSystem());

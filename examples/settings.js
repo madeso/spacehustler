@@ -3,4 +3,5 @@
 	, "width": 1280
 	, "height": 800
 	, "oculusvr": "auto"
+	, "anistropy": 1.0
 }

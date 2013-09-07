@@ -6,6 +6,7 @@
 #include <string>
 
 #include "euphoria/cache.h"
+#include "euphoria/settings.h"
 
 TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
     Texture::WrapMode wraps,
@@ -33,28 +34,25 @@ TextureCache::TextureCache() {
 namespace {
   struct TextureCreator {
     std::shared_ptr<Texture> operator()(
-      const TextureLoadingInstruction& instructions) {
+      const TextureLoadingInstruction& instructions, const Settings& settings) {
       ImageData data(instructions.file);
 
-      const float max = GetMaxAnistropy();
-
       /// @todo include anistropy in instructions.
-      float anistropy = max;
       std::shared_ptr<Texture> ret(new Texture(data,
                                    Texture::kType_CompressedRgb,
                                    instructions.wraps,
                                    instructions.wrapt,
                                    Texture::kFilter_Linear,
-                                   anistropy));
+                                   settings.anistropy()));
       return ret;
     }
   };
 }  // namespace
 
 std::shared_ptr<Texture> TextureCache::GetOrCreate(
-  const TextureLoadingInstruction& instructions) {
+  const TextureLoadingInstruction& instructions, const Settings& settings) {
   assert(this);
   static TextureCreator c;
   return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(&cache_,
-         c, instructions);
+         c, instructions, settings);
 }

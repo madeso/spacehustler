@@ -5,9 +5,9 @@
 #include <cassert>
 #include <vector>
 
-DebugRenderer::DebugRenderer(ShaderCache* shadercache)
+DebugRenderer::DebugRenderer(ShaderCache* shadercache, const Settings& settings)
   : linecount_(0) {
-  prog_ = shadercache->GetOrCreate("debuglines.js");
+  prog_ = shadercache->GetOrCreate("debuglines.js", settings);
 }
 
 namespace {
