@@ -34,11 +34,18 @@ namespace {
   struct TextureCreator {
     std::shared_ptr<Texture> operator()(
       const TextureLoadingInstruction& instructions) {
-      std::shared_ptr<Texture> ret(new Texture(instructions.file,
+      ImageData data(instructions.file);
+
+      const float max = GetMaxAnistropy();
+
+      /// @todo include anistropy in instructions.
+      float anistropy = max;
+      std::shared_ptr<Texture> ret(new Texture(data,
                                    Texture::kType_CompressedRgb,
                                    instructions.wraps,
                                    instructions.wrapt,
-                                   Texture::kFilter_Linear));
+                                   Texture::kFilter_Linear,
+                                   anistropy));
       return ret;
     }
   };

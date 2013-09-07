@@ -8,6 +8,53 @@
 
 #include "soil/SOIL.h"
 
+/** @todo change file loading to use a VFS instead.
+   */
+ImageData::ImageData(const std::string& path)
+  : width_(0), height_(0), channels_(0), pixels_(0) {
+  assert(this);
+
+  pixels_ = SOIL_load_image(path.c_str(), &width_, &height_,
+                            &channels_, SOIL_LOAD_RGBA);
+
+  if (pixels_ == 0) {
+    const std::string error = SOIL_last_result();
+    throw "Failed to load b/c " + error;
+  }
+}
+
+ImageData::ImageData(int width, int height, int channels)
+  : width_(width), height_(height), channels_(channels), pixels_(0) {
+  assert(this);
+}
+
+ImageData::~ImageData() {
+  assert(this);
+  if (pixels_) {
+    SOIL_free_image_data(pixels_);
+  }
+}
+
+int ImageData::width() const {
+  assert(this);
+  return width_;
+}
+
+int ImageData::height() const {
+  assert(this);
+  return height_;
+}
+
+int ImageData::channels() const {
+  assert(this);
+  return channels_;
+}
+
+unsigned char* ImageData::pixels() const {
+  assert(this);
+  return pixels_;
+}
+
 namespace {
   typedef unsigned char Byte;
   struct Soil {
@@ -68,57 +115,6 @@ float GetMaxAnistropy() {
   return anisotropy;
 }
 
-Image::Image(bool alpha, int width, int height, const char* bitmapData,
-             bool mipmap, int format, float anistropy, bool compress)
-  : texture_(0) {
-  glGenTextures(1, &texture_);
-
-  Bind(0);
-  const bool supportCompress = GLEW_ARB_texture_compression || GLEW_VERSION_1_3;
-  const bool doCompress = compress && supportCompress;
-  const GLint internalFormat_nc = alpha ? GL_RGBA8 : GL_RGB8;
-  const GLint internalFormat_c = alpha ? GL_COMPRESSED_RGBA : GL_COMPRESSED_RGB;
-  const GLint internalFormat = doCompress ? internalFormat_c
-                               : internalFormat_nc;
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-  const GLint minFilter = mipmap ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anistropy);
-
-  const int gmipmap = mipmap ? GL_TRUE : GL_FALSE;
-  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, gmipmap);
-  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format,
-               GL_UNSIGNED_BYTE, bitmapData);
-
-  if (doCompress) {
-    GLint result = GL_FALSE;
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_COMPRESSED, &result);
-
-    if (result != GL_TRUE) {
-      throw "failed to compress image";
-    }
-  }
-}
-
-Image::~Image() {
-  glDeleteTextures(1, &texture_);
-}
-
-void Image::Bind(int position) const {
-  assert(position >= 0);
-  glActiveTexture(GL_TEXTURE0 + position);
-  glBindTexture(GL_TEXTURE_2D, texture_);
-}
-
-unsigned int Image::texture() const {
-  return texture_;
-}
-
-
 namespace {
   GLint C(Texture::WrapMode mode) {
     switch (mode) {
@@ -139,6 +135,8 @@ namespace {
         return GL_LINEAR;
       case Texture::kFilter_Nearest:
         return GL_NEAREST;
+      case Texture::kFilter_Mimap:
+        return GL_LINEAR_MIPMAP_LINEAR;
       default:
         throw "Unknown texture filter mode";
     }
@@ -160,30 +158,32 @@ namespace {
   }
 }  // namespace
 
-Texture::Texture(const std::string& path, Texture::Type textureType
-                 , Texture::WrapMode wraps, Texture::WrapMode wrapt
-                 , Texture::FilterMode filter) {
+Texture::Texture(const ImageData& data, Type textureType, WrapMode wraps,
+                 Texture::WrapMode wrapt, FilterMode filter, float anistropy) {
   assert(this);
-
-  int width = -1;
-  int height = -1;
-  int channels = -1;
-
-  /** @todo change file loading to use a VFS instead.
-   */
-
-  Soil soil(SOIL_load_image(path.c_str(), &width, &height,
-                            &channels, SOIL_LOAD_RGBA));
-
   glBindTexture(GL_TEXTURE_2D, texture_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wraps));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrapt));
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anistropy);
 
+  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP,
+                  filter == kFilter_Mimap ? GL_TRUE : GL_FALSE);
   glTexImage2D(GL_TEXTURE_2D, 0, C(textureType),
-               (GLsizei)width, (GLsizei)height, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, soil.pixels);
+               (GLsizei)data.width(), (GLsizei)data.height(), 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, data.pixels());
+
+  if (textureType == kType_CompressedRgb
+      || textureType == kType_CompressedRgba) {
+    GLint result = GL_FALSE;
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_COMPRESSED, &result);
+
+    if (result != GL_TRUE) {
+      throw "failed to compress image";
+    }
+  }
+
   glBindTexture(GL_TEXTURE_2D, 0);  // reset binding
 }
 
@@ -194,4 +194,9 @@ Texture::~Texture() {
 void Texture::Bind(unsigned int index) const {
   glActiveTexture(GL_TEXTURE0 + index);
   glBindTexture(GL_TEXTURE_2D, texture_);
+}
+
+const internal::TextureObject& Texture::texture() const {
+  assert(this);
+  return texture_;
 }

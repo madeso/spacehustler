@@ -51,8 +51,13 @@ Fbo::Fbo(int w, int h, bool mipmap)
 
   /// @todo investigate if anistropy should be used here to...?
   // for now we just disable it
-  texture_.reset(new Image(true, width_, height_, 0, mipmap, GL_RGBA, 1,
-                           false));
+  const float anistropy = 1.0f;
+  ImageData data(width_, height_, 0);
+  texture_.reset(new Texture(data,  Texture::kType_Rgba,
+                             Texture::kWrap_ClampToEdge,
+                             Texture::kWrap_ClampToEdge, mipmap
+                             ? Texture::kFilter_Mimap : Texture::kFilter_Linear
+                             , anistropy));
   const int mipmaplevel = 0;
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                          texture_->texture(), mipmaplevel);

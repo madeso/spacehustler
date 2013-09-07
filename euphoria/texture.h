@@ -43,46 +43,61 @@ namespace internal {
   };
 }  // namespace internal
 
-/** Get the maximum level of anistrop this computer supports.
+/** Get the maximum level of anistropy this computer supports.
 More info can be found on wikipedia:
 http://en.wikipedia.org/wiki/Anistropic_filtering
 @returns the anistropy level.
  */
 float GetMaxAnistropy();
 
-/** A general open gl image
+/** Represents texture data, not sent to open gl.
  */
-class Image
-    : boost::noncopyable {
+class ImageData : boost::noncopyable {
   public:
-    /** Constructor.
-    @param alpha true if it should contain alpha, false if not
+    /** Load image from file.
+    @param path the path of the image to use
+     */
+    explicit ImageData(const std::string& path);
+
+    /** Create a null image.
     @param width the width of the image
     @param height the height of the image
-    @param bitmapData the bitmap data to use
-    @param mipmap true if to mipmap, false if not
-    @param format the image format
-    @param anistropy the anistropy level
-    @param compress true if image should be compressed, false if not
+    @param channels the number of channels
      */
-    Image(bool alpha, int width, int height, const char* bitmapData,
-          bool mipmap, int format, float anistropy, bool compress);
-    ~Image();
+    ImageData(int width, int height, int channels);
 
-    /** Bind image to a position.
-    @param position the position
+    /** Destructor.
      */
-    void Bind(int position) const;
+    ~ImageData();
 
-    /** Get the texture id.
+    /** Gets the width of the image.
+    @returns the width of the image
      */
-    unsigned int texture() const;
+    int width() const;
+
+    /** Gets the height of the image.
+    @returns the height of the image
+     */
+    int height() const;
+
+    /** Gets the channels.
+    @returns the channels
+     */
+    int channels() const;
+
+    /** Gets the pixel data.
+    @returns the pixel data
+     */
+    unsigned char* pixels() const;
+
   private:
-    unsigned int texture_;
+    int width_;
+    int height_;
+    int channels_;
+    unsigned char* pixels_;
 };
 
 /** A OpenGL texture.
-@todo merge with Image
  */
 class Texture {
   public:
@@ -111,7 +126,11 @@ class Texture {
 
       /** Linear filtering. Good for textures.
        */
-      kFilter_Linear
+      kFilter_Linear,
+
+      /** Mipmap linear filtering, good for textures.
+      */
+      kFilter_Mimap
     };
 
     /** How the image is stored.
@@ -135,14 +154,15 @@ class Texture {
     };
 
     /** Construct a new texture object.
-    @param path the path of the image to use.
-    @param textureType how to store the texture.
-    @param wraps Wrapping type for S UV coordinate.
-    @param wrapt Wrapping type for T UV coordinate.
-    @param filter how to filter the texture when rendering.
+    @param data the image data
+    @param textureType how to store the texture
+    @param wraps Wrapping type for S UV coordinate
+    @param wrapt Wrapping type for T UV coordinate
+    @param filter how to filter the texture when rendering
+    @param anistropy the anistropy data
      */
-    Texture(const std::string& path, Type textureType, WrapMode wraps
-            , Texture::WrapMode wrapt, FilterMode filter);
+    Texture(const ImageData& data, Type textureType, WrapMode wraps
+            , Texture::WrapMode wrapt, FilterMode filter, float anistropy);
 
     /** Destructs the texture.
      */
@@ -152,6 +172,11 @@ class Texture {
     @param index bind to this index.
      */
     void Bind(unsigned int index) const;
+
+    /** Get the texture.
+    @returns the texture
+     */
+    const internal::TextureObject& texture() const;
 
   private:
     internal::TextureObject texture_;

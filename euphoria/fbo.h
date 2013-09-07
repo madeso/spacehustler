@@ -11,7 +11,7 @@ FBO related code.
 #include <boost/noncopyable.hpp>
 #include <memory>
 
-class Image;
+class Texture;
 
 /** A render buffer.
  */
@@ -77,7 +77,7 @@ class Fbo
     int width_;
     int height_;
     std::unique_ptr<RenderBuffer> depth_buffer_;
-    std::unique_ptr<Image> texture_;
+    std::unique_ptr<Texture> texture_;
 };
 
 /** Raii for updating a Fbo.

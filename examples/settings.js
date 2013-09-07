@@ -2,5 +2,5 @@
 	"controlscheme":"keyboard"
 	, "width": 1280
 	, "height": 800
-	, "oculusvr": "oculusvr"
+	, "oculusvr": "auto"
 }
