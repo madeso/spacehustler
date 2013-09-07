@@ -43,10 +43,10 @@ namespace internal {
   };
 }  // namespace internal
 
-/** Get the maximum level of anistropy this computer supports.
+/** Get the maximum level of anisotropic this computer supports.
 More info can be found on wikipedia:
 http://en.wikipedia.org/wiki/Anistropic_filtering
-@returns the anistropy level.
+@returns the anisotropic level.
  */
 float GetMaxAnistropy();
 
@@ -159,10 +159,10 @@ class Texture {
     @param wraps Wrapping type for S UV coordinate
     @param wrapt Wrapping type for T UV coordinate
     @param filter how to filter the texture when rendering
-    @param anistropy the anistropy data
+    @param anisotropic the anisotropic data
      */
     Texture(const ImageData& data, Type textureType, WrapMode wraps
-            , Texture::WrapMode wrapt, FilterMode filter, float anistropy);
+            , Texture::WrapMode wrapt, FilterMode filter, float anisotropic);
 
     /** Destructs the texture.
      */

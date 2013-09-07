@@ -37,13 +37,13 @@ namespace {
       const TextureLoadingInstruction& instructions, const Settings& settings) {
       ImageData data(instructions.file);
 
-      /// @todo include anistropy in instructions.
+      /// @todo include anisotropic in instructions.
       std::shared_ptr<Texture> ret(new Texture(data,
                                    Texture::kType_CompressedRgb,
                                    instructions.wraps,
                                    instructions.wrapt,
                                    Texture::kFilter_Linear,
-                                   settings.anistropy()));
+                                   settings.anisotropic()));
       return ret;
     }
   };

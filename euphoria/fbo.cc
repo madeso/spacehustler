@@ -49,15 +49,15 @@ Fbo::Fbo(int w, int h, bool mipmap)
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                             GL_RENDERBUFFER, depth_buffer_->buffer());
 
-  /// @todo investigate if anistropy should be used here to...?
+  /// @todo investigate if anisotropic should be used here to...?
   // for now we just disable it
-  const float anistropy = 1.0f;
+  const float anisotropic = 1.0f;
   ImageData data(width_, height_, 0);
   texture_.reset(new Texture(data,  Texture::kType_Rgba,
                              Texture::kWrap_ClampToEdge,
                              Texture::kWrap_ClampToEdge, mipmap
                              ? Texture::kFilter_Mimap : Texture::kFilter_Linear
-                             , anistropy));
+                             , anisotropic));
   const int mipmaplevel = 0;
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                          texture_->texture(), mipmaplevel);

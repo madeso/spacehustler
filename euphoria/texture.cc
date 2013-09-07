@@ -159,14 +159,15 @@ namespace {
 }  // namespace
 
 Texture::Texture(const ImageData& data, Type textureType, WrapMode wraps,
-                 Texture::WrapMode wrapt, FilterMode filter, float anistropy) {
+                 Texture::WrapMode wrapt, FilterMode filter,
+                 float anisotropic) {
   assert(this);
   glBindTexture(GL_TEXTURE_2D, texture_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, C(wraps));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrapt));
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anistropy);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropic);
 
   glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP,
                   filter == kFilter_Mimap ? GL_TRUE : GL_FALSE);
