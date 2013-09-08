@@ -184,7 +184,7 @@ namespace {
         bind(Key::JoystickPovY, "JoystickPovY");
       }
 
-      void bind(Key::Type key, const std::string name) {
+      void bind(Key::Type key, const std::string& name) {
         strtokey.insert(std::make_pair(ToLower(name), key));
         keytostr.insert(std::make_pair(key, name));
       }

@@ -49,14 +49,14 @@ std::string Trim(const std::string& stringToTrim,
 @param start the start of the string.
 @returns true if the start match, false if not.
  */
-bool StartsWith(const std::string stringToTest, const std::string& start);
+bool StartsWith(const std::string& stringToTest, const std::string& start);
 
 /** Tests if a string ends with another string.
 @param stringToTest the string to test.
 @param end the end of the string.
 @returns true if the end match, false if not.
  */
-bool EndsWith(const std::string stringToTest, const std::string& end);
+bool EndsWith(const std::string& stringToTest, const std::string& end);
 
 /** Generate a string containing only lower characters.
 @param string the string to lower.
@@ -88,7 +88,7 @@ const std::string StringReplace(const std::string& string,
 @param count the maximum number of characters to copy (including null terminator)
  */
 void Copy(char* dst, const std::string& src,
-          const std::string::size_type count);
+          const std::string::size_type& count);
 
 /** @} */
 

@@ -37,7 +37,7 @@ class StringMerger {
     @returns this for easy chaining.
      */
     StringMerger& set_separator(const std::string& separator,
-                                const std::string final_separator);
+                                const std::string& final_separator);
 
     /** Sets the separator arguments.
     @param separator the separator to use.

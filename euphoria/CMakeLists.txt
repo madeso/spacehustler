@@ -270,7 +270,7 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	if(USE_CPPCHECK_BUILD)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
-						   COMMAND cppcheck --enable=all --std=c++11 --quiet --template=vs ${CMAKE_SOURCE_DIR}/euphoria
+						   COMMAND cppcheck --enable=all --std=c++11 --suppress=unusedFunction --quiet --template=vs ${CMAKE_SOURCE_DIR}/euphoria
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running cppcheck" VERBATIM)
 	endif(USE_CPPCHECK_BUILD)

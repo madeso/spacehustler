@@ -31,7 +31,7 @@ std::string Trim(const std::string& stringToTrim,
   return TrimRight(TrimLeft(stringToTrim, trimCharacters), trimCharacters);
 }
 
-bool StartsWith(const std::string stringToTest, const std::string& start) {
+bool StartsWith(const std::string& stringToTest, const std::string& start) {
   const std::string::size_type length = start.length();
   const std::string::size_type otherLength = stringToTest.length();
   if (otherLength < length) {
@@ -41,7 +41,7 @@ bool StartsWith(const std::string stringToTest, const std::string& start) {
   return start == actualStart;
 }
 
-bool EndsWith(const std::string stringToTest, const std::string& end) {
+bool EndsWith(const std::string& stringToTest, const std::string& end) {
   const std::string::size_type length = end.length();
   const std::string::size_type otherLength = stringToTest.length();
   if (otherLength < length) {
@@ -78,7 +78,7 @@ const std::string StringReplace(const std::string& string,
 }
 
 void Copy(char* dst, const std::string& src,
-          const std::string::size_type count) {
+          const std::string::size_type& count) {
   strncpy(dst, src.c_str(), count - 1);
   dst[count - 1] = 0;
 }

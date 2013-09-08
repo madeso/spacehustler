@@ -22,7 +22,7 @@ namespace {
 
 namespace internal {
   MeshPart::MeshPart()
-    : points(0) {
+    : points(0), material(0) {
   }
 
   void MeshPart::AddPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u,

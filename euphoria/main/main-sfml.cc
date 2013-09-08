@@ -380,7 +380,7 @@ void logic() {
     while (window.pollEvent(event)) {
 #ifdef USE_TWEAKABLES
       if (game.istweaking()) {
-        const int handled = TwEventSFML(&event, SFML_VERSION_MAJOR,
+        /*const int handled = */ TwEventSFML(&event, SFML_VERSION_MAJOR,
                                         SFML_VERSION_MINOR);
       }
 #endif

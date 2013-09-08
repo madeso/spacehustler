@@ -6,8 +6,7 @@
 #include <vector>
 
 DebugRenderer::DebugRenderer(ShaderCache* shadercache, const Settings& settings)
-  : linecount_(0) {
-  prog_ = shadercache->GetOrCreate("debuglines.js", settings);
+  : linecount_(0), prog_(shadercache->GetOrCreate("debuglines.js", settings)) {
 }
 
 namespace {

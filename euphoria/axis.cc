@@ -27,7 +27,7 @@ namespace {
         bind(Axis::JoystickPovY, "JoystickPovY");
       }
 
-      void bind(Axis::Type key, const std::string name) {
+      void bind(Axis::Type key, const std::string& name) {
         strtokey.insert(std::make_pair(ToLower(name), key));
         keytostr.insert(std::make_pair(key, name));
       }

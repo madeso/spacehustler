@@ -59,7 +59,7 @@ const StringMerger& StringMerger::Array() {
 }
 
 StringMerger& StringMerger::set_separator(const std::string& separator,
-    const std::string final_separator) {
+    const std::string& final_separator) {
   assert(this);
   separator_ = separator;
   final_separator_ = final_separator;

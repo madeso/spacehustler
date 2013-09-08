@@ -176,7 +176,7 @@ class VideoDisplays {
 
 class Window : boost::noncopyable {
   public:
-    Window(const std::string title, int x, int y, int width, int height,
+    Window(const std::string& title, int x, int y, int width, int height,
            bool main)
       : window_(SDL_CreateWindow(title.c_str(), x, y, width, height,
                                  main ? (SDL_WINDOW_OPENGL
