@@ -145,6 +145,8 @@ void Game::Render() {
   assert(oculusvr_);
   OglDebug::Verify();
 
+  world_->debug_renderer().Update();
+
   glClearColor(0, 0, 0, 1);  // black
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

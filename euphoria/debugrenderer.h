@@ -48,12 +48,12 @@ class DebugRenderer {
      */
     void Render(const Camera& camera);
 
-  protected:
     /** Updates the internal data in the debug renderer.
      */
     void Update();
 
   private:
+    unsigned int render_lines_;
     unsigned int linecount_;
     std::vector<GLfloat> pending_;
     std::vector<GLfloat> points_;

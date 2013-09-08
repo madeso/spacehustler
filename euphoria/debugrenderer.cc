@@ -6,7 +6,8 @@
 #include <vector>
 
 DebugRenderer::DebugRenderer(ShaderCache* shadercache, const Settings& settings)
-  : linecount_(0), prog_(shadercache->GetOrCreate("debuglines.js", settings)) {
+  : render_lines_(0), linecount_(0), prog_(shadercache->
+      GetOrCreate("debuglines.js", settings)) {
 }
 
 namespace {
@@ -37,35 +38,38 @@ void DebugRenderer::Line(const vec3& f, const vec3& t, const Color& fc,
 }
 
 void DebugRenderer::Update() {
-  vao_.reset(new internal::Vao());
-  vbo_.reset(new internal::ArrayBuffer());
-  points_ = pending_;
+  if (linecount_ != 0) {
+    points_ = pending_;
+    render_lines_ = linecount_;
 
-  vao_->Bind();
-  vbo_->Bind();
+    vao_.reset(new internal::Vao());
+    vbo_.reset(new internal::ArrayBuffer());
 
-  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * points_.size(), &points_[0],
-               GL_STATIC_DRAW);
+    vao_->Bind();
+    vbo_->Bind();
 
-  const GLsizei stride = 6 * sizeof(GLfloat);
-  const GLvoid* coloroffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
-  const auto vert = prog_->LookupAttribute("vert");
-  const auto color = prog_->LookupAttribute("color");
-  glEnableVertexAttribArray(vert);
-  glVertexAttribPointer(vert, 3, GL_FLOAT, GL_FALSE, stride, NULL);
-  glEnableVertexAttribArray(color);
-  glVertexAttribPointer(color, 3, GL_FLOAT, GL_TRUE, stride, coloroffset);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * points_.size(), &points_[0],
+                 GL_STATIC_DRAW);
 
-  vbo_->Unbind();
-  vao_->Unbind();
+    const GLsizei stride = 6 * sizeof(GLfloat);
+    const GLvoid* coloroffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
+    const auto vert = prog_->LookupAttribute("vert");
+    const auto color = prog_->LookupAttribute("color");
+    glEnableVertexAttribArray(vert);
+    glVertexAttribPointer(vert, 3, GL_FLOAT, GL_FALSE, stride, NULL);
+    glEnableVertexAttribArray(color);
+    glVertexAttribPointer(color, 3, GL_FLOAT, GL_TRUE, stride, coloroffset);
 
-  pending_.clear();
+    vbo_->Unbind();
+    vao_->Unbind();
+
+    pending_.clear();
+    linecount_ = 0;
+  }
 }
 
 void DebugRenderer::Render(const Camera& camera) {
-  if (linecount_ != 0) {
-    Update();
-
+  if (render_lines_ != 0) {
     prog_->Bind();
 
     prog_->SetUniform("camera", camera.view());
@@ -73,12 +77,10 @@ void DebugRenderer::Render(const Camera& camera) {
 
     vao_->Bind();
     vbo_->Bind();
-    glDrawArrays(GL_LINES, 0, linecount_ * 2);
+    glDrawArrays(GL_LINES, 0, render_lines_ * 2);
     vbo_->Unbind();
     vao_->Unbind();
     prog_->Unbind();
-
-    linecount_ = 0;
   }
 }
 

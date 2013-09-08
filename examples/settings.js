@@ -2,6 +2,6 @@
 	"controlscheme":"keyboard"
 	, "width": 1280
 	, "height": 800
-	, "oculusvr": "auto"
+	, "oculusvr": "oculusvr"
 	, "anistropy": 1.0
 }
