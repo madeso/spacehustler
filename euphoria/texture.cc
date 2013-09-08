@@ -55,25 +55,6 @@ unsigned char* ImageData::pixels() const {
   return pixels_;
 }
 
-namespace {
-  typedef unsigned char Byte;
-  struct Soil {
-    explicit Soil(Byte* pixels)
-      : pixels(pixels) {
-      if (pixels == 0) {
-        const std::string error = SOIL_last_result();
-        throw "Failed to load b/c " + error;
-      }
-    }
-
-    ~Soil() {
-      SOIL_free_image_data(pixels);
-    }
-
-    Byte* pixels;
-  };
-}  // namespace
-
 namespace internal {
   TextureObject::TextureObject()
     : object_(0) {
@@ -109,9 +90,10 @@ namespace internal {
 
 
 float GetMaxAnistropy() {
-  GLfloat anisotropy = 1;
+  GLfloat anisotropy = 0.0f;
   glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &anisotropy);
 
+  assert(anisotropy >= 1.0f);
   return anisotropy;
 }
 
@@ -193,6 +175,7 @@ Texture::~Texture() {
 }
 
 void Texture::Bind(unsigned int index) const {
+  assert(this);
   glActiveTexture(GL_TEXTURE0 + index);
   glBindTexture(GL_TEXTURE_2D, texture_);
 }
