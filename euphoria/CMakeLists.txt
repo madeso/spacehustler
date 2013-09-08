@@ -266,6 +266,14 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running CppLint" VERBATIM)
 	endif(USE_CPPLINT_BUILD)
+	
+	if(USE_CPPCHECK_BUILD)
+		add_custom_command(TARGET ${TargetName}
+						   PRE_BUILD
+						   COMMAND cppcheck --enable=all --std=c++11 --quiet --template=vs ${CMAKE_SOURCE_DIR}/euphoria
+						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						   COMMENT "Running cppcheck" VERBATIM)
+	endif(USE_CPPCHECK_BUILD)
 
 	if(USE_DOXYGEN_BUILD)
 		add_custom_command(TARGET ${TargetName}
@@ -280,7 +288,7 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 						   PRE_LINK
 						   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						   COMMENT "Running CppLint" VERBATIM)
+						   COMMENT "Running luadocgen" VERBATIM)
 	endif(USE_LUADOCGEN)
 
 	message(STATUS "Linking with launcher ${LauncherName} ${LauncherLibraries}")
