@@ -36,7 +36,8 @@ Settings::Settings()
   , control_scheme_("keyboard")
   , primary_display_id_(0)
   , oculus_vr_detection_(OculusVrDetection::Auto)
-  , anisotropic_(1.0f) {
+  , anisotropic_(1.0f)
+  , support_joystick_(true) {
   assert(this);
 }
 
@@ -67,6 +68,8 @@ void Settings::Load() {
                          .asString());
 
   anisotropic_ = root.get("anisotropic", anisotropic()).asFloat();
+
+  support_joystick_ = root.get("joystick", support_joystick()).asBool();
 }
 
 const bool Settings::blackout() const {
@@ -108,3 +111,8 @@ float Settings::anisotropic() const {
   assert(this);
   return anisotropic_;
 };
+
+bool Settings::support_joystick() const {
+  assert(this);
+  return support_joystick_;
+}

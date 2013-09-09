@@ -35,10 +35,13 @@ void HandleStatus(int code) {
 
 class Sdl : boost::noncopyable {
   public:
-    Sdl() {
+    explicit Sdl(const Settings& settings) {
       assert(this);
-      HandleStatus(SDL_Init(SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK
-                            | SDL_INIT_VIDEO | SDL_INIT_EVENTS));
+      const Uint32 flags = settings.support_joystick()
+                           ? SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK
+                           | SDL_INIT_VIDEO | SDL_INIT_EVENTS
+                           : SDL_INIT_VIDEO | SDL_INIT_EVENTS;
+      HandleStatus(SDL_Init(flags));
     }
 
     ~Sdl() {
@@ -759,7 +762,7 @@ void logic() {
   Settings settings;
   settings.Load();
 
-  Sdl sdl;
+  Sdl sdl(settings);
   SDL_DisableScreenSaver();
   VideoDisplays displays;
 

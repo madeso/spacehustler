@@ -73,6 +73,11 @@ class Settings {
      */
     float anisotropic() const;
 
+    /** Gets if the game should support joysticks or not
+    @returns if the game should support joysticks or not
+     */
+    bool support_joystick() const;
+
   private:
     bool blackout_;
     int width_;
@@ -82,6 +87,7 @@ class Settings {
     int primary_display_id_;
     OculusVrDetection::Type oculus_vr_detection_;
     float anisotropic_;
+    bool support_joystick_;
 };
 
 
