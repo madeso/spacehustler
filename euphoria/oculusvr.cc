@@ -41,7 +41,10 @@ const mat44& EyeSetup::view_adjust() const {
 mat44 C(OVR::Matrix4f m) {
   // matrix4f is row-major
   // mat44 is col major
-  return cml::transpose(mat44(m.M));
+  /// @todo this seems wrong, but it works out for the better, perhaps the
+  /// viewmatrix should be transposed too, so we need to transpose twice?
+  return mat44(m.M);
+  // return cml::transpose(mat44(m.M));
 }
 
 struct OculusVr::OculusVrPimpl {

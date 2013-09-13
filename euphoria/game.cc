@@ -117,12 +117,9 @@ bool Game::keep_running() const {
 void ModifyCamera(Camera* cam, const EyeSetup& eye) {
   const mat44 va = eye.view_adjust();
   mat44 vaa = va;
+  /// @todo fix this scaling when we have scaled the example
   cml::matrix_set_translation(vaa, cml::matrix_get_translation(va) * 10);
-
-  // eye.projection()
-
-  // cam->projection()
-  // cam->set_projection(eye.projection() * cam->projection());
+  cam->set_projection(eye.projection());
   cam->set_view(vaa * cam->view());
 }
 
