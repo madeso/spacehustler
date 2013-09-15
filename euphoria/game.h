@@ -26,6 +26,9 @@ class SystemContainer;
 class EntityList;
 class Settings;
 class OculusVr;
+class Fbo;
+class Quad;
+class Program;
 
 #ifdef USE_TWEAKABLES
 class TweakerStore;
@@ -95,6 +98,9 @@ class Game {
     std::unique_ptr<SystemContainer> container_;
     std::unique_ptr<EntityList> entities_;
     std::unique_ptr<OculusVr> oculusvr_;
+    std::unique_ptr<Fbo> eyefbo_;
+    std::shared_ptr<Program> eyeprogram_;
+    std::unique_ptr<Quad> eyequad_;
     bool istweaking_;
     bool renderoculus_;
 #ifdef USE_TWEAKABLES

@@ -25,6 +25,8 @@
 #include "euphoria/settings.h"
 #include "euphoria/tweak.h"
 #include "euphoria/oculusvr.h"
+#include "euphoria/fbo.h"
+#include "euphoria/quad.h"
 
 namespace {
   Game*& GameInstance() {
@@ -92,6 +94,12 @@ Game::Game(const Settings& settings, bool renderoculus)
 
   oculusvr_.reset(new OculusVr());
 
+  if (renderoculus_) {
+    eyefbo_.reset(new Fbo(512, 512, false));
+    eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
+    eyequad_.reset(new Quad(eyeprogram_));
+  }
+
   OglDebug::Verify();
   istweaking_ = false;
 
@@ -130,11 +138,24 @@ void SubRender(World* world, const Camera& camera) {
   //   }
 }
 
-void RenderEye(Camera camera, const EyeSetup& eye, World* world) {
-  Camera cam(camera);
-  ModifyCamera(&cam, eye);
+void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
+               Fbo* fbo, Program* program, Quad* quad) {
+  assert(fbo);
+  assert(program);
+  assert(quad);
+
+  {
+    Camera cam(camera);
+    ModifyCamera(&cam, eye);
+    TextureUpdator tex(fbo);
+    SubRender(world, cam);
+  }
+
   glViewport(eye.x(), eye.y(), eye.w(), eye.h());
-  SubRender(world, cam);
+  program->Bind();
+  fbo->BindTexture(0);
+  quad->Render();
+  program->Unbind();
 }
 
 void Game::Render() {
@@ -149,8 +170,10 @@ void Game::Render() {
 
   if (renderoculus_) {
     // create left and right camera
-    RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get());
-    RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get());
+    RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(),
+              eyefbo_.get(), eyeprogram_.get(), eyequad_.get());
+    RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
+              eyefbo_.get(), eyeprogram_.get(), eyequad_.get());
   } else {
     SubRender(world_.get(), *camera_.get());
   }

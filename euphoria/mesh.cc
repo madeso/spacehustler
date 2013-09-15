@@ -111,14 +111,8 @@ namespace internal {
   CompiledMeshPart::~CompiledMeshPart() {
   }
 
-  void CompiledMeshPart::Render(const Camera& camera, const mat44& model) {
-    /// @todo don't bind everything all the time,
-    /// sort and bind only when necessary
-    program_->Bind();
-    program_->SetUniform("camera", camera.view());
-    program_->SetUniform("projection", camera.projection());
-    program_->SetUniform("model", model);
-    texture_->Bind(0);
+  void CompiledMeshPart::Render() {
+    assert(program_);
     program_->SetUniform("tex", 0);
     vao_.Bind();
     elements_.Bind();
@@ -126,6 +120,20 @@ namespace internal {
     glDrawElements(GL_TRIANGLES, elementCount_, GL_UNSIGNED_SHORT, stride);
     elements_.Unbind();
     vao_.Unbind();
+  }
+
+  void CompiledMeshPart::Render(const Camera& camera, const mat44& model) {
+    assert(texture_);
+    assert(program_);
+    program_->Bind();
+    /// @todo don't bind everything all the time,
+    /// sort and bind only when necessary
+    program_->SetUniform("camera", camera.view());
+    program_->SetUniform("projection", camera.projection());
+    program_->SetUniform("model", model);
+    texture_->Bind(0);
+
+    Render();
 
     program_->Unbind();
   }

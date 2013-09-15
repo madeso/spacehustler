@@ -157,11 +157,16 @@ namespace internal {
        */
       ~CompiledMeshPart();
 
-      /** Render the mesh part.
+      /** Render the mesh part as seen through a camera.
       @param camera through the camera.
       @param model the model matrix
        */
       void Render(const Camera& camera, const mat44& model);
+
+      /** Render the mesh.
+      Requires both the shader and the texture to be bound.
+       */
+      void Render();
 
     private:
       Vao vao_;
