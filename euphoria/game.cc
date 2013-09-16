@@ -95,7 +95,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   oculusvr_.reset(new OculusVr());
 
   if (renderoculus_) {
-    eyefbo_.reset(new Fbo(512, 512, false));
+    eyefbo_.reset(new Fbo(1024, 1024, false));
     eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
     eyequad_.reset(new Quad(eyeprogram_));
   }
@@ -132,6 +132,8 @@ void ModifyCamera(Camera* cam, const EyeSetup& eye) {
 }
 
 void SubRender(World* world, const Camera& camera) {
+  glClearColor(0, 0, 0, 1);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   world->Render(camera);
   //   if (istweaking_) {
   //     RUNTWEAKCODE(TwDraw());
@@ -165,10 +167,9 @@ void Game::Render() {
 
   world_->debug_renderer().Update();
 
-  glClearColor(0, 0, 0, 1);  // black
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   if (renderoculus_) {
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // create left and right camera
     RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(),
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get());
