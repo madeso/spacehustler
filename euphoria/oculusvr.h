@@ -84,6 +84,11 @@ class OculusVr : boost::noncopyable {
      */
     const EyeSetup RightEye();
 
+    /** Gets the oculus distortion constants.
+    @returns the oculus distortion constants.
+     */
+    const vec4& get_distortion() const;
+
   private:
     struct OculusVrPimpl;
     std::unique_ptr<OculusVrPimpl> pimpl_;

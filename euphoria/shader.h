@@ -106,15 +106,27 @@ class Program
 
     /** Set a uniform integer.
     @param name the uniform name.
-    @param i the integer value to set to.
+    @param i the integer value.
      */
     void SetUniform(const std::string& name, int i) const;
 
     /** Set a uniform 4x4 matrix.
     @param name the uniform name.
-    @param m the 4x4 matrix value to set to.
+    @param m the 4x4 matrix value.
      */
     void SetUniform(const std::string& name, const mat44& m) const;
+
+    /** Set a uniform vec2.
+    @param name the uniform name.
+    @param v the vec2 value.
+     */
+    void SetUniform(const std::string& name, const vec2& v) const;
+
+    /** Set a uniform vec4.
+    @param name the uniform name.
+    @param v the vec4 value
+     */
+    void SetUniform(const std::string& name, const vec4& v) const;
 
     /** Binds this program.
      */

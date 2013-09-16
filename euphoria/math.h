@@ -17,10 +17,20 @@ Math related code.
 // cpplint complain that we don't include <vector> but we use cml::vector
 //   here so <vector> isn't needed
 
+/** A vector in 2 dimensions.
+ */
+typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
+        cml::fixed<2> > vec2;
+
 /** A vector in 3 dimensions.
  */
 typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
         cml::fixed<3> > vec3;
+
+/** A vector in 4 dimensions.
+ */
+typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
+        cml::fixed<4> > vec4;
 
 /** A 4 x 4 matrix.
  */

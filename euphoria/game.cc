@@ -141,7 +141,8 @@ void SubRender(World* world, const Camera& camera) {
 }
 
 void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
-               Fbo* fbo, Program* program, Quad* quad) {
+               Fbo* fbo, Program* program, Quad* quad, bool is_right,
+               const OculusVr& oculus) {
   assert(fbo);
   assert(program);
   assert(quad);
@@ -155,6 +156,23 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   glViewport(eye.x(), eye.y(), eye.w(), eye.h());
   program->Bind();
+
+  /// this value ripped from the TinyRoom demo at runtime
+  const float lensOff = 0.287994f - 0.25f;
+
+  if (is_right) {
+    program->SetUniform("ScreenCenter", vec2(0.75f, 0.5f));
+    program->SetUniform("LensCenter", vec2(0.75f - lensOff, 0.5f));
+  } else {
+    program->SetUniform("LensCenter", vec2(0.25f + lensOff, 0.5f));
+    program->SetUniform("ScreenCenter", vec2(0.25f, 0.5f));
+  }
+
+  program->SetUniform("Scale", vec2(0.145806f,  0.233290f));
+  program->SetUniform("ScaleIn", vec2(4.0f, 2.5f));
+
+  program->SetUniform("HmdWarpParam", oculus.get_distortion());
+
   fbo->BindTexture(0);
   quad->Render();
   program->Unbind();
@@ -172,9 +190,11 @@ void Game::Render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // create left and right camera
     RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(),
-              eyefbo_.get(), eyeprogram_.get(), eyequad_.get());
+              eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
+              *oculusvr_.get());
     RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
-              eyefbo_.get(), eyeprogram_.get(), eyequad_.get());
+              eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
+              *oculusvr_.get());
   } else {
     SubRender(world_.get(), *camera_.get());
   }
