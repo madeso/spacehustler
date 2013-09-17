@@ -89,6 +89,21 @@ class OculusVr : boost::noncopyable {
      */
     const vec4& get_distortion() const;
 
+    /** Gets the scale.
+    @returns the scale
+     */
+    float get_scale() const;
+
+    /** Gets the center offset.
+    @returns the center offset
+     */
+    const vec2& get_center_offset() const;
+
+    /** Gets the chromatic aberration values from the oculus sdk.
+    @returns the the chromatic aberration values from the oculus sdk
+     */
+    const vec4 get_chromatic_aberration() const;
+
   private:
     struct OculusVrPimpl;
     std::unique_ptr<OculusVrPimpl> pimpl_;

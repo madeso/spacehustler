@@ -17,8 +17,11 @@ Quad related code.
 class Quad {
   public:
     /** Constructor.
+    @param prog the program to use
+    @param uscale the U scale
+    @param vscale the V scale
      */
-    explicit Quad(std::shared_ptr<Program> prog);
+    Quad(std::shared_ptr<Program> prog, float uscale, float vscale);
 
     /** Render the quad.
      */

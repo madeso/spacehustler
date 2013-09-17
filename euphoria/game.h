@@ -86,6 +86,8 @@ class Game {
     void Quit();
 
   private:
+    int width_;
+    int height_;
     bool keep_running_;
     std::unique_ptr<OglDebug> ogldebug_;
     std::unique_ptr<TextureCache> texturecache_;

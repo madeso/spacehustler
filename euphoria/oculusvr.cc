@@ -87,8 +87,11 @@ struct OculusVr::OculusVrPimpl {
   OVR::HMDInfo device_info_;
   float render_scale_;
   vec4 distortion_;
+  vec2 center_offset_;
+  vec4 chromatic_aberration_;
 
-  OculusVrPimpl() : render_scale_(0.0f) , distortion_(0.0f, 0.0f, 0.0f, 0.0f) {
+  OculusVrPimpl() : render_scale_(0.0f) , distortion_(0.0f, 0.0f, 0.0f, 0.0f),
+    center_offset_(0.0f, 0.0f), chromatic_aberration_(0.0f, 0.0f, 0.0f, 0.0f) {
     assert(this);
     /// @todo use correct resolution when creating the stereo
     device_manager_ = *OVR::DeviceManager::Create();
@@ -112,15 +115,41 @@ struct OculusVr::OculusVrPimpl {
     stereo_config_.SetHMDInfo(device_info_);
     stereo_config_.SetDistortionFitPointVP(-1.0f, 0.0f);
 
+    const auto distortion = stereo_config_.GetDistortionConfig();
+
+    center_offset_ = vec2(distortion.XCenterOffset,
+                          distortion.YCenterOffset);
+
     render_scale_ = stereo_config_.GetDistortionScale();
     distortion_ = vec4(
                     device_info_.DistortionK[0], device_info_.DistortionK[1],
                     device_info_.DistortionK[2], device_info_.DistortionK[3]);
+
+    chromatic_aberration_ = vec4(
+                              distortion.ChromaticAberration[0],
+                              distortion.ChromaticAberration[1],
+                              distortion.ChromaticAberration[2],
+                              distortion.ChromaticAberration[3]);
   }
 
   const vec4& get_distortion() const {
     assert(this);
     return distortion_;
+  }
+
+  float get_scale() const {
+    assert(this);
+    return render_scale_;
+  }
+
+  const vec2& get_center_offset() const {
+    assert(this);
+    return center_offset_;
+  }
+
+  const vec4 get_chromatic_aberration() const {
+    assert(this);
+    return chromatic_aberration_;
   }
 
   ~OculusVrPimpl() {
@@ -169,4 +198,19 @@ const EyeSetup OculusVr::RightEye() {
 const vec4& OculusVr::get_distortion() const {
   assert(this);
   return pimpl_->get_distortion();
+}
+
+float OculusVr::get_scale() const {
+  assert(this);
+  return pimpl_->get_scale();
+}
+
+const vec2& OculusVr::get_center_offset() const {
+  assert(this);
+  return pimpl_->get_center_offset();
+}
+
+const vec4 OculusVr::get_chromatic_aberration() const {
+  assert(this);
+  return pimpl_->get_chromatic_aberration();
 }

@@ -36,7 +36,7 @@ namespace {
 }
 
 Game::Game(const Settings& settings, bool renderoculus)
-  : keep_running_(true)
+  : width_(settings.width()), height_(settings.height()), keep_running_(true)
   , renderoculus_(renderoculus) {
   assert(this);
 
@@ -51,7 +51,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
-  TwWindowSize(settings.width(), settings.height());
+  TwWindowSize(width_, height_);
 #endif
 
   ogldebug_.reset(new OglDebug(OglDebug::IsSupported()));
@@ -78,7 +78,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   keybinds_.reset(new KeybindList());
   keybinds_->Load(actions_.get(), "keys.js", settings.control_scheme());
 
-  camera_.reset(new Camera(settings.width(), settings.height()));
+  camera_.reset(new Camera(width_, height_));
   camera_->set_fov(45);
   camera_->set_near_far(0.1f, 800.0f);
 
@@ -95,9 +95,11 @@ Game::Game(const Settings& settings, bool renderoculus)
   oculusvr_.reset(new OculusVr());
 
   if (renderoculus_) {
-    eyefbo_.reset(new Fbo(1024, 1024, false));
+    const int texh = ceil(height_ * oculusvr_->get_scale());
+    const int texw = ceil(width_ * oculusvr_->get_scale());
+    eyefbo_.reset(new Fbo(texw, texh, false));
     eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
-    eyequad_.reset(new Quad(eyeprogram_));
+    eyequad_.reset(new Quad(eyeprogram_, 1.0f, 1.0f));
   }
 
   OglDebug::Verify();
@@ -142,7 +144,7 @@ void SubRender(World* world, const Camera& camera) {
 
 void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
                Fbo* fbo, Program* program, Quad* quad, bool is_right,
-               const OculusVr& oculus) {
+               const OculusVr& oculus, int window_height, int window_width) {
   assert(fbo);
   assert(program);
   assert(quad);
@@ -157,19 +159,26 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
   glViewport(eye.x(), eye.y(), eye.w(), eye.h());
   program->Bind();
 
-  /// this value ripped from the TinyRoom demo at runtime
-  const float lensOff = 0.287994f - 0.25f;
+  const float w =  eye.w() / static_cast<float>(window_width);
+  const float h =  eye.h() / static_cast<float>(window_height);
+  const float x =  eye.x() / static_cast<float>(window_width);
+  const float y =  eye.y() / static_cast<float>(window_height);
+  const float as = eye.w() / static_cast<float>(eye.h());
 
-  if (is_right) {
-    program->SetUniform("ScreenCenter", vec2(0.75f, 0.5f));
-    program->SetUniform("LensCenter", vec2(0.75f - lensOff, 0.5f));
-  } else {
-    program->SetUniform("LensCenter", vec2(0.25f + lensOff, 0.5f));
-    program->SetUniform("ScreenCenter", vec2(0.25f, 0.5f));
-  }
+  // MA: This is more correct but we would need higher-res texture vertically;
+  // we should adopt this once we have asymmetric input texture scale.
+  const float scaleFactor = 1.0f / oculus.get_scale();
 
-  program->SetUniform("Scale", vec2(0.145806f,  0.233290f));
-  program->SetUniform("ScaleIn", vec2(4.0f, 2.5f));
+  // We are using 1/4 of DistortionCenter offset value here, since it is
+  // relative to [-1,1] range that gets mapped to [0, 0.5].
+  program->SetUniform("LensCenter", vec2(
+                        x + (w + oculus.get_distortion()[0] * 0.5f) * 0.5f,
+                        y + h * 0.5f));
+  program->SetUniform("ScreenCenter", vec2(x + w * 0.5f, y + h * 0.5f));
+
+  program->SetUniform("Scale",   vec2((w / 2) * scaleFactor,
+                                      (h / 2) * scaleFactor * as));
+  program->SetUniform("ScaleIn", vec2((2 / w), (2 / h) / as));
 
   program->SetUniform("HmdWarpParam", oculus.get_distortion());
 
@@ -191,10 +200,10 @@ void Game::Render() {
     // create left and right camera
     RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(),
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
-              *oculusvr_.get());
+              *oculusvr_.get(), height_, width_);
     RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
-              *oculusvr_.get());
+              *oculusvr_.get(), height_, width_);
   } else {
     SubRender(world_.get(), *camera_.get());
   }
