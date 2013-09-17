@@ -98,7 +98,11 @@ Game::Game(const Settings& settings, bool renderoculus)
     const int texh = ceil(height_ * oculusvr_->get_scale());
     const int texw = ceil(width_ * oculusvr_->get_scale());
     eyefbo_.reset(new Fbo(texw, texh, false));
+#if OCULUS_TRANSFORM
     eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
+#else
+    eyeprogram_ = shadercache_->GetOrCreate("nooculus.js", settings);
+#endif
     eyequad_.reset(new Quad(eyeprogram_, 1.0f, 1.0f));
   }
 
@@ -159,7 +163,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
   glViewport(eye.x(), eye.y(), eye.w(), eye.h());
   program->Bind();
 
-#if 0
+#if OCULUS_TRANSFORM
   const float w =  eye.w() / static_cast<float>(window_width);
   const float h =  eye.h() / static_cast<float>(window_height);
   const float x =  eye.x() / static_cast<float>(window_width);
@@ -170,20 +174,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
   // we should adopt this once we have asymmetric input texture scale.
   const float scaleFactor = 1.0f / oculus.get_scale();
 
-  const float dix = oculus.get_distortion()[0];
-#else
-  const float w =  eye.w() / static_cast<float>(window_width);
-  const float h =  eye.h() / static_cast<float>(window_height);
-  const float x =  0.0f / static_cast<float>(window_width);
-  const float y =  0.0f / static_cast<float>(window_height);
-  const float as = eye.w() / static_cast<float>(eye.h());
-
-  // MA: This is more correct but we would need higher-res texture vertically;
-  // we should adopt this once we have asymmetric input texture scale.
-  const float scaleFactor = 1.0f / oculus.get_scale();
-
-  const float dix = 0.0f;  // oculus.get_distortion()[0];
-#endif
+  const float dix = 0.0f;
 
 
   // We are using 1/4 of DistortionCenter offset value here, since it is
@@ -205,6 +196,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
              0, 0, 0, 1);
   cml::transpose(texm);
   program->SetUniform("texm", texm);
+#endif
 
   fbo->BindTexture(0);
   quad->Render();
