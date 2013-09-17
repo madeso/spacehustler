@@ -28,6 +28,8 @@ Build tools
 Planned Features and stuff that needs to be done
 =======
 * add oculus rift support
+* update anttweakbar to support oculus rift rendering & console input
+* force feedback and 360 controller support
 * lights and shaddows
 * audio and music support
 * particle systems
