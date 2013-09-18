@@ -31,6 +31,7 @@ Planned Features and stuff that needs to be done
 * update anttweakbar to support oculus rift rendering & console input
 * force feedback and 360 controller support
 * lights and shaddows
+* change from json to yaml/protobuf?
 * audio and music support
 * particle systems
 * fix luadocgen
@@ -38,9 +39,7 @@ Planned Features and stuff that needs to be done
 * add physics motor support
 * add leap motion support
 * lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
-* Move from SFML to SDL for forcebeedback and joystick names (optionally)
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
-* change from json to yaml/protobuf?
 * menu support (ce gui?)
 * look into joystick support and improve
 * implement all the todos
