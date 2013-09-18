@@ -15,6 +15,7 @@
 			, {"action":"camleft", "key":"MouseX-", "device":0}
 			, {"action":"camup", "key":"MouseY-", "device":0}
 			, {"action":"camdown", "key":"MouseY+", "device":0}
+			, {"action":"enable_tweak", "key":"Tab", "device":0}
 		]
 	}
 	,{
@@ -33,6 +34,7 @@
 			, {"action":"camleft", "key":"JoystickPovX-", "device":0}
 			, {"action":"camup", "key":"JoystickPovY+", "device":0}
 			, {"action":"camdown", "key":"JoystickPovY-", "device":0}
+			, {"action":"enable_tweak", "key":"Tab", "device":0}
 		]
 	}
 ]

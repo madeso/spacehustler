@@ -12,4 +12,5 @@
 	, {"name":"camright", "var":"camright"}
 	, {"name":"camup", "var":"camup"}
 	, {"name":"camdown", "var":"camdown"}
+	, {"name":"enable_tweak"}
 ]

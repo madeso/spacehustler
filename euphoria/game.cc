@@ -39,7 +39,8 @@ namespace {
 
 Game::Game(const Settings& settings, bool renderoculus)
   : width_(settings.width()), height_(settings.height()), keep_running_(true)
-  , renderoculus_(renderoculus) {
+  , tweakaction_(0), last_tweak_action_(false), lock_mouse_(true)
+  , istweaking_(false), renderoculus_(renderoculus) {
   assert(this);
 
   const GLenum err = glewInit();
@@ -79,6 +80,8 @@ Game::Game(const Settings& settings, bool renderoculus)
 
   keybinds_.reset(new KeybindList());
   keybinds_->Load(actions_.get(), "keys.js", settings.control_scheme());
+
+  tweakaction_ = actions_->getAction("enable_tweak");
 
   camera_.reset(new Camera(width_, height_));
   camera_->set_fov(45);
@@ -139,18 +142,19 @@ void ModifyCamera(Camera* cam, const EyeSetup& eye) {
   cam->set_view(vaa * cam->view());
 }
 
-void SubRender(World* world, const Camera& camera) {
+void SubRender(World* world, const Camera& camera, bool istweaking) {
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   world->Render(camera);
-  //   if (istweaking_) {
-  //     RUNTWEAKCODE(TwDraw());
-  //   }
+  if (istweaking) {
+    RUNTWEAKCODE(TwDraw());
+  }
 }
 
 void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
                Fbo* fbo, Program* program, Quad* quad, bool is_right,
-               const OculusVr& oculus, int window_height, int window_width) {
+               const OculusVr& oculus, int window_height, int window_width,
+               bool istweaking) {
   assert(fbo);
   assert(program);
   assert(quad);
@@ -159,7 +163,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
     Camera cam(camera);
     ModifyCamera(&cam, eye);
     TextureUpdator tex(fbo);
-    SubRender(world, cam);
+    SubRender(world, cam, istweaking);
   }
 
   glViewport(eye.x(), eye.y(), eye.w(), eye.h());
@@ -218,12 +222,12 @@ void Game::Render() {
     // create left and right camera
     RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(),
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
-              *oculusvr_.get(), height_, width_);
+              *oculusvr_.get(), height_, width_, istweaking_);
     RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
-              *oculusvr_.get(), height_, width_);
+              *oculusvr_.get(), height_, width_, istweaking_);
   } else {
-    SubRender(world_.get(), *camera_.get());
+    SubRender(world_.get(), *camera_.get(), istweaking_);
   }
 }
 
@@ -240,6 +244,19 @@ void Game::Update(float dt) {
   assert(this);
   RUNTWEAKCODE(tweakers_->update());
   container_->Step(dt);
+
+  const bool tweak = tweakaction_->state() > 0.5f;
+
+  if (tweak && tweak != last_tweak_action_) {
+    istweaking_ = !istweaking_;
+    lock_mouse_ = !istweaking_;
+  }
+
+  last_tweak_action_ = tweak;
+}
+
+bool Game::lock_mouse() const {
+  return lock_mouse_;
 }
 
 bool Game::istweaking() const {

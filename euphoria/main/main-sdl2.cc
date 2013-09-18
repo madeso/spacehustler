@@ -4,6 +4,8 @@
 #include <boost/noncopyable.hpp>
 
 #include <SDL.h>
+#include <AntTweakBar.h>
+
 #include <string>
 #include <vector>
 #include <cassert>
@@ -757,6 +759,104 @@ int DeterminePrimaryDisplayId(const Settings& settings,
   }
 }
 
+int TwEventSDL2(const SDL_Event* event) {
+  int handled = 0;
+  static int s_KeyMod = 0;
+
+  if (event == NULL) {
+    return 0;
+  }
+
+  switch (event->type) {
+    case SDL_TEXTINPUT:
+      if (event->text.text[0] != 0 && event->text.text[1] == 0) {
+        if (s_KeyMod & TW_KMOD_CTRL && event->text.text[0] < 32) {
+          handled = TwKeyPressed(event->text.text[0] + 'a' - 1, s_KeyMod);
+        } else {
+          if (s_KeyMod & KMOD_RALT) {
+            s_KeyMod &= ~KMOD_CTRL;
+          }
+          handled = TwKeyPressed(event->text.text[0], s_KeyMod);
+        }
+      }
+      s_KeyMod = 0;
+      break;
+    case SDL_KEYDOWN:
+      if (event->key.keysym.sym & SDLK_SCANCODE_MASK) {
+        int key = 0;
+        switch (event->key.keysym.sym) {
+          case SDLK_UP:
+            key = TW_KEY_UP;
+            break;
+          case SDLK_DOWN:
+            key = TW_KEY_DOWN;
+            break;
+          case SDLK_RIGHT:
+            key = TW_KEY_RIGHT;
+            break;
+          case SDLK_LEFT:
+            key = TW_KEY_LEFT;
+            break;
+          case SDLK_INSERT:
+            key = TW_KEY_INSERT;
+            break;
+          case SDLK_HOME:
+            key = TW_KEY_HOME;
+            break;
+          case SDLK_END:
+            key = TW_KEY_END;
+            break;
+          case SDLK_PAGEUP:
+            key = TW_KEY_PAGE_UP;
+            break;
+          case SDLK_PAGEDOWN:
+            key = TW_KEY_PAGE_DOWN;
+            break;
+          default:
+            if (event->key.keysym.sym >= SDLK_F1
+                && event->key.keysym.sym <= SDLK_F12) {
+              key = event->key.keysym.sym + TW_KEY_F1 - SDLK_F1;
+            }
+        }
+        if (key != 0) {
+          handled = TwKeyPressed(key, event->key.keysym.mod);
+        }
+      } else if (event->key.keysym.mod & TW_KMOD_ALT) {
+        handled = TwKeyPressed(event->key.keysym.sym & 0xFF,
+                               event->key.keysym.mod);
+      } else {
+        s_KeyMod = event->key.keysym.mod;
+      }
+      break;
+    case SDL_KEYUP:
+      s_KeyMod = 0;
+      break;
+    case SDL_MOUSEMOTION:
+      handled = TwMouseMotion(event->motion.x, event->motion.y);
+      break;
+    case SDL_MOUSEBUTTONUP:
+    case SDL_MOUSEBUTTONDOWN:
+      if (event->type == SDL_MOUSEBUTTONDOWN && (event->button.button == 4
+          || event->button.button == 5)) {  // mouse wheel
+        static int s_WheelPos = 0;
+        if (event->button.button == 4) {
+          ++s_WheelPos;
+        } else {
+          --s_WheelPos;
+        }
+        handled = TwMouseWheel(s_WheelPos);
+      } else {
+        handled = TwMouseButton((event->type == SDL_MOUSEBUTTONUP) ?
+                                TW_MOUSE_RELEASED : TW_MOUSE_PRESSED,
+                                (TwMouseButtonID)event->button.button);
+      }
+      break;
+  }
+
+  return handled;
+}
+
+
 void logic() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
@@ -857,6 +957,8 @@ void logic() {
   context.MakeCurrent();
   Game game(settings, renderoculus);
 
+  bool inside = false;
+
   while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();
     timer.Reset();
@@ -875,6 +977,9 @@ void logic() {
     int xrel = 0;
     int yrel = 0;
 
+    const bool lock = inside && game.lock_mouse();
+    SDL_SetRelativeMouseMode(lock ? SDL_TRUE : SDL_FALSE);
+
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
         game.Quit();
@@ -882,8 +987,10 @@ void logic() {
         const bool down = event.type == SDL_KEYDOWN;
         game.OnKey(ToKey(event.key.keysym), 0, down);
       } else if (event.type == SDL_MOUSEMOTION) {
-        xrel += event.motion.xrel;
-        yrel += event.motion.yrel;
+        if (lock) {
+          xrel += event.motion.xrel;
+          yrel += event.motion.yrel;
+        }
       } else if (event.type == SDL_JOYBUTTONDOWN
                  || event.type == SDL_JOYBUTTONUP) {
         const bool down = event.type == SDL_JOYBUTTONDOWN;
@@ -896,9 +1003,12 @@ void logic() {
         const auto mouseEvent = event.window.event;
         if (mouseEvent == SDL_WINDOWEVENT_ENTER
             || mouseEvent == SDL_WINDOWEVENT_LEAVE) {
-          const bool lock = mouseEvent == SDL_WINDOWEVENT_ENTER;
-          SDL_SetRelativeMouseMode(lock ? SDL_TRUE : SDL_FALSE);
+          inside = mouseEvent == SDL_WINDOWEVENT_ENTER;
         }
+      }
+
+      if (lock == false && inside) {
+        TwEventSDL2(&event);
       }
     }
     for (auto js : joysticks) {
