@@ -99,6 +99,7 @@ struct OculusVr::OculusVrPimpl {
               .CreateDevice();
     if (device_.GetPtr() != NULL) {
       device_->GetDeviceInfo(&device_info_);
+      stereo_config_.SetHMDInfo(device_info_);
     } else {
       // no device is connected, setup dummy values for testing
       // without a oculus connected.
@@ -112,7 +113,6 @@ struct OculusVr::OculusVrPimpl {
                                    Width, Height));
     stereo_config_.SetStereoMode(
       OVR::Util::Render::Stereo_LeftRight_Multipass);
-    stereo_config_.SetHMDInfo(device_info_);
     stereo_config_.SetDistortionFitPointVP(-1.0f, 0.0f);
 
     const auto distortion = stereo_config_.GetDistortionConfig();

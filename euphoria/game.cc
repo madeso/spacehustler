@@ -180,7 +180,8 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
   // we should adopt this once we have asymmetric input texture scale.
   const float scaleFactor = 1.0f / oculus.get_scale();
 
-  const float dix = oculus.get_center_offset()[1];
+  const float dix = (is_right ? -1.0f : 1.0f)
+                    * oculus.get_center_offset()[0];
 
 
   // We are using 1/4 of DistortionCenter offset value here, since it is
@@ -224,7 +225,7 @@ void Game::Render() {
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
               *oculusvr_.get(), height_, width_, istweaking_);
     RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
-              eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
+              eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), true,
               *oculusvr_.get(), height_, width_, istweaking_);
   } else {
     SubRender(world_.get(), *camera_.get(), istweaking_);
