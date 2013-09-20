@@ -186,14 +186,22 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   // We are using 1/4 of DistortionCenter offset value here, since it is
   // relative to [-1,1] range that gets mapped to [0, 0.5].
-  program->SetUniform("LensCenter", vec2(
-                        x + (w + dix * 0.5f) * 0.5f,
-                        y + h * 0.5f));
-  program->SetUniform("ScreenCenter", vec2(x + w * 0.5f, y + h * 0.5f));
 
-  program->SetUniform("Scale",   vec2((w / 2) * scaleFactor,
-                                      (h / 2) * scaleFactor * as));
-  program->SetUniform("ScaleIn", vec2((2 / w), (2 / h) / as));
+  const float lcx = x + (w + dix * 0.5f) * 0.5f;
+  const float lcy = y + h * 0.5f;
+  program->SetUniform("LensCenter", vec2(lcx, lcy));
+
+  const float scx = x + w * 0.5f;
+  const float scy = y + h * 0.5f;
+  program->SetUniform("ScreenCenter", vec2(scx, scy));
+
+  const float sx = (w / 2) * scaleFactor;
+  const float sy = (h / 2) * scaleFactor * as;
+  program->SetUniform("Scale", vec2(sx, sy));
+
+  const float six = (2 / w);
+  const float siy = (2 / h) / as;
+  program->SetUniform("ScaleIn", vec2(six, siy));
 
   program->SetUniform("HmdWarpParam", oculus.get_distortion());
 
