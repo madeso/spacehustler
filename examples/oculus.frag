@@ -22,7 +22,8 @@ vec2 HmdWarp(vec2 in01) {
 
 void main() {
    vec2 tc = HmdWarp(fraguv);
-   if (!all(equal(clamp(tc, ScreenCenter-vec2(0.25,0.5), ScreenCenter+vec2(0.25,0.5)), tc)))
+   if (!all(equal(clamp(tc, ScreenCenter-vec2(0.25,0.5),
+							ScreenCenter+vec2(0.25,0.5)), tc)))
        finalColor = vec4(0);
    else
        finalColor = texture(tex, tc);
