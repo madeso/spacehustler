@@ -121,7 +121,12 @@ void TextureUpdator::SetSubRegion(float startx, float endx, float starty,
   assert(IsBetween(0.0f, endy, 1.0f));
   assert(startx < endx);
   assert(starty < endy);
-  glViewport(width_ * startx, height_ * starty, width_ * endx, height_ * endy);
+  const float width_scale = endx - startx;
+  const float height_scale = endy - starty;
+  assert(width_scale > 0.0f);
+  assert(height_scale > 0.0f);
+  glViewport(width_ * startx, height_ * starty, width_ * width_scale,
+             height_ * height_scale);
 }
 
 TextureUpdator::~TextureUpdator() {
