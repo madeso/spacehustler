@@ -94,6 +94,16 @@ class OculusVr : boost::noncopyable {
      */
     float get_scale() const;
 
+    /** Gets the orientation of the rift.
+    @returns the orientation of the rift.
+    @param predict_orientation true if the orientation should be predicted
+     */
+    quat get_orientation(bool predict_orientation) const;
+
+    /** Resets the orientation of the rift.
+     */
+    void reset_orientation();
+
     /** Gets the center offset.
     @returns the center offset
      */

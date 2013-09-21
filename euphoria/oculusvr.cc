@@ -38,13 +38,17 @@ const mat44& EyeSetup::view_adjust() const {
   return view_adjust_;
 }
 
-mat44 C(OVR::Matrix4f m) {
+mat44 C(const OVR::Matrix4f& m) {
   // matrix4f is row-major
   // mat44 is col major
   /// @todo this seems wrong, but it works out for the better, perhaps the
   /// viewmatrix should be transposed too, so we need to transpose twice?
   return mat44(m.M);
   // return cml::transpose(mat44(m.M));
+}
+
+quat C(const OVR::Quatf& q) {
+  return quat(q.x, q.y, q.z, q.w);
 }
 
 void SetupDummyValues(OVR::HMDInfo* device_info) {
@@ -90,13 +94,19 @@ struct OculusVr::OculusVrPimpl {
   vec2 center_offset_;
   vec4 chromatic_aberration_;
 
+  OVR::Ptr<OVR::SensorDevice> sensor_;
+  OVR::SensorFusion sensor_fusion_;
+
   OculusVrPimpl() : render_scale_(0.0f) , distortion_(0.0f, 0.0f, 0.0f, 0.0f),
     center_offset_(0.0f, 0.0f), chromatic_aberration_(0.0f, 0.0f, 0.0f, 0.0f) {
     assert(this);
-    /// @todo use correct resolution when creating the stereo
+
     device_manager_ = *OVR::DeviceManager::Create();
     device_ = *device_manager_->EnumerateDevices<OVR::HMDDevice>()
               .CreateDevice();
+
+    // Rendering setup:
+
     if (device_.GetPtr() != NULL) {
       device_->GetDeviceInfo(&device_info_);
       stereo_config_.SetHMDInfo(device_info_);
@@ -106,6 +116,7 @@ struct OculusVr::OculusVrPimpl {
       SetupDummyValues(&device_info_);
     }
 
+    /// @todo use correct resolution when creating the stereo
     const int Width = device_info_.HResolution;
     const int Height = device_info_.VResolution;
 
@@ -130,6 +141,15 @@ struct OculusVr::OculusVrPimpl {
                               distortion.ChromaticAberration[1],
                               distortion.ChromaticAberration[2],
                               distortion.ChromaticAberration[3]);
+
+    // Input setup:
+    if (device_.GetPtr() != NULL) {
+      sensor_ = device_->GetSensor();
+    }
+
+    if (sensor_) {
+      sensor_fusion_.AttachToSensor(sensor_);
+    }
   }
 
   const vec4& get_distortion() const {
@@ -140,6 +160,18 @@ struct OculusVr::OculusVrPimpl {
   float get_scale() const {
     assert(this);
     return render_scale_;
+  }
+
+  quat get_orientation(bool predict_orientation) const {
+    if (predict_orientation) {
+      return C(sensor_fusion_.GetPredictedOrientation());
+    } else {
+      return C(sensor_fusion_.GetOrientation());
+    }
+  }
+
+  void reset_orientation() {
+    sensor_fusion_.Reset();
   }
 
   const vec2& get_center_offset() const {
@@ -203,6 +235,16 @@ const vec4& OculusVr::get_distortion() const {
 float OculusVr::get_scale() const {
   assert(this);
   return pimpl_->get_scale();
+}
+
+quat OculusVr::get_orientation(bool predict_orientation) const {
+  assert(this);
+  return pimpl_->get_orientation(predict_orientation);
+}
+
+void OculusVr::reset_orientation() {
+  assert(this);
+  return pimpl_->reset_orientation();
 }
 
 const vec2& OculusVr::get_center_offset() const {

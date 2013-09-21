@@ -337,7 +337,7 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
 
  
 //  A predictive filter based on extrapolating the smoothed, current angular velocity
-Quatf SensorFusion::GetPredictedOrientation(float pdt)
+Quatf SensorFusion::GetPredictedOrientation(float pdt) const
 {		
 	Lock::Locker lockScope(Handler.GetHandlerLock());
 	Quatf        qP = QUncorrected;

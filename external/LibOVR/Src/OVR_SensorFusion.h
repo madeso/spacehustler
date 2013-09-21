@@ -70,8 +70,8 @@ public:
     Quatf       GetOrientation() const      { return lockedGet(&Q); }
 
     // Get predicted orientaion in the near future; predictDt is lookahead amount in seconds.
-    Quatf       GetPredictedOrientation(float predictDt);
-    Quatf       GetPredictedOrientation()   { return GetPredictedOrientation(PredictionDT); }
+    Quatf       GetPredictedOrientation(float predictDt) const;
+    Quatf       GetPredictedOrientation() const  { return GetPredictedOrientation(PredictionDT); }
 
     // Obtain the last absolute acceleration reading, in m/s^2.
     Vector3f    GetAcceleration() const     { return lockedGet(&A); }

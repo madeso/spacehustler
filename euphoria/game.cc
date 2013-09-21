@@ -133,13 +133,14 @@ bool Game::keep_running() const {
   return keep_running_;
 }
 
-void ModifyCamera(Camera* cam, const EyeSetup& eye) {
+void ModifyCamera(Camera* cam, const EyeSetup& eye,
+                  const quat& oculus_orientation) {
   const mat44 va = eye.view_adjust();
   mat44 vaa = va;
   /// @todo fix this scaling when we have scaled the example
   cml::matrix_set_translation(vaa, cml::matrix_get_translation(va) * 10);
   cam->set_projection(eye.projection());
-  cam->set_view(vaa * cam->view());
+  cam->set_view(vaa * cmat44(oculus_orientation) * cam->view());
 }
 
 void ClearScreen() {
@@ -164,7 +165,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   {
     Camera cam(camera);
-    ModifyCamera(&cam, eye);
+    ModifyCamera(&cam, eye, oculus.get_orientation(true));
     TextureUpdator tex(fbo);
     ClearScreen();
     if (is_right) {
