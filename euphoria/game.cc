@@ -100,8 +100,8 @@ Game::Game(const Settings& settings, bool renderoculus)
   oculusvr_.reset(new OculusVr());
 
   if (renderoculus_) {
-    const int texh = ceil(height_ * oculusvr_->get_scale());
-    const int texw = ceil(width_ * oculusvr_->get_scale());
+    const int texh = static_cast<int>(ceil(height_ * oculusvr_->get_scale()));
+    const int texw = static_cast<int>(ceil(width_ * oculusvr_->get_scale()));
     eyefbo_.reset(new Fbo(texw, texh, false));
 #ifdef OCULUS_TRANSFORM
     eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
