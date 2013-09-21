@@ -94,12 +94,34 @@ int Fbo::height() const {
   return height_;
 }
 
-TextureUpdator::TextureUpdator(Fbo* fbo) {
+TextureUpdator::TextureUpdator(Fbo* fbo)
+  : width_(fbo->width())
+  , height_(fbo->height()) {
   assert(fbo);
   fbo->Bind();
   glPushAttrib(GL_VIEWPORT_BIT);
+  SetSubRegion(0.0f, 1.0f, 0.0f, 1.0f);
+}
 
-  glViewport(0, 0, fbo->width(), fbo->height());
+bool IsBetween(float start, float x, float end) {
+  if (x < start) {
+    return false;
+  }
+  if (x > end) {
+    return false;
+  }
+  return true;
+}
+
+void TextureUpdator::SetSubRegion(float startx, float endx, float starty,
+                                  float endy) {
+  assert(IsBetween(0.0f, startx, 1.0f));
+  assert(IsBetween(0.0f, starty, 1.0f));
+  assert(IsBetween(0.0f, endx, 1.0f));
+  assert(IsBetween(0.0f, endy, 1.0f));
+  assert(startx < endx);
+  assert(starty < endy);
+  glViewport(width_ * startx, height_ * starty, width_ * endx, height_ * endy);
 }
 
 TextureUpdator::~TextureUpdator() {

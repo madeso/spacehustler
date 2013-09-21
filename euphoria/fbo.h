@@ -91,9 +91,20 @@ class TextureUpdator
      */
     explicit TextureUpdator(Fbo* fbo);
 
+    /** Sets to render in a subregion instead of on the whole fbo.
+    @param startx the X starting position
+    @param endx the X end position
+    @param starty the Y starting position
+    @param endy the Y end position
+     */
+    void SetSubRegion(float startx, float endx, float starty, float endy);
+
     /** Destructor.
      */
     ~TextureUpdator();
+  private:
+    int width_;
+    int height_;
 };
 
 #endif  // EUPHORIA_FBO_H_

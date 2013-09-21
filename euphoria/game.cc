@@ -142,9 +142,12 @@ void ModifyCamera(Camera* cam, const EyeSetup& eye) {
   cam->set_view(vaa * cam->view());
 }
 
-void SubRender(World* world, const Camera& camera, bool istweaking) {
+void ClearScreen() {
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void SubRender(World* world, const Camera& camera, bool istweaking) {
   world->Render(camera);
   if (istweaking) {
     RUNTWEAKCODE(TwDraw());
@@ -163,6 +166,12 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
     Camera cam(camera);
     ModifyCamera(&cam, eye);
     TextureUpdator tex(fbo);
+    ClearScreen();
+    if (is_right) {
+      tex.SetSubRegion(0.5f, 1.0f, 0.0f, 1.0f);
+    } else {
+      tex.SetSubRegion(0.0f, 0.5f, 0.0f, 1.0f);
+    }
     SubRender(world, cam, istweaking);
   }
 
@@ -236,6 +245,7 @@ void Game::Render() {
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), true,
               *oculusvr_.get(), height_, width_, istweaking_);
   } else {
+    ClearScreen();
     SubRender(world_.get(), *camera_.get(), istweaking_);
   }
 }
