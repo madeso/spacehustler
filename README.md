@@ -32,11 +32,11 @@ Planned Features and stuff that needs to be done
 * force feedback and 360 controller support
 * lights and shaddows
 * change from json to yaml/protobuf?
+* fix luadocgen
+* text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
+* hud/2d support
 * audio and music support
 * particle systems
-* fix luadocgen
-* text rendering, distance field fonts: http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
-* hud/2d support
 * lua console
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
 * add physics motor support
