@@ -391,17 +391,6 @@ void CTwGraphOpenGLCore::BeginDraw(int _WndWidth, int _WndHeight)
     m_OffsetX = 0;
     m_OffsetY = 0;
 
-    glGetIntegerv(GL_VIEWPORT, m_PrevViewport); CHECK_GL_ERROR;
-    if( _WndWidth>0 && _WndHeight>0 )
-    {
-        GLint Vp[4];
-        Vp[0] = 0;
-        Vp[1] = 0;
-        Vp[2] = _WndWidth-1;
-        Vp[3] = _WndHeight-1;
-        glViewport(Vp[0], Vp[1], Vp[2], Vp[3]);
-    }
-
     m_PrevVArray = 0;
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, (GLint*)&m_PrevVArray); CHECK_GL_ERROR;
     glBindVertexArray(0); CHECK_GL_ERROR;
@@ -510,8 +499,6 @@ void CTwGraphOpenGLCore::EndDraw()
     glUseProgram(m_PrevProgramObject); CHECK_GL_ERROR;
     
     glBindVertexArray(m_PrevVArray); CHECK_GL_ERROR;
-
-    glViewport(m_PrevViewport[0], m_PrevViewport[1], m_PrevViewport[2], m_PrevViewport[3]); CHECK_GL_ERROR;
 
     CHECK_GL_ERROR;
 }

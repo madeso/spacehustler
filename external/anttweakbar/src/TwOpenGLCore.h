@@ -60,7 +60,6 @@ protected:
     GLint               m_PrevDstBlend;
     GLboolean           m_PrevScissorTest;
     GLint               m_PrevScissorBox[4];
-    GLint               m_PrevViewport[4];
     GLuint              m_PrevProgramObject;
 
     GLuint              m_LineRectVS;

@@ -5390,6 +5390,9 @@ static int TwMouseEvent(ETwMouseAction _EventType, TwMouseButtonID _Button, int 
     if( _MouseX < 0 ) _MouseX = 0;
     if( _MouseY < 0 ) _MouseY = 0;
 
+    if( _MouseX > g_TwMgr->m_WndWidth ) _MouseX = g_TwMgr->m_WndWidth;
+    if( _MouseY > g_TwMgr->m_WndHeight) _MouseY = g_TwMgr->m_WndHeight;
+
     g_TwMgr->m_MouseX = _MouseX;
     g_TwMgr->m_MouseY = _MouseY;
 
