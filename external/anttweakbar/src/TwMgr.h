@@ -77,7 +77,7 @@ enum EButtonAlign
     BUTTON_ALIGN_RIGHT 
 };
 
-typedef int CCursor;
+typedef unsigned int CCursor;
 
 //  ---------------------------------------------------------------------------
 //  AntTweakBar Manager
@@ -299,16 +299,15 @@ struct CTwMgr
     CCursor             m_CursorTopLeft;
     CCursor             m_CursorTopRight;
     CCursor             m_CursorBottomLeft;
-    CCursor             m_CursorBottomRight;    
+    CCursor             m_CursorBottomRight;
     CCursor             m_CursorHelp;
-    CCursor             m_CursorHand;
-    CCursor             m_CursorCross;
-    CCursor             m_CursorUpArrow;
     CCursor             m_CursorNo;
-    CCursor             m_CursorIBeam;
+    CCursor             m_CursorIBeam; // text
     CCursor             m_RotoCursors[NB_ROTO_CURSORS];
     CCursor             m_CursorCenter;
     CCursor             m_CursorPoint;
+
+    CCursor currentCursor_;
 
     TwCopyCDStringToClient  m_CopyCDStringToClient;
     TwCopyStdStringToClient m_CopyStdStringToClient;

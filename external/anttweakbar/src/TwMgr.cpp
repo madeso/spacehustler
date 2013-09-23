@@ -7,7 +7,7 @@
 //
 //  ---------------------------------------------------------------------------
 
-
+#include "soil/SOIL.h"
 #include "TwPrecomp.h"
 #include <AntTweakBar.h>
 #include "TwMgr.h"
@@ -1832,6 +1832,8 @@ static int TwInitMgr()
     assert( g_TwMasterMgr!=NULL );
     assert( g_TwMgr!=NULL );
 
+    g_TwMgr->currentCursor_ = 0;
+
     g_TwMgr->m_CurrentFont = g_DefaultNormalFont;
     g_TwMgr->m_Graph = g_TwMasterMgr->m_Graph;
 
@@ -2141,7 +2143,7 @@ int ANT_CALL TwDraw()
         const int mouseSize = 20;
 
         // todo: pick cursor texture and use that instead!
-        Gr->DrawRect(g_TwMgr->m_MouseX, g_TwMgr->m_MouseY, g_TwMgr->m_MouseX+mouseSize, g_TwMgr->m_MouseY+mouseSize, 0xbfffffff);
+        Gr->DrawRectTex(g_TwMgr->m_MouseX, g_TwMgr->m_MouseY, g_TwMgr->m_MouseX+mouseSize, g_TwMgr->m_MouseY+mouseSize, g_TwMgr->currentCursor_);
 
         PERF( Timer.Reset(); )
         g_TwMgr->m_Graph->EndDraw();
@@ -6329,7 +6331,85 @@ bool CRect::Subtract(const vector<CRect>& _Rects, vector<CRect>& _OutRects) cons
 
 //  ---------------------------------------------------------------------------
 
-void CTwMgr::CreateCursors() {}
-void CTwMgr::FreeCursors() {}
-void CTwMgr::SetCursor(CCursor _Cursor) {}
+CCursor LoadCursorTexture(const std::string& name) {
+  const std::string path = "cursors/" + name + ".png";
+
+  GLuint TexID = 0;
+  glGenTextures(1, &TexID);
+  glBindTexture(GL_TEXTURE_2D, TexID);
+
+  int width_ = 0;
+  int height_ = 0;
+  int channels_ = 0;
+  unsigned char* pixels_ = 0;
+
+  pixels_ = SOIL_load_image(path.c_str(), &width_, &height_, &channels_, SOIL_LOAD_RGBA);
+  
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width_, (GLsizei)height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels_);
+
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  SOIL_free_image_data(pixels_);
+
+  return TexID;
+}
+
+void DeleteCursorTexture(CCursor cursor) {
+  glDeleteTextures(1, &cursor);
+}
+
+void CTwMgr::CreateCursors() {
+  if( m_CursorsCreated )
+    return;
+
+  m_CursorArrow =       LoadCursorTexture("ARROW");
+  m_CursorMove =        LoadCursorTexture("SIZEALL");
+  m_CursorWE =          LoadCursorTexture("SIZEWE");
+  m_CursorNS =          LoadCursorTexture("SIZENS");
+  m_CursorTopLeft =     LoadCursorTexture("SIZENWSE");
+  m_CursorTopRight =    LoadCursorTexture("SIZENESW");
+  m_CursorBottomLeft =  LoadCursorTexture("SIZENESW");
+  m_CursorBottomRight = LoadCursorTexture("SIZENWSE");
+  m_CursorHelp =        LoadCursorTexture("HELP");
+  m_CursorNo =          LoadCursorTexture("NO");
+  m_CursorIBeam =       LoadCursorTexture("IBEAM");
+  m_CursorCenter =      LoadCursorTexture("CROSS");
+  m_CursorPoint =       LoadCursorTexture("CROSS");
+
+  currentCursor_ = m_CursorArrow;
+
+  for(int cur=0; cur<NB_ROTO_CURSORS; ++cur ) {
+    m_RotoCursors[cur] = LoadCursorTexture("CROSS");
+  }
+
+  m_CursorsCreated = true;
+}
+
+void CTwMgr::FreeCursors() {
+  DeleteCursorTexture(m_CursorArrow        );
+  DeleteCursorTexture(m_CursorMove         );
+  DeleteCursorTexture(m_CursorWE           );
+  DeleteCursorTexture(m_CursorNS           );
+  DeleteCursorTexture(m_CursorTopLeft      );
+  DeleteCursorTexture(m_CursorTopRight     );
+  DeleteCursorTexture(m_CursorBottomLeft   );
+  DeleteCursorTexture(m_CursorBottomRight  );
+  DeleteCursorTexture(m_CursorHelp         );
+  DeleteCursorTexture(m_CursorNo           );
+  DeleteCursorTexture(m_CursorIBeam        );
+  DeleteCursorTexture(m_CursorCenter       );
+  DeleteCursorTexture(m_CursorPoint        );
+
+  for(int cur=0; cur<NB_ROTO_CURSORS; ++cur ) {
+    DeleteCursorTexture(m_RotoCursors[cur]);
+  }
+}
+
+void CTwMgr::SetCursor(CCursor _Cursor) {
+  currentCursor_ = _Cursor;
+}
 

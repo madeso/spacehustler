@@ -38,6 +38,7 @@ public:
     virtual void        DrawLine(int _X0, int _Y0, int _X1, int _Y1, color32 _Color, bool _AntiAliased=false) = 0;
     virtual void        DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _Color00, color32 _Color10, color32 _Color01, color32 _Color11) = 0;
     virtual void        DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _Color) = 0;
+    virtual void        DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigned int texture) = 0;
     enum Cull           { CULL_NONE, CULL_CW, CULL_CCW };
     virtual void        DrawTriangles(int _NumTriangles, int *_Vertices, color32 *_Colors, Cull _CullMode) = 0;
 

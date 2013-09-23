@@ -32,6 +32,7 @@ public:
     virtual void        DrawLine(int _X0, int _Y0, int _X1, int _Y1, color32 _Color, bool _AntiAliased=false) { DrawLine(_X0, _Y0, _X1, _Y1, _Color, _Color, _AntiAliased); }
     virtual void        DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _Color00, color32 _Color10, color32 _Color01, color32 _Color11);
     virtual void        DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _Color) { DrawRect(_X0, _Y0, _X1, _Y1, _Color, _Color, _Color, _Color); }
+    virtual void        DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigned int texture);
     virtual void        DrawTriangles(int _NumTriangles, int *_Vertices, color32 *_Colors, Cull _CullMode);
 
     virtual void *      NewTextObj();
@@ -44,6 +45,8 @@ public:
     virtual void        SetScissor(int _X0, int _Y0, int _Width, int _Height);
 
 protected:
+
+  void SubDrawText(void *_TextObj, int _X, int _Y, color32 _Color, color32 _BgColor, unsigned int texture);
     bool                m_Drawing;
     GLuint              m_FontTexID;
     const CTexFont *    m_FontTex;

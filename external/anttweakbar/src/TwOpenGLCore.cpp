@@ -615,6 +615,103 @@ void CTwGraphOpenGLCore::DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _C
     CHECK_GL_ERROR;
 }
 
+void CTwGraphOpenGLCore::DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigned int texture) {
+  const GLfloat x0 = 0;
+  const GLfloat y0 = 0;
+  const GLfloat x1 = 20;
+  const GLfloat y1 = 20;
+  const GLfloat u0 = 0.0f;
+  const GLfloat v0 = 0.0f;
+  const GLfloat u1 = 1.0f;
+  const GLfloat v1 = 1.0f;
+  const color32 _Color = 0xAF000000;
+
+  CTextObj tex;
+
+  tex.m_TextVerts.push_back(Vec2(x0,y0));
+  tex.m_TextVerts.push_back(Vec2(x1,y0));
+  tex.m_TextVerts.push_back(Vec2(x0,y1));
+  tex.m_TextVerts.push_back(Vec2(x1,y1));
+  
+  tex.m_TextUVs.push_back(Vec2(u0,v0));
+  tex.m_TextUVs.push_back(Vec2(u1,v0));
+  tex.m_TextUVs.push_back(Vec2(u0,v1));
+  tex.m_TextUVs.push_back(Vec2(u1,v1));
+
+  tex.m_Colors.push_back(_Color);
+  tex.m_Colors.push_back(_Color);
+  tex.m_Colors.push_back(_Color);
+  tex.m_Colors.push_back(_Color);
+
+  /*
+  tex.m_BgVerts;
+  tex.m_BgColors.push_back(_Color);
+  tex.m_BgColors.push_back(_Color);
+  tex.m_BgColors.push_back(_Color);
+  tex.m_BgColors.push_back(_Color);
+  */
+
+  SubDrawText(&tex, _X0, _Y0, _Color, _Color, texture);
+}
+
+/*{
+  CHECK_GL_ERROR;
+  assert(m_Drawing==true);
+
+  const color32 _Color = 0xAF000000;
+
+  // border adjustment
+  if(_X0<_X1)
+    ++_X1;
+  else if(_X0>_X1)
+    ++_X0;
+  if(_Y0<_Y1)
+    --_Y0;
+  else if(_Y0>_Y1)
+    --_Y1;
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, texture);
+
+  glBindVertexArray(m_LineRectVArray);
+
+  GLfloat x0 = ToNormScreenX((float)_X0 + m_OffsetX, m_WndWidth);
+  GLfloat y0 = ToNormScreenY((float)_Y0 + m_OffsetY, m_WndHeight);
+  GLfloat x1 = ToNormScreenX((float)_X1 + m_OffsetX, m_WndWidth);
+  GLfloat y1 = ToNormScreenY((float)_Y1 + m_OffsetY, m_WndHeight);
+  
+  GLfloat vertices[] = { x0,y0,0, x1,y0,0, x0,y1,0, x1,y1,0 };
+  glBindBuffer(GL_ARRAY_BUFFER, m_TriVertices);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, NULL);
+  glEnableVertexAttribArray(0);
+
+  GLfloat u0 = 0.0f;
+  GLfloat v0 = 0.0f;
+  GLfloat u1 = 1.0f;
+  GLfloat v1 = 1.0f;
+  GLfloat uvs[] = {u0,v0, u1,v0, u0,v1, u1,v1};
+  glBindBuffer(GL_ARRAY_BUFFER, m_TriUVs);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(uvs), uvs);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+  glEnableVertexAttribArray(1);
+
+  GLuint colors[] = { _Color, _Color, _Color, _Color };
+  glBindBuffer(GL_ARRAY_BUFFER, m_TriColors);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(colors), colors);
+  glVertexAttribPointer(1, GL_BGRA, GL_UNSIGNED_BYTE, GL_TRUE, 0, NULL);
+  glEnableVertexAttribArray(2);
+
+  glUseProgram(m_TriTexProgram);
+  glUniform2f(m_TriTexLocationOffset, (float)0, (float)0);
+  glUniform2f(m_TriTexLocationWndSize, (float)m_WndWidth, (float)m_WndHeight);
+  glUniform1i(m_TriTexLocationTexture, 0);
+
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+  CHECK_GL_ERROR;
+}*/
+
 //  ---------------------------------------------------------------------------
 
 void *CTwGraphOpenGLCore::NewTextObj()
@@ -723,6 +820,11 @@ void CTwGraphOpenGLCore::BuildText(void *_TextObj, const std::string *_TextLines
 
 void CTwGraphOpenGLCore::DrawText(void *_TextObj, int _X, int _Y, color32 _Color, color32 _BgColor)
 {
+  SubDrawText(_TextObj, _X, _Y, _Color, _BgColor, m_FontTexID);
+}
+
+void CTwGraphOpenGLCore::SubDrawText(void *_TextObj, int _X, int _Y, color32 _Color, color32 _BgColor, unsigned int texture)
+{
     CHECK_GL_ERROR;
     assert(m_Drawing==true);
     assert(_TextObj!=NULL);
@@ -773,7 +875,7 @@ void CTwGraphOpenGLCore::DrawText(void *_TextObj, int _X, int _Y, color32 _Color
     if( TextObj->m_TextVerts.size()>=4 )
     {
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_FontTexID);
+        glBindTexture(GL_TEXTURE_2D, texture);
         size_t numTextVerts = TextObj->m_TextVerts.size();
         if( numTextVerts > m_TriBufferSize )
             ResizeTriBuffers(numTextVerts + 2048);
