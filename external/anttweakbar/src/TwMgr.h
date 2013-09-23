@@ -77,12 +77,18 @@ enum EButtonAlign
     BUTTON_ALIGN_RIGHT 
 };
 
+typedef int CCursor;
+
 //  ---------------------------------------------------------------------------
 //  AntTweakBar Manager
 //  ---------------------------------------------------------------------------
 
 struct CTwMgr
 {
+
+  int m_MouseX;
+    int m_MouseY;
+
     ETwGraphAPI         m_GraphAPI;
     void *              m_Device;
     int                 m_WndID;
@@ -282,18 +288,6 @@ struct CTwMgr
     bool                m_IsRepeatingMousePressed;
     double              m_LastDrawTime;
 
-    #if defined(ANT_WINDOWS)
-        typedef HCURSOR CCursor;
-        CCursor         PixmapCursor(int _CurIdx);
-    #elif defined(ANT_UNIX)
-        typedef Cursor  CCursor;
-        CCursor         PixmapCursor(int _CurIdx);
-        Display *       m_CurrentXDisplay;
-        Window          m_CurrentXWindow;
-    #elif defined(ANT_OSX)
-        typedef NSCursor * CCursor;
-        CCursor         PixmapCursor(int _CurIdx);
-    #endif  // defined(ANT_UNIX)
     bool                m_CursorsCreated;
     void                CreateCursors();
     void                FreeCursors();

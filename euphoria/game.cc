@@ -269,7 +269,6 @@ void Game::Update(float dt) {
 
   if (tweak && tweak != last_tweak_action_) {
     istweaking_ = !istweaking_;
-    lock_mouse_ = !istweaking_;
   }
 
   last_tweak_action_ = tweak;

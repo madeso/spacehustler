@@ -832,7 +832,7 @@ int TwEventSDL2(const SDL_Event* event) {
       s_KeyMod = 0;
       break;
     case SDL_MOUSEMOTION:
-      handled = TwMouseMotion(event->motion.x, event->motion.y);
+      handled = TwMouseMotion(event->motion.xrel, event->motion.yrel);
       break;
     case SDL_MOUSEBUTTONUP:
     case SDL_MOUSEBUTTONDOWN:
@@ -987,7 +987,7 @@ void logic() {
         const bool down = event.type == SDL_KEYDOWN;
         game.OnKey(ToKey(event.key.keysym), 0, down);
       } else if (event.type == SDL_MOUSEMOTION) {
-        if (lock) {
+        if (lock && game.istweaking() == false) {
           xrel += event.motion.xrel;
           yrel += event.motion.yrel;
         }
@@ -1007,7 +1007,7 @@ void logic() {
         }
       }
 
-      if (lock == false && inside) {
+      if (lock && game.istweaking()) {
         TwEventSDL2(&event);
       }
     }
