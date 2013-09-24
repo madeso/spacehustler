@@ -677,32 +677,37 @@ void CTwGraphOpenGLCore::DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigne
 
   CTextObj tex;
   {
-    GLfloat x0 = ToNormScreenX((float)_X0 + m_OffsetX, m_WndWidth);
-    GLfloat y0 = ToNormScreenY((float)_Y0 + m_OffsetY, m_WndHeight);
-    GLfloat x1 = ToNormScreenX((float)_X1 + m_OffsetX, m_WndWidth);
-    GLfloat y1 = ToNormScreenY((float)_Y1 + m_OffsetY, m_WndHeight);
+    const int width = _X1 - _X0;
+    const int height = _Y1 - _Y0;
+
+    assert(width > 0);
+    assert(height > 0);
+
+    GLfloat x0 = ToNormScreenX((float)_X0 + m_OffsetX-width/2, m_WndWidth);
+    GLfloat y0 = ToNormScreenY((float)_Y0 + m_OffsetY-height/2, m_WndHeight);
+    GLfloat x1 = ToNormScreenX((float)_X1 + m_OffsetX-width/2, m_WndWidth);
+    GLfloat y1 = ToNormScreenY((float)_Y1 + m_OffsetY-height/2, m_WndHeight);
 
     const GLfloat u0 = 0.0f;
     const GLfloat v0 = 0.0f;
-    const GLfloat u1 = 2.0f;
-    const GLfloat v1 = 2.0f;
+    const GLfloat u1 = 1.0f;
+    const GLfloat v1 = 1.0f;
 
     const color32 _Color = 0xFFFFFFFF;
 
     tex.m_TextVerts.push_back(Vec2(x0,y0));
     tex.m_TextVerts.push_back(Vec2(x1,y0));
-    tex.m_TextVerts.push_back(Vec2(x0,y1));
-    tex.m_TextVerts.push_back(Vec2(x0,y0));
-    tex.m_TextVerts.push_back(Vec2(x1,y0));
     tex.m_TextVerts.push_back(Vec2(x1,y1));
-
-    tex.m_TextUVs.push_back(Vec2(u0,v0));
-    tex.m_TextUVs.push_back(Vec2(u1,v0));
-    tex.m_TextUVs.push_back(Vec2(u0,v1));
+    tex.m_TextVerts.push_back(Vec2(x0,y0));
+    tex.m_TextVerts.push_back(Vec2(x1,y1));
+    tex.m_TextVerts.push_back(Vec2(x0,y1));
 
     tex.m_TextUVs.push_back(Vec2(u0,v0));
     tex.m_TextUVs.push_back(Vec2(u1,v0));
     tex.m_TextUVs.push_back(Vec2(u1,v1));
+    tex.m_TextUVs.push_back(Vec2(u0,v0));
+    tex.m_TextUVs.push_back(Vec2(u1,v1));
+    tex.m_TextUVs.push_back(Vec2(u0,v1));
 
     tex.m_Colors.push_back(_Color);
     tex.m_Colors.push_back(_Color);
