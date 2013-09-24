@@ -296,13 +296,7 @@ int CTwGraphOpenGLCore::Init()
       "in vec2 fuv;"
       "in vec4 fcolor;"
       "out vec4 outColor;"
-      // texture2D is deprecated and replaced by texture with GLSL 3.30 but it seems 
-      // that on Mac Lion backward compatibility is not ensured.
-#if defined(ANT_OSX) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 1070)
-      "void main() { outColor.rgb = fcolor.bgr; outColor.a = fcolor.a * texture(tex, fuv).r; }"
-#else
       "void main() { outColor = fcolor * texture2D(tex, fuv); }"
-#endif
     };
     m_sTriTexFS = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(m_sTriTexFS, 1, striTexFS, NULL);
@@ -360,7 +354,7 @@ int CTwGraphOpenGLCore::Init()
     m_TriTexLocationTexture = glGetUniformLocation(m_TriTexProgram, "tex");
 
     m_sTriTexProgram = glCreateProgram();
-    glAttachShader(m_sTriTexProgram, m_TriTexVS);
+    glAttachShader(m_sTriTexProgram, m_sTriTexVS);
     glAttachShader(m_sTriTexProgram, m_sTriTexFS);
     glBindAttribLocation(m_sTriTexProgram, 0, "vertex");
     glBindAttribLocation(m_sTriTexProgram, 1, "uv");
