@@ -79,7 +79,10 @@ protected:
     GLuint              m_TriUniProgram;
     GLuint              m_TriTexVS;
     GLuint              m_TriTexFS;
+    GLuint              m_sTriTexVS;
+    GLuint              m_sTriTexFS;
     GLuint              m_TriTexProgram;
+    GLuint              m_sTriTexProgram;
     GLuint              m_TriTexUniVS;
     GLuint              m_TriTexUniFS;
     GLuint              m_TriTexUniProgram;
@@ -100,6 +103,10 @@ protected:
     GLint               m_TriTexUniLocationColor;
     GLint               m_TriTexUniLocationTexture;
     size_t              m_TriBufferSize;
+
+    GLint               m_sTriTexLocationOffset ;
+    GLint               m_sTriTexLocationWndSize;
+    GLint               m_sTriTexLocationTexture;
 
     int                 m_WndWidth;
     int                 m_WndHeight;

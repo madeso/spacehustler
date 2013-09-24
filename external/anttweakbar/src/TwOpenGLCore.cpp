@@ -270,6 +270,44 @@ int CTwGraphOpenGLCore::Init()
     glShaderSource(m_TriTexFS, 1, triTexFS, NULL);
     CompileShader(m_TriTexFS);
 
+    const GLchar *striTexVS[] = {
+      "#version 150 core\n"
+      "uniform vec2 offset;"
+      "uniform vec2 wndSize;"
+      "in vec2 vertex;"
+      "in vec2 uv;"
+      "in vec4 color;"
+      "out vec2 fuv;"
+      "out vec4 fcolor;"
+      "void main() { "
+      "gl_Position = vec4(2.0*(vertex.x+offset.x-0.5)/wndSize.x - 1.0, 1.0 - 2.0*(vertex.y+offset.y-0.5)/wndSize.y, 0, 1);"
+      "fuv = uv;"
+      "fcolor = color;"
+      " }"
+    };
+    m_sTriTexVS = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(m_sTriTexVS, 1, striTexVS, NULL);
+    CompileShader(m_sTriTexVS);
+
+    const GLchar *striTexFS[] = {
+      "#version 150 core\n"
+      "precision highp float;"
+      "uniform sampler2D tex;"
+      "in vec2 fuv;"
+      "in vec4 fcolor;"
+      "out vec4 outColor;"
+      // texture2D is deprecated and replaced by texture with GLSL 3.30 but it seems 
+      // that on Mac Lion backward compatibility is not ensured.
+#if defined(ANT_OSX) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 1070)
+      "void main() { outColor.rgb = fcolor.bgr; outColor.a = fcolor.a * texture(tex, fuv).r; }"
+#else
+      "void main() { outColor = fcolor * texture2D(tex, fuv); }"
+#endif
+    };
+    m_sTriTexFS = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(m_sTriTexFS, 1, striTexFS, NULL);
+    CompileShader(m_sTriTexFS);
+
     const GLchar *triTexVS[] = {
         "#version 150 core\n"
         "uniform vec2 offset;"
@@ -279,7 +317,11 @@ int CTwGraphOpenGLCore::Init()
         "in vec4 color;"
         "out vec2 fuv;"
         "out vec4 fcolor;"
-        "void main() { gl_Position = vec4(2.0*(vertex.x+offset.x-0.5)/wndSize.x - 1.0, 1.0 - 2.0*(vertex.y+offset.y-0.5)/wndSize.y, 0, 1); fuv = uv; fcolor = color; }"
+        "void main() { "
+        "gl_Position = vec4(2.0*(vertex.x+offset.x-0.5)/wndSize.x - 1.0, 1.0 - 2.0*(vertex.y+offset.y-0.5)/wndSize.y, 0, 1);"
+        "fuv = uv;"
+        "fcolor = color;"
+        " }"
     };
     m_TriTexVS = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(m_TriTexVS, 1, triTexVS, NULL);
@@ -294,7 +336,11 @@ int CTwGraphOpenGLCore::Init()
         "in vec2 uv;"
         "out vec4 fcolor;"
         "out vec2 fuv;"
-        "void main() { gl_Position = vec4(2.0*(vertex.x+offset.x-0.5)/wndSize.x - 1.0, 1.0 - 2.0*(vertex.y+offset.y-0.5)/wndSize.y, 0, 1); fuv = uv; fcolor = color; }"
+        "void main() {"
+        "gl_Position = vec4(2.0*(vertex.x+offset.x-0.5)/wndSize.x - 1.0, 1.0 - 2.0*(vertex.y+offset.y-0.5)/wndSize.y, 0, 1);"
+        "fuv = uv;"
+        "fcolor = color;"
+        "}"
     };
     m_TriTexUniVS = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(m_TriTexUniVS, 1, triTexUniVS, NULL);
@@ -312,6 +358,17 @@ int CTwGraphOpenGLCore::Init()
     m_TriTexLocationOffset = glGetUniformLocation(m_TriTexProgram, "offset");
     m_TriTexLocationWndSize = glGetUniformLocation(m_TriTexProgram, "wndSize");
     m_TriTexLocationTexture = glGetUniformLocation(m_TriTexProgram, "tex");
+
+    m_sTriTexProgram = glCreateProgram();
+    glAttachShader(m_sTriTexProgram, m_TriTexVS);
+    glAttachShader(m_sTriTexProgram, m_sTriTexFS);
+    glBindAttribLocation(m_sTriTexProgram, 0, "vertex");
+    glBindAttribLocation(m_sTriTexProgram, 1, "uv");
+    glBindAttribLocation(m_sTriTexProgram, 2, "color");
+    LinkProgram(m_sTriTexProgram);
+    m_sTriTexLocationOffset = glGetUniformLocation(m_sTriTexProgram, "offset");
+    m_sTriTexLocationWndSize = glGetUniformLocation(m_sTriTexProgram, "wndSize");
+    m_sTriTexLocationTexture = glGetUniformLocation(m_sTriTexProgram, "tex");
 
     m_TriTexUniProgram = glCreateProgram();
     glAttachShader(m_TriTexUniProgram, m_TriTexUniVS);
@@ -355,6 +412,11 @@ int CTwGraphOpenGLCore::Shut()
 
     glDeleteProgram(m_TriUniProgram); m_TriUniProgram = 0;
     glDeleteShader(m_TriUniVS); m_TriUniVS = 0;
+
+    
+    glDeleteProgram(m_sTriTexProgram); m_sTriTexProgram = 0;
+    glDeleteShader(m_sTriTexFS); m_sTriTexFS = 0;
+    glDeleteShader(m_sTriTexVS); m_sTriTexVS = 0;
 
     glDeleteProgram(m_TriTexProgram); m_TriTexProgram = 0;
     glDeleteShader(m_TriTexVS); m_TriTexVS = 0;
@@ -616,43 +678,138 @@ void CTwGraphOpenGLCore::DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _C
 }
 
 void CTwGraphOpenGLCore::DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigned int texture) {
+  CHECK_GL_ERROR;
+  assert(m_Drawing==true);
+
+  CTextObj tex;
+  {
+    const GLfloat x0 = 0;
+    const GLfloat y0 = 0;
+    const GLfloat x1 = 20;
+    const GLfloat y1 = 20;
+
+    const GLfloat u0 = 0.0f;
+    const GLfloat v0 = 0.0f;
+    const GLfloat u1 = 1.0f;
+    const GLfloat v1 = 1.0f;
+
+    const color32 _Color = 0xFFFFFFFF;
+
+    tex.m_TextVerts.push_back(Vec2(x0,y0));
+    tex.m_TextVerts.push_back(Vec2(x1,y0));
+    tex.m_TextVerts.push_back(Vec2(x0,y1));
+    tex.m_TextVerts.push_back(Vec2(x0,y0));
+    tex.m_TextVerts.push_back(Vec2(x1,y0));
+    tex.m_TextVerts.push_back(Vec2(x1,y1));
+
+    tex.m_TextUVs.push_back(Vec2(u0,v0));
+    tex.m_TextUVs.push_back(Vec2(u1,v0));
+    tex.m_TextUVs.push_back(Vec2(u0,v1));
+
+    tex.m_TextUVs.push_back(Vec2(u0,v0));
+    tex.m_TextUVs.push_back(Vec2(u1,v0));
+    tex.m_TextUVs.push_back(Vec2(u1,v1));
+
+    tex.m_Colors.push_back(_Color);
+    tex.m_Colors.push_back(_Color);
+    tex.m_Colors.push_back(_Color);
+    tex.m_Colors.push_back(_Color);
+    tex.m_Colors.push_back(_Color);
+    tex.m_Colors.push_back(_Color);
+  }
+  CTextObj* _TextObj = &tex;
+  int _BgColor = 0;
+  int _Color = 0;
+  int _X = _X0;
+  int _Y = _Y0;
+
+  assert(_TextObj!=NULL);
+  CTextObj *TextObj = static_cast<CTextObj *>(_TextObj);
+
+  if( TextObj->m_TextVerts.size()<4 && TextObj->m_BgVerts.size()<4 )
+    return; // nothing to draw
+
+  // draw character triangles
+  if( TextObj->m_TextVerts.size()>=4 )
+  {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    size_t numTextVerts = TextObj->m_TextVerts.size();
+    if( numTextVerts > m_TriBufferSize )
+      ResizeTriBuffers(numTextVerts + 2048);
+
+    glBindVertexArray(m_TriVArray);
+    glDisableVertexAttribArray(2);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_TriVertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, numTextVerts*sizeof(Vec2), &(TextObj->m_TextVerts[0]));
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_TRUE, 0, NULL);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_TriUVs);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, numTextVerts*sizeof(Vec2), &(TextObj->m_TextUVs[0]));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+    glEnableVertexAttribArray(1);
+
+    assert( TextObj->m_Colors.size()==TextObj->m_TextVerts.size() && _Color==0 );
+    {
+      glBindBuffer(GL_ARRAY_BUFFER, m_TriColors);
+      glBufferSubData(GL_ARRAY_BUFFER, 0, numTextVerts*sizeof(color32), &(TextObj->m_Colors[0]));
+      glVertexAttribPointer(2, GL_BGRA, GL_UNSIGNED_BYTE, GL_TRUE, 0, NULL);
+      glEnableVertexAttribArray(2);
+
+      glUseProgram(m_sTriTexProgram);
+      glUniform2f(m_TriTexLocationOffset, (float)_X, (float)_Y);
+      glUniform2f(m_TriTexLocationWndSize, (float)m_WndWidth, (float)m_WndHeight);
+      glUniform1i(m_TriTexLocationTexture, 0);
+    }
+
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)TextObj->m_TextVerts.size());
+  }
+
+  CHECK_GL_ERROR;
+}
+
+
+/*{
   const GLfloat x0 = 0;
   const GLfloat y0 = 0;
   const GLfloat x1 = 20;
   const GLfloat y1 = 20;
+
   const GLfloat u0 = 0.0f;
   const GLfloat v0 = 0.0f;
   const GLfloat u1 = 1.0f;
   const GLfloat v1 = 1.0f;
-  const color32 _Color = 0xAF000000;
+  
+  const color32 _Color = 0xFFFFFFFF;
 
   CTextObj tex;
 
   tex.m_TextVerts.push_back(Vec2(x0,y0));
   tex.m_TextVerts.push_back(Vec2(x1,y0));
   tex.m_TextVerts.push_back(Vec2(x0,y1));
+  tex.m_TextVerts.push_back(Vec2(x0,y0));
+  tex.m_TextVerts.push_back(Vec2(x1,y0));
   tex.m_TextVerts.push_back(Vec2(x1,y1));
   
   tex.m_TextUVs.push_back(Vec2(u0,v0));
   tex.m_TextUVs.push_back(Vec2(u1,v0));
   tex.m_TextUVs.push_back(Vec2(u0,v1));
+
+  tex.m_TextUVs.push_back(Vec2(u0,v0));
+  tex.m_TextUVs.push_back(Vec2(u1,v0));
   tex.m_TextUVs.push_back(Vec2(u1,v1));
 
   tex.m_Colors.push_back(_Color);
   tex.m_Colors.push_back(_Color);
   tex.m_Colors.push_back(_Color);
   tex.m_Colors.push_back(_Color);
-
-  /*
-  tex.m_BgVerts;
-  tex.m_BgColors.push_back(_Color);
-  tex.m_BgColors.push_back(_Color);
-  tex.m_BgColors.push_back(_Color);
-  tex.m_BgColors.push_back(_Color);
-  */
+  tex.m_Colors.push_back(_Color);
+  tex.m_Colors.push_back(_Color);
 
   SubDrawText(&tex, _X0, _Y0, _Color, _Color, texture);
-}
+}*/
 
 /*{
   CHECK_GL_ERROR;
