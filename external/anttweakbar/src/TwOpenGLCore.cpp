@@ -280,7 +280,7 @@ int CTwGraphOpenGLCore::Init()
       "out vec2 fuv;"
       "out vec4 fcolor;"
       "void main() { "
-      "gl_Position = vec4(2.0*(vertex.x+offset.x-0.5)/wndSize.x - 1.0, 1.0 - 2.0*(vertex.y+offset.y-0.5)/wndSize.y, 0, 1);"
+      "gl_Position = vec4(vertex.x+offset.x, vertex.y+offset.y, 0, 1);"
       "fuv = uv;"
       "fcolor = color;"
       " }"
@@ -677,15 +677,15 @@ void CTwGraphOpenGLCore::DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigne
 
   CTextObj tex;
   {
-    const GLfloat x0 = 0;
-    const GLfloat y0 = 0;
-    const GLfloat x1 = 20;
-    const GLfloat y1 = 20;
+    GLfloat x0 = ToNormScreenX((float)_X0 + m_OffsetX, m_WndWidth);
+    GLfloat y0 = ToNormScreenY((float)_Y0 + m_OffsetY, m_WndHeight);
+    GLfloat x1 = ToNormScreenX((float)_X1 + m_OffsetX, m_WndWidth);
+    GLfloat y1 = ToNormScreenY((float)_Y1 + m_OffsetY, m_WndHeight);
 
     const GLfloat u0 = 0.0f;
     const GLfloat v0 = 0.0f;
-    const GLfloat u1 = 1.0f;
-    const GLfloat v1 = 1.0f;
+    const GLfloat u1 = 2.0f;
+    const GLfloat v1 = 2.0f;
 
     const color32 _Color = 0xFFFFFFFF;
 
@@ -714,8 +714,8 @@ void CTwGraphOpenGLCore::DrawRectTex(int _X0, int _Y0, int _X1, int _Y1, unsigne
   CTextObj* _TextObj = &tex;
   int _BgColor = 0;
   int _Color = 0;
-  int _X = _X0;
-  int _Y = _Y0;
+  float _X = 0;
+  float _Y = 0;
 
   assert(_TextObj!=NULL);
   CTextObj *TextObj = static_cast<CTextObj *>(_TextObj);

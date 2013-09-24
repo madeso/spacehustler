@@ -2140,9 +2140,10 @@ int ANT_CALL TwDraw()
         PERF( DT = Timer.GetTime(); printf("Draw=%.4fms ", 1000.0*DT); )
 
         ITwGraph *Gr = g_TwMgr->m_Graph;
-        const int mouseSize = 20;
+        const int mouseSize = 40;
 
         // todo: pick cursor texture and use that instead!
+        // Gr->DrawRect(g_TwMgr->m_MouseX, g_TwMgr->m_MouseY, g_TwMgr->m_MouseX+mouseSize, g_TwMgr->m_MouseY+mouseSize, 0x70ffffff);
         Gr->DrawRectTex(g_TwMgr->m_MouseX, g_TwMgr->m_MouseY, g_TwMgr->m_MouseX+mouseSize, g_TwMgr->m_MouseY+mouseSize, g_TwMgr->currentCursor_);
 
         PERF( Timer.Reset(); )

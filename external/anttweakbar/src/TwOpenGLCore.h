@@ -113,7 +113,18 @@ protected:
     int                 m_OffsetX;
     int                 m_OffsetY;
 
-    struct Vec2         { GLfloat x, y; Vec2(){} Vec2(GLfloat _X, GLfloat _Y):x(_X),y(_Y){} Vec2(int _X, int _Y):x(GLfloat(_X)),y(GLfloat(_Y)){} };
+    struct Vec2 {
+      GLfloat x, y;
+      Vec2(){}
+      Vec2(GLfloat _X, GLfloat _Y)
+        :x(_X)
+        ,y(_Y) {
+      }
+      Vec2(int _X, int _Y)
+        :x(GLfloat(_X))
+        ,y(GLfloat(_Y)) {
+      }
+    };
     struct CTextObj
     {
         std::vector<Vec2>   m_TextVerts;
