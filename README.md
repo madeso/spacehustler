@@ -34,15 +34,16 @@ Planned Features and stuff that needs to be done
 * fix luadocgen
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
 * hud/2d support
+* debug overlay
+* menu support (ce gui?)
+* redesign input
 * audio and music support
 * particle systems
-* lua console
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
 * add physics motor support
 * add leap motion support
 * lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
-* menu support (ce gui?)
 * implement all the todos
 * add loading of shaders from files with preprocessor
 * godrays
