@@ -37,4 +37,24 @@
 			, {"action":"enable_tweak", "key":"Tab", "device":0}
 		]
 	}
+	
+	,{
+		"name": "360"
+		,"keys": [
+			{"action":"force", "key":"JoystickU-", "device":0, "invert":true}
+			, {"action":"yaw+", "key":"JoystickZ-", "device":0}
+			, {"action":"yaw-", "key":"JoystickZ+", "device":0}
+			, {"action":"pitch+", "key":"JoystickY+", "device":0}
+			, {"action":"pitch-", "key":"JoystickY-", "device":0}
+			, {"action":"roll+","key":"JoystickX-", "device":0}
+			, {"action":"roll-","key":"JoystickX+", "device":0}
+			, {"action":"reset","key":"JoystickButton5", "device":0}
+			, {"action":"quit", "key":"Esc", "device":0}
+			, {"action":"camright", "key":"JoystickButton3", "device":0}
+			, {"action":"camleft", "key":"JoystickButton4", "device":0}
+			, {"action":"camup", "key":"JoystickButton2", "device":0}
+			, {"action":"camdown", "key":"JoystickButton1", "device":0}
+			, {"action":"enable_tweak", "key":"Tab", "device":0}
+		]
+	}
 ]
