@@ -10,6 +10,7 @@ Oculus VR related integration code.
 
 #include <boost/noncopyable.hpp>
 #include <memory>
+#include <string>
 
 #include "euphoria/math.h"
 
@@ -113,6 +114,11 @@ class OculusVr : boost::noncopyable {
     @returns the the chromatic aberration values from the oculus sdk
      */
     const vec4 get_chromatic_aberration() const;
+
+    /** Gets the detection message.
+    @returns the detection message.
+     */
+    const std::string detection_message() const;
 
   private:
     struct OculusVrPimpl;

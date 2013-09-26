@@ -4,6 +4,7 @@
 #include "euphoria/oculusvr.h"
 
 #include <cassert>
+#include <string>
 
 #include "OVR.h"  // NOLINT this is how you should include OVR
 
@@ -184,6 +185,20 @@ struct OculusVr::OculusVrPimpl {
     return chromatic_aberration_;
   }
 
+  const std::string detection_message() const {
+    if (!device_ && !sensor_) {
+      return "Oculus Rift not detected.";
+    } else if (!device_) {
+      return "Oculus Sensor detected; HMD Display not detected.";
+    } else if (!sensor_) {
+      return "Oculus HMD Display detected; Sensor not detected.";
+    } else if (device_info_.DisplayDeviceName[0] == '\0') {
+      return "Oculus Sensor detected; HMD display EDID not detected.";
+    } else {
+      return "";
+    }
+  }
+
   ~OculusVrPimpl() {
     assert(this);
   }
@@ -255,4 +270,9 @@ const vec2& OculusVr::get_center_offset() const {
 const vec4 OculusVr::get_chromatic_aberration() const {
   assert(this);
   return pimpl_->get_chromatic_aberration();
+}
+
+const std::string OculusVr::detection_message() const {
+  assert(this);
+  return pimpl_->detection_message();
 }
