@@ -28,7 +28,8 @@ Build tools
 Planned Features and stuff that needs to be done
 =======
 * add oculus rift support
-* force feedback and 360 controller support
+* redesign input system
+* force feedback
 * lights and shaddows
 * change from json to yaml/protobuf?
 * fix luadocgen
@@ -36,7 +37,6 @@ Planned Features and stuff that needs to be done
 * hud/2d support
 * debug overlay
 * menu support (ce gui?)
-* redesign input
 * audio and music support
 * particle systems
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
