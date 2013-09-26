@@ -15,7 +15,6 @@
 
 #include "btBulletDynamicsCommon.h"  // NOLINT this is the proper way to include bullet
 
-
 const std::string PhysicsSystemType = "Physics";
 
 class PhysicsType : public ComponentType {
@@ -68,13 +67,32 @@ namespace {
   }
 }  // namespace
 
+class PhysicsObject;
+
+class CollisionInfo {
+  public:
+    CollisionInfo()
+      : distance_(0.0f), impulse_(0.0f), other_(NULL) {
+    }
+
+    CollisionInfo(float distance, float impulse, PhysicsObject* other)
+      : distance_(distance), impulse_(distance), other_(other) {
+    }
+
+  private:
+    float distance_;
+    float impulse_;
+    PhysicsObject* other_;
+};
+
 class PhysicsObject {
   public:
     PhysicsObject(Entity* entity,
                   std::shared_ptr<btDiscreteDynamicsWorld> world,
-                  const PhysicsType& data)
+                  const PhysicsType& data, size_t index)
       : entity(entity)
-      , dynamicsWorld(world) {
+      , dynamicsWorld(world)
+      , index_(new size_t(index)) {
       shape.reset(new btBoxShape(btVector3(data.width / 2, data.height / 2,
                                            data.depth / 2)));
 
@@ -97,17 +115,23 @@ class PhysicsObject {
       btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState.get()
           , shape.get(), localInertia);
       body.reset(new btRigidBody(rbInfo));
+      body->setUserPointer(index_.get());
 
       // add the body to the dynamics world
       connection.reset(new WorldBodyConenction(dynamicsWorld, body));
     }
 
     void Update() {
+      collisioninfo.resize(0);
       btTransform trans;
       body->getMotionState()->getWorldTransform(trans);
       assert(entity);
       entity->position = C(trans.getOrigin());
       entity->rotation = C(trans.getRotation());
+    }
+
+    void addCollision(float distance, float impulse, PhysicsObject* other) {
+      collisioninfo.push_back(CollisionInfo(distance, impulse, other));
     }
 
     Entity* entity;
@@ -116,6 +140,8 @@ class PhysicsObject {
     std::shared_ptr<btDefaultMotionState> myMotionState;
     std::shared_ptr<btRigidBody> body;
     std::shared_ptr<WorldBodyConenction> connection;
+    std::vector<CollisionInfo> collisioninfo;
+    std::shared_ptr<size_t> index_;
 };
 
 class StaticMesh {
@@ -260,7 +286,8 @@ class PhysicsSystem : public System {
       PhysicsType* pt = static_cast<PhysicsType*>(type);
       std::size_t index = objects_.size();
       lookup_.insert(std::make_pair(entity, index));
-      objects_.push_back(PhysicsObject(entity, dynamics_world_, *pt));
+      objects_.push_back(PhysicsObject(entity, dynamics_world_, *pt,
+                                       objects_.size()));
     }
 
     void Step(float dt) {
@@ -273,6 +300,39 @@ class PhysicsSystem : public System {
       TWEAK(debugPhysics);
       if (debugPhysics) {
         dynamics_world_->debugDrawWorld();
+      }
+
+      int numManifolds = dynamics_world_->getDispatcher()->getNumManifolds();
+      for (int i = 0; i < numManifolds; i++) {
+        btPersistentManifold* contactManifold =  dynamics_world_->
+            getDispatcher()->getManifoldByIndexInternal(i);
+
+        const btCollisionObject* obA = contactManifold->getBody0();
+        const btCollisionObject* obB = contactManifold->getBody1();
+
+        void* userDataA = obA->getUserPointer();
+        void* userDataB = obB->getUserPointer();
+
+        PhysicsObject* physA = userDataA ? &objects_[*static_cast<size_t*>
+                               (userDataA)] : NULL;
+        PhysicsObject* physB = userDataB ? &objects_[*static_cast<size_t*>
+                               (userDataB)] : NULL;
+
+        int numContacts = contactManifold->getNumContacts();
+        for (int j = 0; j < numContacts; j++) {
+          btManifoldPoint& pt = contactManifold->getContactPoint(j);
+          if (pt.getDistance() < 0.f) {
+            const btVector3& ptA = pt.getPositionWorldOnA();
+            const btVector3& ptB = pt.getPositionWorldOnB();
+            const btVector3& normalOnB = pt.m_normalWorldOnB;
+            if (physA) {
+              physA->addCollision(pt.m_distance1, pt.m_appliedImpulse, physB);
+            }
+            if (physB) {
+              physA->addCollision(pt.m_distance1, pt.m_appliedImpulse, physA);
+            }
+          }
+        }
       }
     }
 
