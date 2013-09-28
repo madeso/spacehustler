@@ -304,31 +304,30 @@ if(USE_DOXYGEN_BUILD)
 	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir ${CMAKE_SOURCE_DIR}/euphoria")
 endif(USE_DOXYGEN_BUILD)
 
-option(USE_MAIN_SFML "Use sfml as launch library" ON)
+#	Legacy launcher, not used anymore
+#	option(USE_MAIN_SFML "Use sfml as launch library" ON)
+#	if(USE_MAIN_SFML)
+#		if(WIN32)
+#			#on windows, link to sfml static, to avoid crash on exit with ati cards
+#			set(SFML_STATIC_LIBRARIES TRUE)
+#			message(STATUS "using static sfml libraries")
+#		else(WIN32)
+#			#on linux, link with dynamic since static library dependencies are horrible on linux
+#			message(STATUS "using non-static libraries")
+#		endif(WIN32)
+#	
+#		#on windows main is needed, not on linux
+#		if(WIN32)
+#			find_package(SFML 2 COMPONENTS system window main REQUIRED)
+#		else(WIN32)
+#			find_package(SFML 2 COMPONENTS system window REQUIRED)
+#		endif(WIN32)
+#		
+#		GenerateMain("sfml" main-sfml "${SFML_INCLUDE_DIR}" "${SFML_LIBRARIES}")
+#	endif(USE_MAIN_SFML)
+
 option(USE_MAIN_SDL2 "Use sdl2 as launch library" ON)
-
-if(USE_MAIN_SFML)
-	if(WIN32)
-		#on windows, link to sfml static, to avoid crash on exit with ati cards
-		set(SFML_STATIC_LIBRARIES TRUE)
-		message(STATUS "using static sfml libraries")
-	else(WIN32)
-		#on linux, link with dynamic since static library dependencies are horrible on linux
-		message(STATUS "using non-static libraries")
-	endif(WIN32)
-
-	#on windows main is needed, not on linux
-	if(WIN32)
-		find_package(SFML 2 COMPONENTS system window main REQUIRED)
-	else(WIN32)
-		find_package(SFML 2 COMPONENTS system window REQUIRED)
-	endif(WIN32)
-	
-	GenerateMain("sfml" main-sfml "${SFML_INCLUDE_DIR}" "${SFML_LIBRARIES}")
-endif(USE_MAIN_SFML)
-
 if(USE_MAIN_SDL2)
 	find_package(SDL2 REQUIRED)
-	
 	GenerateMain("sdl2" main-sdl2 "${SDL2_INCLUDE_DIR}" "${SDL2_LIBRARY}")
 endif(USE_MAIN_SDL2)
