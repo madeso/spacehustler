@@ -15,7 +15,6 @@ if(USE_TWEAKABLES)
 		../external/anttweakbar/src/TwOpenGLCore.cpp
 		../external/anttweakbar/src/TwOpenGLCore.h
 		../external/anttweakbar/src/TwPrecomp.h
-		../external/anttweakbar/src/res/TwXCursors.h
 	)
 	ADD_DEFINITIONS( -DTW_STATIC )
 endif(USE_TWEAKABLES)

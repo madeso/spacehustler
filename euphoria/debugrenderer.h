@@ -10,7 +10,7 @@ Debug rendering.
 
 #include <vector>
 
-#include "euphoria/colors.h"  // include colors so that users can use all the colors
+#include "euphoria/color.h"
 #include "euphoria/math.h"
 #include "euphoria/openglraii.h"
 #include "euphoria/shader.h"
