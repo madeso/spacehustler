@@ -47,6 +47,14 @@ Table::~Table() {
   reference_ = LUA_NOREF;
 }
 
+void Table::Set(const std::string& name, float value) {
+  assert(this);
+  assert(state_);
+  lua_pushstring(state_, name.c_str());
+  lua_pushnumber(state_, value);
+  lua_settable(state_, reference_);
+}
+
 void Table::PushToState(lua_State* astate) const {
   assert(this);
   assert(state_);

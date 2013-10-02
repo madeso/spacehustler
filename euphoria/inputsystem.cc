@@ -5,6 +5,29 @@
 #include <cassert>
 
 #include "euphoria/str.h"
+#include "euphoria/lua.h"
+
+InputAction::InputAction(const std::string& scriptvarname)
+  : scriptvarname_(scriptvarname), state_(0.0f) {
+  assert(this);
+}
+
+const std::string& InputAction::scriptvarname() const {
+  assert(this);
+  return scriptvarname_;
+}
+
+float InputAction::state() const {
+  assert(this);
+  return state_;
+}
+
+void InputAction::set_state(float state) {
+  assert(this);
+  state_ = state;
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 InputActionMap::InputActionMap() {
   assert(this);
@@ -72,6 +95,60 @@ std::shared_ptr<ConnectedUnits> KeyConfigs::GetFirstAutoDetectedConfig() const {
   std::shared_ptr<ConnectedUnits> dummy;
   return dummy;
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+InputSystem::InputSystem() {
+  assert(this);
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+ConnectedUnits::ConnectedUnits() {
+  assert(this);
+}
+
+void ConnectedUnits::Add(std::shared_ptr<ActiveUnit> unit) {
+  assert(this);
+  assert(unit);
+  units_.push_back(unit);
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+Player::Player()  {
+  assert(this);
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void ActiveUnit::UpdateTable(Table* table) {
+  assert(this);
+  assert(table);
+  for (auto action : actions_) {
+    assert(action);
+    table->Set(action->scriptvarname(), action->state());
+  }
+}
+
+ActiveUnit::~ActiveUnit() {
+  assert(this);
+}
+
+ActiveUnit::ActiveUnit() {
+  assert(this);
+}
+
+void ActiveUnit::Add(std::shared_ptr<InputAction> action) {
+  assert(this);
+  assert(action);
+  actions_.push_back(action);
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
 
 KeyConfig::KeyConfig() {
   assert(this);

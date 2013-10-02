@@ -42,6 +42,12 @@ class Table {
     explicit Table(lua_State* state);
     ~Table();
 
+    /** Sets a lua variable to value.
+    @param name the name of the variable
+    @param value the value of the new variable
+     */
+    void Set(const std::string& name, float value);
+
     /** Pushes the table to the stack
     @param state the state that contains the stack.
      */

@@ -13,8 +13,6 @@ Classes for input handling.
 #include <string>
 #include <memory>
 
-class Table;
-
 /** A input action.
  */
 class InputAction {
@@ -23,10 +21,6 @@ class InputAction {
     @param scriptvarname the name of the variable in the script.
      */
     explicit InputAction(const std::string& scriptvarname);
-
-    /** Set the value in this table.
-     */
-    void UpdateTable(Table* table);
 
     /** Get the name of the script var.
      */
@@ -136,6 +130,10 @@ class ConnectedUnits {
      */
     ConnectedUnits();
 
+    /** Add a unit.
+    @param unit the unit to add
+     */
+    void Add(std::shared_ptr<ActiveUnit> unit);
   private:
     std::vector<std::shared_ptr<ActiveUnit>> units_;
 };
@@ -154,7 +152,8 @@ class Player {
     ConnectedUnits unit_;
 };
 
-/** represents a active unit.
+class Table;
+/** Represents a active unit.
 A perfect example is a connected joystick.
  */
 class ActiveUnit {
@@ -175,6 +174,10 @@ class ActiveUnit {
     /** Constructor.
      */
     ActiveUnit();
+
+    /** Add a action to be updated.
+     */
+    void Add(std::shared_ptr<InputAction> action);
 
   private:
     std::vector<std::shared_ptr<InputAction>> actions_;
