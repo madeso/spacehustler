@@ -65,6 +65,8 @@ class InputActionMap {
     std::map<std::string, std::shared_ptr<InputAction> > actions_;
 };
 
+void Load(InputActionMap* map, const std::string& filename);
+
 class KeyConfig;
 class ConnectedUnits;
 /** Contains a list of configurations.
@@ -104,6 +106,8 @@ class KeyConfigs {
   private:
     std::map<std::string, std::shared_ptr<KeyConfig>> configs_;
 };
+
+void Load(KeyConfigs* configs, const std::string& filename);
 
 class Player;
 /** the master class that controls the input system.

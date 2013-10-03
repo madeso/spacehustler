@@ -3,9 +3,13 @@
 
 #include "euphoria/inputsystem.h"
 #include <cassert>
+#include <stdexcept>
+#include <fstream> // NOLINT for loading data
 
 #include "euphoria/str.h"
 #include "euphoria/lua.h"
+
+#include "json/json.h"
 
 InputAction::InputAction(const std::string& scriptvarname)
   : scriptvarname_(scriptvarname), state_(0.0f) {
@@ -55,6 +59,30 @@ const {
 
 //////////////////////////////////////////////////////////////////////////
 
+void Load(InputActionMap* map, const std::string& filename) {
+  assert(map);
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str()
+      << "Unable to input actions from " << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+      << reader.getFormattedErrorMessages());
+  }
+  for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
+    Json::Value d = root[i];
+    const std::string name = d.get("name", "").asString();
+    const std::string varname = d.get("var", "").asString();
+    std::shared_ptr<InputAction> action( new InputAction(varname) );
+    map->Add(name, action);
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 KeyConfigs::KeyConfigs() {
   assert(this);
 }
@@ -94,6 +122,33 @@ std::shared_ptr<ConnectedUnits> KeyConfigs::GetFirstAutoDetectedConfig() const {
   assert(false && "Not implemented yet");
   std::shared_ptr<ConnectedUnits> dummy;
   return dummy;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void Load(KeyConfig* config, const std::string& type, const Json::Value& data);
+
+void Load(KeyConfigs* configs, const std::string& filename) {
+  assert(configs);
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str()
+      << "Unable to load configs from " << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+      << reader.getFormattedErrorMessages());
+  }
+  for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
+    Json::Value d = root[i];
+    const std::string name = d.get("name", "").asString();
+    const std::string type = d.get("type", "").asString();
+    std::shared_ptr<KeyConfig> config( new KeyConfig() );
+    Load(config.get(), type, d["data"]);
+    configs->Add(name, config);
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -160,10 +215,25 @@ void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
   definitions_.push_back(def);
 }
 
-#if 0
+//////////////////////////////////////////////////////////////////////////
+
+class DummyActiveUnit : public ActiveUnit {
+public:
+  void Rumble() {
+  }
+private:
+};
+
+//////////////////////////////////////////////////////////////////////////
+
 class KeyboardDef : public UnitDef {
   public:
+    explicit KeyboardDef(const Json::Value& data) {
+    }
+
     std::shared_ptr<ActiveUnit> Create() {
+      std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+      return unit;
     }
 
   private:
@@ -171,16 +241,46 @@ class KeyboardDef : public UnitDef {
 
 class MouseDef : public UnitDef {
   public:
+    explicit MouseDef(const Json::Value& data) {
+    }
+
     std::shared_ptr<ActiveUnit> Create() {
+      std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+      return unit;
     }
   private:
 };
 
 class JoystickDef : public UnitDef {
   public:
+    explicit JoystickDef(const Json::Value& data) {
+    }
+
     std::shared_ptr<ActiveUnit> Create() {
+      std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+      return unit;
     }
 
   private:
 };
-#endif
+
+//////////////////////////////////////////////////////////////////////////
+
+void Load(KeyConfig* config, const std::string& type, const Json::Value& data) {
+  assert(config);
+  std::shared_ptr<UnitDef> def;
+
+  if( type == "keyboard" ) {
+    def.reset(new KeyboardDef(data));
+  } else if( type == "mouse" ) {
+    def.reset(new MouseDef(data));
+  } else if( type == "joystick" ) {
+    def.reset(new JoystickDef(data));
+  } else {
+    throw std::logic_error(Str()
+      << "Unknown unit definition " << type);
+  }
+
+  assert(def);
+  config->Add(def);
+}
