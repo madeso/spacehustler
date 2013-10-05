@@ -10,6 +10,15 @@ Axis enum.
 
 #include <string>
 
+namespace JoystickPov {
+  enum Type {
+    Invalid         /// Invalid axis
+    , Unbound       /// Unbound axis
+    , PovX        /// Mouse X
+    , PovY        /// Mouse Y
+  };
+}
+
 namespace Axis {
   /** Axis types.
    */

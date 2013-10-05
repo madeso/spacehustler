@@ -11,7 +11,7 @@ Game related code.
 #include <memory>
 #include <string>
 
-#include "euphoria/keybind.h"
+#include "euphoria/inputsystem.h"
 
 #include "euphoria-config.h" // NOLINT this is the default way to include cmake files
 
@@ -20,7 +20,7 @@ class TextureCache;
 class ShaderCache;
 class World;
 class Lua;
-class ActionMap;
+class Action;
 class Camera;
 class SystemContainer;
 class EntityList;
@@ -59,22 +59,6 @@ class Game {
      */
     void Update(float dt);
 
-    /** React on state change of a key.
-    @param key the key
-    @param device the device
-    @param state the state
-    @see KeybindList::OnKey()
-     */
-    void OnKey(Key::Type key, int device, float state);
-
-    /** React on axis
-    @param axis the axis
-    @param device the device
-    @param state the new state
-    @see KeybindList::OnAxis()
-     */
-    void OnAxis(Axis::Type axis, int device, float state);
-
     /** Tests if tweaking is enabled or not.
     @returns true if tweaking is enabled, false if not
      */
@@ -90,6 +74,11 @@ class Game {
      */
     void Quit();
 
+    /** Gets the input system.
+    @returns the input system
+     */
+    InputSystem& inputsystem();
+
   private:
     int width_;
     int height_;
@@ -99,13 +88,12 @@ class Game {
     bool lock_mouse_;
     bool istweaking_;
     bool renderoculus_;
+    InputSystem inputsytem_;
     std::unique_ptr<OglDebug> ogldebug_;
     std::unique_ptr<TextureCache> texturecache_;
     std::unique_ptr<ShaderCache> shadercache_;
     std::unique_ptr<World> world_;
     std::unique_ptr<Lua> script_;
-    std::unique_ptr<ActionMap> actions_;
-    std::unique_ptr<KeybindList> keybinds_;
     std::unique_ptr<Camera> camera_;
     std::unique_ptr<SystemContainer> container_;
     std::unique_ptr<EntityList> entities_;

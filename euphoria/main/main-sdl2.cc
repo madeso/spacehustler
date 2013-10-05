@@ -376,10 +376,10 @@ class Joystick {
         for (int i = 0; i < numHats_; ++i) {
           const Uint8 hat = SDL_JoystickGetHat(joystick_, i);
           const Posi values = GetHatValues(hat);
-          game->OnAxis(Axis::JoystickPovX, id_,
-                       static_cast<float>(values.first));
-          game->OnAxis(Axis::JoystickPovY, id_,
-                       static_cast<float>(values.second));
+          game->inputsystem().OnJoystickPov(JoystickPov::PovX, id_,
+                                            static_cast<float>(values.first));
+          game->inputsystem().OnJoystickPov(JoystickPov::PovY, id_,
+                                            static_cast<float>(values.second));
         }
       }
     }
@@ -426,80 +426,94 @@ class Context : boost::noncopyable {
     SDL_GLContext context_;
 };
 
-Key::Type ToKey(SDL_JoyButtonEvent button) {
-  switch (button.button) {
-    case 0:
-      return Key::JoystickButton1;
-    case 1:
-      return Key::JoystickButton2;
-    case 2:
-      return Key::JoystickButton3;
-    case 3:
-      return Key::JoystickButton4;
-    case 4:
-      return Key::JoystickButton5;
-    case 5:
-      return Key::JoystickButton6;
-    case 6:
-      return Key::JoystickButton7;
-    case 7:
-      return Key::JoystickButton8;
-    case 8:
-      return Key::JoystickButton9;
-    case 9:
-      return Key::JoystickButton10;
-    case 10:
-      return Key::JoystickButton11;
-    case 11:
-      return Key::JoystickButton12;
-    case 12:
-      return Key::JoystickButton13;
-    case 13:
-      return Key::JoystickButton14;
-    case 14:
-      return Key::JoystickButton15;
-    case 15:
-      return Key::JoystickButton16;
-    case 16:
-      return Key::JoystickButton17;
-    case 17:
-      return Key::JoystickButton18;
-    case 18:
-      return Key::JoystickButton19;
-    case 19:
-      return Key::JoystickButton20;
-    case 20:
-      return Key::JoystickButton21;
-    case 21:
-      return Key::JoystickButton22;
-    case 22:
-      return Key::JoystickButton23;
-    case 23:
-      return Key::JoystickButton24;
-    case 24:
-      return Key::JoystickButton25;
-    case 25:
-      return Key::JoystickButton26;
-    case 26:
-      return Key::JoystickButton27;
-    case 27:
-      return Key::JoystickButton28;
-    case 28:
-      return Key::JoystickButton29;
-    case 29:
-      return Key::JoystickButton30;
-    case 30:
-      return Key::JoystickButton31;
-    case 31:
-      return Key::JoystickButton32;
-    default:
-      assert(0 && "Invalid joystick button");
-      return Key::Invalid;
-  }
-}
-
 Key::Type ToKey(SDL_Keysym key) {
   switch (key.sym) {
+    case SDLK_RETURN:
+      return Key::Return;
+    case SDLK_ESCAPE:
+      return Key::Escape;
+    case SDLK_BACKSPACE:
+      return Key::Backspace;
+    case SDLK_TAB:
+      return Key::Tab;
+    case SDLK_SPACE:
+      return Key::Space;
+    case SDLK_EXCLAIM:
+      return Key::Exclaim;
+    case SDLK_QUOTEDBL:
+      return Key::Quotedbl;
+    case SDLK_HASH:
+      return Key::Hash;
+    case SDLK_PERCENT:
+      return Key::Percent;
+    case SDLK_DOLLAR:
+      return Key::Dollar;
+    case SDLK_AMPERSAND:
+      return Key::Ampersand;
+    case SDLK_QUOTE:
+      return Key::Quote;
+    case SDLK_LEFTPAREN:
+      return Key::Leftparen;
+    case SDLK_RIGHTPAREN:
+      return Key::Rightparen;
+    case SDLK_ASTERISK:
+      return Key::Asterisk;
+    case SDLK_PLUS:
+      return Key::Plus;
+    case SDLK_COMMA:
+      return Key::Comma;
+    case SDLK_MINUS:
+      return Key::Minus;
+    case SDLK_PERIOD:
+      return Key::Period;
+    case SDLK_SLASH:
+      return Key::Slash;
+    case SDLK_0:
+      return Key::Num0;
+    case SDLK_1:
+      return Key::Num1;
+    case SDLK_2:
+      return Key::Num2;
+    case SDLK_3:
+      return Key::Num3;
+    case SDLK_4:
+      return Key::Num4;
+    case SDLK_5:
+      return Key::Num5;
+    case SDLK_6:
+      return Key::Num6;
+    case SDLK_7:
+      return Key::Num7;
+    case SDLK_8:
+      return Key::Num8;
+    case SDLK_9:
+      return Key::Num9;
+    case SDLK_COLON:
+      return Key::Colon;
+    case SDLK_SEMICOLON:
+      return Key::Semicolon;
+    case SDLK_LESS:
+      return Key::Less;
+    case SDLK_EQUALS:
+      return Key::Equals;
+    case SDLK_GREATER:
+      return Key::Greater;
+    case SDLK_QUESTION:
+      return Key::Question;
+    case SDLK_AT:
+      return Key::At;
+    case SDLK_LEFTBRACKET:
+      return Key::Leftbracket;
+    case SDLK_BACKSLASH:
+      return Key::Backslash;
+    case SDLK_RIGHTBRACKET:
+      return Key::Rightbracket;
+    case SDLK_CARET:
+      return Key::Caret;
+    case SDLK_UNDERSCORE:
+      return Key::Underscore;
+    case SDLK_BACKQUOTE:
+      return Key::Backquote;
     case SDLK_a:
       return Key::A;
     case SDLK_b:
@@ -552,141 +566,25 @@ Key::Type ToKey(SDL_Keysym key) {
       return Key::Y;
     case SDLK_z:
       return Key::Z;
-    case SDLK_0:
-      return Key::Num0;
-    case SDLK_1:
-      return Key::Num1;
-    case SDLK_2:
-      return Key::Num2;
-    case SDLK_3:
-      return Key::Num3;
-    case SDLK_4:
-      return Key::Num4;
-    case SDLK_5:
-      return Key::Num5;
-    case SDLK_6:
-      return Key::Num6;
-    case SDLK_7:
-      return Key::Num7;
-    case SDLK_8:
-      return Key::Num8;
-    case SDLK_9:
-      return Key::Num9;
-    case SDLK_ESCAPE:
-      return Key::Escape;
-    case SDLK_LCTRL:
-      return Key::LControl;
-    case SDLK_LSHIFT:
-      return Key::LShift;
-    case SDLK_LALT:
-      return Key::LAlt;
-    case SDLK_LGUI:
-      return Key::LSystem;
-    case SDLK_RCTRL:
-      return Key::RControl;
-    case SDLK_RSHIFT:
-      return Key::RShift;
-    case SDLK_RALT:
-      return Key::RAlt;
-    case SDLK_RGUI:
-      return Key::RSystem;
-    case SDLK_MENU:
-      return Key::Menu;
-    case SDLK_LEFTBRACKET:
-      return Key::LBracket;
-    case SDLK_RIGHTBRACKET:
-      return Key::RBracket;
-    case SDLK_SEMICOLON:
-      return Key::SemiColon;
-    case SDLK_COMMA:
-      return Key::Comma;
-    case SDLK_PERIOD:
-      return Key::Period;
-    case SDLK_QUOTE:
-      return Key::Quote;
-    case SDLK_SLASH:
-      return Key::Slash;
-    case SDLK_BACKSLASH:
-      return Key::BackSlash;
-    case SDLK_BACKQUOTE:
-      return Key::Tilde;
-    case SDLK_EQUALS:
-      return Key::Equal;
-    case SDLK_MINUS:
-      return Key::Dash;
-    case SDLK_SPACE:
-      return Key::Space;
-    case SDLK_RETURN:
-      return Key::Return;
-    case SDLK_BACKSPACE:
-      return Key::BackSpace;
-    case SDLK_TAB:
-      return Key::Tab;
-    case SDLK_PAGEUP:
-      return Key::PageUp;
-    case SDLK_PAGEDOWN:
-      return Key::PageDown;
-    case SDLK_END:
-      return Key::End;
-    case SDLK_HOME:
-      return Key::Home;
-    case SDLK_INSERT:
-      return Key::Insert;
-    case SDLK_DELETE:
-      return Key::Delete;
-    case SDLK_KP_PLUS:
-      return Key::Add;
-    case SDLK_KP_MINUS:
-      return Key::Subtract;
-    case SDLK_KP_MULTIPLY:
-      return Key::Multiply;
-    case SDLK_KP_DIVIDE:
-      return Key::Divide;
-    case SDLK_LEFT:
-      return Key::Left;
-    case SDLK_RIGHT:
-      return Key::Right;
-    case SDLK_UP:
-      return Key::Up;
-    case SDLK_DOWN:
-      return Key::Down;
-    case SDLK_KP_0:
-      return Key::Numpad0;
-    case SDLK_KP_1:
-      return Key::Numpad1;
-    case SDLK_KP_2:
-      return Key::Numpad2;
-    case SDLK_KP_3:
-      return Key::Numpad3;
-    case SDLK_KP_4:
-      return Key::Numpad4;
-    case SDLK_KP_5:
-      return Key::Numpad5;
-    case SDLK_KP_6:
-      return Key::Numpad6;
-    case SDLK_KP_7:
-      return Key::Numpad7;
-    case SDLK_KP_8:
-      return Key::Numpad8;
-    case SDLK_KP_9:
-      return Key::Numpad9;
-    case SDLK_F1 :
+    case SDLK_CAPSLOCK:
+      return Key::Capslock;
+    case SDLK_F1:
       return Key::F1;
-    case SDLK_F2 :
+    case SDLK_F2:
       return Key::F2;
-    case SDLK_F3 :
+    case SDLK_F3:
       return Key::F3;
-    case SDLK_F4 :
+    case SDLK_F4:
       return Key::F4;
-    case SDLK_F5 :
+    case SDLK_F5:
       return Key::F5;
-    case SDLK_F6 :
+    case SDLK_F6:
       return Key::F6;
-    case SDLK_F7 :
+    case SDLK_F7:
       return Key::F7;
-    case SDLK_F8 :
+    case SDLK_F8:
       return Key::F8;
-    case SDLK_F9 :
+    case SDLK_F9:
       return Key::F9;
     case SDLK_F10:
       return Key::F10;
@@ -694,37 +592,333 @@ Key::Type ToKey(SDL_Keysym key) {
       return Key::F11;
     case SDLK_F12:
       return Key::F12;
+    case SDLK_PRINTSCREEN:
+      return Key::Printscreen;
+    case SDLK_SCROLLLOCK:
+      return Key::Scrolllock;
+    case SDLK_PAUSE:
+      return Key::Pause;
+    case SDLK_INSERT:
+      return Key::Insert;
+    case SDLK_HOME:
+      return Key::Home;
+    case SDLK_PAGEUP:
+      return Key::Pageup;
+    case SDLK_DELETE:
+      return Key::Delete;
+    case SDLK_END:
+      return Key::End;
+    case SDLK_PAGEDOWN:
+      return Key::Pagedown;
+    case SDLK_RIGHT:
+      return Key::Right;
+    case SDLK_LEFT:
+      return Key::Left;
+    case SDLK_DOWN:
+      return Key::Down;
+    case SDLK_UP:
+      return Key::Up;
+    case SDLK_NUMLOCKCLEAR:
+      return Key::Numlockclear;
+    case SDLK_KP_DIVIDE:
+      return Key::Kp_Divide;
+    case SDLK_KP_MULTIPLY:
+      return Key::Kp_Multiply;
+    case SDLK_KP_MINUS:
+      return Key::Kp_Minus;
+    case SDLK_KP_PLUS:
+      return Key::Kp_Plus;
+    case SDLK_KP_ENTER:
+      return Key::Kp_Enter;
+    case SDLK_KP_1:
+      return Key::Kp_1;
+    case SDLK_KP_2:
+      return Key::Kp_2;
+    case SDLK_KP_3:
+      return Key::Kp_3;
+    case SDLK_KP_4:
+      return Key::Kp_4;
+    case SDLK_KP_5:
+      return Key::Kp_5;
+    case SDLK_KP_6:
+      return Key::Kp_6;
+    case SDLK_KP_7:
+      return Key::Kp_7;
+    case SDLK_KP_8:
+      return Key::Kp_8;
+    case SDLK_KP_9:
+      return Key::Kp_9;
+    case SDLK_KP_0:
+      return Key::Kp_0;
+    case SDLK_KP_PERIOD:
+      return Key::Kp_Period;
+    case SDLK_APPLICATION:
+      return Key::Application;
+    case SDLK_POWER:
+      return Key::Power;
+    case SDLK_KP_EQUALS:
+      return Key::Kp_Equals;
     case SDLK_F13:
       return Key::F13;
     case SDLK_F14:
       return Key::F14;
     case SDLK_F15:
       return Key::F15;
-    case SDLK_PAUSE:
-      return Key::Pause;
+    case SDLK_F16:
+      return Key::F16;
+    case SDLK_F17:
+      return Key::F17;
+    case SDLK_F18:
+      return Key::F18;
+    case SDLK_F19:
+      return Key::F19;
+    case SDLK_F20:
+      return Key::F20;
+    case SDLK_F21:
+      return Key::F21;
+    case SDLK_F22:
+      return Key::F22;
+    case SDLK_F23:
+      return Key::F23;
+    case SDLK_F24:
+      return Key::F24;
+    case SDLK_EXECUTE:
+      return Key::Execute;
+    case SDLK_HELP:
+      return Key::Help;
+    case SDLK_MENU:
+      return Key::Menu;
+    case SDLK_SELECT:
+      return Key::Select;
+    case SDLK_STOP:
+      return Key::Stop;
+    case SDLK_AGAIN:
+      return Key::Again;
+    case SDLK_UNDO:
+      return Key::Undo;
+    case SDLK_CUT:
+      return Key::Cut;
+    case SDLK_COPY:
+      return Key::Copy;
+    case SDLK_PASTE:
+      return Key::Paste;
+    case SDLK_FIND:
+      return Key::Find;
+    case SDLK_MUTE:
+      return Key::Mute;
+    case SDLK_VOLUMEUP:
+      return Key::Volumeup;
+    case SDLK_VOLUMEDOWN:
+      return Key::Volumedown;
+    case SDLK_KP_COMMA:
+      return Key::Kp_Comma;
+    case SDLK_KP_EQUALSAS400:
+      return Key::Kp_Equalsas400;
+    case SDLK_ALTERASE:
+      return Key::Alterase;
+    case SDLK_SYSREQ:
+      return Key::Sysreq;
+    case SDLK_CANCEL:
+      return Key::Cancel;
+    case SDLK_CLEAR:
+      return Key::Clear;
+    case SDLK_PRIOR:
+      return Key::Prior;
+    case SDLK_RETURN2:
+      return Key::Return2;
+    case SDLK_SEPARATOR:
+      return Key::Separator;
+    case SDLK_OUT:
+      return Key::Out;
+    case SDLK_OPER:
+      return Key::Oper;
+    case SDLK_CLEARAGAIN:
+      return Key::Clearagain;
+    case SDLK_CRSEL:
+      return Key::Crsel;
+    case SDLK_EXSEL:
+      return Key::Exsel;
+    case SDLK_KP_00:
+      return Key::Kp_00;
+    case SDLK_KP_000:
+      return Key::Kp_000;
+    case SDLK_THOUSANDSSEPARATOR:
+      return Key::Thousandsseparator;
+    case SDLK_DECIMALSEPARATOR:
+      return Key::Decimalseparator;
+    case SDLK_CURRENCYUNIT:
+      return Key::Currencyunit;
+    case SDLK_CURRENCYSUBUNIT:
+      return Key::Currencysubunit;
+    case SDLK_KP_LEFTPAREN:
+      return Key::Kp_Leftparen;
+    case SDLK_KP_RIGHTPAREN:
+      return Key::Kp_Rightparen;
+    case SDLK_KP_LEFTBRACE:
+      return Key::Kp_Leftbrace;
+    case SDLK_KP_RIGHTBRACE:
+      return Key::Kp_Rightbrace;
+    case SDLK_KP_TAB:
+      return Key::Kp_Tab;
+    case SDLK_KP_BACKSPACE:
+      return Key::Kp_Backspace;
+    case SDLK_KP_A:
+      return Key::Kp_A;
+    case SDLK_KP_B:
+      return Key::Kp_B;
+    case SDLK_KP_C:
+      return Key::Kp_C;
+    case SDLK_KP_D:
+      return Key::Kp_D;
+    case SDLK_KP_E:
+      return Key::Kp_E;
+    case SDLK_KP_F:
+      return Key::Kp_F;
+    case SDLK_KP_XOR:
+      return Key::Kp_Xor;
+    case SDLK_KP_POWER:
+      return Key::Kp_Power;
+    case SDLK_KP_PERCENT:
+      return Key::Kp_Percent;
+    case SDLK_KP_LESS:
+      return Key::Kp_Less;
+    case SDLK_KP_GREATER:
+      return Key::Kp_Greater;
+    case SDLK_KP_AMPERSAND:
+      return Key::Kp_Ampersand;
+    case SDLK_KP_DBLAMPERSAND:
+      return Key::Kp_Dblampersand;
+    case SDLK_KP_VERTICALBAR:
+      return Key::Kp_Verticalbar;
+    case SDLK_KP_DBLVERTICALBAR:
+      return Key::Kp_Dblverticalbar;
+    case SDLK_KP_COLON:
+      return Key::Kp_Colon;
+    case SDLK_KP_HASH:
+      return Key::Kp_Hash;
+    case SDLK_KP_SPACE:
+      return Key::Kp_Space;
+    case SDLK_KP_AT:
+      return Key::Kp_At;
+    case SDLK_KP_EXCLAM:
+      return Key::Kp_Exclam;
+    case SDLK_KP_MEMSTORE:
+      return Key::Kp_Memstore;
+    case SDLK_KP_MEMRECALL:
+      return Key::Kp_Memrecall;
+    case SDLK_KP_MEMCLEAR:
+      return Key::Kp_Memclear;
+    case SDLK_KP_MEMADD:
+      return Key::Kp_Memadd;
+    case SDLK_KP_MEMSUBTRACT:
+      return Key::Kp_Memsubtract;
+    case SDLK_KP_MEMMULTIPLY:
+      return Key::Kp_Memmultiply;
+    case SDLK_KP_MEMDIVIDE:
+      return Key::Kp_Memdivide;
+    case SDLK_KP_PLUSMINUS:
+      return Key::Kp_Plusminus;
+    case SDLK_KP_CLEAR:
+      return Key::Kp_Clear;
+    case SDLK_KP_CLEARENTRY:
+      return Key::Kp_Clearentry;
+    case SDLK_KP_BINARY:
+      return Key::Kp_Binary;
+    case SDLK_KP_OCTAL:
+      return Key::Kp_Octal;
+    case SDLK_KP_DECIMAL:
+      return Key::Kp_Decimal;
+    case SDLK_KP_HEXADECIMAL:
+      return Key::Kp_Hexadecimal;
+    case SDLK_LCTRL:
+      return Key::Lctrl;
+    case SDLK_LSHIFT:
+      return Key::Lshift;
+    case SDLK_LALT:
+      return Key::Lalt;
+    case SDLK_LGUI:
+      return Key::Lgui;
+    case SDLK_RCTRL:
+      return Key::Rctrl;
+    case SDLK_RSHIFT:
+      return Key::Rshift;
+    case SDLK_RALT:
+      return Key::Ralt;
+    case SDLK_RGUI:
+      return Key::Rgui;
+    case SDLK_MODE:
+      return Key::Mode;
+    case SDLK_AUDIONEXT:
+      return Key::Audionext;
+    case SDLK_AUDIOPREV:
+      return Key::Audioprev;
+    case SDLK_AUDIOSTOP:
+      return Key::Audiostop;
+    case SDLK_AUDIOPLAY:
+      return Key::Audioplay;
+    case SDLK_AUDIOMUTE:
+      return Key::Audiomute;
+    case SDLK_MEDIASELECT:
+      return Key::Mediaselect;
+    case SDLK_WWW:
+      return Key::Www;
+    case SDLK_MAIL:
+      return Key::Mail;
+    case SDLK_CALCULATOR:
+      return Key::Calculator;
+    case SDLK_COMPUTER:
+      return Key::Computer;
+    case SDLK_AC_SEARCH:
+      return Key::Ac_Search;
+    case SDLK_AC_HOME:
+      return Key::Ac_Home;
+    case SDLK_AC_BACK:
+      return Key::Ac_Back;
+    case SDLK_AC_FORWARD:
+      return Key::Ac_Forward;
+    case SDLK_AC_STOP:
+      return Key::Ac_Stop;
+    case SDLK_AC_REFRESH:
+      return Key::Ac_Refresh;
+    case SDLK_AC_BOOKMARKS:
+      return Key::Ac_Bookmarks;
+    case SDLK_BRIGHTNESSDOWN:
+      return Key::Brightnessdown;
+    case SDLK_BRIGHTNESSUP:
+      return Key::Brightnessup;
+    case SDLK_DISPLAYSWITCH:
+      return Key::Displayswitch;
+    case SDLK_KBDILLUMTOGGLE:
+      return Key::Kbdillumtoggle;
+    case SDLK_KBDILLUMDOWN:
+      return Key::Kbdillumdown;
+    case SDLK_KBDILLUMUP:
+      return Key::Kbdillumup;
+    case SDLK_EJECT:
+      return Key::Eject;
+    case SDLK_SLEEP:
+      return Key::Sleep;
     default:
       assert(0 && key.sym && "Invalid keyboard button");
       return Key::Invalid;
   }
 }
 
-Axis::Type ToAxis(SDL_JoyAxisEvent joy) {
-  switch (joy.axis) {
-    case 0:
-      return Axis::JoystickX;
-    case 1:
-      return Axis::JoystickY;
-    case 2:
-      return Axis::JoystickZ;
-    case 3:
-      return Axis::JoystickR;
-    case 4:
-      return Axis::JoystickU;
-    case 5:
-      return Axis::JoystickV;
+MouseKey::Type ToKey(SDL_MouseButtonEvent mb) {
+  switch (mb.button) {
+    case SDL_BUTTON_LEFT:
+      return MouseKey::Left;
+    case SDL_BUTTON_MIDDLE:
+      return MouseKey::Middle;
+    case SDL_BUTTON_RIGHT:
+      return MouseKey::Right;
+    case SDL_BUTTON_X1:
+      return MouseKey::X1;
+    case SDL_BUTTON_X2:
+      return MouseKey::X2;
     default:
-      assert(0 && "Invalid joystick axis");
-      return Axis::MouseY;
+      assert(0 && mb.button && "Invalid mouse button");
+      return MouseKey::Invalid;
   }
 }
 
@@ -985,7 +1179,11 @@ void logic() {
         game.Quit();
       } else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
         const bool down = event.type == SDL_KEYDOWN;
-        game.OnKey(ToKey(event.key.keysym), 0, down);
+        game.inputsystem().OnKeyboardKey(ToKey(event.key.keysym), down);
+      } else if (event.type == SDL_MOUSEBUTTONDOWN
+                 || event.type == SDL_MOUSEBUTTONUP) {
+        const bool down = event.type == SDL_MOUSEBUTTONDOWN;
+        game.inputsystem().OnMouseKey(ToKey(event.button), down);
       } else if (event.type == SDL_MOUSEMOTION) {
         if (lock && game.istweaking() == false) {
           xrel += event.motion.xrel;
@@ -994,11 +1192,11 @@ void logic() {
       } else if (event.type == SDL_JOYBUTTONDOWN
                  || event.type == SDL_JOYBUTTONUP) {
         const bool down = event.type == SDL_JOYBUTTONDOWN;
-        game.OnKey(ToKey(event.jbutton), event.jbutton.which, down);
+        game.inputsystem().OnJoystickButton(event.jbutton.button,
+                                            event.jbutton.which, down);
       } else if (event.type == SDL_JOYAXISMOTION) {
-        game.OnAxis(ToAxis(event.jaxis),
-                    event.jaxis.which,
-                    event.jaxis.value / 32768.0f);
+        game.inputsystem().OnJoystickAxis(event.jaxis.axis, event.jaxis.which,
+                                          event.jaxis.value / 32768.0f);
       } else if (event.type == SDL_WINDOWEVENT) {
         const auto mouseEvent = event.window.event;
         if (mouseEvent == SDL_WINDOWEVENT_ENTER
@@ -1020,8 +1218,8 @@ void logic() {
     float dx = xrel / size;
     float dy = yrel / size;
     const float sensitivity = 10.0f;
-    game.OnAxis(Axis::MouseX, 0, dx * sensitivity);
-    game.OnAxis(Axis::MouseY, 0, dy * sensitivity);
+    game.inputsystem().OnMouseAxis(Axis::MouseX, dx * sensitivity);
+    game.inputsystem().OnMouseAxis(Axis::MouseY, dy * sensitivity);
   }
 }
 

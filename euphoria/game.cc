@@ -76,12 +76,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   script_.reset(new Lua());
   script_->RunFile("main.lua");
 
-  actions_.reset(new ActionMap("actions.js", script_.get()));
-
-  keybinds_.reset(new KeybindList());
-  keybinds_->Load(actions_.get(), "keys.js", settings.control_scheme());
-
-  tweakaction_ = actions_->getAction("enable_tweak");
+  tweakaction_ = 0;  // actions_->getAction("enable_tweak");
 
   camera_.reset(new Camera(width_, height_));
   camera_->set_fov(45);
@@ -251,13 +246,9 @@ void Game::Render() {
   }
 }
 
-void Game::OnKey(Key::Type key, int device, float state) {
+InputSystem& Game::inputsystem() {
   assert(this);
-  keybinds_->OnKey(key, device, state);
-}
-void Game::OnAxis(Axis::Type axis, int device, float state) {
-  assert(this);
-  keybinds_->OnAxis(axis, device, state);
+  return inputsytem_;
 }
 
 void Game::Update(float dt) {

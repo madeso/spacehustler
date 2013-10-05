@@ -177,98 +177,13 @@ void SendAxis(KeybindList* list, float value, Key::Type positive,
   }
 }
 
-namespace {
-  class AxisPositiveNegative {
-    public:
-      AxisPositiveNegative() {
-        bind(Axis::MouseX,
-             Key::MouseXPositive,
-             Key::MouseXNegative);
-        bind(Axis::MouseY,
-             Key::MouseYPositive,
-             Key::MouseYNegative);
-
-        bind(Axis::JoystickX,
-             Key::JoystickXPositive,
-             Key::JoystickXNegative);
-        bind(Axis::JoystickY,
-             Key::JoystickYPositive,
-             Key::JoystickYNegative);
-        bind(Axis::JoystickZ,
-             Key::JoystickZPositive,
-             Key::JoystickZNegative);
-        bind(Axis::JoystickR,
-             Key::JoystickRPositive,
-             Key::JoystickRNegative);
-        bind(Axis::JoystickU,
-             Key::JoystickUPositive,
-             Key::JoystickUNegative);
-        bind(Axis::JoystickV,
-             Key::JoystickVPositive,
-             Key::JoystickVNegative);
-        bind(Axis::JoystickPovX,
-             Key::JoystickPovXPositive,
-             Key::JoystickPovXNegative);
-        bind(Axis::JoystickPovY,
-             Key::JoystickPovYPositive,
-             Key::JoystickPovYNegative);
-      }
-
-      void bind(Axis::Type axis, Key::Type pos, Key::Type neg) {
-        binds_.insert(std::make_pair(axis, std::make_pair(pos, neg)));
-      }
-
-      std::pair<Key::Type, Key::Type> get(Axis::Type axis) {
-        auto ret = binds_.find(axis);
-        assert(ret != binds_.end());
-        return ret->second;
-      }
-
-    private:
-      std::map<Axis::Type, std::pair<Key::Type, Key::Type>> binds_;
-  };
-
-  std::pair<Key::Type, Key::Type> AxixsLookup(Axis::Type axis) {
-    static AxisPositiveNegative apn;
-    return apn.get(axis);
-  }
-}  // namespace
-
-Key::Type ToKey(Axis::Type axis) {
-  switch (axis) {
-    case Axis::MouseX:
-      return Key::MouseX;
-    case Axis::MouseY:
-      return Key::MouseY;
-    case Axis::JoystickX:
-      return Key::JoystickX;
-    case Axis::JoystickY:
-      return Key::JoystickY;
-    case Axis::JoystickZ:
-      return Key::JoystickZ;
-    case Axis::JoystickR:
-      return Key::JoystickR;
-    case Axis::JoystickU:
-      return Key::JoystickU;
-    case Axis::JoystickV:
-      return Key::JoystickV;
-    case Axis::JoystickPovX:
-      return Key::JoystickPovX;
-    case Axis::JoystickPovY:
-      return Key::JoystickPovY;
-    default:
-      assert(0 && "Invalid axis");
-      return Key::Unbound;
-  }
-}
-
 void KeybindList::OnAxis(Axis::Type axis, int device, float state) {
   assert(this);
 
-  const auto buttons = AxixsLookup(axis);
+  /*const auto buttons = AxixsLookup(axis);
   SendAxis(this, state, buttons.first, buttons.second, device);
   const Key::Type key = ToKey(axis);
   if (key != Key::Unbound) {
     OnKey(key, device, (state + 1.0f) / 2.0f);
-  }
+  }*/
 }

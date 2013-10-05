@@ -8,6 +8,7 @@
 
 #include "euphoria/str.h"
 #include "euphoria/lua.h"
+#include "euphoria/key.h"
 
 #include "json/json.h"
 
@@ -64,19 +65,19 @@ void Load(InputActionMap* map, const std::string& filename) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
-      << "Unable to input actions from " << filename);
+                           << "Unable to input actions from " << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-      << reader.getFormattedErrorMessages());
+                           << reader.getFormattedErrorMessages());
   }
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value d = root[i];
     const std::string name = d.get("name", "").asString();
     const std::string varname = d.get("var", "").asString();
-    std::shared_ptr<InputAction> action( new InputAction(varname) );
+    std::shared_ptr<InputAction> action(new InputAction(varname));
     map->Add(name, action);
   }
 }
@@ -133,19 +134,19 @@ void Load(KeyConfigs* configs, const std::string& filename) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
-      << "Unable to load configs from " << filename);
+                           << "Unable to load configs from " << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-      << reader.getFormattedErrorMessages());
+                           << reader.getFormattedErrorMessages());
   }
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value d = root[i];
     const std::string name = d.get("name", "").asString();
     const std::string type = d.get("type", "").asString();
-    std::shared_ptr<KeyConfig> config( new KeyConfig() );
+    std::shared_ptr<KeyConfig> config(new KeyConfig());
     Load(config.get(), type, d["data"]);
     configs->Add(name, config);
   }
@@ -153,9 +154,41 @@ void Load(KeyConfigs* configs, const std::string& filename) {
 
 //////////////////////////////////////////////////////////////////////////
 
-InputSystem::InputSystem() {
+InputSystem::InputSystem() : input_(new InputDirector()) {
   assert(this);
 }
+
+void InputSystem::OnKeyboardKey(Key::Type key, bool down) {
+  assert(this);
+  input_->OnKeyboardKey(key, down);
+}
+
+void InputSystem::OnMouseAxis(Axis::Type axis, float value) {
+  assert(this);
+  input_->OnMouseAxis(axis, value);
+}
+
+void InputSystem::OnMouseKey(MouseKey::Type key, bool down) {
+  assert(this);
+  input_->OnMouseKey(key, down);
+}
+
+void InputSystem::OnJoystickPov(JoystickPov::Type type, int joystick,
+                                float value) {
+  assert(this);
+  input_->OnJoystickPov(type, joystick, value);
+}
+
+void InputSystem::OnJoystickButton(int button, int joystick, bool down) {
+  assert(this);
+  input_->OnJoystickButton(button, joystick, down);
+}
+
+void InputSystem::OnJoystickAxis(int axis, int joystick, float value) {
+  assert(this);
+  input_->OnJoystickAxis(axis, joystick, value);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -218,45 +251,119 @@ void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
 //////////////////////////////////////////////////////////////////////////
 
 class DummyActiveUnit : public ActiveUnit {
-public:
-  void Rumble() {
-  }
-private:
+  public:
+    void Rumble() {
+    }
+  private:
 };
 
 //////////////////////////////////////////////////////////////////////////
 
-class KeyboardDef : public UnitDef {
+template<typename Type>
+class Bind {
   public:
-    explicit KeyboardDef(const Json::Value& data) {
+    Bind(Type type, std::shared_ptr<InputAction> action) : type_(type)
+      , action_(action) {
+      assert(this);
     }
 
-    std::shared_ptr<ActiveUnit> Create() {
-      std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+    Type type() const {
+      assert(this);
+      return type_;
+    }
+
+    std::shared_ptr<InputAction> action() const {
+      assert(this);
+      return action_;
+    }
+
+  private:
+    Type type_;
+    std::shared_ptr<InputAction> action_;
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+class KeyboardActiveUnit : public ActiveUnit {
+  public:
+    KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
+                       InputDirector* director)
+      : director_(director) {
+      assert(this);
+      assert(director_);
+
+      for (auto b : binds) {
+        Add(b.action());
+        actions_.insert(std::make_pair(b.type(), b.action()));
+      }
+
+      director_->Add(this);
+    }
+
+    void OnKey(const Key::Type& key, bool state) {
+      assert(this);
+      auto res = actions_.find(key);
+      if (res != actions_.end()) {
+        res->second->set_state(state ? 1.0f : 0.0f);
+      }
+    }
+
+    ~KeyboardActiveUnit() {
+      director_->Remove(this);
+    }
+
+    void Rumble() {
+    }
+
+  private:
+    InputDirector* director_;
+    std::map<Key::Type, std::shared_ptr<InputAction>> actions_;
+};
+
+class KeyboardDef : public UnitDef {
+  public:
+    explicit KeyboardDef(const Json::Value& data, const InputActionMap& map) {
+      for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
+        Json::Value d = data[i];
+        const std::string keyname = d.get("key", "").asString();
+        const std::string actionname = d.get("action", "").asString();
+        const auto action = map.Get(actionname);
+        const auto key = Key::FromString(keyname);
+        binds_.push_back(Bind<Key::Type>(key, action));
+      }
+    }
+
+    std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) {
+      std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_, pimpl));
       return unit;
     }
 
   private:
+    std::vector<Bind<Key::Type>> binds_;
 };
+
+//////////////////////////////////////////////////////////////////////////
 
 class MouseDef : public UnitDef {
   public:
     explicit MouseDef(const Json::Value& data) {
     }
 
-    std::shared_ptr<ActiveUnit> Create() {
+    std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) {
       std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
       return unit;
     }
   private:
 };
 
+//////////////////////////////////////////////////////////////////////////
+
 class JoystickDef : public UnitDef {
   public:
     explicit JoystickDef(const Json::Value& data) {
     }
 
-    std::shared_ptr<ActiveUnit> Create() {
+    std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) {
       std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
       return unit;
     }
@@ -266,21 +373,70 @@ class JoystickDef : public UnitDef {
 
 //////////////////////////////////////////////////////////////////////////
 
-void Load(KeyConfig* config, const std::string& type, const Json::Value& data) {
+void Load(KeyConfig* config, const std::string& type, const Json::Value& data,
+          const InputActionMap& map) {
   assert(config);
   std::shared_ptr<UnitDef> def;
 
-  if( type == "keyboard" ) {
-    def.reset(new KeyboardDef(data));
-  } else if( type == "mouse" ) {
+  if (type == "keyboard") {
+    def.reset(new KeyboardDef(data, map));
+  } else if (type == "mouse") {
     def.reset(new MouseDef(data));
-  } else if( type == "joystick" ) {
+  } else if (type == "joystick") {
     def.reset(new JoystickDef(data));
   } else {
     throw std::logic_error(Str()
-      << "Unknown unit definition " << type);
+                           << "Unknown unit definition " << type);
   }
 
   assert(def);
   config->Add(def);
 }
+
+
+//////////////////////////////////////////////////////////////////////////
+
+void InputDirector::Add(KeyboardActiveUnit* kb) {
+  assert(this);
+  assert(kb);
+  keyboards_.push_back(kb);
+}
+
+void InputDirector::Remove(KeyboardActiveUnit* kb) {
+  assert(this);
+  assert(kb);
+  auto res = std::find(keyboards_.begin(), keyboards_.end(), kb);
+  if (res != keyboards_.end()) {
+    /// @todo implement as a swap back and erase function
+    keyboards_.erase(res);
+  }
+}
+
+void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
+  assert(this);
+  for (auto kb : keyboards_) {
+    kb->OnKey(key, down);
+  }
+}
+
+void InputDirector::OnMouseAxis(Axis::Type axis, float value) {
+  assert(this);
+}
+
+void InputDirector::OnMouseKey(MouseKey::Type key, bool down) {
+  assert(this);
+}
+
+void InputDirector::OnJoystickPov(JoystickPov::Type type, int joystick,
+                                  float value) {
+  assert(this);
+}
+
+void InputDirector::OnJoystickButton(int button, int joystick, bool down) {
+  assert(this);
+}
+
+void InputDirector::OnJoystickAxis(int axis, int joystick, float value) {
+  assert(this);
+}
+

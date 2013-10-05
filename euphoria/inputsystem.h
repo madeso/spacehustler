@@ -13,6 +13,9 @@ Classes for input handling.
 #include <string>
 #include <memory>
 
+#include "euphoria/key.h"
+#include "euphoria/axis.h"
+
 /** A input action.
  */
 class InputAction {
@@ -109,6 +112,26 @@ class KeyConfigs {
 
 void Load(KeyConfigs* configs, const std::string& filename);
 
+class KeyboardActiveUnit;
+class InputDirector {
+  public:
+    void Add(KeyboardActiveUnit* kb);
+    void Remove(KeyboardActiveUnit* kb);
+
+    void OnKeyboardKey(Key::Type key, bool down);
+
+    void OnMouseAxis(Axis::Type axis, float value);
+    void OnMouseKey(MouseKey::Type key, bool down);
+
+    void OnJoystickPov(JoystickPov::Type type, int joystick, float value);
+    void OnJoystickButton(int button, int joystick, bool down);
+    void OnJoystickAxis(int axis, int joystick, float value);
+
+
+  private:
+    std::vector<KeyboardActiveUnit*> keyboards_;
+};
+
 class Player;
 /** the master class that controls the input system.
  */
@@ -118,10 +141,20 @@ class InputSystem {
      */
     InputSystem();
 
+    void OnKeyboardKey(Key::Type key, bool down);
+
+    void OnMouseAxis(Axis::Type axis, float value);
+    void OnMouseKey(MouseKey::Type key, bool down);
+
+    void OnJoystickPov(JoystickPov::Type type, int joystick, float value);
+    void OnJoystickButton(int button, int joystick, bool down);
+    void OnJoystickAxis(int axis, int joystick, float value);
+
   private:
     InputActionMap actions_;
     std::vector<std::shared_ptr<Player> > players_;
     KeyConfigs configs_;
+    std::unique_ptr<InputDirector> input_;
 };
 
 class ActiveUnit;
@@ -219,7 +252,7 @@ class UnitDef {
     /** Create a active unit.
     @returns the active unit.
      */
-    virtual std::shared_ptr<ActiveUnit> Create() = 0;
+    virtual std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) = 0;
 };
 
 #endif  // EUPHORIA_INPUTSYSTEM_H_
