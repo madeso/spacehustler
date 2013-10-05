@@ -11,6 +11,8 @@ Axis enum.
 #include <string>
 
 namespace JoystickPov {
+  /** Joystick pov type.
+   */
   enum Type {
     Invalid         /// Invalid axis
     , Unbound       /// Unbound axis

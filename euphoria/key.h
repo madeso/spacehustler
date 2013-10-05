@@ -10,17 +10,19 @@ Key related code
 
 #include <string>
 
-namespace MouseKey {
+namespace MouseButton {
+  /** The mouse button
+   */
   enum Type {
     Invalid                 /// Invalid key
     , Unbound               /// No key
     , Left                  /// The left mouse button
-    , Middle                /// The middle mouse vbutton
+    , Middle                /// The middle mouse button
     , Right                 /// The right mouse button
     , X1                    /// The X2 mouse button
     , X2                    /// The X2 mouse button
   };
-}  // namespace MouseKey
+}  // namespace MouseButton
 
 namespace Key {
 

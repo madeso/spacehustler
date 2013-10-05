@@ -68,6 +68,10 @@ class InputActionMap {
     std::map<std::string, std::shared_ptr<InputAction> > actions_;
 };
 
+/** Load actions from file.
+@param map the action map to fill
+@param filename the filename to load from
+ */
 void Load(InputActionMap* map, const std::string& filename);
 
 class KeyConfig;
@@ -110,23 +114,68 @@ class KeyConfigs {
     std::map<std::string, std::shared_ptr<KeyConfig>> configs_;
 };
 
-void Load(KeyConfigs* configs, const std::string& filename);
+/** Load configurations.
+@param configs the configurations
+@param filename the filename
+@param map the actions
+ */
+void Load(KeyConfigs* configs, const std::string& filename,
+          const InputActionMap& map);
 
 class KeyboardActiveUnit;
+
+/** Container class for directing input.
+ */
 class InputDirector {
   public:
+    /** Add a keyboard.
+    @param kb the keyboard
+     */
     void Add(KeyboardActiveUnit* kb);
+
+    /** Remove a keyboard.
+    @param kb the keyboard
+     */
     void Remove(KeyboardActiveUnit* kb);
 
+    /** Send a keyboard event.
+    @param key the key to act upon
+    @param down true if it is down, false if not
+     */
     void OnKeyboardKey(Key::Type key, bool down);
 
+    /** Send a mouse axis.
+    @param axis the axis
+    @param value the value
+     */
     void OnMouseAxis(Axis::Type axis, float value);
-    void OnMouseKey(MouseKey::Type key, bool down);
 
+    /** Send a mouse button.
+    @param button the button to act upon
+    @param down true if it is down, false if not
+     */
+    void OnMouseButton(MouseButton::Type button, bool down);
+
+    /** Send a joystick pov.
+    @param type the pov type
+    @param joystick the joystick id
+    @param value the value
+     */
     void OnJoystickPov(JoystickPov::Type type, int joystick, float value);
-    void OnJoystickButton(int button, int joystick, bool down);
-    void OnJoystickAxis(int axis, int joystick, float value);
 
+    /** Send a joystick button.
+    @param button the button to act upon
+    @param joystick the joystick id
+    @param down true if it is down, false if not
+     */
+    void OnJoystickButton(int button, int joystick, bool down);
+
+    /** Send a joystick axis.
+    @param axis the axis
+    @param joystick the joystick id
+    @param value the value
+     */
+    void OnJoystickAxis(int axis, int joystick, float value);
 
   private:
     std::vector<KeyboardActiveUnit*> keyboards_;
@@ -141,13 +190,43 @@ class InputSystem {
      */
     InputSystem();
 
+    /** Send a keyboard event.
+    @param key the key to act upon
+    @param down true if it is down, false if not
+     */
     void OnKeyboardKey(Key::Type key, bool down);
 
+    /** Send a mouse axis.
+    @param axis the axis
+    @param value the value
+     */
     void OnMouseAxis(Axis::Type axis, float value);
-    void OnMouseKey(MouseKey::Type key, bool down);
 
+    /** Send a mouse button.
+    @param button the button to act upon
+    @param down true if it is down, false if not
+     */
+    void OnMouseButton(MouseButton::Type button, bool down);
+
+    /** Send a joystick pov.
+    @param type the pov type
+    @param joystick the joystick id
+    @param value the value
+     */
     void OnJoystickPov(JoystickPov::Type type, int joystick, float value);
+
+    /** Send a joystick button.
+    @param button the button to act upon
+    @param joystick the joystick id
+    @param down true if it is down, false if not
+     */
     void OnJoystickButton(int button, int joystick, bool down);
+
+    /** Send a joystick axis.
+    @param axis the axis
+    @param joystick the joystick id
+    @param value the value
+     */
     void OnJoystickAxis(int axis, int joystick, float value);
 
   private:
@@ -250,9 +329,10 @@ class UnitDef {
     virtual ~UnitDef();
 
     /** Create a active unit.
+    @param director the input director
     @returns the active unit.
      */
-    virtual std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) = 0;
+    virtual std::shared_ptr<ActiveUnit> Create(InputDirector* director) = 0;
 };
 
 #endif  // EUPHORIA_INPUTSYSTEM_H_

@@ -127,9 +127,11 @@ std::shared_ptr<ConnectedUnits> KeyConfigs::GetFirstAutoDetectedConfig() const {
 
 //////////////////////////////////////////////////////////////////////////
 
-void Load(KeyConfig* config, const std::string& type, const Json::Value& data);
+void Load(KeyConfig* config, const std::string& type, const Json::Value& data,
+          const InputActionMap& map);
 
-void Load(KeyConfigs* configs, const std::string& filename) {
+void Load(KeyConfigs* configs, const std::string& filename,
+          const InputActionMap& map) {
   assert(configs);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
@@ -147,7 +149,7 @@ void Load(KeyConfigs* configs, const std::string& filename) {
     const std::string name = d.get("name", "").asString();
     const std::string type = d.get("type", "").asString();
     std::shared_ptr<KeyConfig> config(new KeyConfig());
-    Load(config.get(), type, d["data"]);
+    Load(config.get(), type, d["data"], map);
     configs->Add(name, config);
   }
 }
@@ -168,9 +170,9 @@ void InputSystem::OnMouseAxis(Axis::Type axis, float value) {
   input_->OnMouseAxis(axis, value);
 }
 
-void InputSystem::OnMouseKey(MouseKey::Type key, bool down) {
+void InputSystem::OnMouseButton(MouseButton::Type button, bool down) {
   assert(this);
-  input_->OnMouseKey(key, down);
+  input_->OnMouseButton(button, down);
 }
 
 void InputSystem::OnJoystickPov(JoystickPov::Type type, int joystick,
@@ -246,6 +248,12 @@ void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
   assert(this);
   assert(def);
   definitions_.push_back(def);
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+UnitDef::~UnitDef() {
+  assert(this);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -333,8 +341,9 @@ class KeyboardDef : public UnitDef {
       }
     }
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) {
-      std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_, pimpl));
+    std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
+      std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_,
+                                       director));
       return unit;
     }
 
@@ -349,7 +358,7 @@ class MouseDef : public UnitDef {
     explicit MouseDef(const Json::Value& data) {
     }
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) {
+    std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
       std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
       return unit;
     }
@@ -363,7 +372,7 @@ class JoystickDef : public UnitDef {
     explicit JoystickDef(const Json::Value& data) {
     }
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* pimpl) {
+    std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
       std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
       return unit;
     }
@@ -423,7 +432,7 @@ void InputDirector::OnMouseAxis(Axis::Type axis, float value) {
   assert(this);
 }
 
-void InputDirector::OnMouseKey(MouseKey::Type key, bool down) {
+void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
   assert(this);
 }
 

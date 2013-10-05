@@ -904,21 +904,21 @@ Key::Type ToKey(SDL_Keysym key) {
   }
 }
 
-MouseKey::Type ToKey(SDL_MouseButtonEvent mb) {
+MouseButton::Type ToKey(SDL_MouseButtonEvent mb) {
   switch (mb.button) {
     case SDL_BUTTON_LEFT:
-      return MouseKey::Left;
+      return MouseButton::Left;
     case SDL_BUTTON_MIDDLE:
-      return MouseKey::Middle;
+      return MouseButton::Middle;
     case SDL_BUTTON_RIGHT:
-      return MouseKey::Right;
+      return MouseButton::Right;
     case SDL_BUTTON_X1:
-      return MouseKey::X1;
+      return MouseButton::X1;
     case SDL_BUTTON_X2:
-      return MouseKey::X2;
+      return MouseButton::X2;
     default:
       assert(0 && mb.button && "Invalid mouse button");
-      return MouseKey::Invalid;
+      return MouseButton::Invalid;
   }
 }
 
@@ -1183,7 +1183,7 @@ void logic() {
       } else if (event.type == SDL_MOUSEBUTTONDOWN
                  || event.type == SDL_MOUSEBUTTONUP) {
         const bool down = event.type == SDL_MOUSEBUTTONDOWN;
-        game.inputsystem().OnMouseKey(ToKey(event.button), down);
+        game.inputsystem().OnMouseButton(ToKey(event.button), down);
       } else if (event.type == SDL_MOUSEMOTION) {
         if (lock && game.istweaking() == false) {
           xrel += event.motion.xrel;
