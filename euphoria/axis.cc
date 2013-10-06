@@ -15,16 +15,8 @@ namespace {
       Axisname() {
         bind(Axis::Invalid, "<invalid>");
         bind(Axis::Unbound, "<unbound>");
-        bind(Axis::MouseX, "MouseX");
-        bind(Axis::MouseY, "MouseY");
-        bind(Axis::JoystickX, "JoystickX");
-        bind(Axis::JoystickY, "JoystickY");
-        bind(Axis::JoystickZ, "JoystickZ");
-        bind(Axis::JoystickR, "JoystickR");
-        bind(Axis::JoystickU, "JoystickU");
-        bind(Axis::JoystickV, "JoystickV");
-        bind(Axis::JoystickPovX, "JoystickPovX");
-        bind(Axis::JoystickPovY, "JoystickPovY");
+        bind(Axis::X, "X");
+        bind(Axis::Y, "Y");
       }
 
       void bind(Axis::Type key, const std::string& name) {

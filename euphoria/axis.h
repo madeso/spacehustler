@@ -10,33 +10,14 @@ Axis enum.
 
 #include <string>
 
-namespace JoystickPov {
-  /** Joystick pov type.
-   */
-  enum Type {
-    Invalid         /// Invalid axis
-    , Unbound       /// Unbound axis
-    , PovX        /// Mouse X
-    , PovY        /// Mouse Y
-  };
-}
-
 namespace Axis {
   /** Axis types.
    */
   enum Type {
     Invalid         /// Invalid axis
     , Unbound       /// Unbound axis
-    , MouseX        /// Mouse X
-    , MouseY        /// Mouse Y
-    , JoystickX     /// Joystick X
-    , JoystickY     /// Joystick Y
-    , JoystickZ     /// Joystick Z
-    , JoystickR     /// Joystick R
-    , JoystickU     /// Joystick U
-    , JoystickV     /// Joystick V
-    , JoystickPovX  /// Joystick PovX
-    , JoystickPovY  /// Joystick PovY
+    , X        /// Mouse X
+    , Y        /// Mouse Y
   };
 
   /** Generate a string representation of the given axis

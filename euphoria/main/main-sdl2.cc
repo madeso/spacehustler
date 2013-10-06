@@ -376,9 +376,9 @@ class Joystick {
         for (int i = 0; i < numHats_; ++i) {
           const Uint8 hat = SDL_JoystickGetHat(joystick_, i);
           const Posi values = GetHatValues(hat);
-          game->inputsystem().OnJoystickPov(JoystickPov::PovX, id_,
+          game->inputsystem().OnJoystickPov(Axis::X, id_,
                                             static_cast<float>(values.first));
-          game->inputsystem().OnJoystickPov(JoystickPov::PovY, id_,
+          game->inputsystem().OnJoystickPov(Axis::Y, id_,
                                             static_cast<float>(values.second));
         }
       }
@@ -1218,8 +1218,8 @@ void logic() {
     float dx = xrel / size;
     float dy = yrel / size;
     const float sensitivity = 10.0f;
-    game.inputsystem().OnMouseAxis(Axis::MouseX, dx * sensitivity);
-    game.inputsystem().OnMouseAxis(Axis::MouseY, dy * sensitivity);
+    game.inputsystem().OnMouseAxis(Axis::X, dx * sensitivity);
+    game.inputsystem().OnMouseAxis(Axis::Y, dy * sensitivity);
   }
 }
 

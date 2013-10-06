@@ -161,7 +161,7 @@ class InputDirector {
     @param joystick the joystick id
     @param value the value
      */
-    void OnJoystickPov(JoystickPov::Type type, int joystick, float value);
+    void OnJoystickPov(Axis::Type type, int joystick, float value);
 
     /** Send a joystick button.
     @param button the button to act upon
@@ -226,7 +226,7 @@ class InputSystem {
     @param joystick the joystick id
     @param value the value
      */
-    void OnJoystickPov(JoystickPov::Type type, int joystick, float value);
+    void OnJoystickPov(Axis::Type type, int joystick, float value);
 
     /** Send a joystick button.
     @param button the button to act upon
