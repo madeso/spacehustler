@@ -65,7 +65,7 @@ void Load(InputActionMap* map, const std::string& filename) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
     throw std::logic_error(Str()
-                           << "Unable to input actions from " << filename);
+                           << "Unable to load input actions from " << filename);
   }
   Json::Value root;
   Json::Reader reader;
@@ -127,7 +127,7 @@ std::shared_ptr<ConnectedUnits> KeyConfigs::GetFirstAutoDetectedConfig() const {
 
 //////////////////////////////////////////////////////////////////////////
 
-void Load(KeyConfig* config, const std::string& type, const Json::Value& data,
+void Load(KeyConfig* config, const Json::Value& data,
           const InputActionMap& map);
 
 void Load(KeyConfigs* configs, const std::string& filename,
@@ -147,17 +147,43 @@ void Load(KeyConfigs* configs, const std::string& filename,
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value d = root[i];
     const std::string name = d.get("name", "").asString();
-    const std::string type = d.get("type", "").asString();
     std::shared_ptr<KeyConfig> config(new KeyConfig());
-    Load(config.get(), type, d["data"], map);
+    Load(config.get(), d["units"], map);
     configs->Add(name, config);
   }
 }
 
 //////////////////////////////////////////////////////////////////////////
 
+void Load(InputSystem* sys, const std::string& filename) {
+  assert(sys);
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str()
+                           << "Unable to load players from " << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+                           << reader.getFormattedErrorMessages());
+  }
+  for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
+    const auto name = root[i].asString();
+    sys->AddPlayer(name);
+  }
+}
+
 InputSystem::InputSystem() : input_(new InputDirector()) {
   assert(this);
+  Load(&actions_, "actions.js");
+  Load(&configs_, "keys.js", actions_);
+  Load(this, "players.js");
+}
+
+std::shared_ptr<InputAction> InputSystem::GetAction(const std::string& name) {
+  assert(this);
+  return actions_.Get(name);
 }
 
 void InputSystem::OnKeyboardKey(Key::Type key, bool down) {
@@ -191,6 +217,22 @@ void InputSystem::OnJoystickAxis(int axis, int joystick, float value) {
   input_->OnJoystickAxis(axis, joystick, value);
 }
 
+std::shared_ptr<Player> InputSystem::GetPlayer(const std::string& name) {
+  assert(this);
+  auto res = players_.find(name);
+  if (res == players_.end()) {
+    const std::string error = Str() << "Unable to find player " << name;
+    throw error;
+  }
+  assert(res->second);
+  return res->second;
+}
+
+void InputSystem::AddPlayer(const std::string& name) {
+  assert(this);
+  std::shared_ptr<Player> p(new Player());
+  players_.insert(std::make_pair(name, p));
+}
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -204,11 +246,31 @@ void ConnectedUnits::Add(std::shared_ptr<ActiveUnit> unit) {
   units_.push_back(unit);
 }
 
+void ConnectedUnits::UpdateTable(Table* table) {
+  assert(this);
+  assert(table);
+
+  if (units_.empty()) {
+    throw "No units connected for table update to be completed";
+  }
+
+  for (auto unit : units_) {
+    assert(unit);
+    unit->UpdateTable(table);
+  }
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
 Player::Player()  {
   assert(this);
+}
+
+void Player::UpdateTable(Table* table) {
+  assert(this);
+  assert(table);
+  units_.UpdateTable(table);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -218,7 +280,9 @@ void ActiveUnit::UpdateTable(Table* table) {
   assert(table);
   for (auto action : actions_) {
     assert(action);
-    table->Set(action->scriptvarname(), action->state());
+    if (action->scriptvarname().empty() == false) {
+      table->Set(action->scriptvarname(), action->state());
+    }
   }
 }
 
@@ -337,6 +401,12 @@ class KeyboardDef : public UnitDef {
         const std::string actionname = d.get("action", "").asString();
         const auto action = map.Get(actionname);
         const auto key = Key::FromString(keyname);
+
+        if (key == Key::Invalid) {
+          auto error = (Str() << keyname << " is a invalid key").ToString();
+          throw error;
+        }
+
         binds_.push_back(Bind<Key::Type>(key, action));
       }
     }
@@ -382,24 +452,37 @@ class JoystickDef : public UnitDef {
 
 //////////////////////////////////////////////////////////////////////////
 
-void Load(KeyConfig* config, const std::string& type, const Json::Value& data,
+std::shared_ptr<UnitDef> CreateUnit(const std::string& type,
+                                    const Json::Value& data,
+                                    const InputActionMap& map) {
+  if (type == "keyboard") {
+    std::shared_ptr<UnitDef> def;
+    def.reset(new KeyboardDef(data, map));
+    return def;
+  } else if (type == "mouse") {
+    std::shared_ptr<UnitDef> def;
+    def.reset(new MouseDef(data));
+    return def;
+  } else if (type == "joystick") {
+    std::shared_ptr<UnitDef> def;
+    def.reset(new JoystickDef(data));
+    return def;
+  } else {
+    throw std::logic_error(Str() << "Unknown unit definition " << type);
+  }
+}
+
+void Load(KeyConfig* config, const Json::Value& units,
           const InputActionMap& map) {
   assert(config);
-  std::shared_ptr<UnitDef> def;
 
-  if (type == "keyboard") {
-    def.reset(new KeyboardDef(data, map));
-  } else if (type == "mouse") {
-    def.reset(new MouseDef(data));
-  } else if (type == "joystick") {
-    def.reset(new JoystickDef(data));
-  } else {
-    throw std::logic_error(Str()
-                           << "Unknown unit definition " << type);
+  for (Json::ArrayIndex i = 0; i < units.size(); ++i) {
+    Json::Value d = units[i];
+    const std::string type = d.get("type", "").asString();
+    auto def = CreateUnit(type, d["binds"], map);
+    assert(def);
+    config->Add(def);
   }
-
-  assert(def);
-  config->Add(def);
 }
 
 

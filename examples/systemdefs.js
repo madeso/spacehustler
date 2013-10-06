@@ -1,5 +1,6 @@
 [
-	 {"system":"Script", "data" : {
+	 {"system":"Player", "data" : {}}
+	,{"system":"Script", "data" : {
 		  "name":"test"
 		, "typefunction":"test_type"
 		, "componentfunction":"test_component"

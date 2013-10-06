@@ -32,6 +32,8 @@ namespace internal {
   };
 }  // namespace internal
 
+class Lua;
+
 /** A lua table.
 */
 class Table {
@@ -39,7 +41,7 @@ class Table {
     /** Constructor.
     @param state the state where to create the table.
      */
-    explicit Table(lua_State* state);
+    explicit Table(Lua* state);
     ~Table();
 
     /** Sets a lua variable to value.

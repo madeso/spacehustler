@@ -14,6 +14,7 @@
 #include "euphoria/entity-camera.h"
 #include "euphoria/entity-script.h"
 #include "euphoria/entity-name.h"
+#include "euphoria/entity-player.h"
 #include "euphoria/stringmerger.h"
 #include "euphoria/stdutils.h"
 
@@ -25,20 +26,23 @@ CreateSystemArg::CreateSystemArg(SystemContainer* acontainer,
                                  ShaderCache* ashadercache,
                                  Camera* acamera,
                                  Lua* ascript,
-                                 const Settings& asettings) :
+                                 const Settings& asettings,
+                                 InputSystem* ainputsystem) :
   container(acontainer),
   world(aworld),
   texturecache(atexturecache),
   shadercache(ashadercache),
   camera(acamera),
   script(ascript),
-  settings(asettings) {
+  settings(asettings),
+  inputsystem(ainputsystem) {
   assert(container);
   assert(world);
   assert(texturecache);
   assert(shadercache);
   assert(camera);
   assert(script);
+  assert(inputsystem);
 }
 
 SystemCreatorList::SystemCreatorList() {
@@ -81,6 +85,7 @@ void LoadSystems(const std::string& filename, const CreateSystemArg& arg) {
   Entity_AddCamera(&creators);
   Entity_AddScript(&creators);
   Entity_AddName(&creators);
+  Entity_AddPlayer(&creators);
 
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     const std::string systemname = root[i].get("system", "").asString();

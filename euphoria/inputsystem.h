@@ -190,6 +190,12 @@ class InputSystem {
      */
     InputSystem();
 
+    /** Get a action.
+    @param name the name of the action
+    @returns the action
+     */
+    std::shared_ptr<InputAction> GetAction(const std::string& name);
+
     /** Send a keyboard event.
     @param key the key to act upon
     @param down true if it is down, false if not
@@ -229,14 +235,26 @@ class InputSystem {
      */
     void OnJoystickAxis(int axis, int joystick, float value);
 
+    /** Get a player.
+    @param name the name of the player
+    @returns the player
+     */
+    std::shared_ptr<Player> GetPlayer(const std::string& name);
+
+    /** Add a player.
+    @name the name of the player.
+     */
+    void AddPlayer(const std::string& name);
+
   private:
     InputActionMap actions_;
-    std::vector<std::shared_ptr<Player> > players_;
+    std::map<std::string, std::shared_ptr<Player>> players_;
     KeyConfigs configs_;
     std::unique_ptr<InputDirector> input_;
 };
 
 class ActiveUnit;
+class Table;
 
 /** Contains a list of active units.
  */
@@ -245,6 +263,11 @@ class ConnectedUnits {
     /** Constructor.
      */
     ConnectedUnits();
+
+    /** Updates all connected units.
+    @param table the table to update
+     */
+    void UpdateTable(Table* table);
 
     /** Add a unit.
     @param unit the unit to add
@@ -264,8 +287,13 @@ class Player {
      */
     Player();
 
+    /** Updates all connected units.
+    @param table the table to update
+     */
+    void UpdateTable(Table* table);
+
   private:
-    ConnectedUnits unit_;
+    ConnectedUnits units_;
 };
 
 class Table;

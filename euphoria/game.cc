@@ -76,7 +76,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   script_.reset(new Lua());
   script_->RunFile("main.lua");
 
-  tweakaction_ = 0;  // actions_->getAction("enable_tweak");
+  tweakaction_ = inputsystem_.GetAction("enable_tweak");
 
   camera_.reset(new Camera(width_, height_));
   camera_->set_fov(45);
@@ -85,12 +85,12 @@ Game::Game(const Settings& settings, bool renderoculus)
   container_.reset(new SystemContainer());
   LoadSystems("systemdefs.js", CreateSystemArg(container_.get(), world_.get(),
               texturecache_.get(), shadercache_.get(), camera_.get(),
-              script_.get(), settings));
+              script_.get(), settings, &inputsystem_));
 
   entities_.reset(new EntityList());
   entities_->AddDefs(container_.get(), "entity.js");
 
-  LoadEntities(entities_.get(), "entities.js");
+  LoadEntities(entities_.get(), "entities.js", script_.get());
 
   oculusvr_.reset(new OculusVr());
 
@@ -248,7 +248,7 @@ void Game::Render() {
 
 InputSystem& Game::inputsystem() {
   assert(this);
-  return inputsytem_;
+  return inputsystem_;
 }
 
 void Game::Update(float dt) {

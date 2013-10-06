@@ -17,7 +17,7 @@ const std::string ScriptingSystemType = "Script";
 class ScriptType : public ComponentType {
   public:
     ScriptType(const Json::Value& data, Lua* script)
-      : table(script->state()) {
+      : table(script) {
     }
 
     Table table;
@@ -27,7 +27,7 @@ class ScriptObject {
   public:
     ScriptObject(Entity* entity, ScriptType* type, Lua* script)
       : entity(entity)
-      , table(script->state()) {
+      , table(script) {
     }
 
     Entity* entity;
@@ -72,6 +72,7 @@ class ScriptSystem : public System {
 
       FunctionCall f(script_->state(), component_function_);
       f.Argument(o->table);
+      f.Argument(o->entity->table);
       f.Argument(script_type->table);
       f.Call();
 
@@ -85,6 +86,7 @@ class ScriptSystem : public System {
         if (step_function_.empty() == false) {
           FunctionCall f(script_->state(), step_function_);
           f.Argument(o->table);
+          f.Argument(o->entity->table);
           f.Argument(o->entity);
           f.Argument(dt);
           f.Call();  /// @todo add more arguments

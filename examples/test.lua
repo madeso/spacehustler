@@ -2,11 +2,11 @@ function test_type(self, json)
 	self.force = Json.Get(json, "force", 50)
 end
 
-function test_component(self, ctype)
+function test_component(self, object, ctype)
 	self.force = ctype.force
 end
 
-function test_step(self, entity, dt)
+function test_step(self, object, entity, dt)
 	local phys = Physics.Get(entity)
 	--Physics.ApplyForce(phys, -100*mousey*self.force, 0, -100*mousex*self.force)
 	if yawpkey > 0.5 then

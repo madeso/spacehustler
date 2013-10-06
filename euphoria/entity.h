@@ -20,10 +20,17 @@ Core Entity related code.
 
 #include "json/json.h"
 
+#include "euphoria/lua.h"
+
 /** A entity in the component/entity framework.
  */
 class Entity {
   public:
+    /** Constructor.
+    @param lua the lua engine.
+     */
+    explicit Entity(Lua* lua);
+
     /** The position.
      */
     vec3 position;
@@ -31,6 +38,10 @@ class Entity {
     /** The rotation.
      */
     quat rotation;
+
+    /** Lua table,
+     */
+    Table table;
 
     // list of components?
 };
@@ -105,6 +116,7 @@ class SystemContainer {
   private:
     typedef std::map<std::string, std::shared_ptr<System> > SystemMap;
     SystemMap systems_;
+    std::vector<std::shared_ptr<System>> systemlist_;
 };
 
 /** The definition of a entity.
@@ -144,9 +156,10 @@ class EntityList {
     @param entity the entity name
     @param pos the position of the entity
     @param rot the rotation of the entity
+    @param lua the lua engine
      */
     void CreateEntity(const std::string& entity, const vec3& pos,
-                      const quat& rot);
+                      const quat& rot, Lua* lua);
 
   private:
     typedef std::map<std::string, EntityDef> EntityDefs;
@@ -157,8 +170,9 @@ class EntityList {
 /** Load entities from a file.
 @param list store the entities here
 @param filename load from this file
+@param lua the lua engine
 @todo merge with the World loader.
  */
-void LoadEntities(EntityList* list, const std::string& filename);
+void LoadEntities(EntityList* list, const std::string& filename, Lua* lua);
 
 #endif  // EUPHORIA_ENTITY_H_

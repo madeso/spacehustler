@@ -25,6 +25,7 @@ class ShaderCache;
 class Camera;
 class Lua;
 class Settings;
+class InputSystem;
 
 /** Arguments for creating a system.
  */
@@ -38,6 +39,7 @@ class CreateSystemArg : boost::noncopyable {
     @param acamera the camera
     @param ascript the lua engine
     @param asettings the settings
+    @param ainputsystem the input system
      */
     CreateSystemArg(
       SystemContainer* acontainer,
@@ -46,7 +48,8 @@ class CreateSystemArg : boost::noncopyable {
       ShaderCache* ashadercache,
       Camera* acamera,
       Lua* ascript,
-      const Settings& asettings);
+      const Settings& asettings,
+      InputSystem* ainputsystem);
 
     /** The system container.
      */
@@ -75,6 +78,10 @@ class CreateSystemArg : boost::noncopyable {
     /** The settings.
      */
     const Settings& settings;
+
+    /** The input system.
+     */
+    InputSystem* inputsystem;
 };
 
 /** Callback function for creating systems.

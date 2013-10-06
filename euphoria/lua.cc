@@ -31,8 +31,16 @@ namespace {
   }
 }  // namespace
 
-Table::Table(lua_State* astate)
-  : state_(astate)
+/// Helper function for asserting
+inline lua_State* GetState(Lua* lua) {
+  assert(lua);
+  auto ret = lua->state();
+  assert(ret);
+  return ret;
+}
+
+Table::Table(Lua* state)
+  : state_(GetState(state))
   , reference_(LUA_NOREF) {
   assert(this);
   assert(state_);

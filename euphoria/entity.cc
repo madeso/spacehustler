@@ -17,7 +17,8 @@
 
 #include "json/json.h"
 
-// no implementation needed for the Entity.
+Entity::Entity(Lua* lua) : table(lua) {
+}
 
 System::System() {
   assert(this);
@@ -37,8 +38,8 @@ SystemContainer::~SystemContainer() {
 
 void SystemContainer::Step(float dt) {
   assert(this);
-  for (auto s : systems_) {
-    s.second->Step(dt);
+  for (auto s : systemlist_) {
+    s->Step(dt);
   }
 }
 
@@ -46,6 +47,7 @@ void SystemContainer::Add(const std::string& name,
                           std::shared_ptr<System> sys) {
   assert(this);
   systems_.insert(SystemMap::value_type(name, sys));
+  systemlist_.push_back(sys);
 }
 
 std::shared_ptr<System> SystemContainer::getSystem(const std::string& name) {
@@ -105,13 +107,13 @@ void EntityList::AddDefs(SystemContainer* container,
 }
 
 void EntityList::CreateEntity(const std::string& entity, const vec3& pos,
-                              const quat& rot) {
+                              const quat& rot, Lua* lua) {
   assert(this);
   auto res = entitydefs_.find(entity);
   if (res == entitydefs_.end()) {
     throw std::logic_error(Str() << "Unknown entity type: " << entity);
   }
-  std::shared_ptr<Entity> e(new Entity());
+  std::shared_ptr<Entity> e(new Entity(lua));
   e->position = pos;
   e->rotation = rot;
   res->second.AddComponents(e.get());
@@ -142,7 +144,7 @@ namespace {
   }
 }  // namespace
 
-void LoadEntities(EntityList* list, const std::string& filename) {
+void LoadEntities(EntityList* list, const std::string& filename, Lua* lua) {
   assert(list);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
@@ -158,7 +160,7 @@ void LoadEntities(EntityList* list, const std::string& filename) {
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value ent = root[i];
     const std::string enttype = ent.get("type", "").asString();
-    list->CreateEntity(enttype, ToVec3(ent["pos"]), ToQuat(ent["rot"]));
+    list->CreateEntity(enttype, ToVec3(ent["pos"]), ToQuat(ent["rot"]), lua);
   }
 }
 
