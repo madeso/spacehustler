@@ -9,50 +9,50 @@ end
 function test_step(self, object, entity, dt)
 	local phys = Physics.Get(entity)
 	--Physics.ApplyForce(phys, -100*mousey*self.force, 0, -100*mousex*self.force)
-	if yawpkey > 0.5 then
+	if object.yawpkey > 0.5 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:gety()
-		Physics.ApplyTorque(phys, a*self.force*yawpkey)
+		Physics.ApplyTorque(phys, a*self.force*object.yawpkey)
 	end
-	if yawnkey > 0.0 then
+	if object.yawnkey > 0.0 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:gety()
-		Physics.ApplyTorque(phys, a*-self.force*yawnkey)
+		Physics.ApplyTorque(phys, a*-self.force*object.yawnkey)
 	end
 	
-	if pitchpkey > 0.5 then
+	if object.pitchpkey > 0.5 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:getx()
-		Physics.ApplyTorque(phys, a*self.force*pitchpkey)
+		Physics.ApplyTorque(phys, a*self.force*object.pitchpkey)
 	end
-	if pitchnkey > 0.0 then
+	if object.pitchnkey > 0.0 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:getx()
-		Physics.ApplyTorque(phys, a*-self.force*pitchnkey)
+		Physics.ApplyTorque(phys, a*-self.force*object.pitchnkey)
 	end
 	
-	if rollpkey > 0.0 then
+	if object.rollpkey > 0.0 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:getz()
-		Physics.ApplyTorque(phys, a*self.force*rollpkey)
+		Physics.ApplyTorque(phys, a*self.force*object.rollpkey)
 	end
-	if rollnkey > 0.0 then
+	if object.rollnkey > 0.0 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:getz()
-		Physics.ApplyTorque(phys, a*-self.force*rollnkey)
+		Physics.ApplyTorque(phys, a*-self.force*object.rollnkey)
 	end
 	
-	if forcekey > 0.0 then
+	if object.forcekey > 0.0 then
 		local q = Physics.GetOrientation(phys)
 		local a = q:gety()
-		Physics.ApplyForce(phys, a*self.force*forcekey)
+		Physics.ApplyForce(phys, a*self.force*object.forcekey)
 	end
 	
-	if resetkey > 0.5 then
+	if object.resetkey > 0.5 then
 		Physics.SetOrientation(phys, cquat.identity())
 	end
 	
-	if quitkey > 0.5 then
+	if object.quitkey > 0.5 then
 		Game.Quit()
 	end
 end
