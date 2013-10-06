@@ -37,17 +37,17 @@
 				"type": "joystick",
 				"binds":
 				[
-					  {"action":"force", "key":"JoystickZ", "device":0, "invert":true}
-					, {"action":"yaw+", "key":"JoystickR+", "device":0}
-					, {"action":"yaw-", "key":"JoystickR-", "device":0}
-					, {"action":"pitch+", "key":"JoystickY-", "device":0}
-					, {"action":"pitch-", "key":"JoystickY+", "device":0}
-					, {"action":"roll+","key":"JoystickX-", "device":0}
-					, {"action":"roll-","key":"JoystickX+", "device":0}
-					, {"action":"camright", "key":"JoystickPovX+", "device":0}
-					, {"action":"camleft", "key":"JoystickPovX-", "device":0}
-					, {"action":"camup", "key":"JoystickPovY+", "device":0}
-					, {"action":"camdown", "key":"JoystickPovY-", "device":0}
+					  {"action":"force",    "sign": "",  "axis":2, "type":"axis", "invert":true}
+					, {"action":"yaw+",     "sign": "+", "axis":3, "type":"axis"}
+					, {"action":"yaw-",     "sign": "-", "axis":3, "type":"axis"}
+					, {"action":"pitch+",   "sign": "-", "axis":1, "type":"axis"}
+					, {"action":"pitch-",   "sign": "+", "axis":1, "type":"axis"}
+					, {"action":"roll+",    "sign": "-", "axis":0, "type":"axis"}
+					, {"action":"roll-",    "sign": "+", "axis":0, "type":"axis"}
+					, {"action":"camright", "sign": "+", "axis":"x", "type":"hat", "hat":0}
+					, {"action":"camleft",  "sign": "-", "axis":"x", "type":"hat", "hat":0}
+					, {"action":"camup",    "sign": "+", "axis":"y", "type":"hat", "hat":0}
+					, {"action":"camdown",  "sign": "-", "axis":"y", "type":"hat", "hat":0}
 				]
 			},
 			{
@@ -69,18 +69,18 @@
 				"type": "joystick",
 				"binds":
 				[
-					  {"action":"force", "key":"JoystickU-", "invert":true}
-					, {"action":"yaw+", "key":"JoystickZ-"}
-					, {"action":"yaw-", "key":"JoystickZ+"}
-					, {"action":"pitch+", "key":"JoystickY+"}
-					, {"action":"pitch-", "key":"JoystickY-"}
-					, {"action":"roll+","key":"JoystickX-"}
-					, {"action":"roll-","key":"JoystickX+"}
-					, {"action":"reset","key":"JoystickButton5"}
-					, {"action":"camright", "key":"JoystickButton3"}
-					, {"action":"camleft", "key":"JoystickButton4"}
-					, {"action":"camup", "key":"JoystickButton2"}
-					, {"action":"camdown", "key":"JoystickButton1"}
+					  {"action":"force",    "type":"axis", "sign":"-", "axis":4, "invert":true}
+					, {"action":"yaw+",     "type":"axis", "sign":"-", "axis":2}
+					, {"action":"yaw-",     "type":"axis", "sign":"+", "axis":2}
+					, {"action":"pitch+",   "type":"axis", "sign":"+", "axis":1}
+					, {"action":"pitch-",   "type":"axis", "sign":"-", "axis":1}
+					, {"action":"roll+",    "type":"axis", "sign":"-", "axis":0}
+					, {"action":"roll-",    "type":"axis", "sign":"+", "axis":0}
+					, {"action":"reset",    "type":"button", "button":5}
+					, {"action":"camright", "type":"button", "button":3}
+					, {"action":"camleft",  "type":"button", "button":4}
+					, {"action":"camup",    "type":"button", "button":2}
+					, {"action":"camdown",  "type":"button", "button":1}
 				]
 			},
 			{
