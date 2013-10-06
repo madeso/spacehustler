@@ -21,7 +21,6 @@ Build tools
 * AssImp, for importing meshes
 * OpenGL library
 * SDL2, for launching a window and providing a input layer
-* wxWidgets for displaying error messages (should be possible to disable)
 * bullet for physics
 * joystick support
 
