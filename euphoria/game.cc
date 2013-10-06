@@ -43,6 +43,8 @@ Game::Game(const Settings& settings, bool renderoculus)
   , istweaking_(false), renderoculus_(renderoculus) {
   assert(this);
 
+  inputsystem_.SetUnitForPlayer("Player", settings.control_scheme());
+
   const GLenum err = glewInit();
   if (err != GLEW_OK) {
     std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));

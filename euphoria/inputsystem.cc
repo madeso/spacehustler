@@ -186,6 +186,19 @@ std::shared_ptr<InputAction> InputSystem::GetAction(const std::string& name) {
   return actions_.Get(name);
 }
 
+void InputSystem::SetUnitForPlayer(const std::string& playerName,
+                                   const std::string& inputname) {
+  auto res = players_.find(playerName);
+  if (res == players_.end()) {
+    const std::string error = Str() << "Unable to find player " << playerName;
+    throw error;
+  }
+  std::shared_ptr<Player> player = res->second;
+
+  auto config = configs_.Get(inputname);
+  player->set_units(config->Connect(input_.get()));
+}
+
 void InputSystem::OnKeyboardKey(Key::Type key, bool down) {
   assert(this);
   input_->OnKeyboardKey(key, down);
@@ -260,6 +273,11 @@ void ConnectedUnits::UpdateTable(Table* table) {
   }
 }
 
+bool ConnectedUnits::IsEmpty() const {
+  assert(this);
+  return units_.empty();
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -271,6 +289,12 @@ void Player::UpdateTable(Table* table) {
   assert(this);
   assert(table);
   units_.UpdateTable(table);
+}
+
+void Player::set_units(ConnectedUnits units) {
+  assert(this);
+  assert(units.IsEmpty() == false);
+  units_ = units;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -312,6 +336,16 @@ void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
   assert(this);
   assert(def);
   definitions_.push_back(def);
+}
+
+ConnectedUnits KeyConfig::Connect(InputDirector* director) const {
+  ConnectedUnits units;
+  for (auto def : definitions_) {
+    auto unit = def->Create(director);
+    assert(unit);
+    units.Add(unit);
+  }
+  return units;
 }
 
 //////////////////////////////////////////////////////////////////////////

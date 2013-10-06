@@ -196,6 +196,13 @@ class InputSystem {
      */
     std::shared_ptr<InputAction> GetAction(const std::string& name);
 
+    /** Setups a input unit for a player.
+    @param playerName the name of the player
+    @param inputName the name of the input
+     */
+    void SetUnitForPlayer(const std::string& playerName,
+                          const std::string& inputName);
+
     /** Send a keyboard event.
     @param key the key to act upon
     @param down true if it is down, false if not
@@ -273,6 +280,11 @@ class ConnectedUnits {
     @param unit the unit to add
      */
     void Add(std::shared_ptr<ActiveUnit> unit);
+
+    /** Are there any connected units?
+    @returns true if there are no active units, false if not
+     */
+    bool IsEmpty() const;
   private:
     std::vector<std::shared_ptr<ActiveUnit>> units_;
 };
@@ -291,6 +303,11 @@ class Player {
     @param table the table to update
      */
     void UpdateTable(Table* table);
+
+    /** Sets the connected units.
+    @param units the units
+     */
+    void set_units(ConnectedUnits units);
 
   private:
     ConnectedUnits units_;
@@ -342,6 +359,12 @@ class KeyConfig {
     @param def the definition to add.
      */
     void Add(std::shared_ptr<UnitDef> def);
+
+    /** Connect.
+    @param director the input director
+    @returns the connected units
+     */
+    ConnectedUnits Connect(InputDirector* director) const;
 
   private:
     std::vector<std::shared_ptr<UnitDef>> definitions_;
