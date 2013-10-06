@@ -25,7 +25,9 @@ namespace {
   void ThrowIfError(lua_State* state, int errorcode) {
     assert(state);
     if (errorcode) {
-      throw std::logic_error(Str() << "Lua error: " << lua_tostring(state, -1));
+      const std::string error = Str() << "Lua error: "
+                                << lua_tostring(state, -1);
+      throw std::logic_error(error);
       // lua_pop(L, 1); ?
     }
   }
@@ -58,9 +60,11 @@ Table::~Table() {
 void Table::Set(const std::string& name, float value) {
   assert(this);
   assert(state_);
+  PushToState(state_);
   lua_pushstring(state_, name.c_str());
   lua_pushnumber(state_, value);
-  lua_settable(state_, reference_);
+  lua_settable(state_, -3);
+  lua_pop(state_, 1);
 }
 
 void Table::PushToState(lua_State* astate) const {
