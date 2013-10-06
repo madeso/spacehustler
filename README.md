@@ -20,7 +20,7 @@ Build tools
 * Astyle, for styling the code (can be disabled)
 * AssImp, for importing meshes
 * OpenGL library
-* SFML, for launching a window and providing a input layer
+* SDL2, for launching a window and providing a input layer
 * wxWidgets for displaying error messages (should be possible to disable)
 * bullet for physics
 * joystick support
