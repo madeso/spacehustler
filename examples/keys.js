@@ -7,25 +7,25 @@
 				"binds":
 				[
 					  {"action":"enable_tweak", "key":"Tab"}
-					, {"action":"force", "key":"Space"}
-					, {"action":"yaw+", "key":"Q"}
-					, {"action":"yaw-", "key":"E"}
-					, {"action":"pitch+", "key":"S"}
-					, {"action":"pitch-", "key":"W"}
-					, {"action":"roll+","key":"A"}
-					, {"action":"roll-","key":"D"}
-					, {"action":"reset","key":"R"}
-					, {"action":"quit", "key":"Escape"}
+					, {"action":"force",        "key":"Space"}
+					, {"action":"yaw+",         "key":"Q"}
+					, {"action":"yaw-",         "key":"E"}
+					, {"action":"pitch+",       "key":"S"}
+					, {"action":"pitch-",       "key":"W"}
+					, {"action":"roll+",        "key":"A"}
+					, {"action":"roll-",        "key":"D"}
+					, {"action":"reset",        "key":"R"}
+					, {"action":"quit",         "key":"Escape"}
 				]
 			},
 			{
 				"type":"mouse",
 				"binds":
 				[
-					  {"action":"camright", "key":"MouseX+"}
-					, {"action":"camleft", "key":"MouseX-"}
-					, {"action":"camup", "key":"MouseY-"}
-					, {"action":"camdown", "key":"MouseY+"}
+					  {"action":"camright", "type":"axis", "sign":"+", "axis":"x"}
+					, {"action":"camleft",  "type":"axis", "sign":"-", "axis":"x"}
+					, {"action":"camup",    "type":"axis", "sign":"-", "axis":"y"}
+					, {"action":"camdown",  "type":"axis", "sign":"+", "axis":"y"}
 				]
 			}
 		]
@@ -54,8 +54,8 @@
 				"type": "keyboard",
 				"binds":
 				[
-					  {"action":"reset","key":"R"}
-					, {"action":"quit", "key":"Escape"}
+					  {"action":"reset",        "key":"R"}
+					, {"action":"quit",         "key":"Escape"}
 					, {"action":"enable_tweak", "key":"Tab"}
 				]
 			}
@@ -87,8 +87,8 @@
 				"type": "keyboard",
 				"binds":
 				[
-					  {"action":"reset","key":"R"}
-					, {"action":"quit", "key":"Escape"}
+					  {"action":"reset",        "key":"R"}
+					, {"action":"quit",         "key":"Escape"}
 					, {"action":"enable_tweak", "key":"Tab"}
 				]
 			}
