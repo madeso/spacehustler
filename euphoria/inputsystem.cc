@@ -388,6 +388,34 @@ class Bind {
     std::shared_ptr<InputAction> action_;
 };
 
+template <typename AxisType>
+class AxisBind {
+  public:
+    AxisBind(AxisType axis, const Json::Value& data) : axis_(axis) {
+      assert(this);
+      const std::string signname = data.get("sign", "").asString();
+      sign_ = Sign::FromString(signname);
+      if (sign_ == Sign::Invalid) {
+        const std::string error = Str() << "Invalid sign " << signname;
+        throw error;
+      }
+    }
+
+    AxisType axis() {
+      assert(this);
+      return axis_;
+    }
+
+    Sign::Type sign() {
+      assert(this);
+      return sign_;
+    }
+
+  private:
+    AxisType axis_;
+    Sign::Type sign_;
+};
+
 //////////////////////////////////////////////////////////////////////////
 
 class KeyboardActiveUnit : public ActiveUnit {
@@ -459,14 +487,36 @@ class KeyboardDef : public UnitDef {
 
 class MouseDef : public UnitDef {
   public:
-    explicit MouseDef(const Json::Value& data) {
+    MouseDef(const Json::Value& data, const InputActionMap& map) {
+      for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
+        Json::Value d = data[i];
+        const std::string type = d.get("type", "").asString();
+        const std::string actionname = d.get("action", "").asString();
+        const auto action = map.Get(actionname);
+
+        if (type == "axis") {
+          const std::string axisname = d.get("axis", "").asString();
+          const auto axis = Axis::FromString(axisname);
+          if (axis == Axis::Invalid) {
+            const std::string error = Str() << "Invalid axis " << axisname;
+            throw error;
+          }
+          axis_.push_back(Bind<AxisBind<Axis::Type>>(
+                            AxisBind<Axis::Type>(axis, d), action));
+        } else {
+          std::string error = Str() << "Unknown input type: " << type;
+          throw error;
+        }
+      }
     }
 
     std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
       std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
       return unit;
     }
+
   private:
+    std::vector<Bind<AxisBind<Axis::Type> > > axis_;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -495,7 +545,7 @@ std::shared_ptr<UnitDef> CreateUnit(const std::string& type,
     return def;
   } else if (type == "mouse") {
     std::shared_ptr<UnitDef> def;
-    def.reset(new MouseDef(data));
+    def.reset(new MouseDef(data, map));
     return def;
   } else if (type == "joystick") {
     std::shared_ptr<UnitDef> def;

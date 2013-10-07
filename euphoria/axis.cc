@@ -10,6 +10,57 @@
 #include "euphoria/stringutils.h"
 
 namespace {
+  class Signname {
+    public:
+      Signname() {
+        bind(Sign::Positive, "+");
+        bind(Sign::Negative, "-");
+        bind(Sign::FullRange, "+-");
+      }
+
+      void bind(Sign::Type key, const std::string& name) {
+        strtokey.insert(std::make_pair(ToLower(name), key));
+        keytostr.insert(std::make_pair(key, name));
+      }
+
+      std::string fromAxis(Sign::Type key) const {
+        auto r = keytostr.find(key);
+        if (r == keytostr.end()) {
+          return "Unknown";
+        } else {
+          return r->second;
+        }
+      }
+
+      Sign::Type fromString(const std::string& signname) const {
+        if (signname == "") {
+          return Sign::FullRange;
+        }
+        auto r = strtokey.find(ToLower(signname));
+        if (r == strtokey.end()) {
+          return Sign::Invalid;
+        } else {
+          return r->second;
+        }
+      }
+
+      std::map<std::string, Sign::Type> strtokey;
+      std::map<Sign::Type, std::string> keytostr;
+  };
+
+  const Signname& AllSigns() {
+    static Signname names;
+    return names;
+  }
+}  // namespace
+
+namespace Sign {
+  Type FromString(const std::string& signname) {
+    return AllSigns().fromString(signname);
+  }
+}  // namespace Sign
+
+namespace {
   class Axisname {
     public:
       Axisname() {
