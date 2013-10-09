@@ -388,11 +388,14 @@ class Bind {
     std::shared_ptr<InputAction> action_;
 };
 
-template <typename AxisType>
+template<typename Type>
 class AxisBind {
   public:
-    AxisBind(AxisType axis, const Json::Value& data) : axis_(axis) {
+    AxisBind(Type type, std::shared_ptr<InputAction> action,
+             const Json::Value& data)
+      : type_(type) , action_(action) {
       assert(this);
+
       const std::string signname = data.get("sign", "").asString();
       sign_ = Sign::FromString(signname);
       if (sign_ == Sign::Invalid) {
@@ -401,9 +404,14 @@ class AxisBind {
       }
     }
 
-    AxisType axis() {
+    Type type() const {
       assert(this);
-      return axis_;
+      return type_;
+    }
+
+    std::shared_ptr<InputAction> action() const {
+      assert(this);
+      return action_;
     }
 
     Sign::Type sign() {
@@ -412,7 +420,8 @@ class AxisBind {
     }
 
   private:
-    AxisType axis_;
+    Type type_;
+    std::shared_ptr<InputAction> action_;
     Sign::Type sign_;
 };
 
@@ -501,8 +510,7 @@ class MouseDef : public UnitDef {
             const std::string error = Str() << "Invalid axis " << axisname;
             throw error;
           }
-          axis_.push_back(Bind<AxisBind<Axis::Type>>(
-                            AxisBind<Axis::Type>(axis, d), action));
+          axis_.push_back(AxisBind<Axis::Type>(axis, action, d));
         } else {
           std::string error = Str() << "Unknown input type: " << type;
           throw error;
@@ -516,7 +524,7 @@ class MouseDef : public UnitDef {
     }
 
   private:
-    std::vector<Bind<AxisBind<Axis::Type> > > axis_;
+    std::vector<AxisBind<Axis::Type> > axis_;
 };
 
 //////////////////////////////////////////////////////////////////////////
