@@ -128,6 +128,14 @@ class KeyboardActiveUnit;
  */
 class InputDirector {
   public:
+    /** Constructor.
+     */
+    InputDirector();
+
+    /** Destructor.
+     */
+    ~InputDirector();
+
     /** Add a keyboard.
     @param kb the keyboard
      */
@@ -189,6 +197,10 @@ class InputSystem {
     /** Constructor.
      */
     InputSystem();
+
+    /** Destructor.
+     */
+    ~InputSystem();
 
     /** Get a action.
     @param name the name of the action

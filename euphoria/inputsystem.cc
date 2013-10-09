@@ -181,6 +181,11 @@ InputSystem::InputSystem() : input_(new InputDirector()) {
   Load(this, "players.js");
 }
 
+InputSystem::~InputSystem() {
+  assert(this);
+  players_.clear();
+}
+
 std::shared_ptr<InputAction> InputSystem::GetAction(const std::string& name) {
   assert(this);
   return actions_.Get(name);
@@ -579,6 +584,14 @@ void Load(KeyConfig* config, const Json::Value& units,
 
 
 //////////////////////////////////////////////////////////////////////////
+
+InputDirector::InputDirector() {
+  assert(this);
+}
+
+InputDirector::~InputDirector() {
+  assert(this);
+}
 
 void InputDirector::Add(KeyboardActiveUnit* kb) {
   assert(this);
