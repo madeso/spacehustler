@@ -22,16 +22,45 @@ namespace internal {
 }  // namespace internal
 
 namespace {
+  class ErrorList {
+    public:
+      void Add(const std::string& error) {
+        assert(0 && "Lua error but no code to handle it");
+        const size_t MAX_SIZE = 10;
+
+        errors_.push_back(error);
+        if (errors_.size() >= MAX_SIZE) {
+          errors_.erase(errors_.begin());
+        }
+      }
+
+      const std::vector<std::string>& errors() const {
+        return errors_;
+      }
+
+    private:
+      std::vector<std::string> errors_;
+  };
+  ErrorList& GlobalErrorList() {
+    static ErrorList list;
+    return list;
+  }
+
   void ThrowIfError(lua_State* state, int errorcode) {
     assert(state);
     if (errorcode) {
       const std::string error = Str() << "Lua error: "
                                 << lua_tostring(state, -1);
-      throw std::logic_error(error);
+      GlobalErrorList().Add(error);
+      // throw std::logic_error(error);
       // lua_pop(L, 1); ?
     }
   }
 }  // namespace
+
+const std::vector<std::string>& GetGlobalErrors() {
+  return ErrorList().errors();
+}
 
 /// Helper function for asserting
 inline lua_State* GetState(Lua* lua) {

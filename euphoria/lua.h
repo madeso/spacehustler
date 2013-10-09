@@ -32,6 +32,11 @@ namespace internal {
   };
 }  // namespace internal
 
+/** Gets the lua errors that are detected in the lua engine.
+@returns the errors
+ */
+const std::vector<std::string>& GetGlobalErrors();
+
 class Lua;
 
 /** A lua table.
