@@ -29,6 +29,7 @@ Planned Features and stuff that needs to be done
 * add oculus rift support
 * redesign input system
 * force feedback
+* replace astyle with clang-format
 * lights and shaddows
 * change from json to yaml/protobuf?
 * fix luadocgen
