@@ -31,6 +31,8 @@ Planned Features and stuff that needs to be done
 * force feedback
 * replace astyle with clang-format
 * lights and shaddows
+  - depth map shadows?
+  - depth shadow maps/volumes?
 * change from json to yaml/protobuf?
 * fix luadocgen
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
@@ -51,12 +53,19 @@ Planned Features and stuff that needs to be done
 * normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
 * material templates with optional (lua) script
 * culling + world editor
+* add more script functions
+  - line of sight to single (random point on object)
+  - line of sight to group
+  - closest of group (use kd-tree?)
+  - closest object with component
 * replace filehandling with a vfs
 * deffered rendering
 * hdr/bloom
 * adaptive tone mapping
 * enviromental reflection
 * possible support older systems
+
+
 
 Supported platforms
 =======
