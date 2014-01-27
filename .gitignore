@@ -15,6 +15,7 @@
 #build files
 build/*
 doc/*
+examples/*.dll
 
 #various files
 .DS_Store
