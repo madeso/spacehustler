@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
 project(euphoria)
 
 # these properties help when cmake can't find local data
@@ -22,6 +22,9 @@ option(USE_OCULUS "Add oculus support")
 # compiler flags
 if(WIN32)
 	ADD_DEFINITIONS(/D _CRT_SECURE_NO_WARNINGS)
+	
+	# character set to Not Set=ASCII/SBCS http://public.kitware.com/Bug/view.php?id=12189
+	ADD_DEFINITIONS(/D _SBCS)
 else(WIN32)
 	#also add c++11 flags
 	SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ ${CMAKE_CXX_FLAGS}")
@@ -36,8 +39,6 @@ endif()
 # COMPONENTS filesystem program_options serialization system 
 find_package(OpenGL REQUIRED)
 find_package(Bullet REQUIRED)
-find_package(wxWidgets REQUIRED core base)
-include( "${wxWidgets_USE_FILE}" )
 find_package(AssImp REQUIRED)
 
 # option(BUILD_SHARED_LIBS "build shared libraries" OFF)

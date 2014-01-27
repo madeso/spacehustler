@@ -292,11 +292,10 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 
 	message(STATUS "Linking with launcher ${LauncherName} ${LauncherLibraries}")
 
-	target_link_libraries(${TargetName} ${OPENGL_LIBRARIES} ${LauncherLibraries} ${wxWidgets_LIBRARIES} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES} ${extra_libraries})
+	target_link_libraries(${TargetName} ${OPENGL_LIBRARIES} ${LauncherLibraries} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES} ${extra_libraries})
 ENDMACRO(GenerateMain)
 
 message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
-message(STATUS "Linking with wxWidgets ${wxWidgets_LIBRARIES}")
 message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
 message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
 
