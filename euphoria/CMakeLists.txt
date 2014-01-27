@@ -250,45 +250,45 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	
 	GET_FILENAME_COMPONENT(mainsrc "main/main-${LauncherName}.cc" ABSOLUTE)
 
-	if(USE_ASTYLE_BUILD)
+	if(BUILD_USE_ASTYLE)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
 						   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src} ${mainsrc}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running astyle" VERBATIM)
-	endif(USE_ASTYLE_BUILD)
+	endif(BUILD_USE_ASTYLE)
 
-	if(USE_CPPLINT_BUILD)
+	if(BUILD_USE_CPPLINT)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
 						   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src} ${mainsrc}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running CppLint" VERBATIM)
-	endif(USE_CPPLINT_BUILD)
+	endif(BUILD_USE_CPPLINT)
 	
-	if(USE_CPPCHECK_BUILD)
+	if(BUILD_USE_CPPCHECK)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
 						   COMMAND cppcheck --enable=all --std=c++11 --suppress=unusedFunction --quiet --template=vs ${CMAKE_SOURCE_DIR}/euphoria
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running cppcheck" VERBATIM)
-	endif(USE_CPPCHECK_BUILD)
+	endif(BUILD_USE_CPPCHECK)
 
-	if(USE_DOXYGEN_BUILD)
+	if(BUILD_USE_DOXYGEN)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_LINK
 						   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running Doxygen" VERBATIM)
-	endif(USE_DOXYGEN_BUILD)
+	endif(BUILD_USE_DOXYGEN)
 
-	if(USE_LUADOCGEN)
+	if(BUILD_USE_LUADOCGEN)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_LINK
 						   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running luadocgen" VERBATIM)
-	endif(USE_LUADOCGEN)
+	endif(BUILD_USE_LUADOCGEN)
 
 	message(STATUS "Linking with launcher ${LauncherName} ${LauncherLibraries}")
 
@@ -299,9 +299,9 @@ message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
 message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
 message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
 
-if(USE_DOXYGEN_BUILD)
+if(BUILD_USE_DOXYGEN)
 	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir ${CMAKE_SOURCE_DIR}/euphoria")
-endif(USE_DOXYGEN_BUILD)
+endif(BUILD_USE_DOXYGEN)
 
 #	Legacy launcher, not used anymore
 #	option(USE_MAIN_SFML "Use sfml as launch library" ON)

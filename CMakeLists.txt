@@ -10,11 +10,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake-modules")
 
-option(USE_ASTYLE_BUILD "Add astyle to the build" ON)
-option(USE_CPPLINT_BUILD "Add cpplint to the build" ON)
-option(USE_DOXYGEN_BUILD "Add doxygen to the build" ON)
-option(USE_LUADOCGEN "parse all sources and build lua doc from it" ON)
-option(USE_CPPCHECK_BUILD "run cppcheck on all source" ON)
+option(BUILD_USE_ASTYLE "Add astyle to the build" ON)
+option(BUILD_USE_CPPLINT "Add cpplint to the build" ON)
+option(BUILD_USE_DOXYGEN "Add doxygen to the build" ON)
+option(BUILD_USE_LUADOCGEN "parse all sources and build lua doc from it" ON)
+option(BUILD_USE_CPPCHECK "run cppcheck on all source" ON)
 
 option(USE_TWEAKABLES "Use tweakables" ON)
 option(USE_OCULUS "Add oculus support")
