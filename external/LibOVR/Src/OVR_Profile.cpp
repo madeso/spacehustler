@@ -60,14 +60,14 @@ String GetBaseOVRPath(bool create_dir)
 
     if (create_dir)
     {   // Create the Oculus directory if it doesn't exist
-        WCHAR wpath[128];
+        wchar_t wpath[128];
         OVR::UTF8Util::DecodeString(wpath, path.ToCStr());
 
-        DWORD attrib = GetFileAttributes(wpath);
+        DWORD attrib = GetFileAttributesW(wpath);
         bool exists = attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY);
         if (!exists)
         {   
-            CreateDirectory(wpath, NULL);
+            CreateDirectoryW(wpath, NULL);
         }
     }
         
