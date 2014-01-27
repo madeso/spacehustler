@@ -20,7 +20,7 @@ Contains the shader logic.
 /** A compiled OpenGL vertex or fragment shader.
  */
 class Shader
-    : boost::noncopyable {
+  : boost::noncopyable {
   public:
     /** The type of the shader.
      */
@@ -75,7 +75,7 @@ class ShaderList {
 @see Shader
  */
 class Program
-    : boost::noncopyable {
+  : boost::noncopyable {
   public:
     /** Create program from a list of shaders.
     @param shaders the list of shaders.

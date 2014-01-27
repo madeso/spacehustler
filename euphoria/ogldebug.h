@@ -13,7 +13,7 @@ Utility code for debugging OpenGL.
 /** Utility class for registration for debugging OpenGL errors  and throwing when such a error occurs.
  */
 class OglDebug
-    : boost::noncopyable {
+  : boost::noncopyable {
   public:
     /** Register for errors.
     @param debug true if we should register, false if not

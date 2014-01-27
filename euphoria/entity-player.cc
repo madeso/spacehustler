@@ -56,7 +56,7 @@ class PlayerSystem : public System {
     void Step(float dt) {
       assert(this);
 
-      for (auto & o : objects_) {
+      for (auto& o : objects_) {
         o.player->UpdateTable(&o.entity->table);
       }
     }

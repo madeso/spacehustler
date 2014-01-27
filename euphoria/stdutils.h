@@ -21,7 +21,7 @@ Contains various helper extras for the std library.
 template<typename C>
 std::vector<std::string> Iterate(const C& c) {
   std::vector<std::string> strings;
-  for (const auto & x : c) {
+  for (const auto& x : c) {
     strings.push_back(Str() << x);
   }
   return strings;
@@ -34,7 +34,7 @@ std::vector<std::string> Iterate(const C& c) {
 template<typename K, typename V>
 std::vector<std::string> Keys(const std::map<K, V>& m) {
   std::vector<std::string> strings;
-  for (const auto & x : m) {
+  for (const auto& x : m) {
     strings.push_back(Str() << x.first);
   }
   return strings;

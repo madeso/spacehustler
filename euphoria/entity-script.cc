@@ -82,7 +82,7 @@ class ScriptSystem : public System {
     void Step(float dt) {
       assert(this);
 
-      for (auto & o : objects_) {
+      for (auto& o : objects_) {
         if (step_function_.empty() == false) {
           FunctionCall f(script_->state(), step_function_);
           f.Argument(o->table);

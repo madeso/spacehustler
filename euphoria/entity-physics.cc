@@ -256,7 +256,7 @@ class PhysicsSystem : public System {
       /// @todo load this from file instead.
       dynamics_world_->setGravity(btVector3(0, -10, 0));
 
-      for (const auto & p : world->collisionmesh().parts) {
+      for (const auto& p : world->collisionmesh().parts) {
         std::shared_ptr<StaticMesh> m(new StaticMesh(p, dynamics_world_));
         staticmeshes_.push_back(m);
       }
@@ -293,10 +293,10 @@ class PhysicsSystem : public System {
     void Step(float dt) {
       assert(this);
       dynamics_world_->stepSimulation(dt, 10);
-      for (auto & o : objects_) {
+      for (auto& o : objects_) {
         o.Update();
       }
-      bool debugPhysics = true;
+      bool debugPhysics = false;
       TWEAK(debugPhysics);
       if (debugPhysics) {
         dynamics_world_->debugDrawWorld();

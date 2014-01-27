@@ -16,7 +16,7 @@ class Texture;
 /** A render buffer.
  */
 class RenderBuffer
-    : boost::noncopyable {
+  : boost::noncopyable {
   public:
     /** Constructor.
     @param internalFormat the intern open gl format
@@ -45,7 +45,7 @@ class RenderBuffer
 This is useful when rendering to a texture.
  */
 class Fbo
-    : boost::noncopyable {
+  : boost::noncopyable {
   public:
     /** Constructor.
     @param w the width of the fbo
@@ -84,7 +84,7 @@ class Fbo
 @see Fbo
  */
 class TextureUpdator
-    : boost::noncopyable {
+  : boost::noncopyable {
   public:
     /** Constructor.
     @param fbo the fbo to update.

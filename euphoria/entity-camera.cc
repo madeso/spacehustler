@@ -55,7 +55,7 @@ class CameraSystem : public System {
       assert(this);
       assert(camera);
 
-      for (auto & o : objects_) {
+      for (auto& o : objects_) {
         quat temp = o.entity->rotation;
         temp.conjugate();
         camera->set_view(

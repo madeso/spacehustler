@@ -18,7 +18,7 @@ namespace internal {
   /** A OpenGL texture object.
    */
   class TextureObject
-      : boost::noncopyable {
+    : boost::noncopyable {
     public:
       /** Constructs a new texture object.
        */

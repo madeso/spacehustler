@@ -17,7 +17,6 @@ Core Entity related code.
 #include "euphoria/math.h"
 #include "euphoria/enum.h"
 #include "euphoria/id.h"
-
 #include "json/json.h"
 
 #include "euphoria/lua.h"
