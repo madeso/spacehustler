@@ -1,0 +1,72 @@
+digraph G {
+	node [shape=box; style=solid];
+	subgraph cluster_gamespecific {
+		label = "Game specific (read from a file)";
+		color = "black";
+		
+		{
+			edge[dir="both"; arrowhead="none"; arrowtail="diamond";];
+			InputActionMap -> InputAction;
+		}
+	}
+	
+	subgraph cluster_templates {
+		label = "Templates";
+		color = "black";
+		
+		{
+			edge[dir="both"; arrowhead="none"; arrowtail="diamond";];
+			KeyConfigs -> KeyConfig;
+			KeyConfig -> UnitDef;
+		}
+		
+		{
+			edge[arrowhead="onormal"];
+			JoystickDef -> UnitDef;
+			MouseDef -> UnitDef;
+			KeyboardDef -> UnitDef;
+		}
+	}
+	
+	subgraph cluster_runtime {
+		label = "Runtime";
+		color = "black";
+		
+		{
+			edge[dir="both"; arrowhead="none"; arrowtail="diamond";];
+			Player -> ConnectedUnits;
+			ConnectedUnits -> ActiveUnit;
+			InputDirector -> KeyboardActiveUnit;
+		}
+		
+		{
+			edge[arrowhead="onormal"];
+			DummyActiveUnit -> ActiveUnit;
+			KeyboardActiveUnit -> ActiveUnit;
+		}
+	}
+
+	{
+		edge[dir="both"; arrowhead="none"; arrowtail="diamond";];	
+		InputSystem -> InputActionMap;
+		InputSystem -> KeyConfigs;
+		InputSystem -> InputDirector;
+		InputSystem -> Player;
+	}
+	
+	{
+		edge[arrowhead="vee"; style="dashed"];
+		ActiveUnit -> InputAction;
+	}
+	
+	UnitDef[style=dotted];
+	ActiveUnit[style=dotted];
+	
+	KeyboardDef[style=bold];
+	MouseDef[style=bold];
+	JoystickDef[style=bold];
+	KeyboardActiveUnit[style=bold];
+	DummyActiveUnit[style=bold];
+	
+	InputSystem[style=filled];
+}
