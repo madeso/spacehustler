@@ -2,7 +2,6 @@
 // Euphoria is awesome: 幸福感是真棒
 
 #include <boost/noncopyable.hpp>
-
 #include <SDL.h>
 #include <AntTweakBar.h>
 
@@ -10,11 +9,19 @@
 #include <vector>
 #include <cassert>
 #include <memory>
+#include <algorithm>
 #include <iostream> // NOLINT for error reporting when messagebox has failed.
 
 #include "euphoria/game.h"
 #include "euphoria/exception.h"
 #include "euphoria/settings.h"
+
+#ifdef WIN32
+// unresolved external symbol _GetFileVersionInfoA@16 referenced in function _IME_GetId
+#pragma comment(lib, "Version.lib")
+// unresolved external symbol _ImmGetIMEFileNameA@12 referenced in function _IME_GetId
+#pragma comment(lib, "Imm32.lib")
+#endif
 
 void Error(const std::string& title, const std::string& text) {
   const int result = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
