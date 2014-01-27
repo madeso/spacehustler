@@ -17,9 +17,11 @@
 #include "euphoria/settings.h"
 
 #ifdef WIN32
-// unresolved external symbol _GetFileVersionInfoA@16 referenced in function _IME_GetId
+// unresolved external symbol _GetFileVersionInfoA@16 referenced in function
+// _IME_GetId
 #pragma comment(lib, "Version.lib")
-// unresolved external symbol _ImmGetIMEFileNameA@12 referenced in function _IME_GetId
+// unresolved external symbol _ImmGetIMEFileNameA@12 referenced in function
+// _IME_GetId
 #pragma comment(lib, "Imm32.lib")
 #endif
 
