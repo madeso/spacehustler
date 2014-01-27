@@ -1,4 +1,4 @@
-﻿// Euphoria - Copyright (c) Gustav
+// Euphoria - Copyright (c) Gustav
 
 #include "euphoria/entity.h"
 
