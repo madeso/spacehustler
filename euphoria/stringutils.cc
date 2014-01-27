@@ -16,13 +16,13 @@ const std::string& kSpaceCharacters() {
 std::string TrimRight(const std::string& stringToTrim,
                       const std::string& trimCharacters) {
   return std::string(stringToTrim)
-         .erase(stringToTrim.find_last_not_of(trimCharacters) + 1);
+      .erase(stringToTrim.find_last_not_of(trimCharacters) + 1);
 }
 
 std::string TrimLeft(const std::string& stringToTrim,
                      const std::string& trimCharacters) {
-  return std::string(stringToTrim).erase(0, stringToTrim
-                                         .find_first_not_of(trimCharacters));
+  return std::string(stringToTrim)
+      .erase(0, stringToTrim.find_first_not_of(trimCharacters));
 }
 
 std::string Trim(const std::string& stringToTrim,
@@ -46,8 +46,8 @@ bool EndsWith(const std::string& stringToTest, const std::string& end) {
   if (otherLength < length) {
     return false;
   }
-  const std::string actualEnd = stringToTest.substr(otherLength - length,
-                                length);
+  const std::string actualEnd =
+      stringToTest.substr(otherLength - length, length);
   return end == actualEnd;
 }
 

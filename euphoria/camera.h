@@ -13,55 +13,55 @@ Camera related code.
 @see World
  */
 class Camera {
-  public:
-    /** Constructs a new camera.
-    @param width the width of the rendering area
-    @param height the height of the rendering area
-     */
-    Camera(int width, int height);
+ public:
+  /** Constructs a new camera.
+  @param width the width of the rendering area
+  @param height the height of the rendering area
+   */
+  Camera(int width, int height);
 
-    /** Gets the view matrix.
-    @returns the view matrix.
-     */
-    const mat44& view() const;
+  /** Gets the view matrix.
+  @returns the view matrix.
+   */
+  const mat44& view() const;
 
-    /** Sets the view matrix.
-    @param view the view matrix.
-     */
-    void set_view(const mat44& view);
+  /** Sets the view matrix.
+  @param view the view matrix.
+   */
+  void set_view(const mat44& view);
 
-    /** Get the projection matrix.
-    @return the projection matrix.
-     */
-    const mat44 projection() const;
+  /** Get the projection matrix.
+  @return the projection matrix.
+   */
+  const mat44 projection() const;
 
-    /** Set the projection matrix.
-    @param projection the new projection matrix.
-     */
-    void set_projection(const mat44& projection);
+  /** Set the projection matrix.
+  @param projection the new projection matrix.
+   */
+  void set_projection(const mat44& projection);
 
-    /** Set the new Field of view.
-    @param fov the new FOV.
-     */
-    void set_fov(float fov);
+  /** Set the new Field of view.
+  @param fov the new FOV.
+   */
+  void set_fov(float fov);
 
-    /** Changes the new/far planes.
-    @param near the new near plane position.
-    @param far the new far plane position.
-     */
-    void set_near_far(float near, float far);
+  /** Changes the new/far planes.
+  @param near the new near plane position.
+  @param far the new far plane position.
+   */
+  void set_near_far(float near, float far);
 
-  private:
-    mat44 view_;
-    float fov_;
-    float aspect_;
-    float znear_;
-    float zfar_;
+ private:
+  mat44 view_;
+  float fov_;
+  float aspect_;
+  float znear_;
+  float zfar_;
 
-    mat44 projection_;
+  mat44 projection_;
 
-  private:
-    void UpdateProjection();
+ private:
+  void UpdateProjection();
 };
 
 #endif  // EUPHORIA_CAMERA_H_

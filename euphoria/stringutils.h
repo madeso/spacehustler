@@ -84,7 +84,8 @@ const std::string StringReplace(const std::string& string,
 /** Copy a string to a character buffer, adding null terminator at the end.
 @param dst the destination buffer.
 @param src the source string.
-@param count the maximum number of characters to copy (including null terminator)
+@param count the maximum number of characters to copy (including null
+terminator)
  */
 void Copy(char* dst, const std::string& src,
           const std::string::size_type& count);

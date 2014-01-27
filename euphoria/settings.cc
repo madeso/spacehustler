@@ -3,7 +3,7 @@
 #include "euphoria/settings.h"
 
 #include <cassert>
-#include <fstream> // NOLINT for loading data
+#include <fstream>  // NOLINT for loading data
 #include <stdexcept>
 #include <string>
 #include <map>
@@ -19,24 +19,23 @@ OculusVrDetection::Type DetermineOculusVrValue(const std::string& name) {
   values.insert(std::make_pair("oculusvr", OculusVrDetection::Oculusvr));
   const auto res = values.find(name);
   if (res == values.end()) {
-    throw std::logic_error(Str() << "Unknown oculus value: " << name
-                           << ", valid values are: "
-                           << StringMerger::EnglishAnd()
-                           .Generate(Keys(values)));
+    throw std::logic_error(
+        Str() << "Unknown oculus value: " << name << ", valid values are: "
+              << StringMerger::EnglishAnd().Generate(Keys(values)));
   }
   return res->second;
 }
 
 Settings::Settings()
-  : blackout_(false)
-  , width_(800)
-  , height_(600)
-  , fullscreen_(false)
-  , control_scheme_("keyboard")
-  , primary_display_id_(0)
-  , oculus_vr_detection_(OculusVrDetection::Auto)
-  , anisotropic_(1.0f)
-  , support_joystick_(true) {
+    : blackout_(false),
+      width_(800),
+      height_(600),
+      fullscreen_(false),
+      control_scheme_("keyboard"),
+      primary_display_id_(0),
+      oculus_vr_detection_(OculusVrDetection::Auto),
+      anisotropic_(1.0f),
+      support_joystick_(true) {
   assert(this);
 }
 
@@ -53,7 +52,7 @@ void Settings::Load() {
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
 
   blackout_ = root.get("blackout", blackout()).asBool();
@@ -63,8 +62,8 @@ void Settings::Load() {
   control_scheme_ = root.get("controlscheme", control_scheme()).asString();
   primary_display_id_ = root.get("window", primary_display_id()).asInt();
 
-  oculus_vr_detection_ = DetermineOculusVrValue(root.get("oculusvr", "auto")
-                         .asString());
+  oculus_vr_detection_ =
+      DetermineOculusVrValue(root.get("oculusvr", "auto").asString());
 
   anisotropic_ = root.get("anisotropic", anisotropic()).asFloat();
 

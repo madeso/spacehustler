@@ -4,14 +4,14 @@
 
 #include <cassert>
 #include <string>
-#include <fstream> // NOLINT for loading data
+#include <fstream>  // NOLINT for loading data
 #include <stdexcept>
 #include <utility>
 #include "euphoria/str.h"
 #include "json/json.h"
 
 Action::Action(Lua* lua, const std::string& name, const std::string& var)
-  : lua_(lua), name_(name), var_(var), state_(42.0f) {
+    : lua_(lua), name_(name), var_(var), state_(42.0f) {
   assert(this);
   assert(lua);
   set_state(0.0f);
@@ -36,14 +36,13 @@ ActionMap::ActionMap(const std::string& filename, Lua* lua) {
   assert(this);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str()
-                           << "Unable to load actions from " << filename);
+    throw std::logic_error(Str() << "Unable to load actions from " << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
 
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
@@ -67,7 +66,7 @@ Action* const ActionMap::getAction(const std::string& actionname) {
 
 Keybind::Keybind(Action* const action, const Key::Type key, int device,
                  bool invert)
-  : action_(action), key_(key), device_(device), invert_(invert) {
+    : action_(action), key_(key), device_(device), invert_(invert) {
   assert(this);
   assert(action_);
 }
@@ -92,23 +91,21 @@ void Keybind::setState(float v) {
   }
 }
 
-KeybindList::KeybindList() {
-  assert(this);
-}
+KeybindList::KeybindList() { assert(this); }
 
 void KeybindList::Load(ActionMap* actions, const std::string& filename,
                        const std::string& keybindName) {
   assert(this);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str()
-                           << "Unable to load definitions from " << filename);
+    throw std::logic_error(Str() << "Unable to load definitions from "
+                                 << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value item = root[i];
@@ -126,7 +123,7 @@ void KeybindList::Load(ActionMap* actions, const std::string& filename,
         const Key::Type key = Key::FromString(keyname);
         if (key == Key::Invalid) {
           throw std::logic_error(Str() << "Invalid key for " << actionname
-                                 << ", got: " << keyname);
+                                       << ", got: " << keyname);
         }
         keys_.push_back(Keybind(action, key, device, invert));
       }

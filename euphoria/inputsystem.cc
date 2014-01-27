@@ -3,7 +3,7 @@
 #include "euphoria/inputsystem.h"
 #include <cassert>
 #include <stdexcept>
-#include <fstream> // NOLINT for loading data
+#include <fstream>  // NOLINT for loading data
 
 #include "euphoria/str.h"
 #include "euphoria/lua.h"
@@ -12,7 +12,7 @@
 #include "json/json.h"
 
 InputAction::InputAction(const std::string& scriptvarname)
-  : scriptvarname_(scriptvarname), state_(0.0f) {
+    : scriptvarname_(scriptvarname), state_(0.0f) {
   assert(this);
 }
 
@@ -33,9 +33,7 @@ void InputAction::set_state(float state) {
 
 //////////////////////////////////////////////////////////////////////////
 
-InputActionMap::InputActionMap() {
-  assert(this);
-}
+InputActionMap::InputActionMap() { assert(this); }
 
 void InputActionMap::Add(const std::string& name,
                          std::shared_ptr<InputAction> action) {
@@ -45,7 +43,7 @@ void InputActionMap::Add(const std::string& name,
 }
 
 std::shared_ptr<InputAction> InputActionMap::Get(const std::string& name)
-const {
+    const {
   assert(this);
   auto res = actions_.find(name);
   if (res == actions_.end()) {
@@ -63,14 +61,14 @@ void Load(InputActionMap* map, const std::string& filename) {
   assert(map);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str()
-                           << "Unable to load input actions from " << filename);
+    throw std::logic_error(Str() << "Unable to load input actions from "
+                                 << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value d = root[i];
@@ -83,9 +81,7 @@ void Load(InputActionMap* map, const std::string& filename) {
 
 //////////////////////////////////////////////////////////////////////////
 
-KeyConfigs::KeyConfigs() {
-  assert(this);
-}
+KeyConfigs::KeyConfigs() { assert(this); }
 
 void KeyConfigs::Add(const std::string& name,
                      std::shared_ptr<KeyConfig> config) {
@@ -134,14 +130,13 @@ void Load(KeyConfigs* configs, const std::string& filename,
   assert(configs);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str()
-                           << "Unable to load configs from " << filename);
+    throw std::logic_error(Str() << "Unable to load configs from " << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     Json::Value d = root[i];
@@ -158,14 +153,13 @@ void Load(InputSystem* sys, const std::string& filename) {
   assert(sys);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str()
-                           << "Unable to load players from " << filename);
+    throw std::logic_error(Str() << "Unable to load players from " << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     const auto name = root[i].asString();
@@ -218,8 +212,7 @@ void InputSystem::OnMouseButton(MouseButton::Type button, bool down) {
   input_->OnMouseButton(button, down);
 }
 
-void InputSystem::OnJoystickPov(Axis::Type type, int joystick,
-                                float value) {
+void InputSystem::OnJoystickPov(Axis::Type type, int joystick, float value) {
   assert(this);
   input_->OnJoystickPov(type, joystick, value);
 }
@@ -253,9 +246,7 @@ void InputSystem::AddPlayer(const std::string& name) {
 
 //////////////////////////////////////////////////////////////////////////
 
-ConnectedUnits::ConnectedUnits() {
-  assert(this);
-}
+ConnectedUnits::ConnectedUnits() { assert(this); }
 
 void ConnectedUnits::Add(std::shared_ptr<ActiveUnit> unit) {
   assert(this);
@@ -282,12 +273,9 @@ bool ConnectedUnits::IsEmpty() const {
   return units_.empty();
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 
-Player::Player()  {
-  assert(this);
-}
+Player::Player() { assert(this); }
 
 void Player::UpdateTable(Table* table) {
   assert(this);
@@ -314,13 +302,9 @@ void ActiveUnit::UpdateTable(Table* table) {
   }
 }
 
-ActiveUnit::~ActiveUnit() {
-  assert(this);
-}
+ActiveUnit::~ActiveUnit() { assert(this); }
 
-ActiveUnit::ActiveUnit() {
-  assert(this);
-}
+ActiveUnit::ActiveUnit() { assert(this); }
 
 void ActiveUnit::Add(std::shared_ptr<InputAction> action) {
   assert(this);
@@ -328,13 +312,9 @@ void ActiveUnit::Add(std::shared_ptr<InputAction> action) {
   actions_.push_back(action);
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 
-
-KeyConfig::KeyConfig() {
-  assert(this);
-}
+KeyConfig::KeyConfig() { assert(this); }
 
 void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
   assert(this);
@@ -354,196 +334,189 @@ ConnectedUnits KeyConfig::Connect(InputDirector* director) const {
 
 //////////////////////////////////////////////////////////////////////////
 
-UnitDef::~UnitDef() {
-  assert(this);
-}
+UnitDef::~UnitDef() { assert(this); }
 
 //////////////////////////////////////////////////////////////////////////
 
 class DummyActiveUnit : public ActiveUnit {
-  public:
-    void Rumble() {
-    }
-  private:
+ public:
+  void Rumble() {}
+
+ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
 
-template<typename Type>
+template <typename Type>
 class Bind {
-  public:
-    Bind(Type type, std::shared_ptr<InputAction> action) : type_(type)
-      , action_(action) {
-      assert(this);
-    }
+ public:
+  Bind(Type type, std::shared_ptr<InputAction> action)
+      : type_(type), action_(action) {
+    assert(this);
+  }
 
-    Type type() const {
-      assert(this);
-      return type_;
-    }
+  Type type() const {
+    assert(this);
+    return type_;
+  }
 
-    std::shared_ptr<InputAction> action() const {
-      assert(this);
-      return action_;
-    }
+  std::shared_ptr<InputAction> action() const {
+    assert(this);
+    return action_;
+  }
 
-  private:
-    Type type_;
-    std::shared_ptr<InputAction> action_;
+ private:
+  Type type_;
+  std::shared_ptr<InputAction> action_;
 };
 
-template<typename Type>
+template <typename Type>
 class AxisBind {
-  public:
-    AxisBind(Type type, std::shared_ptr<InputAction> action,
-             const Json::Value& data)
-      : type_(type) , action_(action) {
-      assert(this);
+ public:
+  AxisBind(Type type, std::shared_ptr<InputAction> action,
+           const Json::Value& data)
+      : type_(type), action_(action) {
+    assert(this);
 
-      const std::string signname = data.get("sign", "").asString();
-      sign_ = Sign::FromString(signname);
-      if (sign_ == Sign::Invalid) {
-        const std::string error = Str() << "Invalid sign " << signname;
-        throw error;
-      }
+    const std::string signname = data.get("sign", "").asString();
+    sign_ = Sign::FromString(signname);
+    if (sign_ == Sign::Invalid) {
+      const std::string error = Str() << "Invalid sign " << signname;
+      throw error;
     }
+  }
 
-    Type type() const {
-      assert(this);
-      return type_;
-    }
+  Type type() const {
+    assert(this);
+    return type_;
+  }
 
-    std::shared_ptr<InputAction> action() const {
-      assert(this);
-      return action_;
-    }
+  std::shared_ptr<InputAction> action() const {
+    assert(this);
+    return action_;
+  }
 
-    Sign::Type sign() {
-      assert(this);
-      return sign_;
-    }
+  Sign::Type sign() {
+    assert(this);
+    return sign_;
+  }
 
-  private:
-    Type type_;
-    std::shared_ptr<InputAction> action_;
-    Sign::Type sign_;
+ private:
+  Type type_;
+  std::shared_ptr<InputAction> action_;
+  Sign::Type sign_;
 };
 
 //////////////////////////////////////////////////////////////////////////
 
 class KeyboardActiveUnit : public ActiveUnit {
-  public:
-    KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
-                       InputDirector* director)
+ public:
+  KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
+                     InputDirector* director)
       : director_(director) {
-      assert(this);
-      assert(director_);
+    assert(this);
+    assert(director_);
 
-      for (auto b : binds) {
-        Add(b.action());
-        actions_.insert(std::make_pair(b.type(), b.action()));
-      }
-
-      director_->Add(this);
+    for (auto b : binds) {
+      Add(b.action());
+      actions_.insert(std::make_pair(b.type(), b.action()));
     }
 
-    void OnKey(const Key::Type& key, bool state) {
-      assert(this);
-      auto res = actions_.find(key);
-      if (res != actions_.end()) {
-        res->second->set_state(state ? 1.0f : 0.0f);
-      }
-    }
+    director_->Add(this);
+  }
 
-    ~KeyboardActiveUnit() {
-      director_->Remove(this);
+  void OnKey(const Key::Type& key, bool state) {
+    assert(this);
+    auto res = actions_.find(key);
+    if (res != actions_.end()) {
+      res->second->set_state(state ? 1.0f : 0.0f);
     }
+  }
 
-    void Rumble() {
-    }
+  ~KeyboardActiveUnit() { director_->Remove(this); }
 
-  private:
-    InputDirector* director_;
-    std::map<Key::Type, std::shared_ptr<InputAction>> actions_;
+  void Rumble() {}
+
+ private:
+  InputDirector* director_;
+  std::map<Key::Type, std::shared_ptr<InputAction>> actions_;
 };
 
 class KeyboardDef : public UnitDef {
-  public:
-    explicit KeyboardDef(const Json::Value& data, const InputActionMap& map) {
-      for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
-        Json::Value d = data[i];
-        const std::string keyname = d.get("key", "").asString();
-        const std::string actionname = d.get("action", "").asString();
-        const auto action = map.Get(actionname);
-        const auto key = Key::FromString(keyname);
+ public:
+  explicit KeyboardDef(const Json::Value& data, const InputActionMap& map) {
+    for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
+      Json::Value d = data[i];
+      const std::string keyname = d.get("key", "").asString();
+      const std::string actionname = d.get("action", "").asString();
+      const auto action = map.Get(actionname);
+      const auto key = Key::FromString(keyname);
 
-        if (key == Key::Invalid) {
-          auto error = (Str() << keyname << " is a invalid key").ToString();
-          throw error;
-        }
-
-        binds_.push_back(Bind<Key::Type>(key, action));
+      if (key == Key::Invalid) {
+        auto error = (Str() << keyname << " is a invalid key").ToString();
+        throw error;
       }
-    }
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
-      std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_,
-                                       director));
-      return unit;
+      binds_.push_back(Bind<Key::Type>(key, action));
     }
+  }
 
-  private:
-    std::vector<Bind<Key::Type>> binds_;
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
+    std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_, director));
+    return unit;
+  }
+
+ private:
+  std::vector<Bind<Key::Type>> binds_;
 };
 
 //////////////////////////////////////////////////////////////////////////
 
 class MouseDef : public UnitDef {
-  public:
-    MouseDef(const Json::Value& data, const InputActionMap& map) {
-      for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
-        Json::Value d = data[i];
-        const std::string type = d.get("type", "").asString();
-        const std::string actionname = d.get("action", "").asString();
-        const auto action = map.Get(actionname);
+ public:
+  MouseDef(const Json::Value& data, const InputActionMap& map) {
+    for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
+      Json::Value d = data[i];
+      const std::string type = d.get("type", "").asString();
+      const std::string actionname = d.get("action", "").asString();
+      const auto action = map.Get(actionname);
 
-        if (type == "axis") {
-          const std::string axisname = d.get("axis", "").asString();
-          const auto axis = Axis::FromString(axisname);
-          if (axis == Axis::Invalid) {
-            const std::string error = Str() << "Invalid axis " << axisname;
-            throw error;
-          }
-          axis_.push_back(AxisBind<Axis::Type>(axis, action, d));
-        } else {
-          std::string error = Str() << "Unknown input type: " << type;
+      if (type == "axis") {
+        const std::string axisname = d.get("axis", "").asString();
+        const auto axis = Axis::FromString(axisname);
+        if (axis == Axis::Invalid) {
+          const std::string error = Str() << "Invalid axis " << axisname;
           throw error;
         }
+        axis_.push_back(AxisBind<Axis::Type>(axis, action, d));
+      } else {
+        std::string error = Str() << "Unknown input type: " << type;
+        throw error;
       }
     }
+  }
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
-      std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
-      return unit;
-    }
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
+    std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+    return unit;
+  }
 
-  private:
-    std::vector<AxisBind<Axis::Type> > axis_;
+ private:
+  std::vector<AxisBind<Axis::Type>> axis_;
 };
 
 //////////////////////////////////////////////////////////////////////////
 
 class JoystickDef : public UnitDef {
-  public:
-    explicit JoystickDef(const Json::Value& data) {
-    }
+ public:
+  explicit JoystickDef(const Json::Value& data) {}
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
-      std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
-      return unit;
-    }
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
+    std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+    return unit;
+  }
 
-  private:
+ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -581,16 +554,11 @@ void Load(KeyConfig* config, const Json::Value& units,
   }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 
-InputDirector::InputDirector() {
-  assert(this);
-}
+InputDirector::InputDirector() { assert(this); }
 
-InputDirector::~InputDirector() {
-  assert(this);
-}
+InputDirector::~InputDirector() { assert(this); }
 
 void InputDirector::Add(KeyboardActiveUnit* kb) {
   assert(this);
@@ -615,16 +583,13 @@ void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
   }
 }
 
-void InputDirector::OnMouseAxis(Axis::Type axis, float value) {
-  assert(this);
-}
+void InputDirector::OnMouseAxis(Axis::Type axis, float value) { assert(this); }
 
 void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
   assert(this);
 }
 
-void InputDirector::OnJoystickPov(Axis::Type type, int joystick,
-                                  float value) {
+void InputDirector::OnJoystickPov(Axis::Type type, int joystick, float value) {
   assert(this);
 }
 
@@ -635,4 +600,3 @@ void InputDirector::OnJoystickButton(int button, int joystick, bool down) {
 void InputDirector::OnJoystickAxis(int axis, int joystick, float value) {
   assert(this);
 }
-

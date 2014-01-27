@@ -10,7 +10,7 @@
 #include "euphoria/texture.h"
 
 RenderBuffer::RenderBuffer(int internalFormat, int width, int height)
-  : buffer_(0) {
+    : buffer_(0) {
   assert(this);
   glGenRenderbuffers(1, &buffer_);
   Bind();
@@ -32,20 +32,14 @@ unsigned int RenderBuffer::buffer() const {
   return buffer_;
 }
 
-
 void Fbo::Bind() {
   assert(this);
   glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
 }
 
-void UnbindFbo() {
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
+void UnbindFbo() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 
-Fbo::Fbo(int w, int h, bool mipmap)
-  : fbo_(0)
-  , width_(w)
-  , height_(h) {
+Fbo::Fbo(int w, int h, bool mipmap) : fbo_(0), width_(w), height_(h) {
   assert(this);
   glGenFramebuffers(1, &fbo_);
   Bind();
@@ -54,11 +48,9 @@ Fbo::Fbo(int w, int h, bool mipmap)
   // for now we just disable it
   const float anisotropic = 1.0f;
   ImageData data(width_, height_, 0);
-  texture_.reset(new Texture(data,  Texture::kType_Rgba,
-                             Texture::kWrap_ClampToEdge,
-                             Texture::kWrap_ClampToEdge,
-                             Texture::kFilter_Nearest
-                             , anisotropic));
+  texture_.reset(new Texture(
+      data, Texture::kType_Rgba, Texture::kWrap_ClampToEdge,
+      Texture::kWrap_ClampToEdge, Texture::kFilter_Nearest, anisotropic));
 
   depth_buffer_.reset(new RenderBuffer(GL_DEPTH_COMPONENT, width_, height_));
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
@@ -72,8 +64,9 @@ Fbo::Fbo(int w, int h, bool mipmap)
   glDrawBuffers(1, DrawBuffers);
 
   const int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-  if (status != GL_FRAMEBUFFER_COMPLETE) throw static_cast<std::string>(
-      Str() << "Error when creating framebuffer: " << status);
+  if (status != GL_FRAMEBUFFER_COMPLETE)
+    throw static_cast<std::string>(
+        Str() << "Error when creating framebuffer: " << status);
 
   UnbindFbo();
 }
@@ -94,8 +87,7 @@ int Fbo::height() const {
 }
 
 TextureUpdator::TextureUpdator(Fbo* fbo)
-  : width_(fbo->width())
-  , height_(fbo->height()) {
+    : width_(fbo->width()), height_(fbo->height()) {
   assert(fbo);
   fbo->Bind();
   glPushAttrib(GL_VIEWPORT_BIT);

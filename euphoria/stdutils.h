@@ -17,7 +17,7 @@ Contains various helper extras for the std library.
 @param c the container.
 @returns the string vector.
  */
-template<typename C>
+template <typename C>
 std::vector<std::string> Iterate(const C& c) {
   std::vector<std::string> strings;
   for (const auto& x : c) {
@@ -30,7 +30,7 @@ std::vector<std::string> Iterate(const C& c) {
 @param m the map.
 @returns the string vector.
  */
-template<typename K, typename V>
+template <typename K, typename V>
 std::vector<std::string> Keys(const std::map<K, V>& m) {
   std::vector<std::string> strings;
   for (const auto& x : m) {

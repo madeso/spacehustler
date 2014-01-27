@@ -5,7 +5,7 @@
 #include <cassert>
 #include <string>
 #include <stdexcept>
-#include <fstream> // NOLINT for loading data
+#include <fstream>  // NOLINT for loading data
 
 #include "euphoria/str.h"
 #include "euphoria/entity-rendering.h"
@@ -19,22 +19,19 @@
 
 #include "json/json.h"
 
-CreateSystemArg::CreateSystemArg(SystemContainer* acontainer,
-                                 World* aworld,
+CreateSystemArg::CreateSystemArg(SystemContainer* acontainer, World* aworld,
                                  TextureCache* atexturecache,
-                                 ShaderCache* ashadercache,
-                                 Camera* acamera,
-                                 Lua* ascript,
-                                 const Settings& asettings,
-                                 InputSystem* ainputsystem) :
-  container(acontainer),
-  world(aworld),
-  texturecache(atexturecache),
-  shadercache(ashadercache),
-  camera(acamera),
-  script(ascript),
-  settings(asettings),
-  inputsystem(ainputsystem) {
+                                 ShaderCache* ashadercache, Camera* acamera,
+                                 Lua* ascript, const Settings& asettings,
+                                 InputSystem* ainputsystem)
+    : container(acontainer),
+      world(aworld),
+      texturecache(atexturecache),
+      shadercache(ashadercache),
+      camera(acamera),
+      script(ascript),
+      settings(asettings),
+      inputsystem(ainputsystem) {
   assert(container);
   assert(world);
   assert(texturecache);
@@ -44,8 +41,7 @@ CreateSystemArg::CreateSystemArg(SystemContainer* acontainer,
   assert(inputsystem);
 }
 
-SystemCreatorList::SystemCreatorList() {
-}
+SystemCreatorList::SystemCreatorList() {}
 
 void SystemCreatorList::Add(const std::string& name, Callback callback) {
   creators_.insert(std::make_pair(name, callback));
@@ -54,11 +50,10 @@ void SystemCreatorList::Add(const std::string& name, Callback callback) {
 Callback SystemCreatorList::Get(const std::string& name) const {
   auto r = creators_.find(name);
   if (r == creators_.end()) {
-    throw std::logic_error(Str() << "Unable to create built-in system "
-                           << name
-                           << ", valid systems are: "
-                           << StringMerger::EnglishAnd()
-                           .Generate(Keys(creators_)));
+    throw std::logic_error(
+        Str() << "Unable to create built-in system " << name
+              << ", valid systems are: "
+              << StringMerger::EnglishAnd().Generate(Keys(creators_)));
   }
   return r->second;
 }
@@ -66,15 +61,14 @@ Callback SystemCreatorList::Get(const std::string& name) const {
 void LoadSystems(const std::string& filename, const CreateSystemArg& arg) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str()
-                           << "Unable to load system definitions from "
-                           << filename);
+    throw std::logic_error(Str() << "Unable to load system definitions from "
+                                 << filename);
   }
   Json::Value root;
   Json::Reader reader;
   if (false == reader.parse(in, root)) {
     throw std::logic_error(Str() << "Unable to parse " << filename << ": "
-                           << reader.getFormattedErrorMessages());
+                                 << reader.getFormattedErrorMessages());
   }
 
   SystemCreatorList creators;

@@ -9,8 +9,8 @@
 
 #include "euphoria/str.h"
 
-std::string StringMerger::Generate(
-  const std::vector<std::string>& strings) const {
+std::string StringMerger::Generate(const std::vector<std::string>& strings)
+    const {
   assert(this);
 
   if (strings.empty()) {
@@ -40,25 +40,25 @@ std::string StringMerger::Generate(
 }
 
 const StringMerger& StringMerger::EnglishAnd() {
-  static const StringMerger sep = StringMerger().set_separator(", ", " and ")
-                                  .set_start_end("", "");
+  static const StringMerger sep =
+      StringMerger().set_separator(", ", " and ").set_start_end("", "");
   return sep;
 }
 
 const StringMerger& StringMerger::EnglishOr() {
-  static const StringMerger sep = StringMerger().set_separator(", ", " or ")
-                                  .set_start_end("", "");
+  static const StringMerger sep =
+      StringMerger().set_separator(", ", " or ").set_start_end("", "");
   return sep;
 }
 
 const StringMerger& StringMerger::Array() {
-  static const StringMerger sep = StringMerger().set_separator(", ")
-                                  .set_start_end("[", "]");
+  static const StringMerger sep =
+      StringMerger().set_separator(", ").set_start_end("[", "]");
   return sep;
 }
 
 StringMerger& StringMerger::set_separator(const std::string& separator,
-    const std::string& final_separator) {
+                                          const std::string& final_separator) {
   assert(this);
   separator_ = separator;
   final_separator_ = final_separator;
@@ -79,7 +79,7 @@ StringMerger& StringMerger::set_empty(const std::string& empty) {
 }
 
 StringMerger& StringMerger::set_start_end(const std::string& start,
-    const std::string& end) {
+                                          const std::string& end) {
   assert(this);
   start_ = start;
   end_ = end;

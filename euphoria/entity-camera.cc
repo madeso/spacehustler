@@ -12,62 +12,57 @@
 const std::string CameraSystemType = "Camera";
 
 class CameraType : public ComponentType {
-  public:
-    explicit CameraType(const Json::Value& data) {
-    }
+ public:
+  explicit CameraType(const Json::Value& data) {}
 };
 
 class CameraObject {
-  public:
-    CameraObject(Entity* ent, const CameraType& t)
-      : entity(ent) {
-      assert(entity);
-    }
+ public:
+  CameraObject(Entity* ent, const CameraType& t) : entity(ent) {
+    assert(entity);
+  }
 
-    Entity* entity;
+  Entity* entity;
 };
 
 class CameraSystem : public System {
-  public:
-    explicit CameraSystem(Camera* cam)
-      : camera(cam) {
-      assert(this);
-      assert(cam);
+ public:
+  explicit CameraSystem(Camera* cam) : camera(cam) {
+    assert(this);
+    assert(cam);
+  }
+
+  ComponentType* AddType(const Json::Value& data) {
+    assert(this);
+    std::shared_ptr<CameraType> type(new CameraType(data));
+    types_.push_back(type);
+    return type.get();
+  }
+
+  virtual void AddComponent(Entity* entity, ComponentType* type) {
+    assert(this);
+    assert(entity);
+    assert(type);
+    CameraType* st = static_cast<CameraType*>(type);
+    objects_.push_back(CameraObject(entity, *st));
+  }
+
+  void Step(float dt) {
+    assert(this);
+    assert(camera);
+
+    for (auto& o : objects_) {
+      quat temp = o.entity->rotation;
+      temp.conjugate();
+      camera->set_view(cmat44(temp) * cmat44(vec3(-o.entity->position)));
     }
+  }
 
-    ComponentType* AddType(const Json::Value& data) {
-      assert(this);
-      std::shared_ptr<CameraType> type(new CameraType(data));
-      types_.push_back(type);
-      return type.get();
-    }
+ private:
+  Camera* camera;
 
-    virtual void AddComponent(Entity* entity, ComponentType* type) {
-      assert(this);
-      assert(entity);
-      assert(type);
-      CameraType* st = static_cast<CameraType*>(type);
-      objects_.push_back(CameraObject(entity, *st));
-    }
-
-    void Step(float dt) {
-      assert(this);
-      assert(camera);
-
-      for (auto& o : objects_) {
-        quat temp = o.entity->rotation;
-        temp.conjugate();
-        camera->set_view(
-          cmat44(temp)
-          * cmat44(vec3(-o.entity->position)));
-      }
-    }
-
-  private:
-    Camera* camera;
-
-    std::vector<std::shared_ptr<CameraType> > types_;
-    std::vector<CameraObject> objects_;
+  std::vector<std::shared_ptr<CameraType> > types_;
+  std::vector<CameraObject> objects_;
 };
 
 void AddCameraCallback(const CreateSystemArg& arg, Json::Value data) {

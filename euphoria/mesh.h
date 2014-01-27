@@ -20,73 +20,73 @@ Mesh related code.
 
 namespace internal {
 
-  /** Triangle soup with a single material. Part of a Mesh.
+/** Triangle soup with a single material. Part of a Mesh.
+ */
+class MeshPart {
+ public:
+  /** Constructs a empty mesh.
    */
-  class MeshPart {
-    public:
-      /** Constructs a empty mesh.
-       */
-      MeshPart();
+  MeshPart();
 
-      /** Add a point to the mesh.
-       @param x the X coordinate.
-       @param y the Y coordinate.
-       @param z the Z coordinate.
-       @param u the U texture coordinate.
-       @param v the V texture coordinate.
-       */
-      void AddPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
-
-      /** Add a face to the mesh.
-      @param a the first index.
-      @param b the second index;
-      @param c the third index.
-       */
-      void AddFace(unsigned int a, unsigned int b, unsigned int c);
-
-      /** Utility function for getting a vertex.
-      @param p the index for the vertex to get
-      @return the vertex
-       */
-      vec3 GetVertex(unsigned int p) const;
-
-      /** The vertices.
-       */
-      std::vector<GLfloat> vertices;
-
-      /** The faces.
-       */
-      std::vector<GLushort> faces;
-
-      /** The number of points.
-       */
-      unsigned int points;
-
-      /** The material index.
-       */
-      unsigned int material;
-  };
-
-  /** Represents a material.
+  /** Add a point to the mesh.
+   @param x the X coordinate.
+   @param y the Y coordinate.
+   @param z the Z coordinate.
+   @param u the U texture coordinate.
+   @param v the V texture coordinate.
    */
-  class Material {
-    public:
-      /** Construct a Material.
-       */
-      Material();
+  void AddPoint(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
 
-      /** The path to the texture.
-       */
-      std::string texture;
+  /** Add a face to the mesh.
+  @param a the first index.
+  @param b the second index;
+  @param c the third index.
+   */
+  void AddFace(unsigned int a, unsigned int b, unsigned int c);
 
-      /** The wrapping for S.
-       */
-      Texture::WrapMode wraps;
+  /** Utility function for getting a vertex.
+  @param p the index for the vertex to get
+  @return the vertex
+   */
+  vec3 GetVertex(unsigned int p) const;
 
-      /** The wrapping for T.
-       */
-      Texture::WrapMode wrapt;
-  };
+  /** The vertices.
+   */
+  std::vector<GLfloat> vertices;
+
+  /** The faces.
+   */
+  std::vector<GLushort> faces;
+
+  /** The number of points.
+   */
+  unsigned int points;
+
+  /** The material index.
+   */
+  unsigned int material;
+};
+
+/** Represents a material.
+ */
+class Material {
+ public:
+  /** Construct a Material.
+   */
+  Material();
+
+  /** The path to the texture.
+   */
+  std::string texture;
+
+  /** The wrapping for S.
+   */
+  Texture::WrapMode wraps;
+
+  /** The wrapping for T.
+   */
+  Texture::WrapMode wrapt;
+};
 
 }  // namespace internal
 
@@ -95,20 +95,21 @@ namespace internal {
  @see CompiledMesh
  */
 class Mesh {
-  public:
-    /** Constructs a empty mesh.
-     */
-    Mesh();
+ public:
+  /** Constructs a empty mesh.
+   */
+  Mesh();
 
-    /** The parts.
-     */
-    std::vector<internal::MeshPart> parts;
+  /** The parts.
+   */
+  std::vector<internal::MeshPart> parts;
 
-    /** The materials.
-    This is actually the textures, but the whole material class isn't implemented yet.
-    @todo update to a better material representation
-     */
-    std::vector<internal::Material> materials;
+  /** The materials.
+  This is actually the textures, but the whole material class isn't implemented
+  yet.
+  @todo update to a better material representation
+   */
+  std::vector<internal::Material> materials;
 };
 
 /** Load a mesh.
@@ -139,43 +140,43 @@ Mesh CreateSphere(float size, const std::string& texture);
 Mesh CreateBox(float width, float height, float depth);
 
 namespace internal {
-  /** Compiled mesh part ready for rendering.
-  @see CompiledMesh
+/** Compiled mesh part ready for rendering.
+@see CompiledMesh
+ */
+class CompiledMeshPart {
+ public:
+  /** Compiles a mesh part.
+  @param mesh the MeshPart to compile.
+  @param program the shader program to use.
+  @param texture the texture to use.
    */
-  class CompiledMeshPart {
-    public:
-      /** Compiles a mesh part.
-      @param mesh the MeshPart to compile.
-      @param program the shader program to use.
-      @param texture the texture to use.
-       */
-      CompiledMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
-                       std::shared_ptr<Texture> texture);
+  CompiledMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
+                   std::shared_ptr<Texture> texture);
 
-      /** Destructs the compiled mesh part.
-       */
-      ~CompiledMeshPart();
+  /** Destructs the compiled mesh part.
+   */
+  ~CompiledMeshPart();
 
-      /** Render the mesh part as seen through a camera.
-      @param camera through the camera.
-      @param model the model matrix
-       */
-      void Render(const Camera& camera, const mat44& model);
+  /** Render the mesh part as seen through a camera.
+  @param camera through the camera.
+  @param model the model matrix
+   */
+  void Render(const Camera& camera, const mat44& model);
 
-      /** Render the mesh.
-      Requires both the shader and the texture to be bound.
-       */
-      void Render();
+  /** Render the mesh.
+  Requires both the shader and the texture to be bound.
+   */
+  void Render();
 
-    private:
-      Vao vao_;
-      ArrayBuffer vbo_;
-      ElementArrayBuffer elements_;
+ private:
+  Vao vao_;
+  ArrayBuffer vbo_;
+  ElementArrayBuffer elements_;
 
-      const std::shared_ptr<Program> program_;
-      std::shared_ptr<Texture> texture_;
-      GLsizei elementCount_;
-  };
+  const std::shared_ptr<Program> program_;
+  std::shared_ptr<Texture> texture_;
+  GLsizei elementCount_;
+};
 
 }  // namespace internal
 
@@ -184,23 +185,24 @@ namespace internal {
 @see Instance
  */
 class CompiledMesh {
-  public:
-    /** Compiles a mesh.
-    @param mesh the MeshPart to compile.
-    @param texturecache the cache from where to get the textures from
-    @param shadercache the cache from where to get the shaders from
-    @param settings the settings to use
-     */
-    explicit CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
-                          ShaderCache* shadercache, const Settings& settings);
+ public:
+  /** Compiles a mesh.
+  @param mesh the MeshPart to compile.
+  @param texturecache the cache from where to get the textures from
+  @param shadercache the cache from where to get the shaders from
+  @param settings the settings to use
+   */
+  explicit CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
+                        ShaderCache* shadercache, const Settings& settings);
 
-    /** Render the mesh.
-      @param camera through the camera.
-      @param model the model matrix
-       */
-    void Render(const Camera& camera, const mat44& model);
-  private:
-    std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts_;
+  /** Render the mesh.
+    @param camera through the camera.
+    @param model the model matrix
+     */
+  void Render(const Camera& camera, const mat44& model);
+
+ private:
+  std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts_;
 };
 
 #endif  // EUPHORIA_MESH_H_

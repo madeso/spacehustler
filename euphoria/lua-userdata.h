@@ -34,13 +34,13 @@ Assumes that the metatable is the same name as the class.
 @param state the lua state
 @param Class the class name.
  */
-#define lua_pushobject(state, Class) new(state, #Class) Class
+#define lua_pushobject(state, Class) new (state, #Class) Class
 
 /** Generic lua gc function for use with lua_pushobject.
 @param state the lua state.
 @returns 0
  */
-template<typename Class>
+template <typename Class>
 int GCMethod(lua_State* state) {
   reinterpret_cast<Class*>(lua_touserdata(state, 1))->~Class();
   return 0;

@@ -8,15 +8,12 @@
 #include "euphoria/settings.h"
 
 TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
-    Texture::WrapMode wraps,
-    Texture::WrapMode wrapt)
-  : file(file)
-  , wraps(wraps)
-  , wrapt(wrapt) {
-}
+                                                     Texture::WrapMode wraps,
+                                                     Texture::WrapMode wrapt)
+    : file(file), wraps(wraps), wrapt(wrapt) {}
 
-bool TextureLoadingInstruction::operator<(
-  const TextureLoadingInstruction& rhs) const {
+bool TextureLoadingInstruction::operator<(const TextureLoadingInstruction& rhs)
+    const {
   if (wraps != rhs.wraps) {
     return wraps < rhs.wraps;
   } else if (wrapt != rhs.wrapt) {
@@ -26,32 +23,27 @@ bool TextureLoadingInstruction::operator<(
   }
 }
 
-TextureCache::TextureCache() {
-  assert(this);
-}
+TextureCache::TextureCache() { assert(this); }
 
 namespace {
-  struct TextureCreator {
-    std::shared_ptr<Texture> operator()(
+struct TextureCreator {
+  std::shared_ptr<Texture> operator()(
       const TextureLoadingInstruction& instructions, const Settings& settings) {
-      ImageData data(instructions.file);
+    ImageData data(instructions.file);
 
-      /// @todo include anisotropic in instructions.
-      std::shared_ptr<Texture> ret(new Texture(data,
-                                   Texture::kType_CompressedRgb,
-                                   instructions.wraps,
-                                   instructions.wrapt,
-                                   Texture::kFilter_Linear,
-                                   settings.anisotropic()));
-      return ret;
-    }
-  };
+    /// @todo include anisotropic in instructions.
+    std::shared_ptr<Texture> ret(new Texture(
+        data, Texture::kType_CompressedRgb, instructions.wraps,
+        instructions.wrapt, Texture::kFilter_Linear, settings.anisotropic()));
+    return ret;
+  }
+};
 }  // namespace
 
 std::shared_ptr<Texture> TextureCache::GetOrCreate(
-  const TextureLoadingInstruction& instructions, const Settings& settings) {
+    const TextureLoadingInstruction& instructions, const Settings& settings) {
   assert(this);
   static TextureCreator c;
-  return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(&cache_,
-         c, instructions, settings);
+  return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(
+      &cache_, c, instructions, settings);
 }

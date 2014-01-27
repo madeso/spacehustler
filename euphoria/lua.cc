@@ -16,45 +16,41 @@ extern "C" {
 }
 
 namespace internal {
-  FunctionReturn::~FunctionReturn() {
-  }
+FunctionReturn::~FunctionReturn() {}
 }  // namespace internal
 
 namespace {
-  class ErrorList {
-    public:
-      void Add(const std::string& error) {
-        // assert(0 && "Lua error but no code to handle it");
-        const size_t MAX_SIZE = 10;
+class ErrorList {
+ public:
+  void Add(const std::string& error) {
+    // assert(0 && "Lua error but no code to handle it");
+    const size_t MAX_SIZE = 10;
 
-        errors_.push_back(error);
-        if (errors_.size() >= MAX_SIZE) {
-          errors_.erase(errors_.begin());
-        }
-      }
-
-      const std::vector<std::string>& errors() const {
-        return errors_;
-      }
-
-    private:
-      std::vector<std::string> errors_;
-  };
-  ErrorList& GlobalErrorList() {
-    static ErrorList list;
-    return list;
-  }
-
-  void ThrowIfError(lua_State* state, int errorcode) {
-    assert(state);
-    if (errorcode) {
-      const std::string error = Str() << "Lua error: "
-                                << lua_tostring(state, -1);
-      GlobalErrorList().Add(error);
-      // throw std::logic_error(error);
-      // lua_pop(L, 1); ?
+    errors_.push_back(error);
+    if (errors_.size() >= MAX_SIZE) {
+      errors_.erase(errors_.begin());
     }
   }
+
+  const std::vector<std::string>& errors() const { return errors_; }
+
+ private:
+  std::vector<std::string> errors_;
+};
+ErrorList& GlobalErrorList() {
+  static ErrorList list;
+  return list;
+}
+
+void ThrowIfError(lua_State* state, int errorcode) {
+  assert(state);
+  if (errorcode) {
+    const std::string error = Str() << "Lua error: " << lua_tostring(state, -1);
+    GlobalErrorList().Add(error);
+    // throw std::logic_error(error);
+    // lua_pop(L, 1); ?
+  }
+}
 }  // namespace
 
 const std::vector<std::string>& GetGlobalErrors() {
@@ -69,9 +65,7 @@ inline lua_State* GetState(Lua* lua) {
   return ret;
 }
 
-Table::Table(Lua* state)
-  : state_(GetState(state))
-  , reference_(LUA_NOREF) {
+Table::Table(Lua* state) : state_(GetState(state)), reference_(LUA_NOREF) {
   assert(this);
   assert(state_);
   lua_createtable(state_, 0, 0);
@@ -103,41 +97,41 @@ void Table::PushToState(lua_State* astate) const {
 }
 
 class IntFunctionReturn : public internal::FunctionReturn {
-  public:
-    explicit IntFunctionReturn(int* i) : int_(i) {
-      assert(int_);
-      assert(this);
-    }
+ public:
+  explicit IntFunctionReturn(int* i) : int_(i) {
+    assert(int_);
+    assert(this);
+  }
 
-    void Get(lua_State* state) {
-      assert(int_);
-      assert(this);
-      *int_ = lua_tointeger(state, -1);
-    }
+  void Get(lua_State* state) {
+    assert(int_);
+    assert(this);
+    *int_ = lua_tointeger(state, -1);
+  }
 
-  private:
-    int* int_;
+ private:
+  int* int_;
 };
 
 class StringFunctionReturn : public internal::FunctionReturn {
-  public:
-    explicit StringFunctionReturn(std::string* s) : string_(s) {
-      assert(string_);
-      assert(this);
-    }
+ public:
+  explicit StringFunctionReturn(std::string* s) : string_(s) {
+    assert(string_);
+    assert(this);
+  }
 
-    void Get(lua_State* state) {
-      assert(string_);
-      assert(this);
-      *string_ = lua_tostring(state, -1);
-    }
+  void Get(lua_State* state) {
+    assert(string_);
+    assert(this);
+    *string_ = lua_tostring(state, -1);
+  }
 
-  private:
-    std::string* string_;
+ private:
+  std::string* string_;
 };
 
 FunctionCall::FunctionCall(lua_State* astate, const std::string& name)
-  : state_(astate), args_(0) {
+    : state_(astate), args_(0) {
   assert(this);
   assert(state_);
   /// @todo save and push in call function so multiple calls can be made

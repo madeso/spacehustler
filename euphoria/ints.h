@@ -83,35 +83,43 @@ typedef boost::uint_least8_t luint8;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/** Signed integer, smallest data type with at least 64 bytes and best arithmetic performance.
+/** Signed integer, smallest data type with at least 64 bytes and best
+ * arithmetic performance.
  */
 typedef boost::int_fast64_t fint64;
 
-/** Unsigned integer, smallest data type with at least 64 bytes and best arithmetic performance.
+/** Unsigned integer, smallest data type with at least 64 bytes and best
+ * arithmetic performance.
  */
 typedef boost::uint_fast64_t fuint64;
 
-/** Signed integer, smallest data type with at least 32 bytes and best arithmetic performance.
+/** Signed integer, smallest data type with at least 32 bytes and best
+ * arithmetic performance.
  */
 typedef boost::int_fast32_t fint32;
 
-/** Unsigned integer, smallest data type with at least 32 bytes and best arithmetic performance.
+/** Unsigned integer, smallest data type with at least 32 bytes and best
+ * arithmetic performance.
  */
 typedef boost::uint_fast32_t fuint32;
 
-/** Signed integer, smallest data type with at least 16 bytes and best arithmetic performance.
+/** Signed integer, smallest data type with at least 16 bytes and best
+ * arithmetic performance.
  */
 typedef boost::int_fast16_t fint16;
 
-/** Unsigned integer, smallest data type with at least 16 bytes and best arithmetic performance.
+/** Unsigned integer, smallest data type with at least 16 bytes and best
+ * arithmetic performance.
  */
 typedef boost::uint_fast16_t fuint16;
 
-/** Signed integer, smallest data type with at least 8 bytes and best arithmetic performance.
+/** Signed integer, smallest data type with at least 8 bytes and best arithmetic
+ * performance.
  */
 typedef boost::int_fast8_t fint8;
 
-/** Unsigned integer, smallest data type with at least 8 bytes and best arithmetic performance.
+/** Unsigned integer, smallest data type with at least 8 bytes and best
+ * arithmetic performance.
  */
 typedef boost::uint_fast8_t fuint8;
 

@@ -14,8 +14,7 @@ void LoadSingleShader(Json::Value data, Shader::Type type, ShaderList* list) {
   const std::string filename = data.get("file", "").asString();
   std::ifstream f(filename.c_str());
   if (!f) {
-    throw std::logic_error(Str()
-                           << "Failed to open shader file " << filename);
+    throw std::logic_error(Str() << "Failed to open shader file " << filename);
   }
   std::stringstream ss;
   ss << f.rdbuf();
@@ -35,13 +34,11 @@ std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename) {
   Json::Reader reader;
   std::ifstream f(filename.c_str());
   if (!f.good()) {
-    throw std::logic_error(Str()
-                           << "Failed to open shader file " << filename);
+    throw std::logic_error(Str() << "Failed to open shader file " << filename);
   }
   if (!reader.parse(f, root)) {
-    throw std::logic_error(Str()
-                           << "Failed to correctly parse " << filename
-                           << reader.getFormattedErrorMessages());
+    throw std::logic_error(Str() << "Failed to correctly parse " << filename
+                                 << reader.getFormattedErrorMessages());
   }
 
   ShaderList shaders;

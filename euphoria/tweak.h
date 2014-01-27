@@ -16,7 +16,7 @@ Contains all the Tweakable code.
 #include "euphoria/math.h"
 #include "euphoria/ints.h"
 
-#include "euphoria-config.h" // NOLINT this is the default way to include cmake files
+#include "euphoria-config.h"  // NOLINT this is the default way to include cmake files
 
 #ifdef USE_TWEAKABLES
 
@@ -26,271 +26,265 @@ typedef struct CTwBar TwBar;
 
 namespace tweaks {
 
-  /** basic unit of of something that is tweakable.
+/** basic unit of of something that is tweakable.
+ */
+class Tweakable {
+ public:
+  /** The constructor.
    */
-  class Tweakable {
-    public:
-      /** The constructor.
-       */
-      Tweakable(TwBar* bar, const std::string& id, const std::string& name);
+  Tweakable(TwBar* bar, const std::string& id, const std::string& name);
 
-      /** true if it has changed trough tweaking, false if not.
-       */
-      bool hasChanged;
-
-      /** the amount of life left.
-       */
-      int life;
-
-      /** Virtual destructor.
-       */
-      virtual ~Tweakable();
-
-      /** Changes the label of the tweakable.
-      @param value the new label
-      @returns this object for chaining
-       */
-      Tweakable& label(const std::string& value);
-
-      /** Changes the group of the tweakable.
-      @param value the new group name
-      @returns this object for chaining
-       */
-      Tweakable& group(const std::string& value);
-
-      /** Changes the readonly status of the tweakable.
-      @param readonly the readonly status
-      @returns this object for chaining
-       */
-      Tweakable& readonly(bool readonly);
-
-      /** macro helping function.
-      @see TWEAK
-      @returns true.
-       */
-      operator bool() const;
-
-    protected:
-      /** The tweak bar.
-       */
-      TwBar* bar;
-
-      /** The id of the tweak.
-       */
-      std::string id;
-  };
-
-  /** Adds basic members to a Tweakable class.
-  @param CLASS the class name.
-  @param TYPE the containing type.
+  /** true if it has changed trough tweaking, false if not.
    */
-#define TWEAKABLE_BASIC(CLASS, TYPE) \
-public: \
+  bool hasChanged;
+
+  /** the amount of life left.
+   */
+  int life;
+
+  /** Virtual destructor.
+   */
+  virtual ~Tweakable();
+
+  /** Changes the label of the tweakable.
+  @param value the new label
+  @returns this object for chaining
+   */
+  Tweakable& label(const std::string& value);
+
+  /** Changes the group of the tweakable.
+  @param value the new group name
+  @returns this object for chaining
+   */
+  Tweakable& group(const std::string& value);
+
+  /** Changes the readonly status of the tweakable.
+  @param readonly the readonly status
+  @returns this object for chaining
+   */
+  Tweakable& readonly(bool readonly);
+
+  /** macro helping function.
+  @see TWEAK
+  @returns true.
+   */
+  operator bool() const;
+
+ protected:
+  /** The tweak bar.
+   */
+  TwBar* bar;
+
+  /** The id of the tweak.
+   */
+  std::string id;
+};
+
+/** Adds basic members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
+#define TWEAKABLE_BASIC(CLASS, TYPE)                                 \
+ public: /*NOLINT macro spaacing issue*/                             \
   CLASS(TwBar* bar, const std::string& id, const std::string& name); \
-  ~CLASS(); \
-public: \
+  ~CLASS();                                                          \
+                                                                     \
+ public: /*NOLINT macro spaacing issue*/                             \
   TYPE data
 
-  /** Adds numeric related members to a Tweakable class.
-  @param CLASS the class name.
-  @param TYPE the containing type.
-   */
-#define TWEAKABLE_NUM(CLASS, TYPE) \
-public: \
-  CLASS& minmax(TYPE min, TYPE max); \
+/** Adds numeric related members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
+#define TWEAKABLE_NUM(CLASS, TYPE)       \
+ public: /*NOLINT macro spaacing issue*/ \
+  CLASS& minmax(TYPE min, TYPE max);     \
   CLASS& step(TYPE step)
 
-  /** Adds integer related members to a Tweakable class.
-  @param CLASS the class name.
-  @param TYPE the containing type.
-   */
-#define TWEAKABLE_INT(CLASS, TYPE) \
-public: \
+/** Adds integer related members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
+#define TWEAKABLE_INT(CLASS, TYPE)       \
+ public: /*NOLINT macro spaacing issue*/ \
   CLASS& hexa(bool hex)
 
-  /** Adds float related members to a Tweakable class.
-  @param CLASS the class name.
-  @param TYPE the containing type.
-   */
-#define TWEAKABLE_FLOAT(CLASS, TYPE) \
-public: \
+/** Adds float related members to a Tweakable class.
+@param CLASS the class name.
+@param TYPE the containing type.
+ */
+#define TWEAKABLE_FLOAT(CLASS, TYPE)     \
+ public: /*NOLINT macro spaacing issue*/ \
   CLASS& precision(fuint8 p)
 
-  /** Tweakable for int32.
+/** Tweakable for int32.
+ */
+class Int32Tweakable : public Tweakable {
+ public:
+  /** Basic tweakable operations.
    */
-  class Int32Tweakable : public Tweakable {
-    public:
-      /** Basic tweakable operations.
-       */
-      TWEAKABLE_BASIC(Int32Tweakable, int32);
+  TWEAKABLE_BASIC(Int32Tweakable, int32);
 
-      /** Numeric tweakable operations.
-       */
-      TWEAKABLE_NUM(Int32Tweakable, int32);
-
-      /** Int tweakable operations.
-       */
-      TWEAKABLE_INT(Int32Tweakable, int32);
-  };
-
-  /** Tweakable for uint32.
+  /** Numeric tweakable operations.
    */
-  class Uint32Tweakable : public Tweakable {
-    public:
-      /** Basic tweakable operations.
-       */
-      TWEAKABLE_BASIC(Uint32Tweakable, uint32);
+  TWEAKABLE_NUM(Int32Tweakable, int32);
 
-      /** Numeric tweakable operations.
-       */
-      TWEAKABLE_NUM(Uint32Tweakable, uint32);
-
-      /** Int tweakable operations.
-       */
-      TWEAKABLE_INT(Uint32Tweakable, uint32);
-  };
-
-  /** Tweakable for float.
+  /** Int tweakable operations.
    */
-  class FloatTweakable : public Tweakable {
-    public:
-      /** Basic tweakable operations.
-       */
-      TWEAKABLE_BASIC(FloatTweakable, float);
+  TWEAKABLE_INT(Int32Tweakable, int32);
+};
 
-      /** Numeric tweakable operations.
-       */
-      TWEAKABLE_NUM(FloatTweakable, float);
-
-      /** Float tweakable operations.
-       */
-      TWEAKABLE_FLOAT(FloatTweakable, float);
-  };
-
-  /** Tweakable for double.
+/** Tweakable for uint32.
+ */
+class Uint32Tweakable : public Tweakable {
+ public:
+  /** Basic tweakable operations.
    */
-  class DoubleTweakable : public Tweakable {
-    public:
-      /** Basic tweakable operations.
-       */
-      TWEAKABLE_BASIC(DoubleTweakable, double);
+  TWEAKABLE_BASIC(Uint32Tweakable, uint32);
 
-      /** Numeric tweakable operations.
-       */
-      TWEAKABLE_NUM(DoubleTweakable, double);
-
-      /** Float tweakable operations.
-       */
-      TWEAKABLE_FLOAT(DoubleTweakable, double);
-  };
-
-  /** Tweakable for vec3.
+  /** Numeric tweakable operations.
    */
-  class Vec3Tweakable : public Tweakable {
-    public:
-      /** Constructor.
-      @param bar the bar.
-      @param id the id.
-      @param name the name
-       */
-      Vec3Tweakable(TwBar* bar, const std::string& id, const std::string& name);
+  TWEAKABLE_NUM(Uint32Tweakable, uint32);
 
-      /** changes is the vec3 is a direction or not.
-      @param b true if it is a direction, false if not.
-      @returns this for chaining.
-       */
-      Vec3Tweakable& isDirection(bool b);
+  /** Int tweakable operations.
+   */
+  TWEAKABLE_INT(Uint32Tweakable, uint32);
+};
 
-      /** The data.
-       */
-      vec3 data;
-    private:
-      bool isdirection;
-      std::string name;
-  };
+/** Tweakable for float.
+ */
+class FloatTweakable : public Tweakable {
+ public:
+  /** Basic tweakable operations.
+   */
+  TWEAKABLE_BASIC(FloatTweakable, float);
+
+  /** Numeric tweakable operations.
+   */
+  TWEAKABLE_NUM(FloatTweakable, float);
+
+  /** Float tweakable operations.
+   */
+  TWEAKABLE_FLOAT(FloatTweakable, float);
+};
+
+/** Tweakable for double.
+ */
+class DoubleTweakable : public Tweakable {
+ public:
+  /** Basic tweakable operations.
+   */
+  TWEAKABLE_BASIC(DoubleTweakable, double);
+
+  /** Numeric tweakable operations.
+   */
+  TWEAKABLE_NUM(DoubleTweakable, double);
+
+  /** Float tweakable operations.
+   */
+  TWEAKABLE_FLOAT(DoubleTweakable, double);
+};
+
+/** Tweakable for vec3.
+ */
+class Vec3Tweakable : public Tweakable {
+ public:
+  /** Constructor.
+  @param bar the bar.
+  @param id the id.
+  @param name the name
+   */
+  Vec3Tweakable(TwBar* bar, const std::string& id, const std::string& name);
+
+  /** changes is the vec3 is a direction or not.
+  @param b true if it is a direction, false if not.
+  @returns this for chaining.
+   */
+  Vec3Tweakable& isDirection(bool b);
+
+  /** The data.
+   */
+  vec3 data;
+
+ private:
+  bool isdirection;
+  std::string name;
+};
 }  // namespace tweaks
 
 /** A place to store and do basic operations of tweakables.
  */
 class TweakerStore {
-  public:
-    /** Constructor.
-     */
-    TweakerStore();
+ public:
+  /** Constructor.
+   */
+  TweakerStore();
 
-    /** Destructor.
-     */
-    ~TweakerStore();
+  /** Destructor.
+   */
+  ~TweakerStore();
 
-    /** Tweak this string.
-    @param id the unique id of the tweakable.
-    @param name the displayable name of the tweakable.
-    @param data the tweak data.
-    @returns this object for easily chaining.
-     */
-    tweaks::Tweakable& tweak(const std::string& id,
-                             const std::string& name,
-                             std::string* data);
+  /** Tweak this string.
+  @param id the unique id of the tweakable.
+  @param name the displayable name of the tweakable.
+  @param data the tweak data.
+  @returns this object for easily chaining.
+   */
+  tweaks::Tweakable& tweak(const std::string& id, const std::string& name,
+                           std::string* data);
 
-    /** Tweak a 32 bit integer
-     */
-    tweaks::Int32Tweakable& tweak(const std::string& id,
-                                  const std::string& name,
-                                  int32* data);
+  /** Tweak a 32 bit integer
+   */
+  tweaks::Int32Tweakable& tweak(const std::string& id, const std::string& name,
+                                int32* data);
 
-    /** Tweak a unsigned 32 bit integer
-     */
-    tweaks::Uint32Tweakable& tweak(const std::string& id,
-                                   const std::string& name,
-                                   uint32* data);
+  /** Tweak a unsigned 32 bit integer
+   */
+  tweaks::Uint32Tweakable& tweak(const std::string& id, const std::string& name,
+                                 uint32* data);
 
-    /** Tweak a bool.
-     */
-    tweaks::Tweakable& tweak(const std::string& id,
-                             const std::string& name,
-                             bool* data);
+  /** Tweak a bool.
+   */
+  tweaks::Tweakable& tweak(const std::string& id, const std::string& name,
+                           bool* data);
 
-    /** Tweak a float.
-     */
-    tweaks::FloatTweakable& tweak(const std::string& id,
-                                  const std::string& name,
-                                  float* data);
+  /** Tweak a float.
+   */
+  tweaks::FloatTweakable& tweak(const std::string& id, const std::string& name,
+                                float* data);
 
-    /** Tweak a double.
-     */
-    tweaks::DoubleTweakable& tweak(const std::string& id,
-                                   const std::string& name,
-                                   double* data);
+  /** Tweak a double.
+   */
+  tweaks::DoubleTweakable& tweak(const std::string& id, const std::string& name,
+                                 double* data);
 
-    /** Tweak a quaternion.
-     */
-    tweaks::Tweakable& tweak(const std::string& id,
-                             const std::string& name,
-                             quat* data);
+  /** Tweak a quaternion.
+   */
+  tweaks::Tweakable& tweak(const std::string& id, const std::string& name,
+                           quat* data);
 
-    /** Tweak a vec3.
-     */
-    tweaks::Vec3Tweakable& tweak(const std::string& id,
-                                 const std::string& name,
-                                 vec3* data);
+  /** Tweak a vec3.
+   */
+  tweaks::Vec3Tweakable& tweak(const std::string& id, const std::string& name,
+                               vec3* data);
 
-    /** update the store.
-    Remove tweaks that are no longer needed etc..
-     */
-    void update();
+  /** update the store.
+  Remove tweaks that are no longer needed etc..
+   */
+  void update();
 
-    /** The List of tweakables type.
-     */
-    typedef std::map<std::string, std::shared_ptr<tweaks::Tweakable>>
-        Tweakables;
+  /** The List of tweakables type.
+   */
+  typedef std::map<std::string, std::shared_ptr<tweaks::Tweakable>> Tweakables;
 
-  private:
-    TwBar* bar;
-    Tweakables tweakables;
+ private:
+  TwBar* bar;
+  Tweakables tweakables;
 };
 
 /** Get a instance to the glocal tweaker store.
-Since it is a glocal, you need to create it locally. That instance is then accessed through this function.
+Since it is a glocal, you need to create it locally. That instance is then
+accessed through this function.
 @returns the global TweakerStore.
  */
 TweakerStore* GlocalTweakerStore();
@@ -312,8 +306,10 @@ Not really useful, except for the internal use in STR()
 @param x the variable for tweaking.
 @returns a suitable Tweakable.
  */
-#define TWEAK(x) assert(GlocalTweakerStore()), GlocalTweakerStore() && \
-  GlocalTweakerStore()->tweak(__FILE__  STR(__LINE__), #x, &x)
+#define TWEAK(x)                \
+  assert(GlocalTweakerStore()), \
+      GlocalTweakerStore() &&   \
+          GlocalTweakerStore()->tweak(__FILE__ STR(__LINE__), #x, &x)
 
 /** Util macro for running tweak code.
 Runs the code only if tweaking is enabled.

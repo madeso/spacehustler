@@ -23,10 +23,10 @@ Tip: use a function object as CreateFunction, the compiler will inline this.
 @param settings the settings to use
 @returns the object
  */
-template<typename TKey, typename TData, typename TCreateFunction>
-std::shared_ptr<TData> Cache_Get(
-  std::map<TKey, std::weak_ptr<TData> >* cache, TCreateFunction create,
-  const TKey& name, const Settings& settings) {
+template <typename TKey, typename TData, typename TCreateFunction>
+std::shared_ptr<TData> Cache_Get(std::map<TKey, std::weak_ptr<TData>>* cache,
+                                 TCreateFunction create, const TKey& name,
+                                 const Settings& settings) {
   auto found = cache->find(name);
   if (found != cache->end()) {
     auto cached = found->second.lock();
@@ -37,8 +37,7 @@ std::shared_ptr<TData> Cache_Get(
     }
   }
   std::shared_ptr<TData> data = create(name, settings);
-  cache->insert(std::pair<TKey, std::weak_ptr<TData>>(name,
-                data));
+  cache->insert(std::pair<TKey, std::weak_ptr<TData>>(name, data));
   return data;
 }
 

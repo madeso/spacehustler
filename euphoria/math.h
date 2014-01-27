@@ -18,28 +18,28 @@ Math related code.
 
 /** A vector in 2 dimensions.
  */
-typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
-        cml::fixed<2> > vec2;
+typedef cml::vector<float,  // NOLINT(build/include_what_you_use)
+                    cml::fixed<2> > vec2;
 
 /** A vector in 3 dimensions.
  */
-typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
-        cml::fixed<3> > vec3;
+typedef cml::vector<float,  // NOLINT(build/include_what_you_use)
+                    cml::fixed<3> > vec3;
 
 /** A vector in 4 dimensions.
  */
-typedef cml::vector < float,  // NOLINT(build/include_what_you_use)
-        cml::fixed<4> > vec4;
+typedef cml::vector<float,  // NOLINT(build/include_what_you_use)
+                    cml::fixed<4> > vec4;
 
 /** A 4 x 4 matrix.
  */
-typedef cml::matrix < float, cml::fixed<4, 4>,
-        cml::col_basis, cml::col_major > mat44;
+typedef cml::matrix<float, cml::fixed<4, 4>, cml::col_basis, cml::col_major>
+    mat44;
 
 /** A quaternion.
  */
-typedef cml::quaternion < float, cml::fixed<>, cml::vector_first,
-        cml::negative_cross > quat;
+typedef cml::quaternion<float, cml::fixed<>, cml::vector_first,
+                        cml::negative_cross> quat;
 
 /** Generate a zero vector.
 @returns the following vector (0,0,0)

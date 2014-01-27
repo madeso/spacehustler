@@ -16,4 +16,3 @@ void* operator new(size_t size, lua_State* state, const char* metatableName) {
   lua_setmetatable(state, -2);
   return ptr;
 }
-

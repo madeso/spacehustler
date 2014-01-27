@@ -14,32 +14,32 @@ Logic for the textures.
 #include "euphoria/opengl.h"
 
 namespace internal {
-  /** A OpenGL texture object.
+/** A OpenGL texture object.
+ */
+class TextureObject : boost::noncopyable {
+ public:
+  /** Constructs a new texture object.
    */
-  class TextureObject
-    : boost::noncopyable {
-    public:
-      /** Constructs a new texture object.
-       */
-      TextureObject();
+  TextureObject();
 
-      /** Destructs the texture object.
-       */
-      ~TextureObject();
+  /** Destructs the texture object.
+   */
+  ~TextureObject();
 
-      /** Get the OpenGL texture object handle.
-      @return the texture object handle.
-       */
-      GLuint object() const;
+  /** Get the OpenGL texture object handle.
+  @return the texture object handle.
+   */
+  GLuint object() const;
 
-      /** Utility function for getting the OpenGL texture object handle.
-      @see get()
-      @return the texture object handle.
-       */
-      operator GLuint() const;
-    private:
-      GLuint object_;
-  };
+  /** Utility function for getting the OpenGL texture object handle.
+  @see get()
+  @return the texture object handle.
+   */
+  operator GLuint() const;
+
+ private:
+  GLuint object_;
+};
 }  // namespace internal
 
 /** Get the maximum level of anisotropic this computer supports.
@@ -52,134 +52,133 @@ float GetMaxAnistropy();
 /** Represents texture data, not sent to open gl.
  */
 class ImageData : boost::noncopyable {
-  public:
-    /** Load image from file.
-    @param path the path of the image to use
-     */
-    explicit ImageData(const std::string& path);
+ public:
+  /** Load image from file.
+  @param path the path of the image to use
+   */
+  explicit ImageData(const std::string& path);
 
-    /** Create a null image.
-    @param width the width of the image
-    @param height the height of the image
-    @param channels the number of channels
-     */
-    ImageData(int width, int height, int channels);
+  /** Create a null image.
+  @param width the width of the image
+  @param height the height of the image
+  @param channels the number of channels
+   */
+  ImageData(int width, int height, int channels);
 
-    /** Destructor.
-     */
-    ~ImageData();
+  /** Destructor.
+   */
+  ~ImageData();
 
-    /** Gets the width of the image.
-    @returns the width of the image
-     */
-    int width() const;
+  /** Gets the width of the image.
+  @returns the width of the image
+   */
+  int width() const;
 
-    /** Gets the height of the image.
-    @returns the height of the image
-     */
-    int height() const;
+  /** Gets the height of the image.
+  @returns the height of the image
+   */
+  int height() const;
 
-    /** Gets the channels.
-    @returns the channels
-     */
-    int channels() const;
+  /** Gets the channels.
+  @returns the channels
+   */
+  int channels() const;
 
-    /** Gets the pixel data.
-    @returns the pixel data
-     */
-    unsigned char* pixels() const;
+  /** Gets the pixel data.
+  @returns the pixel data
+   */
+  unsigned char* pixels() const;
 
-  private:
-    int width_;
-    int height_;
-    int channels_;
-    unsigned char* pixels_;
+ private:
+  int width_;
+  int height_;
+  int channels_;
+  unsigned char* pixels_;
 };
 
 /** A OpenGL texture.
  */
 class Texture {
-  public:
-    /** Type defining how to wrap the texture.
+ public:
+  /** Type defining how to wrap the texture.
+   */
+  enum WrapMode {
+    /** Repeat it.
      */
-    enum WrapMode {
-      /** Repeat it.
-       */
-      kWrap_Repeat,
+    kWrap_Repeat,
 
-      /** Repeat, but mirror instead of restarting.
-       */
-      kWrap_MirrorRepeat,
-
-      /** Clamp to the edge.
-       */
-      kWrap_ClampToEdge
-    };
-
-    /** The texture filtering mode.
+    /** Repeat, but mirror instead of restarting.
      */
-    enum FilterMode {
-      /** Nearest filtering. Good for images that doesn't look good when scaled.
-       */
-      kFilter_Nearest,
+    kWrap_MirrorRepeat,
 
-      /** Linear filtering. Good for textures.
-       */
-      kFilter_Linear,
-
-      /** Mipmap linear filtering, good for textures.
-      */
-      kFilter_Mimap
-    };
-
-    /** How the image is stored.
+    /** Clamp to the edge.
      */
-    enum Type {
-      /** Store it as RGB without alpha.
-       */
-      kType_Rgb,
+    kWrap_ClampToEdge
+  };
 
-      /** Store is a RGB with alpha.
-       */
-      kType_Rgba,
-
-      /** Store it as compressed RGB without alpha.
-       */
-      kType_CompressedRgb,
-
-      /** Store it as compressed RGB with alpha.
-       */
-      kType_CompressedRgba
-    };
-
-    /** Construct a new texture object.
-    @param data the image data
-    @param textureType how to store the texture
-    @param wraps Wrapping type for S UV coordinate
-    @param wrapt Wrapping type for T UV coordinate
-    @param filter how to filter the texture when rendering
-    @param anisotropic the anisotropic data
+  /** The texture filtering mode.
+   */
+  enum FilterMode {
+    /** Nearest filtering. Good for images that doesn't look good when scaled.
      */
-    Texture(const ImageData& data, Type textureType, WrapMode wraps
-            , Texture::WrapMode wrapt, FilterMode filter, float anisotropic);
+    kFilter_Nearest,
 
-    /** Destructs the texture.
+    /** Linear filtering. Good for textures.
      */
-    ~Texture();
+    kFilter_Linear,
 
-    /** Binds the current texture.
-    @param index bind to this index.
+    /** Mipmap linear filtering, good for textures.
+    */
+    kFilter_Mimap
+  };
+
+  /** How the image is stored.
+   */
+  enum Type {
+    /** Store it as RGB without alpha.
      */
-    void Bind(unsigned int index) const;
+    kType_Rgb,
 
-    /** Get the texture.
-    @returns the texture
+    /** Store is a RGB with alpha.
      */
-    const internal::TextureObject& texture() const;
+    kType_Rgba,
 
-  private:
-    internal::TextureObject texture_;
+    /** Store it as compressed RGB without alpha.
+     */
+    kType_CompressedRgb,
+
+    /** Store it as compressed RGB with alpha.
+     */
+    kType_CompressedRgba
+  };
+
+  /** Construct a new texture object.
+  @param data the image data
+  @param textureType how to store the texture
+  @param wraps Wrapping type for S UV coordinate
+  @param wrapt Wrapping type for T UV coordinate
+  @param filter how to filter the texture when rendering
+  @param anisotropic the anisotropic data
+   */
+  Texture(const ImageData& data, Type textureType, WrapMode wraps,
+          Texture::WrapMode wrapt, FilterMode filter, float anisotropic);
+
+  /** Destructs the texture.
+   */
+  ~Texture();
+
+  /** Binds the current texture.
+  @param index bind to this index.
+   */
+  void Bind(unsigned int index) const;
+
+  /** Get the texture.
+  @returns the texture
+   */
+  const internal::TextureObject& texture() const;
+
+ private:
+  internal::TextureObject texture_;
 };
 
 #endif  // EUPHORIA_TEXTURE_H_
-

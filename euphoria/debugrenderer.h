@@ -21,44 +21,44 @@ class Settings;
 /** The debug renderer.
  */
 class DebugRenderer {
-  public:
-    /** Constructor.
-    @param shadercache the shader cache
-    @param settings the settings to use
-     */
-    DebugRenderer(ShaderCache* shadercache, const Settings& settings);
+ public:
+  /** Constructor.
+  @param shadercache the shader cache
+  @param settings the settings to use
+   */
+  DebugRenderer(ShaderCache* shadercache, const Settings& settings);
 
-    /** Add a line.
-    @param f the from point
-    @param t the to point
-    @param c the color
-     */
-    void Line(const vec3& f, const vec3& t, const Color& c);
+  /** Add a line.
+  @param f the from point
+  @param t the to point
+  @param c the color
+   */
+  void Line(const vec3& f, const vec3& t, const Color& c);
 
-    /** Add a line.
-    @param f the from point
-    @param t the to point
-    @param fc the from color
-    @param tc the to color
-     */
-    void Line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
+  /** Add a line.
+  @param f the from point
+  @param t the to point
+  @param fc the from color
+  @param tc the to color
+   */
+  void Line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
 
-    /** Render the debug lines.
-     */
-    void Render(const Camera& camera);
+  /** Render the debug lines.
+   */
+  void Render(const Camera& camera);
 
-    /** Updates the internal data in the debug renderer.
-     */
-    void Update();
+  /** Updates the internal data in the debug renderer.
+   */
+  void Update();
 
-  private:
-    unsigned int render_lines_;
-    unsigned int linecount_;
-    std::vector<GLfloat> pending_;
-    std::vector<GLfloat> points_;
-    std::shared_ptr<internal::Vao> vao_;
-    std::shared_ptr<internal::ArrayBuffer> vbo_;
-    std::shared_ptr<Program> prog_;
+ private:
+  unsigned int render_lines_;
+  unsigned int linecount_;
+  std::vector<GLfloat> pending_;
+  std::vector<GLfloat> points_;
+  std::shared_ptr<internal::Vao> vao_;
+  std::shared_ptr<internal::ArrayBuffer> vbo_;
+  std::shared_ptr<Program> prog_;
 };
 
 /** Add a debug view for a matrix.

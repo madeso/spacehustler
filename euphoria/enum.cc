@@ -2,17 +2,14 @@
 
 #include "euphoria/enum.h"
 
-#include <fstream> // NOLINT for logging
+#include <fstream>  // NOLINT for logging
 #include <cassert>
 #include <string>
 #include <sstream>
 
 #include "json/json.h"
 
-EnumType::EnumType()
-  : is_adding(true)
-  , next_index(0) {
-}
+EnumType::EnumType() : is_adding(true), next_index(0) {}
 
 EnumType::~EnumType() {
   assert(is_adding == false);
@@ -88,7 +85,7 @@ void Load(EnumType* type, const std::string& filename) {
   assert(type);
   // assert(type->isAdding());
 
-  Json::Value root;   // will contains the root value after parsing.
+  Json::Value root;  // will contains the root value after parsing.
   Json::Reader reader;
   std::ifstream file(filename.c_str());
   if (!file) {
@@ -110,17 +107,13 @@ void Load(EnumType* type, const std::string& filename) {
 }
 
 EnumValue::EnumValue(const EnumType* const type, size_t value)
-  : type_(type)
-  , value_(value) {
-}
+    : type_(type), value_(value) {}
 
 const std::string EnumValue::ToString() const {
   return type_->ToString(value_);
 }
 
-const size_t EnumValue::ToValue() const {
-  return value_;
-}
+const size_t EnumValue::ToValue() const { return value_; }
 
 bool EnumValue::operator==(const EnumValue& other) const {
   assert(type_ == other.type_);

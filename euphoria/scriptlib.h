@@ -9,9 +9,7 @@ Functions for binding basic types to lua.
 
 #include "euphoria/math.h"
 
-extern "C" {
-  struct lua_State;
-}
+extern "C" { struct lua_State; }
 
 /** Add the scriptlib to the state.
 @param state the lua state.

@@ -10,8 +10,9 @@
 #include "euphoria/ogldebug.h"
 
 Shader::Shader(const Type& type)
-  : object_(glCreateShader(type == Shader::kVertexShader ? GL_VERTEX_SHADER :
-                           GL_FRAGMENT_SHADER)) {
+    : object_(glCreateShader(type == Shader::kVertexShader
+                                 ? GL_VERTEX_SHADER
+                                 : GL_FRAGMENT_SHADER)) {
   assert(this);
 
   if (object_ == 0) {
@@ -20,7 +21,7 @@ Shader::Shader(const Type& type)
 }
 
 std::shared_ptr<Shader> Shader::CreateFromSource(const std::string& source,
-    const Type& type) {
+                                                 const Type& type) {
   std::shared_ptr<Shader> shader(new Shader(type));
   shader->Compile(source);
   return shader;
@@ -73,8 +74,7 @@ ShaderList& ShaderList::operator()(std::shared_ptr<Shader> shader) {
 
 /////////////////////
 
-Program::Program()
-  : object_(glCreateProgram()) {
+Program::Program() : object_(glCreateProgram()) {
   assert(this);
 
   if (object_ == 0) {
@@ -151,10 +151,10 @@ Program::~Program() {
 }
 
 namespace {
-  const Program*& CurrentBoundProgram() {
-    static const Program* prog = 0;
-    return prog;
-  }
+const Program*& CurrentBoundProgram() {
+  static const Program* prog = 0;
+  return prog;
+}
 }
 
 void Program::SetUniform(const std::string& name, int i) const {

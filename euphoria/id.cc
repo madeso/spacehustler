@@ -2,9 +2,7 @@
 
 #include "euphoria/id.h"
 
-IdGenerator::IdGenerator()
-  : current_(1) {
-}
+IdGenerator::IdGenerator() : current_(1) {}
 
 const IdGenerator::ID IdGenerator::Generate() {
   if (released_.empty()) {
@@ -18,19 +16,11 @@ const IdGenerator::ID IdGenerator::Generate() {
   }
 }
 
-void IdGenerator::Release(const IdGenerator::ID id) {
-  released_.push_back(id);
-}
+void IdGenerator::Release(const IdGenerator::ID id) { released_.push_back(id); }
 
 Id::Id(IdGenerator* generator)
-  : value_(generator->Generate())
-  , generator_(generator) {
-}
+    : value_(generator->Generate()), generator_(generator) {}
 
-Id::~Id() {
-  generator_->Release(value_);
-}
+Id::~Id() { generator_->Release(value_); }
 
-const IdGenerator::ID Id::value() const {
-  return value_;
-}
+const IdGenerator::ID Id::value() const { return value_; }

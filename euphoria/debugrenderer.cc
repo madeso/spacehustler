@@ -5,22 +5,22 @@
 #include <vector>
 
 DebugRenderer::DebugRenderer(ShaderCache* shadercache, const Settings& settings)
-  : render_lines_(0), linecount_(0), prog_(shadercache->
-      GetOrCreate("debuglines.js", settings)) {
-}
+    : render_lines_(0),
+      linecount_(0),
+      prog_(shadercache->GetOrCreate("debuglines.js", settings)) {}
 
 namespace {
-  void Add(std::vector<GLfloat>* d, const vec3& p) {
-    d->push_back(p[0]);
-    d->push_back(p[1]);
-    d->push_back(p[2]);
-  }
+void Add(std::vector<GLfloat>* d, const vec3& p) {
+  d->push_back(p[0]);
+  d->push_back(p[1]);
+  d->push_back(p[2]);
+}
 
-  void Add(std::vector<GLfloat>* d, const Color& c) {
-    d->push_back(c.r);
-    d->push_back(c.g);
-    d->push_back(c.b);
-  }
+void Add(std::vector<GLfloat>* d, const Color& c) {
+  d->push_back(c.r);
+  d->push_back(c.g);
+  d->push_back(c.b);
+}
 }  // namespace
 
 void DebugRenderer::Line(const vec3& f, const vec3& t, const Color& c) {
@@ -86,10 +86,10 @@ void DebugRenderer::Render(const Camera& camera) {
 void Debug(DebugRenderer* debug, const mat44& mat) {
   const float orthoLen = 20;
   vec3 start = matrix_get_translation(mat);
-  debug->Line(start, start + matrix_get_x_basis_vector(mat)*orthoLen,
+  debug->Line(start, start + matrix_get_x_basis_vector(mat) * orthoLen,
               Color(0.7f, 0, 0));
-  debug->Line(start, start + matrix_get_y_basis_vector(mat)*orthoLen,
+  debug->Line(start, start + matrix_get_y_basis_vector(mat) * orthoLen,
               Color(0, 0.7f, 0));
-  debug->Line(start, start + matrix_get_z_basis_vector(mat)*orthoLen,
+  debug->Line(start, start + matrix_get_z_basis_vector(mat) * orthoLen,
               Color(0, 0, 0.7f));
 }

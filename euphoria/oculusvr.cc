@@ -9,9 +9,12 @@
 
 EyeSetup::EyeSetup(float w, float h, float x, float y, const mat44& projection,
                    const mat44& view_adjust)
-  : w_(w), h_(h), x_(x), y_(y)
-  , projection_(projection), view_adjust_(view_adjust) {
-}
+    : w_(w),
+      h_(h),
+      x_(x),
+      y_(y),
+      projection_(projection),
+      view_adjust_(view_adjust) {}
 
 float EyeSetup::w() const {
   assert(this);
@@ -47,9 +50,7 @@ mat44 C(const OVR::Matrix4f& m) {
   // return cml::transpose(mat44(m.M));
 }
 
-quat C(const OVR::Quatf& q) {
-  return quat(q.x, q.y, q.z, q.w);
-}
+quat C(const OVR::Quatf& q) { return quat(q.x, q.y, q.z, q.w); }
 
 void SetupDummyValues(OVR::HMDInfo* device_info) {
   assert(device_info);
@@ -80,8 +81,7 @@ void SetupDummyValues(OVR::HMDInfo* device_info) {
   device_info->ChromaAbCorrection[1] = -0.00400000019f;
   device_info->ChromaAbCorrection[2] = 1.01400006f;
   device_info->ChromaAbCorrection[3] = 0.000000000f;
-  strncpy(device_info->DisplayDeviceName,
-          "\\\\.\\DISPLAY3\\Monitor0", 32);
+  strncpy(device_info->DisplayDeviceName, "\\\\.\\DISPLAY3\\Monitor0", 32);
 }
 
 struct OculusVr::OculusVrPimpl {
@@ -97,13 +97,16 @@ struct OculusVr::OculusVrPimpl {
   OVR::Ptr<OVR::SensorDevice> sensor_;
   OVR::SensorFusion sensor_fusion_;
 
-  OculusVrPimpl() : render_scale_(0.0f) , distortion_(0.0f, 0.0f, 0.0f, 0.0f),
-    center_offset_(0.0f, 0.0f), chromatic_aberration_(0.0f, 0.0f, 0.0f, 0.0f) {
+  OculusVrPimpl()
+      : render_scale_(0.0f),
+        distortion_(0.0f, 0.0f, 0.0f, 0.0f),
+        center_offset_(0.0f, 0.0f),
+        chromatic_aberration_(0.0f, 0.0f, 0.0f, 0.0f) {
     assert(this);
 
     device_manager_ = *OVR::DeviceManager::Create();
-    device_ = *device_manager_->EnumerateDevices<OVR::HMDDevice>()
-              .CreateDevice();
+    device_ =
+        *device_manager_->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
 
     // Rendering setup:
 
@@ -120,27 +123,23 @@ struct OculusVr::OculusVrPimpl {
     const int Width = device_info_.HResolution;
     const int Height = device_info_.VResolution;
 
-    stereo_config_.SetFullViewport(OVR::Util::Render::Viewport(0, 0,
-                                   Width, Height));
-    stereo_config_.SetStereoMode(
-      OVR::Util::Render::Stereo_LeftRight_Multipass);
+    stereo_config_.SetFullViewport(
+        OVR::Util::Render::Viewport(0, 0, Width, Height));
+    stereo_config_.SetStereoMode(OVR::Util::Render::Stereo_LeftRight_Multipass);
     stereo_config_.SetDistortionFitPointVP(-1.0f, 0.0f);
 
     const auto distortion = stereo_config_.GetDistortionConfig();
 
-    center_offset_ = vec2(distortion.XCenterOffset,
-                          distortion.YCenterOffset);
+    center_offset_ = vec2(distortion.XCenterOffset, distortion.YCenterOffset);
 
     render_scale_ = stereo_config_.GetDistortionScale();
-    distortion_ = vec4(
-                    device_info_.DistortionK[0], device_info_.DistortionK[1],
-                    device_info_.DistortionK[2], device_info_.DistortionK[3]);
+    distortion_ =
+        vec4(device_info_.DistortionK[0], device_info_.DistortionK[1],
+             device_info_.DistortionK[2], device_info_.DistortionK[3]);
 
     chromatic_aberration_ = vec4(
-                              distortion.ChromaticAberration[0],
-                              distortion.ChromaticAberration[1],
-                              distortion.ChromaticAberration[2],
-                              distortion.ChromaticAberration[3]);
+        distortion.ChromaticAberration[0], distortion.ChromaticAberration[1],
+        distortion.ChromaticAberration[2], distortion.ChromaticAberration[3]);
 
     // Input setup:
     if (device_.GetPtr() != NULL) {
@@ -170,9 +169,7 @@ struct OculusVr::OculusVrPimpl {
     }
   }
 
-  void reset_orientation() {
-    sensor_fusion_.Reset();
-  }
+  void reset_orientation() { sensor_fusion_.Reset(); }
 
   const vec2& get_center_offset() const {
     assert(this);
@@ -198,18 +195,16 @@ struct OculusVr::OculusVrPimpl {
     }
   }
 
-  ~OculusVrPimpl() {
-    assert(this);
-  }
+  ~OculusVrPimpl() { assert(this); }
 
   const EyeSetup Eye(OVR::Util::Render::StereoEye eyeid) {
     assert(this);
-    const OVR::Util::Render::StereoEyeParams leftEye
-      = stereo_config_.GetEyeRenderParams(eyeid);
+    const OVR::Util::Render::StereoEyeParams leftEye =
+        stereo_config_.GetEyeRenderParams(eyeid);
     // Left eye rendering parameters
     auto vp = leftEye.VP;
 
-    const float Width = 1.0f;  // device_info_.HResolution;
+    const float Width = 1.0f;   // device_info_.HResolution;
     const float Height = 1.0f;  // device_info_.VResolution;
 
     auto projection = leftEye.Projection;

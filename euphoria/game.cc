@@ -28,18 +28,23 @@
 #include "euphoria/quad.h"
 
 namespace {
-  Game*& GameInstance() {
-    static Game* instance = 0;
-    return instance;
-  }
+Game*& GameInstance() {
+  static Game* instance = 0;
+  return instance;
+}
 }
 
 #define OCULUS_TRANSFORM
 
 Game::Game(const Settings& settings, bool renderoculus)
-  : width_(settings.width()), height_(settings.height()), keep_running_(true)
-  , tweakaction_(0), last_tweak_action_(false), lock_mouse_(true)
-  , istweaking_(false), renderoculus_(renderoculus) {
+    : width_(settings.width()),
+      height_(settings.height()),
+      keep_running_(true),
+      tweakaction_(0),
+      last_tweak_action_(false),
+      lock_mouse_(true),
+      istweaking_(false),
+      renderoculus_(renderoculus) {
   assert(this);
 
   inputsystem_.SetUnitForPlayer("Player", settings.control_scheme());
@@ -70,9 +75,8 @@ Game::Game(const Settings& settings, bool renderoculus)
 
   texturecache_.reset(new TextureCache());
   shadercache_.reset(new ShaderCache());
-  world_.reset(new World("world.js", texturecache_.get(), shadercache_.get()
-                         , settings));
-
+  world_.reset(
+      new World("world.js", texturecache_.get(), shadercache_.get(), settings));
 
   script_.reset(new Lua());
   script_->RunFile("main.lua");
@@ -84,9 +88,11 @@ Game::Game(const Settings& settings, bool renderoculus)
   camera_->set_near_far(0.1f, 800.0f);
 
   container_.reset(new SystemContainer());
-  LoadSystems("systemdefs.js", CreateSystemArg(container_.get(), world_.get(),
-              texturecache_.get(), shadercache_.get(), camera_.get(),
-              script_.get(), settings, &inputsystem_));
+  LoadSystems(
+      "systemdefs.js",
+      CreateSystemArg(container_.get(), world_.get(), texturecache_.get(),
+                      shadercache_.get(), camera_.get(), script_.get(),
+                      settings, &inputsystem_));
 
   entities_.reset(new EntityList());
   entities_->AddDefs(container_.get(), "entity.js");
@@ -176,19 +182,17 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
   program->Bind();
 
 #ifdef OCULUS_TRANSFORM
-  const float w =  eye.w() / static_cast<float>(window_width);
-  const float h =  eye.h() / static_cast<float>(window_height);
-  const float x =  eye.x() / static_cast<float>(window_width);
-  const float y =  eye.y() / static_cast<float>(window_height);
+  const float w = eye.w() / static_cast<float>(window_width);
+  const float h = eye.h() / static_cast<float>(window_height);
+  const float x = eye.x() / static_cast<float>(window_width);
+  const float y = eye.y() / static_cast<float>(window_height);
   const float as = eye.w() / static_cast<float>(eye.h());
 
   // MA: This is more correct but we would need higher-res texture vertically;
   // we should adopt this once we have asymmetric input texture scale.
   const float scaleFactor = 1.0f / oculus.get_scale();
 
-  const float dix = (is_right ? -1.0f : 1.0f)
-                    * oculus.get_center_offset()[0];
-
+  const float dix = (is_right ? -1.0f : 1.0f) * oculus.get_center_offset()[0];
 
   // We are using 1/4 of DistortionCenter offset value here, since it is
   // relative to [-1,1] range that gets mapped to [0, 0.5].
@@ -211,10 +215,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   program->SetUniform("HmdWarpParam", oculus.get_distortion());
 
-  mat44 texm(w, 0, 0, x,
-             0, h, 0, y,
-             0, 0, 0, 0,
-             0, 0, 0, 1);
+  mat44 texm(w, 0, 0, x, 0, h, 0, y, 0, 0, 0, 0, 0, 0, 0, 1);
   cml::transpose(texm);
   program->SetUniform("texm", texm);
 #endif
@@ -235,9 +236,9 @@ void Game::Render() {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // create left and right camera
-    RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(),
-              eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), false,
-              *oculusvr_.get(), height_, width_, istweaking_);
+    RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(), eyefbo_.get(),
+              eyeprogram_.get(), eyequad_.get(), false, *oculusvr_.get(),
+              height_, width_, istweaking_);
     RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
               eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), true,
               *oculusvr_.get(), height_, width_, istweaking_);
@@ -266,9 +267,7 @@ void Game::Update(float dt) {
   last_tweak_action_ = tweak;
 }
 
-bool Game::lock_mouse() const {
-  return lock_mouse_;
-}
+bool Game::lock_mouse() const { return lock_mouse_; }
 
 bool Game::istweaking() const {
   assert(this);
@@ -281,16 +280,16 @@ void Game::Quit() {
 }
 
 namespace scriptinggame {
-  // -- Module: Game
-  const std::string LUA_MODULE_NAME = "Game";
+// -- Module: Game
+const std::string LUA_MODULE_NAME = "Game";
 
-  // -- Function: Quit
-  // -- Description: Quits the game.
-  void Quit(ScriptParams* params) {
-    if (ScriptOverload(params)) {
-      assert(GameInstance());
-      GameInstance()->Quit();
-    }
+// -- Function: Quit
+// -- Description: Quits the game.
+void Quit(ScriptParams* params) {
+  if (ScriptOverload(params)) {
+    assert(GameInstance());
+    GameInstance()->Quit();
   }
-  REGISTER_SCRIPT_FUNCTION("Quit", Quit);
+}
+REGISTER_SCRIPT_FUNCTION("Quit", Quit);
 }  // namespace scriptinggame
