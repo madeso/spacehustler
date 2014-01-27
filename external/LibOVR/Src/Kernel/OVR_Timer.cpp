@@ -47,6 +47,8 @@ CRITICAL_SECTION WinAPI_GetTimeCS;
 volatile UInt32  WinAPI_OldTime = 0;
 volatile UInt32  WinAPI_WrapCounter = 0;
 
+#pragma comment(lib, "Winmm.lib")
+
 
 UInt32 Timer::GetTicksMs()
 {
