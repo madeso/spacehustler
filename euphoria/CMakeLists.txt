@@ -257,6 +257,14 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running astyle" VERBATIM)
 	endif(BUILD_USE_ASTYLE)
+	
+	if(BUILD_USE_CLANG_FORMAT)
+		add_custom_command(TARGET ${TargetName}
+					   PRE_BUILD
+					   COMMAND clang-format ARGS -i -style=Google ${game_src}
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running clang format" VERBATIM)
+	endif(BUILD_USE_CLANG_FORMAT)
 
 	if(BUILD_USE_CPPLINT)
 		add_custom_command(TARGET ${TargetName}

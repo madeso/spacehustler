@@ -1,5 +1,4 @@
-﻿  // Euphoria - Copyright (c) Gustav
-// Euphoria is awesome: 幸福感是真棒
+// Euphoria - Copyright (c) Gustav
 
 #include "euphoria/lua.h"
 
@@ -25,7 +24,7 @@ namespace {
   class ErrorList {
     public:
       void Add(const std::string& error) {
-        assert(0 && "Lua error but no code to handle it");
+        // assert(0 && "Lua error but no code to handle it");
         const size_t MAX_SIZE = 10;
 
         errors_.push_back(error);

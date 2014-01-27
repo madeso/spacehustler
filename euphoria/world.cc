@@ -1,6 +1,4 @@
-﻿  // Euphoria - Copyright (c) Gustav
-// Euphoria is awesome: 幸福感是真棒
-
+// Euphoria - Copyright (c) Gustav
 #include "euphoria/world.h"
 #include <cassert>
 #include <string>

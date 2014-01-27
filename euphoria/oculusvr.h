@@ -1,5 +1,4 @@
-﻿  // Euphoria - Copyright (c) Gustav
-// Euphoria is awesome: 幸福感是真棒
+// Euphoria - Copyright (c) Gustav
 
 /** @file
 Oculus VR related integration code.
