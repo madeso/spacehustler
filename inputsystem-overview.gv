@@ -1,5 +1,8 @@
 digraph G {
 	node [shape=box; style=solid];
+	# graph [overlap=false rankdir = "LR"];
+	# splines=ortho;
+  
 	subgraph cluster_gamespecific {
 		label = "Game specific (read from a file)";
 		color = "black";
@@ -26,6 +29,13 @@ digraph G {
 			MouseDef -> UnitDef;
 			KeyboardDef -> UnitDef;
 		}
+		
+		{
+			rank=max;
+			JoystickDef;
+			MouseDef;
+			KeyboardDef;
+		}
 	}
 	
 	subgraph cluster_runtime {
@@ -36,13 +46,31 @@ digraph G {
 			edge[dir="both"; arrowhead="none"; arrowtail="diamond";];
 			Player -> ConnectedUnits;
 			ConnectedUnits -> ActiveUnit;
+		}
+		
+		{
+			edge[arrowhead="vee"; style="dotted"];
 			InputDirector -> KeyboardActiveUnit;
+			InputDirector -> JoystickActiveUnit;
+			InputDirector -> MouseActiveUnit;
 		}
 		
 		{
 			edge[arrowhead="onormal"];
 			DummyActiveUnit -> ActiveUnit;
 			KeyboardActiveUnit -> ActiveUnit;
+			
+			JoystickActiveUnit -> ActiveUnit;
+			MouseActiveUnit -> ActiveUnit;
+		}
+		
+		{
+			rank = max;
+			DummyActiveUnit;
+			KeyboardActiveUnit;
+			
+			JoystickActiveUnit;
+			MouseActiveUnit;
 		}
 	}
 
@@ -55,18 +83,20 @@ digraph G {
 	}
 	
 	{
-		edge[arrowhead="vee"; style="dashed"];
-		ActiveUnit -> InputAction;
+		edge[arrowhead="vee"; style="dotted"];
+		ActiveUnit -> InputAction [constraint=false];
 	}
 	
-	UnitDef[style=dotted];
-	ActiveUnit[style=dotted];
+	UnitDef[style=dashed];
+	ActiveUnit[style=dashed];
 	
 	KeyboardDef[style=bold];
 	MouseDef[style=bold];
 	JoystickDef[style=bold];
 	KeyboardActiveUnit[style=bold];
 	DummyActiveUnit[style=bold];
+	JoystickActiveUnit[style=bold];
+	MouseActiveUnit[style=bold];
 	
 	InputSystem[style=filled];
 }
