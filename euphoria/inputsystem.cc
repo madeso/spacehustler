@@ -370,25 +370,18 @@ class Bind {
   std::shared_ptr<InputAction> action_;
 };
 
-template <typename Type>
-class AxisBind {
+class AxisData {
  public:
-  AxisBind(Type type, std::shared_ptr<InputAction> action,
-           const Json::Value& data)
-      : type_(type), action_(action) {
-    assert(this);
+  AxisData(std::shared_ptr<InputAction> action, const Json::Value& data)
+    : action_(action) {
+      assert(this);
 
-    const std::string signname = data.get("sign", "").asString();
-    sign_ = Sign::FromString(signname);
-    if (sign_ == Sign::Invalid) {
-      const std::string error = Str() << "Invalid sign " << signname;
-      throw error;
-    }
-  }
-
-  Type type() const {
-    assert(this);
-    return type_;
+      const std::string signname = data.get("sign", "").asString();
+      sign_ = Sign::FromString(signname);
+      if (sign_ == Sign::Invalid) {
+        const std::string error = Str() << "Invalid sign " << signname;
+        throw error;
+      }
   }
 
   std::shared_ptr<InputAction> action() const {
@@ -402,9 +395,26 @@ class AxisBind {
   }
 
  private:
-  Type type_;
   std::shared_ptr<InputAction> action_;
   Sign::Type sign_;
+};
+
+template <typename Type>
+class AxisBind : public AxisData {
+ public:
+  AxisBind(Type type, std::shared_ptr<InputAction> action,
+           const Json::Value& data)
+      : type_(type), AxisData(action, data) {
+    assert(this);
+  }
+
+  Type type() const {
+    assert(this);
+    return type_;
+  }
+
+ private:
+  Type type_;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -482,7 +492,7 @@ class MouseActiveUnit : public ActiveUnit {
 
     for (auto b : axis) {
       Add(b.action());
-      actions_.insert(std::make_pair(b.type(), b.action()));
+      actions_.insert(std::make_pair(b.type(), b));
     }
 
     director_->Add(this);
@@ -492,7 +502,8 @@ class MouseActiveUnit : public ActiveUnit {
     assert(this);
     auto res = actions_.find(key);
     if (res != actions_.end()) {
-      res->second->set_state(state);
+      /// @todo use axisdata to change state
+      res->second.action()->set_state(state);
     }
   }
 
@@ -502,7 +513,7 @@ class MouseActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  std::map<Axis::Type, std::shared_ptr<InputAction>> actions_;
+  std::map<Axis::Type, AxisData> actions_;
 };
 
 class MouseDef : public UnitDef {
