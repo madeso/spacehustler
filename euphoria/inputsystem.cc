@@ -472,6 +472,39 @@ class KeyboardDef : public UnitDef {
 
 //////////////////////////////////////////////////////////////////////////
 
+class MouseActiveUnit : public ActiveUnit {
+ public:
+  MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
+    InputDirector* director)
+    : director_(director) {
+    assert(this);
+    assert(director_);
+
+    for (auto b : axis) {
+      Add(b.action());
+      actions_.insert(std::make_pair(b.type(), b.action()));
+    }
+
+    director_->Add(this);
+  }
+
+  void OnAxis(const Axis::Type& key, float state) {
+    assert(this);
+    auto res = actions_.find(key);
+    if (res != actions_.end()) {
+      res->second->set_state(state);
+    }
+  }
+
+  ~MouseActiveUnit() { director_->Remove(this); }
+
+  void Rumble() {}
+
+ private:
+  InputDirector* director_;
+  std::map<Axis::Type, std::shared_ptr<InputAction>> actions_;
+};
+
 class MouseDef : public UnitDef {
  public:
   MouseDef(const Json::Value& data, const InputActionMap& map) {
@@ -497,12 +530,13 @@ class MouseDef : public UnitDef {
   }
 
   std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
-    std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+    std::shared_ptr<ActiveUnit> unit(new MouseActiveUnit(axis_, director));
     return unit;
   }
 
  private:
   std::vector<AxisBind<Axis::Type>> axis_;
+  /// @todo add mouse button binds
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -517,6 +551,7 @@ class JoystickDef : public UnitDef {
   }
 
  private:
+  /// @todo add joystick binds
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -576,6 +611,22 @@ void InputDirector::Remove(KeyboardActiveUnit* kb) {
   }
 }
 
+void InputDirector::Add(MouseActiveUnit* au) {
+  assert(this);
+  assert(au);
+  mouse_.push_back(au);
+}
+
+void InputDirector::Remove(MouseActiveUnit* au) {
+  assert(this);
+  assert(au);
+  auto res = std::find(mouse_.begin(), mouse_.end(), au);
+  if (res != mouse_.end()) {
+    /// @todo implement as a swap back and erase function
+    mouse_.erase(res);
+  }
+}
+
 void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
   assert(this);
   for (auto kb : keyboards_) {
@@ -583,7 +634,13 @@ void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
   }
 }
 
-void InputDirector::OnMouseAxis(Axis::Type axis, float value) { assert(this); }
+void InputDirector::OnMouseAxis(Axis::Type axis, float value) {
+  assert(this);
+
+  for (auto m : mouse_) {
+    m->OnAxis(axis, value);
+  }
+}
 
 void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
   assert(this);

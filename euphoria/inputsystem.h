@@ -122,6 +122,7 @@ void Load(KeyConfigs* configs, const std::string& filename,
           const InputActionMap& map);
 
 class KeyboardActiveUnit;
+class MouseActiveUnit;
 
 /** Container class for directing input.
  */
@@ -144,6 +145,16 @@ class InputDirector {
   @param kb the keyboard
    */
   void Remove(KeyboardActiveUnit* kb);
+
+  /** Add a mouse.
+  @param au the mouse
+  */
+  void Add(MouseActiveUnit* au);
+
+  /** Remove a mouse.
+  @param au the mouse
+  */
+  void Remove(MouseActiveUnit* au);
 
   /** Send a keyboard event.
   @param key the key to act upon
@@ -186,6 +197,7 @@ class InputDirector {
 
  private:
   std::vector<KeyboardActiveUnit*> keyboards_;
+  std::vector<MouseActiveUnit*> mouse_;
 };
 
 class Player;
