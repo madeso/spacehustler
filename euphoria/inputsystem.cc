@@ -420,7 +420,6 @@ class AxisBase {
     scale_ = scale;
   }
 
-  // inverted?
   // smoothing?
 
   float Process(float v) const {
@@ -438,19 +437,29 @@ class AxisBase {
 class AxisData : public AxisBase {
  public:
   AxisData(std::shared_ptr<InputAction> action, const Json::Value& data)
-    : AxisBase(action, data) {
+    : AxisBase(action, data), invert_(false) {
       assert(this);
+      invert_ = data.get("invert", false).asBool();
+      deadzone_ = data.get("deadzone", 0.0f).asFloat();
   }
 
   float Process(float v) const {
+    if (Abs(v) < deadzone_) {
+      return 0.0f;
+    }
     float r = AxisBase::Process(v);
+    if (invert_) {
+      r = r * -1.0f;
+    }
     return r;
   }
 
   // nonlinear
-  // invert
   // correction
-  // deadzone
+
+ private:
+  bool invert_;
+  float deadzone_;
 };
 
 /** For use in template/binding.

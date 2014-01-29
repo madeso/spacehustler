@@ -21,8 +21,8 @@
 				"type":"mouse",
 				"binds":
 				[
-					  {"action":"camhorizontal", "type":"axis", "sign":"+", "axis":"x"}
-					, {"action":"camvertical",    "type":"axis", "sign":"-", "axis":"y"}
+					  {"action":"camhorizontal", "type":"axis", "sign":"+", "axis":"x", "invert":false, "scale":1.2}
+					, {"action":"camvertical",    "type":"axis", "sign":"-", "axis":"y", "scale":1.2}
 				]
 			}
 		]
