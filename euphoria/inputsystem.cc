@@ -447,6 +447,9 @@ class AxisData : public AxisBase {
     if (Abs(v) < deadzone_) {
       return 0.0f;
     }
+
+    /// @todo make the input start at "0" at the deadzone?
+    
     float r = AxisBase::Process(v);
     if (invert_) {
       r = r * -1.0f;
