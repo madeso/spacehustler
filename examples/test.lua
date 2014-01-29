@@ -31,16 +31,7 @@ function test_step(self, object, entity, dt)
 		Physics.ApplyTorque(phys, a*-self.force*object.pitchnkey)
 	end
 	
-	if object.rollpkey > 0.0 then
-		local q = Physics.GetOrientation(phys)
-		local a = q:getz()
-		Physics.ApplyTorque(phys, a*self.force*object.rollpkey)
-	end
-	if object.rollnkey > 0.0 then
-		local q = Physics.GetOrientation(phys)
-		local a = q:getz()
-		Physics.ApplyTorque(phys, a*-self.force*object.rollnkey)
-	end
+	Physics.ApplyTorque(phys, Physics.GetOrientation(phys):getz()*self.force*object.rollkey)
 	
 	if object.forcekey > 0.0 then
 		local q = Physics.GetOrientation(phys)

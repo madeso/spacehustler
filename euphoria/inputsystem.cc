@@ -38,6 +38,9 @@ void InputAction::set_state(float state) {
   case Range::Within01:
     value = KeepWithin(0.0f, value, 1.0f);
     break;
+  case Range::WithinNegative1Positive1:
+    value = KeepWithin(-1.0f, value, 1.0f);
+    break;
   case Range::Invalid:
   default:
     assert(0 && "Using invalid value");
@@ -393,6 +396,37 @@ class Bind {
   std::shared_ptr<InputAction> action_;
 };
 
+template <typename Type>
+class AxisKeyBind {
+ public:
+  AxisKeyBind(Type min, Type max, std::shared_ptr<InputAction> action)
+    : min_(min), max_(max), action_(action) {
+    assert(this);
+  }
+
+  Type min() const {
+    assert(this);
+    return min_;
+  }
+
+  Type max() const {
+    assert(this);
+    return max_;
+  }
+
+  std::shared_ptr<InputAction> action() const {
+    assert(this);
+    return action_;
+  }
+
+ private:
+  Type min_;
+  Type max_;
+  std::shared_ptr<InputAction> action_;
+
+  // @todo add inverted? scale? smoothing? AxisBase?
+};
+
 class AxisData {
  public:
   AxisData(std::shared_ptr<InputAction> action, const Json::Value& data)
@@ -442,9 +476,59 @@ class AxisBind : public AxisData {
 
 //////////////////////////////////////////////////////////////////////////
 
+class AxisKey {
+ public:
+  explicit AxisKey(Key::Type minkey, Key::Type maxkey,
+    std::shared_ptr<InputAction> action) : minkey_(minkey), maxkey_(maxkey),
+    minisdown_(false), maxisdown_(false), action_(action) {
+  }
+
+  void OnKey(Key::Type key, bool state) {
+    assert(this);
+    if (key == minkey_) {
+      set_minisdown(state);
+    } else {
+      assert(key == maxkey_
+        && "this function only supports arguments of min and max");
+      set_maxisdown(state);
+    }
+  }
+
+  void set_minisdown(bool minisdown) {
+    assert(this);
+    minisdown_ = minisdown;
+    UpdateState();
+  }
+
+  void set_maxisdown(bool maxisdown) {
+    assert(this);
+    maxisdown_ = maxisdown;
+    UpdateState();
+  }
+
+ private:
+  void UpdateState() {
+    float state = 0.0f;
+    if (minisdown_) {
+      state -= 1.0f;
+    }
+    if (maxisdown_) {
+      state += 1.0f;
+    }
+    action_->set_state(state);
+  }
+  Key::Type minkey_;
+  Key::Type maxkey_;
+
+  bool minisdown_;
+  bool maxisdown_;
+  std::shared_ptr<InputAction> action_;
+};
+
 class KeyboardActiveUnit : public ActiveUnit {
  public:
   KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
+                    std::vector<AxisKeyBind<Key::Type>> axiskeys,
                      InputDirector* director)
       : director_(director) {
     assert(this);
@@ -455,14 +539,28 @@ class KeyboardActiveUnit : public ActiveUnit {
       actions_.insert(std::make_pair(b.type(), b.action()));
     }
 
+    for (auto ak : axiskeys) {
+      Add(ak.action());
+      std::shared_ptr<AxisKey> axiskey(new AxisKey(ak.min(), ak.max(),
+        ak.action()));
+
+      axiskeys_.insert(std::make_pair(ak.min(), axiskey));
+      axiskeys_.insert(std::make_pair(ak.max(), axiskey));
+    }
+
     director_->Add(this);
   }
 
   void OnKey(const Key::Type& key, bool state) {
     assert(this);
-    auto res = actions_.find(key);
-    if (res != actions_.end()) {
-      res->second->set_state(state ? 1.0f : 0.0f);
+    auto actionsit = actions_.find(key);
+    if (actionsit != actions_.end()) {
+      actionsit->second->set_state(state ? 1.0f : 0.0f);
+    }
+
+    auto axiskeysit = axiskeys_.find(key);
+    if (axiskeysit != axiskeys_.end()) {
+      axiskeysit->second->OnKey(key, state);
     }
   }
 
@@ -473,6 +571,7 @@ class KeyboardActiveUnit : public ActiveUnit {
  private:
   InputDirector* director_;
   std::map<Key::Type, std::shared_ptr<InputAction>> actions_;
+  std::map<Key::Type, std::shared_ptr<AxisKey>> axiskeys_;
 };
 
 class KeyboardDef : public UnitDef {
@@ -480,27 +579,58 @@ class KeyboardDef : public UnitDef {
   explicit KeyboardDef(const Json::Value& data, const InputActionMap& map) {
     for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
       Json::Value d = data[i];
-      const std::string keyname = d.get("key", "").asString();
+
       const std::string actionname = d.get("action", "").asString();
       const auto action = map.Get(actionname);
-      const auto key = Key::FromString(keyname);
 
-      if (key == Key::Invalid) {
-        auto error = (Str() << keyname << " is a invalid key").ToString();
+      const std::string type = d.get("type", "").asString();
+
+      if (type == "button") {
+        const std::string keyname = d.get("key", "").asString();
+        const auto key = Key::FromString(keyname);
+
+        if (key == Key::Invalid) {
+          auto error = (Str() << keyname << " is a invalid key for the "
+            << actionname << " action").ToString();
+          throw error;
+        }
+        binds_.push_back(Bind<Key::Type>(key, action));
+      } else if (type == "axiskeys") {
+        const std::string minname = d.get("min", "").asString();
+        const auto minkey = Key::FromString(minname);
+
+        if (minkey == Key::Invalid) {
+          auto error = (Str() << minname << " is a invalid min key for the "
+            << actionname << " action").ToString();
+          throw error;
+        }
+
+        const std::string maxname = d.get("max", "").asString();
+        const auto maxkey = Key::FromString(maxname);
+
+        if (maxkey == Key::Invalid) {
+          auto error = (Str() << maxname << " is a invalid max key for the "
+            << actionname << " action").ToString();
+          throw error;
+        }
+        axiskeys_.push_back(AxisKeyBind<Key::Type>(minkey, maxkey, action));
+      } else {
+        auto error = (Str() << type << " is a invalid key type for the "
+          << actionname << " action").ToString();
         throw error;
       }
-
-      binds_.push_back(Bind<Key::Type>(key, action));
     }
   }
 
   std::shared_ptr<ActiveUnit> Create(InputDirector* director) {
-    std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_, director));
+    std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds_, axiskeys_,
+                                                            director));
     return unit;
   }
 
  private:
   std::vector<Bind<Key::Type>> binds_;
+  std::vector<AxisKeyBind<Key::Type>> axiskeys_;
 };
 
 //////////////////////////////////////////////////////////////////////////

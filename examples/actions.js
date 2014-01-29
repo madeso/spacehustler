@@ -4,8 +4,7 @@
 	, {"name":"yaw-", "var":"yawnkey", "range":"01"}
 	, {"name":"pitch+", "var":"pitchpkey", "range":"01"}
 	, {"name":"pitch-", "var":"pitchnkey", "range":"01"}
-	, {"name":"roll+", "var":"rollpkey", "range":"01"}
-	, {"name":"roll-", "var":"rollnkey", "range":"01"}
+	, {"name":"roll", "var":"rollkey", "range":"-11"}
 	, {"name":"reset", "var":"resetkey", "range":"01"}
 	, {"name":"quit", "var":"quitkey", "range":"01"}
 	, {"name":"camhorizontal", "var":"camhorizontal", "range":"inf"}

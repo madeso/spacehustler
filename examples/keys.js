@@ -6,16 +6,15 @@
 				"type":"keyboard",
 				"binds":
 				[
-					  {"action":"enable_tweak", "key":"Tab"}
-					, {"action":"force",        "key":"Space"}
-					, {"action":"yaw+",         "key":"Q"}
-					, {"action":"yaw-",         "key":"E"}
-					, {"action":"pitch+",       "key":"S"}
-					, {"action":"pitch-",       "key":"W"}
-					, {"action":"roll+",        "key":"A"}
-					, {"action":"roll-",        "key":"D"}
-					, {"action":"reset",        "key":"R"}
-					, {"action":"quit",         "key":"Escape"}
+					  {"action":"enable_tweak", "type":"button", "key":"Tab"}
+					, {"action":"force",        "type":"button", "key":"Space"}
+					, {"action":"yaw+",         "type":"button", "key":"Q"}
+					, {"action":"yaw-",         "type":"button", "key":"E"}
+					, {"action":"pitch+",       "type":"button", "key":"S"}
+					, {"action":"pitch-",       "type":"button", "key":"W"}
+					, {"action":"roll",         "type":"axiskeys", "min":"D", "max":"A"}
+					, {"action":"reset",        "type":"button", "key":"R"}
+					, {"action":"quit",         "type":"button", "key":"Escape"}
 				]
 			},
 			{
@@ -50,9 +49,9 @@
 				"type": "keyboard",
 				"binds":
 				[
-					  {"action":"reset",        "key":"R"}
-					, {"action":"quit",         "key":"Escape"}
-					, {"action":"enable_tweak", "key":"Tab"}
+					  {"action":"reset",        "type":"button", "key":"R"}
+					, {"action":"quit",         "type":"button", "key":"Escape"}
+					, {"action":"enable_tweak", "type":"button", "key":"Tab"}
 				]
 			}
 		]
@@ -83,9 +82,9 @@
 				"type": "keyboard",
 				"binds":
 				[
-					  {"action":"reset",        "key":"R"}
-					, {"action":"quit",         "key":"Escape"}
-					, {"action":"enable_tweak", "key":"Tab"}
+					  {"action":"reset",        "type":"button", "key":"R"}
+					, {"action":"quit",         "type":"button", "key":"Escape"}
+					, {"action":"enable_tweak", "type":"button", "key":"Tab"}
 				]
 			}
 		]

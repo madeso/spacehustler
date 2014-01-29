@@ -13,6 +13,7 @@ class RangeName {
   RangeName() {
     bind(Range::Infinite, "inf");
     bind(Range::Within01, "01");
+    bind(Range::WithinNegative1Positive1, "-11");
   }
 
   void bind(Range::Type range, const std::string& name) {

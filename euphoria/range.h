@@ -15,7 +15,8 @@ namespace Range {
 enum Type {
   Invalid,
   Infinite,
-  Within01
+  Within01,
+  WithinNegative1Positive1
 };
 /** Generate a string representation of the given range
 @param k the range
