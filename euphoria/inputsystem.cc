@@ -396,11 +396,70 @@ class Bind {
   std::shared_ptr<InputAction> action_;
 };
 
-template <typename Type>
-class AxisKeyBind {
+/** Def common between axis and key-minmax axis during activity.
+ */
+class AxisBase {
  public:
-  AxisKeyBind(Type min, Type max, std::shared_ptr<InputAction> action)
-    : min_(min), max_(max), action_(action) {
+  AxisBase(std::shared_ptr<InputAction> action, const Json::Value& data)
+    : action_(action), scale_(1.0f) {
+    set_scale(data.get("scale", 1.0f).asFloat());
+  }
+
+  std::shared_ptr<InputAction> action() const {
+    assert(this);
+    return action_;
+  }
+
+  float scale() const {
+    assert(this);
+    return scale_;
+  }
+
+  void set_scale(float scale) {
+    assert(this);
+    scale_ = scale;
+  }
+
+  // inverted?
+  // smoothing?
+
+  float Process(float v) const {
+    float r = v * scale();
+    return r;
+  }
+
+ private:
+  std::shared_ptr<InputAction> action_;
+  float scale_;
+};
+
+/** For use during activity.
+ */
+class AxisData : public AxisBase {
+ public:
+  AxisData(std::shared_ptr<InputAction> action, const Json::Value& data)
+    : AxisBase(action, data) {
+      assert(this);
+  }
+
+  float Process(float v) const {
+    float r = AxisBase::Process(v);
+    return r;
+  }
+
+  // nonlinear
+  // invert
+  // correction
+  // deadzone
+};
+
+/** For use in template/binding.
+*/
+template <typename Type>
+class AxisKeyBind : public AxisBase {
+ public:
+  AxisKeyBind(Type min, Type max, std::shared_ptr<InputAction> action,
+    const Json::Value& data) : AxisBase(action, data), min_(min), max_(max) {
     assert(this);
   }
 
@@ -414,48 +473,13 @@ class AxisKeyBind {
     return max_;
   }
 
-  std::shared_ptr<InputAction> action() const {
-    assert(this);
-    return action_;
-  }
-
  private:
   Type min_;
   Type max_;
-  std::shared_ptr<InputAction> action_;
-
-  // @todo add inverted? scale? smoothing? AxisBase?
 };
 
-class AxisData {
- public:
-  AxisData(std::shared_ptr<InputAction> action, const Json::Value& data)
-    : action_(action) {
-      assert(this);
-
-      const std::string signname = data.get("sign", "").asString();
-      sign_ = Sign::FromString(signname);
-      if (sign_ == Sign::Invalid) {
-        const std::string error = Str() << "Invalid sign " << signname;
-        throw error;
-      }
-  }
-
-  std::shared_ptr<InputAction> action() const {
-    assert(this);
-    return action_;
-  }
-
-  Sign::Type sign() {
-    assert(this);
-    return sign_;
-  }
-
- private:
-  std::shared_ptr<InputAction> action_;
-  Sign::Type sign_;
-};
-
+/** For use in template/binding.
+ */
 template <typename Type>
 class AxisBind : public AxisData {
  public:
@@ -479,8 +503,8 @@ class AxisBind : public AxisData {
 class AxisKey {
  public:
   explicit AxisKey(Key::Type minkey, Key::Type maxkey,
-    std::shared_ptr<InputAction> action) : minkey_(minkey), maxkey_(maxkey),
-    minisdown_(false), maxisdown_(false), action_(action) {
+    AxisBase base) : minkey_(minkey), maxkey_(maxkey),
+    minisdown_(false), maxisdown_(false), base_(base) {
   }
 
   void OnKey(Key::Type key, bool state) {
@@ -515,14 +539,14 @@ class AxisKey {
     if (maxisdown_) {
       state += 1.0f;
     }
-    action_->set_state(state);
+    base_.action()->set_state(base_.Process(state));
   }
   Key::Type minkey_;
   Key::Type maxkey_;
 
   bool minisdown_;
   bool maxisdown_;
-  std::shared_ptr<InputAction> action_;
+  AxisBase base_;
 };
 
 class KeyboardActiveUnit : public ActiveUnit {
@@ -542,7 +566,7 @@ class KeyboardActiveUnit : public ActiveUnit {
     for (auto ak : axiskeys) {
       Add(ak.action());
       std::shared_ptr<AxisKey> axiskey(new AxisKey(ak.min(), ak.max(),
-        ak.action()));
+        ak));
 
       axiskeys_.insert(std::make_pair(ak.min(), axiskey));
       axiskeys_.insert(std::make_pair(ak.max(), axiskey));
@@ -613,7 +637,7 @@ class KeyboardDef : public UnitDef {
             << actionname << " action").ToString();
           throw error;
         }
-        axiskeys_.push_back(AxisKeyBind<Key::Type>(minkey, maxkey, action));
+        axiskeys_.push_back(AxisKeyBind<Key::Type>(minkey, maxkey, action, d));
       } else {
         auto error = (Str() << type << " is a invalid key type for the "
           << actionname << " action").ToString();
@@ -656,7 +680,7 @@ class MouseActiveUnit : public ActiveUnit {
     auto res = actions_.find(key);
     if (res != actions_.end()) {
       /// @todo use axisdata to change state
-      res->second.action()->set_state(state);
+      res->second.action()->set_state(res->second.Process(state));
     }
   }
 
