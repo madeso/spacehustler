@@ -8,9 +8,7 @@
 	, {"name":"roll-", "var":"rollnkey"}
 	, {"name":"reset", "var":"resetkey"}
 	, {"name":"quit", "var":"quitkey"}
-	, {"name":"camleft", "var":"camleft"}
 	, {"name":"camhorizontal", "var":"camhorizontal"}
 	, {"name":"camvertical", "var":"camvertical"}
-	, {"name":"camdown", "var":"camdown"}
 	, {"name":"enable_tweak"}
 ]
