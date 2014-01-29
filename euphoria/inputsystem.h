@@ -14,6 +14,7 @@ Classes for input handling.
 
 #include "euphoria/key.h"
 #include "euphoria/axis.h"
+#include "euphoria/range.h"
 
 /** A input action.
  */
@@ -21,8 +22,9 @@ class InputAction {
  public:
   /** Constructor.
   @param scriptvarname the name of the variable in the script.
+  @param range the range of valid values for the scriptvar
    */
-  explicit InputAction(const std::string& scriptvarname);
+  InputAction(const std::string& scriptvarname, Range::Type range);
 
   /** Get the name of the script var.
    */
@@ -41,6 +43,7 @@ class InputAction {
  private:
   std::string scriptvarname_;
   float state_;
+  Range::Type range_;
 };
 
 /** A map of all the available input actions.

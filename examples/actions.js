@@ -1,14 +1,14 @@
 [
-	{"name":"force", "var":"forcekey"}
-	, {"name":"yaw+", "var":"yawpkey"}
-	, {"name":"yaw-", "var":"yawnkey"}
-	, {"name":"pitch+", "var":"pitchpkey"}
-	, {"name":"pitch-", "var":"pitchnkey"}
-	, {"name":"roll+", "var":"rollpkey"}
-	, {"name":"roll-", "var":"rollnkey"}
-	, {"name":"reset", "var":"resetkey"}
-	, {"name":"quit", "var":"quitkey"}
-	, {"name":"camhorizontal", "var":"camhorizontal"}
-	, {"name":"camvertical", "var":"camvertical"}
-	, {"name":"enable_tweak"}
+	{"name":"force", "var":"forcekey", "range":"01"}
+	, {"name":"yaw+", "var":"yawpkey", "range":"01"}
+	, {"name":"yaw-", "var":"yawnkey", "range":"01"}
+	, {"name":"pitch+", "var":"pitchpkey", "range":"01"}
+	, {"name":"pitch-", "var":"pitchnkey", "range":"01"}
+	, {"name":"roll+", "var":"rollpkey", "range":"01"}
+	, {"name":"roll-", "var":"rollnkey", "range":"01"}
+	, {"name":"reset", "var":"resetkey", "range":"01"}
+	, {"name":"quit", "var":"quitkey", "range":"01"}
+	, {"name":"camhorizontal", "var":"camhorizontal", "range":"inf"}
+	, {"name":"camvertical", "var":"camvertical", "range":"inf"}
+	, {"name":"enable_tweak", "range":"01"}
 ]

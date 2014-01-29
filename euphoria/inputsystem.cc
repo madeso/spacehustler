@@ -8,11 +8,12 @@
 #include "euphoria/str.h"
 #include "euphoria/lua.h"
 #include "euphoria/key.h"
-
+#include "euphoria/scalar.h"
+#include "euphoria/angle.h"
 #include "json/json.h"
 
-InputAction::InputAction(const std::string& scriptvarname)
-    : scriptvarname_(scriptvarname), state_(0.0f) {
+InputAction::InputAction(const std::string& scriptvarname, Range::Type range)
+    : scriptvarname_(scriptvarname), state_(0.0f), range_(range) {
   assert(this);
 }
 
@@ -28,7 +29,22 @@ float InputAction::state() const {
 
 void InputAction::set_state(float state) {
   assert(this);
-  state_ = state;
+  float value = state;
+
+  switch (range_) {
+  case Range::Infinite:
+    /* do nothing */
+    break;
+  case Range::Within01:
+    value = KeepWithin(0.0f, value, 1.0f);
+    break;
+  case Range::Invalid:
+  default:
+    assert(0 && "Using invalid value");
+    break;
+  }
+
+  state_ = value;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -74,7 +90,14 @@ void Load(InputActionMap* map, const std::string& filename) {
     Json::Value d = root[i];
     const std::string name = d.get("name", "").asString();
     const std::string varname = d.get("var", "").asString();
-    std::shared_ptr<InputAction> action(new InputAction(varname));
+    const std::string rangename = d.get("range", "").asString();
+    const Range::Type range = Range::FromString(rangename);
+    if (range == Range::Invalid) {
+      const std::string error = Str() << "Invalid range: " << rangename
+        << " for the " << name << " action";
+      throw error;
+    }
+    std::shared_ptr<InputAction> action(new InputAction(varname, range));
     map->Add(name, action);
   }
 }
