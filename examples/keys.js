@@ -22,9 +22,9 @@
 				"type":"mouse",
 				"binds":
 				[
-					  {"action":"camright", "type":"axis", "sign":"+", "axis":"x"}
+					  {"action":"camhorizontal", "type":"axis", "sign":"+", "axis":"x"}
 					, {"action":"camleft",  "type":"axis", "sign":"-", "axis":"x"}
-					, {"action":"camup",    "type":"axis", "sign":"-", "axis":"y"}
+					, {"action":"camvertical",    "type":"axis", "sign":"-", "axis":"y"}
 					, {"action":"camdown",  "type":"axis", "sign":"+", "axis":"y"}
 				]
 			}
@@ -44,9 +44,9 @@
 					, {"action":"pitch-",   "sign": "+", "axis":1, "type":"axis"}
 					, {"action":"roll+",    "sign": "-", "axis":0, "type":"axis"}
 					, {"action":"roll-",    "sign": "+", "axis":0, "type":"axis"}
-					, {"action":"camright", "sign": "+", "axis":"x", "type":"hat", "hat":0}
+					, {"action":"camhorizontal", "sign": "+", "axis":"x", "type":"hat", "hat":0}
 					, {"action":"camleft",  "sign": "-", "axis":"x", "type":"hat", "hat":0}
-					, {"action":"camup",    "sign": "+", "axis":"y", "type":"hat", "hat":0}
+					, {"action":"camvertical",    "sign": "+", "axis":"y", "type":"hat", "hat":0}
 					, {"action":"camdown",  "sign": "-", "axis":"y", "type":"hat", "hat":0}
 				]
 			},
@@ -77,9 +77,9 @@
 					, {"action":"roll+",    "type":"axis", "sign":"-", "axis":0}
 					, {"action":"roll-",    "type":"axis", "sign":"+", "axis":0}
 					, {"action":"reset",    "type":"button", "button":5}
-					, {"action":"camright", "type":"button", "button":3}
+					, {"action":"camhorizontal", "type":"button", "button":3}
 					, {"action":"camleft",  "type":"button", "button":4}
-					, {"action":"camup",    "type":"button", "button":2}
+					, {"action":"camvertical",    "type":"button", "button":2}
 					, {"action":"camdown",  "type":"button", "button":1}
 				]
 			},

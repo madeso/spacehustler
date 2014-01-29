@@ -9,8 +9,8 @@ function thirdperson_component(self, object, ctype)
 end
 
 function thirdperson_step(self, object, entity, dt)
-	self.rotx = self.rotx + (object.camright) * 0.1
-	self.roty = self.roty + (object.camup) * 0.1
+	self.rotx = self.rotx + object.camhorizontal * 0.1
+	self.roty = self.roty + object.camvertical * 0.1
 	local player = Names.FromName("Player")
 	local pos = Entity.GetPosition(player)
 	local rot = cquat.yawpitchroll(-self.rotx, -self.roty, 0)
