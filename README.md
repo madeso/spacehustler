@@ -10,29 +10,46 @@ Current Features
 * Global tweak system (uses anttweakbar internally, can be disabled)
 * Physics system (bullet)
 * Scripting support (lua)
+* Joystick support (via sdl)
 
-Build tools
-=======
-* CMake
+Required Build tools & libraries
+===================
 * C++11 compiler
-* Python, for running cpplint during build (can be disabled)
-* Doxygen, for building documentation (can be disabled)
-* Astyle, for styling the code (can be disabled)
-* AssImp, for importing meshes
-* OpenGL library
-* SDL2, for launching a window and providing a input layer
-* bullet for physics
-* joystick support
+* OpenGL
+* CMake http://www.cmake.org/
+* AssImp http://assimp.sourceforge.net/
+* SDL2 http://libsdl.org/
+* Bullet http://bulletphysics.org/wordpress/
+
+Included libraries
+===================
+* AntTweakBar http://anttweakbar.sourceforge.net/doc/
+* Boost  http://www.boost.org/
+* CML http://cmldev.net/
+* GLEW http://glew.sourceforge.net/
+* JsonCpp http://jsoncpp.sourceforge.net/
+* LibOVR https://developer.oculusvr.com/
+* Lua http://www.lua.org/
+* SOIL http://www.lonesock.net/soil.html
+
+Optional tools
+=============
+* Python, for running cpplint during build
+* Doxygen, for building documentation
+* Astyle, for styling the code (legacy)
+* clang-format, for styling the code
 
 Planned Features and stuff that needs to be done
 =======
 * add oculus rift support
 * redesign input system
-* force feedback
-* replace astyle with clang-format
+* force feedback/haptics
+* physics motor support
 * lights and shaddows
   - depth map shadows?
   - depth shadow maps/volumes?
+* add support for sixense (razer hydra/stem system)
+* add support for leapmotion
 * change from json to yaml/protobuf?
 * fix luadocgen
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
