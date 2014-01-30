@@ -26,6 +26,7 @@
 #include "euphoria/oculusvr.h"
 #include "euphoria/fbo.h"
 #include "euphoria/quad.h"
+#include "euphoria/input-action.h"
 
 namespace {
 Game*& GameInstance() {

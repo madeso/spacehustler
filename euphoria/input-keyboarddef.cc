@@ -9,6 +9,7 @@
 #include "json/json.h"
 
 #include "euphoria/input-keyboardactiveunit.h"
+#include "euphoria/input-actionmap.h"
 
 namespace input {
 

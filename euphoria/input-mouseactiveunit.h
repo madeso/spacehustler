@@ -13,10 +13,13 @@ Classes for input handling.
 #include "euphoria/input-axisdata.h"
 #include "euphoria/axis.h"
 #include "euphoria/input-axisbind.h"
+#include "euphoria/input-activeunit.h"
 
 class Table;
 
 namespace input {
+
+  class InputDirector;
 
 class MouseActiveUnit : public ActiveUnit {
  public:

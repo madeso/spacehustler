@@ -10,7 +10,7 @@ Game related code.
 #include <memory>
 #include <string>
 
-#include "euphoria/inputsystem.h"
+#include "euphoria/input-system.h"
 
 #include "euphoria-config.h"  // NOLINT this is the default way to include cmake files
 

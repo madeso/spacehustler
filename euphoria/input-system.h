@@ -15,7 +15,7 @@ Classes for input handling.
 #include "euphoria/key.h"
 #include "euphoria/axis.h"
 #include "euphoria/input-keyconfigs.h"
-#include "euphoria/input-inputactionmap.h"
+#include "euphoria/input-actionmap.h"
 
 class Table;
 

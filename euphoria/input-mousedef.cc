@@ -6,6 +6,7 @@
 
 #include "euphoria/str.h"
 #include "euphoria/input-mouseactiveunit.h"
+#include "euphoria/input-actionmap.h"
 #include "json/json.h"
 
 namespace input {

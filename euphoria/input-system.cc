@@ -2,6 +2,14 @@
 
 #include "euphoria/input-system.h"
 #include <cassert>
+#include <fstream>  // NOLINT for loading data
+
+#include "json/json.h"
+
+#include "euphoria/input-director.h"
+#include "euphoria/str.h"
+#include "euphoria/input-player.h"
+#include "euphoria/input-keyconfig.h"
 
 namespace input {
 

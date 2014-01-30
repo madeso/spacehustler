@@ -6,7 +6,8 @@
 #include <vector>
 #include "euphoria/entity.h"
 
-#include "euphoria/inputsystem.h"
+#include "euphoria/input-system.h"
+#include "euphoria/input-player.h"
 
 const std::string PlayerSystemType = "Player";
 

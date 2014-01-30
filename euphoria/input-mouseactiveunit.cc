@@ -2,6 +2,10 @@
 
 #include "euphoria/input-mouseactiveunit.h"
 #include <cassert>
+
+#include "euphoria/input-director.h"
+#include "euphoria/input-action.h"
+
 namespace input {
 
 MouseActiveUnit::MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
