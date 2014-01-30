@@ -4,8 +4,8 @@
 Axis enum.
  */
 
-#ifndef EUPHORIA_AXIS_H_
-#define EUPHORIA_AXIS_H_
+#ifndef EUPHORIA_INPUT_AXIS_H_
+#define EUPHORIA_INPUT_AXIS_H_
 
 #include <string>
 
@@ -55,4 +55,4 @@ std::string ToString(Type k);
 Type FromString(const std::string& keyname);
 }  // namespace Axis
 
-#endif  // EUPHORIA_AXIS_H_
+#endif  // EUPHORIA_INPUT_AXIS_H_

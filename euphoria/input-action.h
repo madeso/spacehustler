@@ -9,7 +9,7 @@ Classes for input handling.
 
 #include <string>
 
-#include "euphoria/range.h"
+#include "euphoria/input-range.h"
 
 class Table;
 

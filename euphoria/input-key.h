@@ -4,8 +4,8 @@
 Key related code
  */
 
-#ifndef EUPHORIA_KEY_H_
-#define EUPHORIA_KEY_H_
+#ifndef EUPHORIA_INPUT_KEY_H_
+#define EUPHORIA_INPUT_KEY_H_
 
 #include <string>
 
@@ -522,4 +522,4 @@ std::string ToString(Type k);
 Type FromString(const std::string& keyname);
 }  // namespace Key
 
-#endif  // EUPHORIA_KEY_H_
+#endif  // EUPHORIA_INPUT_KEY_H_

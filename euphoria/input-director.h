@@ -9,8 +9,8 @@ Classes for input handling.
 
 #include <vector>
 
-#include "euphoria/key.h"
-#include "euphoria/axis.h"
+#include "euphoria/input-key.h"
+#include "euphoria/input-axis.h"
 
 namespace input {
 

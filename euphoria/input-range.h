@@ -4,8 +4,8 @@
 Range enum.
  */
 
-#ifndef EUPHORIA_RANGE_H_
-#define EUPHORIA_RANGE_H_
+#ifndef EUPHORIA_INPUT_RANGE_H_
+#define EUPHORIA_INPUT_RANGE_H_
 
 #include <string>
 
@@ -31,4 +31,4 @@ std::string ToString(Type k);
 Type FromString(const std::string& name);
 };  // namespace Range
 
-#endif  // EUPHORIA_RANGE_H_
+#endif  // EUPHORIA_INPUT_RANGE_H_

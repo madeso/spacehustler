@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/range.h"
+#include "euphoria/input-range.h"
 
 #include <string>
 #include <map>

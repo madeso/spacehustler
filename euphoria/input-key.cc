@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/key.h"
+#include "euphoria/input-key.h"
 
 #include <string>
 #include <map>

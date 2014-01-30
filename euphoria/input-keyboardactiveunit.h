@@ -15,7 +15,7 @@ Classes for input handling.
 #include "euphoria/input-axiskeybind.h"
 #include "euphoria/input-bind.h"
 
-#include "euphoria/key.h"
+#include "euphoria/input-key.h"
 
 namespace input {
 

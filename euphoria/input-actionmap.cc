@@ -8,7 +8,7 @@
 #include "euphoria/str.h"
 #include "json/json.h"
 
-#include "euphoria/range.h"
+#include "euphoria/input-range.h"
 #include "euphoria/input-action.h"
 
 namespace input {

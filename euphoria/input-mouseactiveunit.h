@@ -11,7 +11,7 @@ Classes for input handling.
 #include <map>
 
 #include "euphoria/input-axisdata.h"
-#include "euphoria/axis.h"
+#include "euphoria/input-axis.h"
 #include "euphoria/input-axisbind.h"
 #include "euphoria/input-activeunit.h"
 

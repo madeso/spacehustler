@@ -10,7 +10,7 @@ Classes for input handling.
 #include <vector>
 #include <memory>
 
-#include "euphoria/key.h"
+#include "euphoria/input-key.h"
 #include "euphoria/input-bind.h"
 #include "euphoria/input-axiskeybind.h"
 #include "euphoria/input-unitdef.h"

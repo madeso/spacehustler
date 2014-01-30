@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/axis.h"
+#include "euphoria/input-axis.h"
 
 #include <string>
 #include <map>

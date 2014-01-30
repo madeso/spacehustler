@@ -10,7 +10,7 @@ Classes for input handling.
 #include <vector>
 
 #include "euphoria/input-axisbase.h"
-#include "euphoria/key.h"
+#include "euphoria/input-key.h"
 
 namespace input {
 class AxisKey {

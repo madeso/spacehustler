@@ -10,9 +10,9 @@ Key binding related code
 #include <string>
 #include <vector>
 #include <map>
-#include "euphoria/key.h"
+#include "euphoria/input-key.h"
 #include "euphoria/lua.h"
-#include "euphoria/axis.h"
+#include "euphoria/input-axis.h"
 
 /** A action that can be made in game.
  */

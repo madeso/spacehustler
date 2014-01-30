@@ -10,7 +10,7 @@ Classes for input handling.
 #include <vector>
 
 #include "euphoria/input-unitdef.h"
-#include "euphoria/axis.h"
+#include "euphoria/input-axis.h"
 #include "euphoria/input-axisbind.h"
 
 namespace Json {
