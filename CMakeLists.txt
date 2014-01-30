@@ -16,6 +16,7 @@ option(BUILD_USE_CPPLINT "Add cpplint to the build" ON)
 option(BUILD_USE_DOXYGEN "Add doxygen to the build" ON)
 option(BUILD_USE_LUADOCGEN "parse all sources and build lua doc from it" ON)
 option(BUILD_USE_CPPCHECK "run cppcheck on all source" ON)
+option(BUILD_USE_CLOC "Update code stat files" ON)
 
 option(USE_TWEAKABLES "Use tweakables" ON)
 option(USE_OCULUS "Add oculus support" ON)
@@ -74,3 +75,15 @@ message(STATUS "Including Cmake Source ${CMAKE_SOURCE_DIR}")
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(euphoria)
+
+IF(BUILD_USE_CLOC)
+	add_custom_target(codestat-everything ALL
+					   cloc euphoria examples CMakeLists.txt --quiet --out code-stat-everything.txt
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running cloc on everything" VERBATIM)
+
+	add_custom_target(codestat-input-only ALL
+					   cloc --by-file euphoria/input* --quiet --out code-stat-input.txt
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running cloc on input only" VERBATIM)
+ENDIF(BUILD_USE_CLOC)
