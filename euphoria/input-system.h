@@ -21,9 +21,9 @@ class Table;
 
 namespace input {
 
-  class Player;
-  class InputAction;
-  class InputDirector;
+class Player;
+class InputAction;
+class InputDirector;
 
 /** the master class that controls the input system.
  */

@@ -12,32 +12,32 @@ Classes for input handling.
 #include <cassert>
 
 namespace Json {
-  class Value;
+class Value;
 }
 
 namespace input {
 
-  class InputAction;
+class InputAction;
 
-  /** For use in template/binding.
-  */
-  template <typename Type>
-  class AxisBind : public AxisData {
-  public:
-    AxisBind(Type type, std::shared_ptr<InputAction> action,
-      const Json::Value& data)
+/** For use in template/binding.
+*/
+template <typename Type>
+class AxisBind : public AxisData {
+ public:
+  AxisBind(Type type, std::shared_ptr<InputAction> action,
+           const Json::Value& data)
       : type_(type), AxisData(action, data) {
-      assert(this);
-    }
+    assert(this);
+  }
 
-    Type type() const {
-      assert(this);
-      return type_;
-    }
+  Type type() const {
+    assert(this);
+    return type_;
+  }
 
-  private:
-    Type type_;
-  };
+ private:
+  Type type_;
+};
 
 }  // namespace input
 

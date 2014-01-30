@@ -19,26 +19,26 @@ Classes for input handling.
 
 namespace input {
 
-  class AxisKey;
-  class InputDirector;
+class AxisKey;
+class InputDirector;
 
-  class KeyboardActiveUnit : public ActiveUnit {
-  public:
-    KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
-      std::vector<AxisKeyBind<Key::Type>> axiskeys,
-      InputDirector* director);
+class KeyboardActiveUnit : public ActiveUnit {
+ public:
+  KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
+                     std::vector<AxisKeyBind<Key::Type>> axiskeys,
+                     InputDirector* director);
 
-    void OnKey(const Key::Type& key, bool state);
+  void OnKey(const Key::Type& key, bool state);
 
-    ~KeyboardActiveUnit();
+  ~KeyboardActiveUnit();
 
-    void Rumble();
+  void Rumble();
 
-  private:
-    InputDirector* director_;
-    std::map<Key::Type, std::shared_ptr<InputAction>> actions_;
-    std::map<Key::Type, std::shared_ptr<AxisKey>> axiskeys_;
-  };
+ private:
+  InputDirector* director_;
+  std::map<Key::Type, std::shared_ptr<InputAction>> actions_;
+  std::map<Key::Type, std::shared_ptr<AxisKey>> axiskeys_;
+};
 
 }  // namespace input
 

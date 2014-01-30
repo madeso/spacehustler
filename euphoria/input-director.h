@@ -14,8 +14,8 @@ Classes for input handling.
 
 namespace input {
 
-  class KeyboardActiveUnit;
-  class MouseActiveUnit;
+class KeyboardActiveUnit;
+class MouseActiveUnit;
 
 /** Container class for directing input.
  */
@@ -95,4 +95,4 @@ class InputDirector {
 
 }  // namespace input
 
-#endif  // EUPHORIA_INPUTSYSTEM_H_
+#endif  // EUPHORIA_INPUT_DIRECTOR_H_

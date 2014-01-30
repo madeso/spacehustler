@@ -13,27 +13,26 @@ Classes for input handling.
 #include "euphoria/key.h"
 
 namespace input {
-  class AxisKey {
-  public:
-    AxisKey(Key::Type minkey, Key::Type maxkey,
-      AxisBase base);
+class AxisKey {
+ public:
+  AxisKey(Key::Type minkey, Key::Type maxkey, AxisBase base);
 
-    void OnKey(Key::Type key, bool state);
+  void OnKey(Key::Type key, bool state);
 
-    void set_minisdown(bool minisdown);
+  void set_minisdown(bool minisdown);
 
-    void set_maxisdown(bool maxisdown);
+  void set_maxisdown(bool maxisdown);
 
-  private:
-    void UpdateState();
+ private:
+  void UpdateState();
 
-    Key::Type minkey_;
-    Key::Type maxkey_;
+  Key::Type minkey_;
+  Key::Type maxkey_;
 
-    bool minisdown_;
-    bool maxisdown_;
-    AxisBase base_;
-  };
+  bool minisdown_;
+  bool maxisdown_;
+  AxisBase base_;
+};
 
 }  // namespace input
 

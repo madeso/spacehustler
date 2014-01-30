@@ -8,33 +8,33 @@ Classes for input handling.
 #define EUPHORIA_INPUT_AXISBASE_H_
 
 namespace Json {
-  class Value;
+class Value;
 }
 
 #include <memory>
 
 namespace input {
 
-  class InputAction;
+class InputAction;
 
-  class AxisBase {
-  public:
-    AxisBase(std::shared_ptr<InputAction> action, const Json::Value& data);
+class AxisBase {
+ public:
+  AxisBase(std::shared_ptr<InputAction> action, const Json::Value& data);
 
-    std::shared_ptr<InputAction> action() const;
+  std::shared_ptr<InputAction> action() const;
 
-    float scale() const;
+  float scale() const;
 
-    void set_scale(float scale);
+  void set_scale(float scale);
 
-    // smoothing?
+  // smoothing?
 
-    float Process(float v) const;
+  float Process(float v) const;
 
-  private:
-    std::shared_ptr<InputAction> action_;
-    float scale_;
-  };
+ private:
+  std::shared_ptr<InputAction> action_;
+  float scale_;
+};
 
 }  // namespace input
 

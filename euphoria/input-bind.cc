@@ -4,11 +4,11 @@
 
 namespace input {
 
-  namespace {
-    void test() {
-      std::shared_ptr<InputAction> action;
-      Bind<int> b(2, action);
-    }
-  }  // namespace
+namespace {
+void test() {
+  std::shared_ptr<InputAction> action;
+  Bind<int> b(2, action);
+}
+}  // namespace
 
 }  // namespace input

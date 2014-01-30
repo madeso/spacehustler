@@ -14,7 +14,7 @@ class Table;
 
 namespace input {
 
-  class ActiveUnit;
+class ActiveUnit;
 
 /** Contains a list of active units.
  */

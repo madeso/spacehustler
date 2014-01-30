@@ -12,7 +12,7 @@
 #include "euphoria/input-action.h"
 
 namespace input {
-  
+
 InputActionMap::InputActionMap() { assert(this); }
 
 void InputActionMap::Add(const std::string& name,
@@ -58,7 +58,7 @@ void Load(InputActionMap* map, const std::string& filename) {
     const Range::Type range = Range::FromString(rangename);
     if (range == Range::Invalid) {
       const std::string error = Str() << "Invalid range: " << rangename
-        << " for the " << name << " action";
+                                      << " for the " << name << " action";
       throw error;
     }
     std::shared_ptr<InputAction> action(new InputAction(varname, range));

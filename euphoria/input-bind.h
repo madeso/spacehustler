@@ -11,13 +11,13 @@ Classes for input handling.
 #include <cassert>
 
 namespace input {
-  class InputAction;
+class InputAction;
 
 template <typename Type>
 class Bind {
-public:
+ public:
   Bind(Type type, std::shared_ptr<InputAction> action)
-    : type_(type), action_(action) {
+      : type_(type), action_(action) {
     assert(this);
   }
 
@@ -31,11 +31,11 @@ public:
     return action_;
   }
 
-private:
+ private:
   Type type_;
   std::shared_ptr<InputAction> action_;
 };
 
 }  // namespace input
 
-#endif  // EUPHORIA_INPUTSYSTEM_H_
+#endif  // EUPHORIA_INPUT_BIND_H_

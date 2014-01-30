@@ -13,30 +13,31 @@ Classes for input handling.
 
 namespace input {
 
-  /** For use in template/binding.
-  */
-  template <typename Type>
-  class AxisKeyBind : public AxisBase {
-  public:
-    AxisKeyBind(Type min, Type max, std::shared_ptr<InputAction> action,
-      const Json::Value& data) : AxisBase(action, data), min_(min), max_(max) {
-      assert(this);
-    }
+/** For use in template/binding.
+*/
+template <typename Type>
+class AxisKeyBind : public AxisBase {
+ public:
+  AxisKeyBind(Type min, Type max, std::shared_ptr<InputAction> action,
+              const Json::Value& data)
+      : AxisBase(action, data), min_(min), max_(max) {
+    assert(this);
+  }
 
-    Type min() const {
-      assert(this);
-      return min_;
-    }
+  Type min() const {
+    assert(this);
+    return min_;
+  }
 
-    Type max() const {
-      assert(this);
-      return max_;
-    }
+  Type max() const {
+    assert(this);
+    return max_;
+  }
 
-  private:
-    Type min_;
-    Type max_;
-  };
+ private:
+  Type min_;
+  Type max_;
+};
 
 }  // namespace input
 

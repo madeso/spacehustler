@@ -5,12 +5,12 @@
 
 namespace input {
 
-  namespace {
-    void compiler_test() {
-      std::shared_ptr<InputAction> action;
-      const Json::Value data;
-      AxisKeyBind<int> a(1, 2, action, data);
-    }
-  }  // namespace
+namespace {
+void compiler_test() {
+  std::shared_ptr<InputAction> action;
+  const Json::Value data;
+  AxisKeyBind<int> a(1, 2, action, data);
+}
+}  // namespace
 
 }  // namespace input

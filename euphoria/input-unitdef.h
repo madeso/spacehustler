@@ -11,8 +11,8 @@
 
 namespace input {
 
-  class InputDirector;
-  class ActiveUnit;
+class InputDirector;
+class ActiveUnit;
 
 /** Definition of a certain input unit.
 Usually loaded from a file.

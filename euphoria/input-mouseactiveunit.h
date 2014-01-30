@@ -18,22 +18,22 @@ class Table;
 
 namespace input {
 
-  class MouseActiveUnit : public ActiveUnit {
-  public:
-    MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
-      InputDirector* director);
+class MouseActiveUnit : public ActiveUnit {
+ public:
+  MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
+                  InputDirector* director);
 
-    void OnAxis(const Axis::Type& key, float state);
+  void OnAxis(const Axis::Type& key, float state);
 
-    ~MouseActiveUnit();
+  ~MouseActiveUnit();
 
-    void Rumble();
+  void Rumble();
 
-  private:
-    InputDirector* director_;
-    std::map<Axis::Type, AxisData> actions_;
-  };
+ private:
+  InputDirector* director_;
+  std::map<Axis::Type, AxisData> actions_;
+};
 
 }  // namespace input
 
-#endif  // EUPHORIA_INPUTSYSTEM_H_
+#endif  // EUPHORIA_INPUT_MOUSEACTIVEUNIT_H_

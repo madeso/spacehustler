@@ -10,23 +10,23 @@ Classes for input handling.
 #include "euphoria/input-unitdef.h"
 
 namespace Json {
-  class Value;
+class Value;
 }
 
 namespace input {
 
-  class InputDirector;
-  class ActiveUnit;
+class InputDirector;
+class ActiveUnit;
 
-  class JoystickDef : public UnitDef {
-  public:
-    explicit JoystickDef(const Json::Value& data);
+class JoystickDef : public UnitDef {
+ public:
+  explicit JoystickDef(const Json::Value& data);
 
-    std::shared_ptr<ActiveUnit> Create(InputDirector* director);
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director);
 
-  private:
-    /// @todo add joystick binds
-  };
+ private:
+  /// @todo add joystick binds
+};
 
 }  // namespace input
 

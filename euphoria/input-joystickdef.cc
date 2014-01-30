@@ -9,11 +9,11 @@
 
 namespace input {
 
-  JoystickDef::JoystickDef(const Json::Value& data) {}
+JoystickDef::JoystickDef(const Json::Value& data) {}
 
-  std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director) {
-    std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
-    return unit;
-  }
+std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director) {
+  std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+  return unit;
+}
 
 }  // namespace input

@@ -14,27 +14,27 @@ Classes for input handling.
 class Table;
 
 namespace Json {
-  class Value;
+class Value;
 }
 
 namespace input {
-  class InputAction;
+class InputAction;
 
-  /** For use during activity.
-  */
-  class AxisData : public AxisBase {
-  public:
-    AxisData(std::shared_ptr<InputAction> action, const Json::Value& data);
+/** For use during activity.
+*/
+class AxisData : public AxisBase {
+ public:
+  AxisData(std::shared_ptr<InputAction> action, const Json::Value& data);
 
-    float Process(float v) const;
+  float Process(float v) const;
 
-    // nonlinear
-    // correction
+  // nonlinear
+  // correction
 
-  private:
-    bool invert_;
-    float deadzone_;
-  };
+ private:
+  bool invert_;
+  float deadzone_;
+};
 
 }  // namespace input
 

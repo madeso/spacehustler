@@ -4,8 +4,8 @@
 Classes for input handling.
  */
 
-#ifndef EUPHORIA_INPUTSYSTEM_H_
-#define EUPHORIA_INPUTSYSTEM_H_
+#ifndef EUPHORIA_INPUT_KEYCONFIG_H_
+#define EUPHORIA_INPUT_KEYCONFIG_H_
 
 #include <vector>
 #include <memory>
@@ -14,8 +14,8 @@ Classes for input handling.
 
 namespace input {
 
-  class UnitDef;
-  class InputDirector;
+class UnitDef;
+class InputDirector;
 
 /** Contains a list of configurations.
 A good example is Mouse+Keyboard.
@@ -43,4 +43,4 @@ class KeyConfig {
 
 }  // namespace input
 
-#endif  // EUPHORIA_INPUTSYSTEM_H_
+#endif  // EUPHORIA_INPUT_KEYCONFIG_H_

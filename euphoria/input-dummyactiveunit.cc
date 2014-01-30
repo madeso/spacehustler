@@ -5,6 +5,6 @@
 
 namespace input {
 
-  void DummyActiveUnit::Rumble() { assert(this); }
+void DummyActiveUnit::Rumble() { assert(this); }
 
 }  // namespace input

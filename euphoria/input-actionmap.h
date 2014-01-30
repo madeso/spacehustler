@@ -15,7 +15,7 @@ class Table;
 
 namespace input {
 
-  class InputAction;
+class InputAction;
 
 /** A map of all the available input actions.
  */

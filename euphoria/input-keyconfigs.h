@@ -12,9 +12,9 @@ Classes for input handling.
 #include <memory>
 
 namespace input {
-  class KeyConfig;
-  class ConnectedUnits;
-  class InputActionMap;
+class KeyConfig;
+class ConnectedUnits;
+class InputActionMap;
 
 /** Contains a list of configurations.
  */

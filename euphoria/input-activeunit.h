@@ -14,7 +14,7 @@ class Table;
 
 namespace input {
 
-  class InputAction;
+class InputAction;
 
 /** Represents a active unit.
 A perfect example is a connected joystick.

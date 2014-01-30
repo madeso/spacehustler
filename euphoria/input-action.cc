@@ -26,19 +26,19 @@ void InputAction::set_state(float state) {
   float value = state;
 
   switch (range_) {
-  case Range::Infinite:
-    /* do nothing */
-    break;
-  case Range::Within01:
-    value = KeepWithin(0.0f, value, 1.0f);
-    break;
-  case Range::WithinNegative1Positive1:
-    value = KeepWithin(-1.0f, value, 1.0f);
-    break;
-  case Range::Invalid:
-  default:
-    assert(0 && "Using invalid value");
-    break;
+    case Range::Infinite:
+      /* do nothing */
+      break;
+    case Range::Within01:
+      value = KeepWithin(0.0f, value, 1.0f);
+      break;
+    case Range::WithinNegative1Positive1:
+      value = KeepWithin(-1.0f, value, 1.0f);
+      break;
+    case Range::Invalid:
+    default:
+      assert(0 && "Using invalid value");
+      break;
   }
 
   state_ = value;

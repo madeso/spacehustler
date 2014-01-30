@@ -100,5 +100,4 @@ void InputSystem::AddPlayer(const std::string& name) {
   players_.insert(std::make_pair(name, p));
 }
 
-
 }  // namespace input
