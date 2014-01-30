@@ -88,7 +88,8 @@ const Angle operator*(const float rhs, const Angle& lhs);
 
 namespace AngleOperations {
 /** Sine.
-Ratio of the length of the side opposite the given angle to the length of the hypotenuse of a right-angled triangle.
+Ratio of the length of the side opposite the given angle to the length of the
+hypotenuse of a right-angled triangle.
 @param ang the angle
 @returns the result
  */

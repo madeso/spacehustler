@@ -10,8 +10,8 @@ Range enum.
 #include <string>
 
 namespace Range {
-  /** Definition of the kind of range.
-   */
+/** Definition of the kind of range.
+ */
 enum Type {
   Invalid,
   Infinite,
