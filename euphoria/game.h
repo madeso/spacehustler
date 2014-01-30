@@ -76,18 +76,18 @@ class Game {
   /** Gets the input system.
   @returns the input system
    */
-  InputSystem& inputsystem();
+  input::InputSystem& inputsystem();
 
  private:
   int width_;
   int height_;
   bool keep_running_;
-  std::shared_ptr<InputAction> tweakaction_;
+  std::shared_ptr<input::InputAction> tweakaction_;
   bool last_tweak_action_;
   bool lock_mouse_;
   bool istweaking_;
   bool renderoculus_;
-  InputSystem inputsystem_;
+  input::InputSystem inputsystem_;
   std::unique_ptr<OglDebug> ogldebug_;
   std::unique_ptr<TextureCache> texturecache_;
   std::unique_ptr<ShaderCache> shadercache_;

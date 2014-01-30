@@ -16,6 +16,12 @@ Classes for input handling.
 #include "euphoria/axis.h"
 #include "euphoria/range.h"
 
+class Table;
+
+namespace input {
+
+class ActiveUnit;
+
 /** A input action.
  */
 class InputAction {
@@ -286,9 +292,6 @@ class InputSystem {
   std::unique_ptr<InputDirector> input_;
 };
 
-class ActiveUnit;
-class Table;
-
 /** Contains a list of active units.
  */
 class ConnectedUnits {
@@ -340,7 +343,6 @@ class Player {
   ConnectedUnits units_;
 };
 
-class Table;
 /** Represents a active unit.
 A perfect example is a connected joystick.
  */
@@ -412,5 +414,7 @@ class UnitDef {
    */
   virtual std::shared_ptr<ActiveUnit> Create(InputDirector* director) = 0;
 };
+
+}  // namespace input
 
 #endif  // EUPHORIA_INPUTSYSTEM_H_

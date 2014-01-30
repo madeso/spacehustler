@@ -24,7 +24,10 @@ class ShaderCache;
 class Camera;
 class Lua;
 class Settings;
+
+namespace input {
 class InputSystem;
+}  // namespace input
 
 /** Arguments for creating a system.
  */
@@ -43,7 +46,7 @@ class CreateSystemArg : boost::noncopyable {
   CreateSystemArg(SystemContainer* acontainer, World* aworld,
                   TextureCache* atexturecache, ShaderCache* ashadercache,
                   Camera* acamera, Lua* ascript, const Settings& asettings,
-                  InputSystem* ainputsystem);
+                  input::InputSystem* ainputsystem);
 
   /** The system container.
    */
@@ -75,7 +78,7 @@ class CreateSystemArg : boost::noncopyable {
 
   /** The input system.
    */
-  InputSystem* inputsystem;
+  input::InputSystem* inputsystem;
 };
 
 /** Callback function for creating systems.

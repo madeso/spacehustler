@@ -20,18 +20,20 @@ class PlayerType : public ComponentType {
 
 class PlayerObject {
  public:
-  PlayerObject(Entity* ent, const PlayerType& t, InputSystem* input)
+  PlayerObject(Entity* ent, const PlayerType& t, input::InputSystem* input)
       : entity(ent), player(input->GetPlayer(t.name)) {
     assert(entity);
   }
 
-  std::shared_ptr<Player> player;
+  std::shared_ptr<input::Player> player;
   Entity* entity;
 };
 
 class PlayerSystem : public System {
  public:
-  explicit PlayerSystem(InputSystem* input) : input_(input) { assert(this); }
+  explicit PlayerSystem(input::InputSystem* input) : input_(input) {
+    assert(this);
+  }
 
   ComponentType* AddType(const Json::Value& data) {
     assert(this);
@@ -57,7 +59,7 @@ class PlayerSystem : public System {
   }
 
  private:
-  InputSystem* input_;
+  input::InputSystem* input_;
   std::vector<std::shared_ptr<PlayerType> > types_;
   std::vector<PlayerObject> objects_;
 };

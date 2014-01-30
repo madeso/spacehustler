@@ -12,6 +12,8 @@
 #include "euphoria/angle.h"
 #include "json/json.h"
 
+namespace input {
+
 InputAction::InputAction(const std::string& scriptvarname, Range::Type range)
     : scriptvarname_(scriptvarname), state_(0.0f), range_(range) {
   assert(this);
@@ -856,3 +858,5 @@ void InputDirector::OnJoystickButton(int button, int joystick, bool down) {
 void InputDirector::OnJoystickAxis(int axis, int joystick, float value) {
   assert(this);
 }
+
+}  // namespace input

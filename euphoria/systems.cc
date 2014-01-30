@@ -23,7 +23,7 @@ CreateSystemArg::CreateSystemArg(SystemContainer* acontainer, World* aworld,
                                  TextureCache* atexturecache,
                                  ShaderCache* ashadercache, Camera* acamera,
                                  Lua* ascript, const Settings& asettings,
-                                 InputSystem* ainputsystem)
+                                 input::InputSystem* ainputsystem)
     : container(acontainer),
       world(aworld),
       texturecache(atexturecache),

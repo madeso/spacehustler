@@ -248,7 +248,7 @@ void Game::Render() {
   }
 }
 
-InputSystem& Game::inputsystem() {
+input::InputSystem& Game::inputsystem() {
   assert(this);
   return inputsystem_;
 }
