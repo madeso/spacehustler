@@ -48,6 +48,10 @@ Planned Features and stuff that needs to be done
 * lights and shaddows
   - depth map shadows?
   - depth shadow maps/volumes?
+  - http://tomdalling.com/blog/modern-opengl/06-diffuse-point-lighting/
+  - http://tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
+  - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
+  - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
 * change from json to yaml/protobuf?
@@ -56,11 +60,9 @@ Planned Features and stuff that needs to be done
 * hud/2d support
 * debug overlay
 * menu support (ce gui?)
-* audio and music support
-* particle systems
+* audio and music support, open al/fmod?
+* particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
-* add physics motor support
-* add leap motion support
 * lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * implement all the todos
