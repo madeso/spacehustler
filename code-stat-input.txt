@@ -1,17 +1,22 @@
-http://cloc.sourceforge.net v 1.60  T=0.08 s (583.8 files/s, 26749.9 lines/s)
+http://cloc.sourceforge.net v 1.60  T=0.09 s (572.6 files/s, 35502.1 lines/s)
 ---------------------------------------------------------------------------------------
 File                                                blank        comment           code
 ---------------------------------------------------------------------------------------
-euphoria\input-keyconfigs.cc                           19              2             97
+euphoria\input-key.h                                    9             16            500
+euphoria\input-key.cc                                  12              1            283
+euphoria\input-axis.cc                                 18              1             94
+euphoria\input-keyconfigs.cc                           19              2             94
 euphoria\input-system.cc                               19              1             91
 euphoria\input-director.cc                             17              3             58
 euphoria\input-actionmap.cc                            11              2             56
 euphoria\input-keyboarddef.cc                          14              1             53
+euphoria\input-range.cc                                11              1             49
 euphoria\input-axiskey.cc                               8              1             41
 euphoria\input-keyboardactiveunit.cc                   13              1             38
 euphoria\input-system.h                                22             52             38
 euphoria\input-action.cc                                9              2             36
 euphoria\input-mousedef.cc                              7              1             33
+euphoria\input-axis.h                                   9             20             29
 euphoria\input-director.h                              21             49             28
 euphoria\input-axiskeybind.h                           11              6             27
 euphoria\input-keyboardactiveunit.h                    14              4             27
@@ -38,6 +43,7 @@ euphoria\input-keyconfig.h                             12             16        
 euphoria\input-joystickdef.h                           11              5             17
 euphoria\input-player.cc                                7              1             16
 euphoria\input-player.h                                11             16             15
+euphoria\input-range.h                                  6             14             14
 euphoria\input-unitdef.h                               10             12             13
 euphoria\input-axiskeybind.cc                           4              1             11
 euphoria\input-joystickdef.cc                           7              1             11
@@ -47,5 +53,5 @@ euphoria\input-bind.cc                                  4              1        
 euphoria\input-dummyactiveunit.cc                       4              1              5
 euphoria\input-unitdef.cc                               4              1              5
 ---------------------------------------------------------------------------------------
-SUM:                                                  485            337           1194
+SUM:                                                  550            390           2160
 ---------------------------------------------------------------------------------------

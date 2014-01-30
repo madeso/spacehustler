@@ -1,4 +1,5 @@
 FILE(GLOB game_src_glob *.cc;*.h)
+FILE(GLOB game_input_src_glob input*.cc;input*.h)
 set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
 if(USE_TWEAKABLES)
@@ -218,6 +219,7 @@ source_group(soil FILES ${src_soil})
 source_group(lua FILES ${src_lua})
 source_group(jsoncpp FILES ${src_jsoncpp})
 source_group(cmake FILES "${PROJECT_SOURCE_DIR}/euphoria-config-in.h")
+source_group(input FILES ${game_input_src_glob})
 
 set(all_src ${game_src} "${PROJECT_SOURCE_DIR}/euphoria-config-in.h" ${src_glew} ${src_soil} ${src_jsoncpp} ${src_lua})
 
