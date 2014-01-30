@@ -14,12 +14,12 @@ struct Angle {
   /** Convert the current value to degrees.
   @returns the angle in degrees
   */
-  const float inDegrees() const;
+  const float InDegrees() const;
 
   /** Gets the current value in radians.
   @returns the angle in radians
   */
-  const float inRadians() const;
+  const float InRadians() const;
 
   /** Creates a angle from degrees.
   @param deg the angle in degrees
@@ -36,7 +36,7 @@ struct Angle {
   /** Wraps the angle around 360 degrees.
   @see GetWrapped(const Angle&)
   */
-  void wrap();
+  void Wrap();
 
   /** Angle addition.
   @param rhs the angle to add
@@ -55,7 +55,7 @@ struct Angle {
 
  private:
   explicit Angle(float rad);
-  float mRad;
+  float radians_;
 };
 
 /** Global operator.
@@ -87,37 +87,46 @@ const Angle operator*(const Angle& lhs, const float rhs);
 const Angle operator*(const float rhs, const Angle& lhs);
 
 namespace AngleOperations {
-/** Sinus.
+/** Sine.
+Ratio of the length of the side opposite the given angle to the length of the hypotenuse of a right-angled triangle.
 @param ang the angle
 @returns the result
  */
 const float Sin(const Angle& ang);
 
-/** Cosinus.
+/** Cosine.
+Ratio of the adjacent side to the hypotenuse of a right-angled triangle.
 @param ang the angle
 @returns the result
 */
 const float Cos(const Angle& ang);
 
-/** Tangens.
+/** Tangent.
+Ratio of the opposite to the adjacent side of a right-angled triangle.
 @param ang the angle
 @returns the result
 */
 const float Tan(const Angle& ang);
 
-/** Asinus.
+/** Arc sine.
+The inverse function of the sine. The angle that has a sine equal to a given
+number.
 @param v the value
 @returns the resulting angle
 */
 const Angle Asin(const float v);
 
-/** Acosinus.
+/** Arc cosine.
+The inverse function of the cosine. The angle that has a cosine equal to a
+given number.
 @param v the value
 @returns the resulting angle
 */
 const Angle Acos(const float v);
 
-/** Atangens.
+/** Arc tangent.
+The inverse function of the tangent. The angle that has a tangent equal to
+a given number.
 @param v the value
 @returns the resulting angle
 */

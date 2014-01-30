@@ -12,23 +12,23 @@ const float rad2deg(const float rad) { return (180.0f / Pi()) * rad; }
 const float deg2rad(const float deg) { return Pi() / 180.0f * deg; }
 }  // namespace
 
-const float Angle::inDegrees() const { return rad2deg(mRad); }
+const float Angle::InDegrees() const { return rad2deg(radians_); }
 
-const float Angle::inRadians() const { return mRad; }
+const float Angle::InRadians() const { return radians_; }
 
 const Angle Angle::FromDegrees(float deg) { return Angle(deg2rad(deg)); }
 
 const Angle Angle::FromRadians(float rad) { return Angle(rad); }
 
-Angle::Angle(float rad) : mRad(rad) {}
+Angle::Angle(float rad) : radians_(rad) {}
 
-void Angle::wrap() { mRad = Wrap(0, mRad, Pi() * 2.0f); }
+void Angle::Wrap() { radians_ = ::Wrap(0, radians_, Pi() * 2.0f); }
 
-void Angle::operator+=(const Angle& rhs) { mRad += rhs.mRad; }
+void Angle::operator+=(const Angle& rhs) { radians_ += rhs.radians_; }
 
-void Angle::operator-=(const Angle& rhs) { mRad -= rhs.mRad; }
+void Angle::operator-=(const Angle& rhs) { radians_ -= rhs.radians_; }
 
-void Angle::operator*=(const float rhs) { mRad *= rhs; }
+void Angle::operator*=(const float rhs) { radians_ *= rhs; }
 
 const Angle operator+(const Angle& lhs, const Angle& rhs) {
   Angle temp(lhs);
@@ -52,11 +52,11 @@ const Angle operator*(const float rhs, const Angle& lhs) { return lhs * rhs; }
 
 namespace AngleOperations {
 
-const float Sin(const Angle& ang) { return std::sin(ang.inRadians()); }
+const float Sin(const Angle& ang) { return std::sin(ang.InRadians()); }
 
-const float Cos(const Angle& ang) { return std::cos(ang.inRadians()); }
+const float Cos(const Angle& ang) { return std::cos(ang.InRadians()); }
 
-const float Tan(const Angle& ang) { return std::tan(ang.inRadians()); }
+const float Tan(const Angle& ang) { return std::tan(ang.InRadians()); }
 
 const Angle Asin(const float v) {
   assert(v <= 1 &&
@@ -82,7 +82,7 @@ const Angle Atan(const float v) { return Angle::FromRadians(std::atan(v)); }
 
 const Angle GetWrapped(const Angle& a) {
   Angle temp(a);
-  temp.wrap();
+  temp.Wrap();
   return temp;
 }
 
