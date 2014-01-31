@@ -13,15 +13,23 @@ Classes for input handling.
 #include "euphoria/input-key.h"
 
 namespace input {
+
+  /** A axis bound to two keys.
+   */
 class AxisKey {
  public:
+   /** Constructor.
+   @param minkey the key that generates a negative input
+   @param maxkey the key that generates a positive input
+   @param base the axis
+    */
   AxisKey(Key::Type minkey, Key::Type maxkey, AxisBase base);
 
+  /** React to a key.
+  @param key the key to react to
+  @param state the state of the key
+   */
   void OnKey(Key::Type key, bool state);
-
-  void set_minisdown(bool minisdown);
-
-  void set_maxisdown(bool maxisdown);
 
  private:
   void UpdateState();

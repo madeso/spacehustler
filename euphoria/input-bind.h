@@ -13,19 +13,31 @@ Classes for input handling.
 namespace input {
 class InputAction;
 
+/** A keybind.
+ */
 template <typename Type>
 class Bind {
  public:
+   /** Constructor.
+   @param type the key
+   @param action the action to perform
+    */
   Bind(Type type, std::shared_ptr<InputAction> action)
       : type_(type), action_(action) {
     assert(this);
   }
 
+  /** Get the key.
+  @returns the key
+   */
   Type type() const {
     assert(this);
     return type_;
   }
 
+  /** Get the action.
+  @returns the action
+   */
   std::shared_ptr<InputAction> action() const {
     assert(this);
     return action_;

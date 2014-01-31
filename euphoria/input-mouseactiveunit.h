@@ -21,15 +21,30 @@ namespace input {
 
   class InputDirector;
 
+  /** A active mouse binding
+   */
 class MouseActiveUnit : public ActiveUnit {
  public:
+   /** Constructor.
+   @param axis the axis binds to use
+   @param director the input director
+    */
   MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
                   InputDirector* director);
 
+  /** React to a change in the axis.
+  @param key the axis
+  @param state the state of the axis
+   */
   void OnAxis(const Axis::Type& key, float state);
 
+  /** Destructor.
+   */
   ~MouseActiveUnit();
 
+  /** Rumble the mouse.
+  Doesn't do anything.
+   */
   void Rumble();
 
  private:

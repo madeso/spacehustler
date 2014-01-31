@@ -20,9 +20,20 @@ class Value;
 namespace input {
 class InputActionMap;
 
+/** Mouse definition.
+ */
 class MouseDef : public UnitDef {
  public:
+   /** Constructor.
+   @param data the data structure to load from
+   @param map the input actions to use
+    */
   MouseDef(const Json::Value& data, const InputActionMap& map);
+
+  /** Create a active mouse interface.
+  @param director the input director
+  @returns the active mouse
+   */
   std::shared_ptr<ActiveUnit> Create(InputDirector* director);
 
  private:

@@ -16,23 +16,12 @@ AxisKey::AxisKey(Key::Type minkey, Key::Type maxkey, AxisBase base)
 void AxisKey::OnKey(Key::Type key, bool state) {
   assert(this);
   if (key == minkey_) {
-    set_minisdown(state);
+    minisdown_ = state;
   } else {
     assert(key == maxkey_ &&
            "this function only supports arguments of min and max");
-    set_maxisdown(state);
+    maxisdown_ = state;
   }
-}
-
-void AxisKey::set_minisdown(bool minisdown) {
-  assert(this);
-  minisdown_ = minisdown;
-  UpdateState();
-}
-
-void AxisKey::set_maxisdown(bool maxisdown) {
-  assert(this);
-  maxisdown_ = maxisdown;
   UpdateState();
 }
 

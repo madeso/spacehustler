@@ -24,9 +24,20 @@ class InputActionMap;
 class ActiveUnit;
 class InputDirector;
 
+/** Keyboard definition.
+ */
 class KeyboardDef : public UnitDef {
  public:
-  explicit KeyboardDef(const Json::Value& data, const InputActionMap& map);
+   /** Constructor.
+   @param data the data structure to load from
+   @param map the input actions to use
+    */
+  KeyboardDef(const Json::Value& data, const InputActionMap& map);
+
+  /** Create a active keyboard interface.
+  @param director the input director
+  @returns the active keyboard
+   */
   std::shared_ptr<ActiveUnit> Create(InputDirector* director);
 
  private:

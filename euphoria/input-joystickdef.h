@@ -18,10 +18,20 @@ namespace input {
 class InputDirector;
 class ActiveUnit;
 
+/** Joystick definition.
+ */
 class JoystickDef : public UnitDef {
  public:
+   /** Constructor.
+   @param data the data structure to load from
+   @param map the input actions to use
+    */
   explicit JoystickDef(const Json::Value& data);
 
+  /** Create a active joystick interface.
+  @param director the input director
+  @returns the active joystick
+   */
   std::shared_ptr<ActiveUnit> Create(InputDirector* director);
 
  private:
