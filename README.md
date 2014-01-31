@@ -67,7 +67,7 @@ Planned Features and stuff that needs to be done
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * implement all the todos
 * add loading of shaders from files with preprocessor
-* godrays
+* godrays http://fabiensanglard.net/lightScattering/index.php
 * panning materials
 * normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
 * material templates with optional (lua) script
