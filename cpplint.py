@@ -4019,8 +4019,13 @@ def main():
 
   _cpplint_state.ResetErrorCounts()
   for dir in filenames:
+    count = 0
     for filename in glob.glob(dir):
+      count += 1
       ProcessFile(filename, _cpplint_state.verbose_level)
+    if count == 0:
+      _cpplint_state.error_count += 1
+      sys.stderr.write(dir + ' didnt yield any files\n')
   _cpplint_state.PrintErrorCounts()
 
   sys.exit(_cpplint_state.error_count > 0)
