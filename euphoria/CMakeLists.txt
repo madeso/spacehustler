@@ -271,7 +271,7 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	if(BUILD_USE_CPPLINT)
 		add_custom_command(TARGET ${TargetName}
 						   PRE_BUILD
-						   COMMAND ./cpplint.py ARGS --output=vs7 ${game_src} ${mainsrc}
+						   COMMAND ./cpplint.py ARGS --output=vs7 ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h  ${mainsrc}
 						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 						   COMMENT "Running CppLint" VERBATIM)
 	endif(BUILD_USE_CPPLINT)
