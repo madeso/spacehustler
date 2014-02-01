@@ -14,15 +14,15 @@ Classes for input handling.
 
 namespace input {
 
-  /** A axis bound to two keys.
-   */
+/** A axis bound to two keys.
+ */
 class AxisKey {
  public:
-   /** Constructor.
-   @param minkey the key that generates a negative input
-   @param maxkey the key that generates a positive input
-   @param base the axis
-    */
+  /** Constructor.
+  @param minkey the key that generates a negative input
+  @param maxkey the key that generates a positive input
+  @param base the axis
+   */
   AxisKey(Key::Type minkey, Key::Type maxkey, AxisBase base);
 
   /** React to a key.

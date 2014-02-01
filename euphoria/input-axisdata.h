@@ -24,10 +24,10 @@ class InputAction;
 */
 class AxisData : public AxisBase {
  public:
-   /** Constructor.
-   @param action the action
-   @param data teh data to read from
-    */
+  /** Constructor.
+  @param action the action
+  @param data teh data to read from
+   */
   AxisData(std::shared_ptr<InputAction> action, const Json::Value& data);
 
   /** Process the input according to the settings.

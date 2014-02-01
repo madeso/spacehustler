@@ -24,10 +24,10 @@ class InputActionMap;
  */
 class MouseDef : public UnitDef {
  public:
-   /** Constructor.
-   @param data the data structure to load from
-   @param map the input actions to use
-    */
+  /** Constructor.
+  @param data the data structure to load from
+  @param map the input actions to use
+   */
   MouseDef(const Json::Value& data, const InputActionMap& map);
 
   /** Create a active mouse interface.

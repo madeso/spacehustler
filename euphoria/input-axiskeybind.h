@@ -19,12 +19,12 @@ For use in template/binding.
 template <typename Type>
 class AxisKeyBind : public AxisBase {
  public:
-   /** Constructor.
-   @param min the minimum key
-   @param max the maximum key
-   @param action the action
-   @param data the data to read settings from
-    */
+  /** Constructor.
+  @param min the minimum key
+  @param max the maximum key
+  @param action the action
+  @param data the data to read settings from
+   */
   AxisKeyBind(Type min, Type max, std::shared_ptr<InputAction> action,
               const Json::Value& data)
       : AxisBase(action, data), min_(min), max_(max) {

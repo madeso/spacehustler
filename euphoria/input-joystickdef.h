@@ -22,9 +22,9 @@ class ActiveUnit;
  */
 class JoystickDef : public UnitDef {
  public:
-   /** Constructor.
-   @param data the data structure to load from
-    */
+  /** Constructor.
+  @param data the data structure to load from
+   */
   explicit JoystickDef(const Json::Value& data);
 
   /** Create a active joystick interface.

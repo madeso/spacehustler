@@ -24,11 +24,11 @@ class InputAction;
 template <typename Type>
 class AxisBind : public AxisData {
  public:
-   /** Constructor.
-   @param type the axis type
-   @param action the action
-   @param data the data to setup from
-    */
+  /** Constructor.
+  @param type the axis type
+  @param action the action
+  @param data the data to setup from
+   */
   AxisBind(Type type, std::shared_ptr<InputAction> action,
            const Json::Value& data)
       : type_(type), AxisData(action, data) {

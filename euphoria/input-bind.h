@@ -18,10 +18,10 @@ class InputAction;
 template <typename Type>
 class Bind {
  public:
-   /** Constructor.
-   @param type the key
-   @param action the action to perform
-    */
+  /** Constructor.
+  @param type the key
+  @param action the action to perform
+   */
   Bind(Type type, std::shared_ptr<InputAction> action)
       : type_(type), action_(action) {
     assert(this);

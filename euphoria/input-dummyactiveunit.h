@@ -11,12 +11,12 @@ Classes for input handling.
 
 namespace input {
 
-  /** A Dummy active unit.
-   */
+/** A Dummy active unit.
+ */
 class DummyActiveUnit : public ActiveUnit {
  public:
-   /** Rumble.
-    */
+  /** Rumble.
+   */
   void Rumble();
 
  private:

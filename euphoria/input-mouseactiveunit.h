@@ -19,16 +19,16 @@ class Table;
 
 namespace input {
 
-  class InputDirector;
+class InputDirector;
 
-  /** A active mouse binding
-   */
+/** A active mouse binding
+ */
 class MouseActiveUnit : public ActiveUnit {
  public:
-   /** Constructor.
-   @param axis the axis binds to use
-   @param director the input director
-    */
+  /** Constructor.
+  @param axis the axis binds to use
+  @param director the input director
+   */
   MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
                   InputDirector* director);
 

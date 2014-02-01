@@ -26,11 +26,11 @@ class InputDirector;
  */
 class KeyboardActiveUnit : public ActiveUnit {
  public:
-   /** Constructor.
-   @param binds the key binds
-   @param axiskeys the axis binds
-   @param director the director
-    */
+  /** Constructor.
+  @param binds the key binds
+  @param axiskeys the axis binds
+  @param director the director
+   */
   KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
                      std::vector<AxisKeyBind<Key::Type>> axiskeys,
                      InputDirector* director);
