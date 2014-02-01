@@ -24,7 +24,6 @@ class JoystickDef : public UnitDef {
  public:
    /** Constructor.
    @param data the data structure to load from
-   @param map the input actions to use
     */
   explicit JoystickDef(const Json::Value& data);
 

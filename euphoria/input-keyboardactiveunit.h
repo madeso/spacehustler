@@ -22,16 +22,31 @@ namespace input {
 class AxisKey;
 class InputDirector;
 
+/** A active keyboard.
+ */
 class KeyboardActiveUnit : public ActiveUnit {
  public:
+   /** Constructor.
+   @param binds the key binds
+   @param axiskeys the axis binds
+   @param director the director
+    */
   KeyboardActiveUnit(const std::vector<Bind<Key::Type>>& binds,
                      std::vector<AxisKeyBind<Key::Type>> axiskeys,
                      InputDirector* director);
 
+  /** On key handler.
+  @param key the key
+  @param state the state of the button
+   */
   void OnKey(const Key::Type& key, bool state);
 
+  /** Destructor.
+   */
   ~KeyboardActiveUnit();
 
+  /** Rumble function, not really useful.
+   */
   void Rumble();
 
  private:

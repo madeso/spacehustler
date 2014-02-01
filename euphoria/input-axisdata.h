@@ -24,8 +24,16 @@ class InputAction;
 */
 class AxisData : public AxisBase {
  public:
+   /** Constructor.
+   @param action the action
+   @param data teh data to read from
+    */
   AxisData(std::shared_ptr<InputAction> action, const Json::Value& data);
 
+  /** Process the input according to the settings.
+  @param v the input
+  @returns the processed output
+   */
   float Process(float v) const;
 
   // nonlinear
