@@ -83,7 +83,7 @@ Planned Features and stuff that needs to be done
 * adaptive tone mapping
 * enviromental reflection
 * possible support older systems
-
+* neurosky mindwave input? - http://store.neurosky.com/products/mindwave-1
 
 
 Supported platforms
