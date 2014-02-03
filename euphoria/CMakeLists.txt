@@ -263,7 +263,7 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	if(BUILD_USE_CLANG_FORMAT)
 		add_custom_command(TARGET ${TargetName}
 					   PRE_BUILD
-					   COMMAND clang-format ARGS -i -style=Google ${game_src}
+					   COMMAND ./call-clang-format.py ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h  ${mainsrc}
 					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 					   COMMENT "Running clang format" VERBATIM)
 	endif(BUILD_USE_CLANG_FORMAT)
