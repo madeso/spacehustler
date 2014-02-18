@@ -8,10 +8,8 @@
 				[
 					  {"action":"enable_tweak", "type":"button", "key":"Tab"}
 					, {"action":"force",        "type":"button", "key":"Space"}
-					, {"action":"yaw+",         "type":"button", "key":"Q"}
-					, {"action":"yaw-",         "type":"button", "key":"E"}
-					, {"action":"pitch+",       "type":"button", "key":"S"}
-					, {"action":"pitch-",       "type":"button", "key":"W"}
+					, {"action":"yaw",          "type":"axiskeys", "min":"E", "max":"Q"}
+					, {"action":"pitch",        "type":"axiskeys", "min":"W", "max":"S"}
 					, {"action":"roll",         "type":"axiskeys", "min":"D", "max":"A"}
 					, {"action":"reset",        "type":"button", "key":"R"}
 					, {"action":"quit",         "type":"button", "key":"Escape"}
