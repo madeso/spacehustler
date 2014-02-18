@@ -41,9 +41,9 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* add oculus rift support
 * redesign input system
 * force feedback/haptics
+* complete oculus rift support
 * physics motor support
 * lights and shaddows
   - depth map shadows?
