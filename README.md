@@ -43,6 +43,7 @@ Planned Features and stuff that needs to be done
 =======
 * redesign input system
 * force feedback/haptics
+* fix osx build
 * complete oculus rift support
 * physics motor support
 * lights and shaddows
@@ -52,6 +53,7 @@ Planned Features and stuff that needs to be done
   - http://tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
   - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
+* restructure input system
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
 * change from json to yaml/protobuf?
