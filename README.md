@@ -46,6 +46,8 @@ Planned Features and stuff that needs to be done
 * fix osx build
 * complete oculus rift support
 * physics motor support
+* port to android?
+* culling + world editor
 * lights and shaddows
   - depth map shadows?
   - depth shadow maps/volumes?
@@ -53,7 +55,6 @@ Planned Features and stuff that needs to be done
   - http://tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
   - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
-* restructure input system
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
 * change from json to yaml/protobuf?
@@ -62,10 +63,12 @@ Planned Features and stuff that needs to be done
 * hud/2d support
 * debug overlay
 * menu support (ce gui?)
-* audio and music support, open al/fmod?
+* audio and music support, fmod studio
+* sprite + line drawer
 * particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/
+* dynamically replace models/complex physics setup/damage model
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
-* lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
+* push new code/files + lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * implement all the todos
 * add loading of shaders from files with preprocessor
@@ -73,7 +76,6 @@ Planned Features and stuff that needs to be done
 * panning materials
 * normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
 * material templates with optional (lua) script
-* culling + world editor
 * add more script functions
   - line of sight to single (random point on object)
   - line of sight to group
