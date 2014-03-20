@@ -19,3 +19,4 @@ examples/*.dll
 
 #various files
 .DS_Store
+*.wings~
