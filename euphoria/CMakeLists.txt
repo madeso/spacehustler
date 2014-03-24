@@ -1,4 +1,4 @@
-FILE(GLOB game_src_glob *.cc;*.h)
+FILE(GLOB game_src_glob *.cc;*.h;*.inl)
 FILE(GLOB game_input_src_glob input*.cc;input*.h)
 set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
