@@ -17,20 +17,20 @@ Required Build tools & libraries
 * C++11 compiler
 * OpenGL
 * CMake http://www.cmake.org/
-* AssImp http://assimp.sourceforge.net/
-* SDL2 http://libsdl.org/
-* Bullet http://bulletphysics.org/wordpress/
+* AssImp, BSD, http://assimp.sourceforge.net/
+* SDL2, zlib, http://libsdl.org/
+* Bullet, zlib,  http://bulletphysics.org/wordpress/
 
 Included libraries
 ===================
-* AntTweakBar http://anttweakbar.sourceforge.net/doc/
-* Boost  http://www.boost.org/
-* CML http://cmldev.net/
-* GLEW http://glew.sourceforge.net/
-* JsonCpp http://jsoncpp.sourceforge.net/
-* LibOVR https://developer.oculusvr.com/
-* Lua http://www.lua.org/
-* SOIL http://www.lonesock.net/soil.html
+* AntTweakBar, zlib, http://anttweakbar.sourceforge.net/doc/
+* Boost, boost license, http://www.boost.org/
+* CML, boost license, http://cmldev.net/
+* GLEW, bsd+mit, http://glew.sourceforge.net/
+* JsonCpp, mit/public domain, http://jsoncpp.sourceforge.net/
+* LibOVR, custom license(free to use, distribute + modify, but must share modifications with oculus), https://developer.oculusvr.com/
+* Lua, mit, http://www.lua.org/
+* SOIL, public domain, http://www.lonesock.net/soil.html
 
 Optional tools
 =============
@@ -42,11 +42,14 @@ Optional tools
 Planned Features and stuff that needs to be done
 =======
 * redesign input system
+* remove all traces of astyle
+* make sdl the only launcher
 * force feedback/haptics
+* port to android?
+* replace filehandling with physfs (on android: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * fix osx build
 * complete oculus rift support
 * physics motor support
-* port to android?
 * culling + world editor
 * lights and shaddows
   - depth map shadows?
@@ -68,7 +71,7 @@ Planned Features and stuff that needs to be done
 * particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/
 * dynamically replace models/complex physics setup/damage model
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
-* push new code/files + lua debugger/console via http/mongoose https://github.com/valenok/mongoose support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html
+* push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * implement all the todos
 * add loading of shaders from files with preprocessor
@@ -81,7 +84,6 @@ Planned Features and stuff that needs to be done
   - line of sight to group
   - closest of group (use kd-tree?)
   - closest object with component
-* replace filehandling with a vfs
 * deffered rendering
 * hdr/bloom
 * adaptive tone mapping
