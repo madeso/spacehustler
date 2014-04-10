@@ -42,6 +42,10 @@ Optional tools
 Planned Features and stuff that needs to be done
 =======
 * redesign input system
+* change enums to enum class
+* add override to all virtual function overrides
+* Investigate constexpr
+* static_assert
 * remove all traces of astyle
 * make sdl the only launcher
 * force feedback/haptics
