@@ -53,6 +53,7 @@ Planned Features and stuff that needs to be done
 * replace filehandling with physfs (on android: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * fix osx build
 * complete oculus rift support
+* check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753
 * physics motor support
 * culling + world editor
 * lights and shaddows
@@ -75,7 +76,7 @@ Planned Features and stuff that needs to be done
 * particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/
 * dynamically replace models/complex physics setup/damage model
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
-* push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server
+* push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1
 * change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * implement all the todos
 * add loading of shaders from files with preprocessor
