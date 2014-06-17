@@ -46,6 +46,7 @@ Planned Features and stuff that needs to be done
 * add override to all virtual function overrides
 * Investigate constexpr
 * static_assert
+* upgrade assimp
 * remove all traces of astyle
 * make sdl the only launcher
 * force feedback/haptics
@@ -53,7 +54,7 @@ Planned Features and stuff that needs to be done
 * replace filehandling with physfs (on android: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * fix osx build
 * complete oculus rift support
-* check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753
+* check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * physics motor support
 * culling + world editor
 * lights and shaddows
@@ -83,6 +84,7 @@ Planned Features and stuff that needs to be done
 * godrays http://fabiensanglard.net/lightScattering/index.php
 * panning materials
 * normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
+* Clouds! http://www.markmark.net/clouds/
 * material templates with optional (lua) script
 * add more script functions
   - line of sight to single (random point on object)
