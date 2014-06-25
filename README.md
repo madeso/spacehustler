@@ -74,7 +74,7 @@ Planned Features and stuff that needs to be done
 * menu support (ce gui?)
 * audio and music support, fmod studio
 * sprite + line drawer
-* particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/
+* particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/ http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/flexible-particle-system-the-container-r3701 http://www.bfilipek.com/2014/06/flexible-particle-system-updaters.html
 * dynamically replace models/complex physics setup/damage model
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
 * push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1
