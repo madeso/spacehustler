@@ -26,7 +26,7 @@ class InputDirector;
 
 /** Keyboard definition.
  */
-template<typename KeyType, typename Converter>
+template <typename KeyType, typename Converter>
 class KeyDef : public UnitDef {
  public:
   /** Constructor.
