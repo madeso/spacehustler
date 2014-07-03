@@ -48,6 +48,7 @@ Game::Game(const Settings& settings, bool renderoculus)
       renderoculus_(renderoculus) {
   assert(this);
 
+  // @todo move this to a press enter to play screen
   inputsystem_.SetUnitForPlayer("Player", settings.control_scheme());
 
   const GLenum err = glewInit();

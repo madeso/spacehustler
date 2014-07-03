@@ -29,19 +29,13 @@ class InputAction {
    */
   const std::string& scriptvarname() const;
 
-  /** Get the current value of the input.
-  @returns the state
+  /** Gets the range of this input.
+  @returns the range of this input
    */
-  float state() const;
-
-  /** Set the value of the input.
-  @param state the new value
-   */
-  void set_state(float state);
+  const Range::Type range() const;
 
  private:
   std::string scriptvarname_;
-  float state_;
   Range::Type range_;
 };
 

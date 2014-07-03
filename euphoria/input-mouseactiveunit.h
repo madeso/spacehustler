@@ -38,6 +38,12 @@ class MouseActiveUnit : public ActiveUnit {
    */
   void OnAxis(const Axis::Type& key, float state);
 
+  /** React to a button press.
+  @param key the mouse button
+  @param down true if it is down, false if not
+   */
+  void OnButton(MouseButton::Type key, bool down);
+
   /** Destructor.
    */
   ~MouseActiveUnit();
