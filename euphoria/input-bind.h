@@ -11,17 +11,28 @@ namespace input {
 
 class Action;
 
+namespace BindType {
+enum Type {
+  Range,
+  Axis
+};
+}
+
 /** A bind.
  */
 class Bind {
  public:
-  explicit Bind(Action* action);
+  Bind(Action* action, BindType::Type type);
 
   float value() const;
   void set_value(float v);
 
+  BindType::Type type() const;
+  Action* action();
+
  private:
   Action* action_;
+  BindType::Type type_;
   float value_;
 };
 

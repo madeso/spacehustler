@@ -5,9 +5,10 @@
 
 namespace input {
 
-Bind::Bind(Action* action) : action_(action), value_(0.0f) {
+Bind::Bind(Action* action, BindType::Type type)
+    : action_(action), type_(type), value_(0.0f) {
   assert(this);
-  assert(action);
+  assert(action_);
 }
 
 float Bind::value() const {
@@ -18,6 +19,17 @@ float Bind::value() const {
 void Bind::set_value(float v) {
   assert(this);
   value_ = v;
+}
+
+BindType::Type Bind::type() const {
+  assert(this);
+  return type_;
+}
+
+Action* Bind::action() {
+  assert(this);
+  assert(action_);
+  return action_;
 }
 
 }  // namespace input

@@ -13,7 +13,7 @@ namespace input {
 
 class InputAction;
 
-/** A input action.
+/** Represents the accumulated input to be sent to the game logic.
  */
 class InputActive {
  public:

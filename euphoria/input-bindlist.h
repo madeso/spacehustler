@@ -8,18 +8,25 @@ Classes for input handling.
 #define EUPHORIA_INPUT_BINDLIST_H_
 
 #include <vector>
+class Table;
 
 namespace input {
 
-class Bind;
+class ActiveRangeToAxis;
+class ActiveRange;
+class ActiveAxis;
 
-/** A list of binds.
+/** A list of binds. Belongs to the player.
  */
 class BindList {
  public:
-  // update table
+  /** Update the table with the actions.
+   */
+  void UpdateTable(Table* table);
  private:
-  std::vector<Bind*> binds_;
+  std::vector<ActiveRangeToAxis*> rangeToAxes_;
+  std::vector<ActiveRange*> ranges_;
+  std::vector<ActiveAxis*> axes_;
 };
 
 }  // namespace input

@@ -10,8 +10,6 @@ Classes for input handling.
 #include <vector>
 #include <memory>
 
-class Table;
-
 namespace input {
 
 class InputAction;
@@ -21,10 +19,6 @@ A perfect example is a connected joystick.
  */
 class ActiveUnit {
  public:
-  /** Update the table with the actions.
-   */
-  void UpdateTable(Table* table);
-
   /** Destructor.
    */
   virtual ~ActiveUnit();

@@ -10,22 +10,26 @@ Classes for input handling.
 #include <vector>
 #include <memory>
 
-#include "euphoria/input-rangebind.h"
-#include "euphoria/input-axisbind.h"
+#include "euphoria/input-activeaxis.h"
+#include "euphoria/input-activerange.h"
+#include "euphoria/input-activerangetoaxis.h"
 
 namespace input {
 
-/** A axis bound to two keys.
+/** A container for all the actives in the game.
  */
 class BindChildList {
  public:
-  void add(std::shared_ptr<RangeBind> range);
-  void add(std::shared_ptr<AxisBind> axis);
+  void add(std::shared_ptr<ActiveRange> range);
+  void add(std::shared_ptr<ActiveAxis> axis);
+  void add(std::shared_ptr<ActiveRangeToAxis> axis);
+
   void update(float dt);
 
  private:
-  std::vector<std::shared_ptr<RangeBind>> rangeBinds_;
-  std::vector<std::shared_ptr<AxisBind>> axisBinds_;
+  std::vector<std::shared_ptr<ActiveRange>> rangeBinds_;
+  std::vector<std::shared_ptr<ActiveAxis>> axisBinds_;
+  std::vector<std::shared_ptr<ActiveRangeToAxis>> rangeToAxisBinds_;
 };
 
 }  // namespace input
