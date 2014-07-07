@@ -18,7 +18,6 @@
 #include "euphoria/texturecache.h"
 #include "euphoria/world.h"
 #include "euphoria/lua.h"
-#include "euphoria/keybind.h"
 #include "euphoria/entity.h"
 #include "euphoria/systems.h"
 #include "euphoria/settings.h"
