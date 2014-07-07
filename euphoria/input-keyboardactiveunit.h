@@ -12,7 +12,7 @@ Classes for input handling.
 #include <memory>
 
 #include "euphoria/input-activeunit.h"
-#include "euphoria/input-rangebind.h"
+#include "euphoria/input-trangebind.h"
 
 #include "euphoria/input-key.h"
 
@@ -29,8 +29,9 @@ class KeyboardActiveUnit : public ActiveUnit {
   @param binds the key binds
   @param director the director
    */
-  KeyboardActiveUnit(const std::vector<std::shared_ptr<RangeBind>>& binds,
-                     InputDirector* director);
+  KeyboardActiveUnit(
+      const std::vector<std::shared_ptr<TRangeBind<Key::Type>>>& binds,
+      InputDirector* director);
 
   /** On key handler.
   @param key the key
@@ -48,7 +49,7 @@ class KeyboardActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  std::map<Key::Type, std::shared_ptr<RangeBind>> actions_;
+  std::map<Key::Type, std::shared_ptr<TRangeBind<Key::Type>>> actions_;
 };
 
 }  // namespace input

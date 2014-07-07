@@ -10,10 +10,10 @@ Classes for input handling.
 #include <vector>
 #include <map>
 
-#include "euphoria/input-axisdata.h"
 #include "euphoria/input-axis.h"
 #include "euphoria/input-axisbind.h"
 #include "euphoria/input-activeunit.h"
+#include "euphoria/input-taxisbind.h"
 
 class Table;
 
@@ -29,8 +29,9 @@ class MouseActiveUnit : public ActiveUnit {
   @param axis the axis binds to use
   @param director the input director
    */
-  MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
-                  InputDirector* director);
+  MouseActiveUnit(
+      const std::vector<std::shared_ptr<TAxisBind<Axis::Type>>>& axis,
+      InputDirector* director);
 
   /** React to a change in the axis.
   @param key the axis
@@ -49,7 +50,7 @@ class MouseActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  std::map<Axis::Type, AxisData> actions_;
+  std::map<Axis::Type, std::shared_ptr<TAxisBind<Axis::Type>>> actions_;
 };
 
 }  // namespace input

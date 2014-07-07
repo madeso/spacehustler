@@ -9,7 +9,7 @@
 namespace input {
 
 KeyboardActiveUnit::KeyboardActiveUnit(
-    const std::vector<std::shared_ptr<RangeBind>>& binds,
+    const std::vector<std::shared_ptr<TRangeBind<Key::Type>>>& binds,
     InputDirector* director)
     : director_(director) {
   assert(this);

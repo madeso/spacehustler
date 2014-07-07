@@ -8,15 +8,16 @@
 
 namespace input {
 
-MouseActiveUnit::MouseActiveUnit(const std::vector<AxisBind<Axis::Type>>& axis,
-                                 InputDirector* director)
+MouseActiveUnit::MouseActiveUnit(
+    const std::vector<std::shared_ptr<TAxisBind<Axis::Type>>>& axis,
+    InputDirector* director)
     : director_(director) {
   assert(this);
   assert(director_);
 
-  for (auto b : axis) {
-    Add(b.action());
-    actions_.insert(std::make_pair(b.type(), b));
+  for (auto a : axis) {
+    Add(a->action());
+    actions_.insert(std::make_pair(a->axis(), a));
   }
 
   director_->Add(this);
@@ -27,7 +28,7 @@ void MouseActiveUnit::OnAxis(const Axis::Type& key, float state) {
   auto res = actions_.find(key);
   if (res != actions_.end()) {
     /// @todo use axisdata to change state
-    res->second.action()->set_state(res->second.Process(state));
+    res->second->set_value(state);
   }
 }
 
