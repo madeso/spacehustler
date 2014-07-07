@@ -5,7 +5,7 @@
 
 namespace input {
 
-Bind::Bind(Action* action, BindType::Type type)
+Bind::Bind(InputAction* action, BindType::Type type)
     : action_(action), type_(type), value_(0.0f) {
   assert(this);
   assert(action_);
@@ -26,7 +26,7 @@ BindType::Type Bind::type() const {
   return type_;
 }
 
-Action* Bind::action() {
+InputAction* Bind::action() {
   assert(this);
   assert(action_);
   return action_;

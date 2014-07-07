@@ -7,7 +7,7 @@
 
 namespace input {
 
-AxisBindDef::AxisBindDef(Action* action) : action_(action) {
+AxisBindDef::AxisBindDef(InputAction* action) : action_(action) {
   assert(this);
   assert(action);
 }

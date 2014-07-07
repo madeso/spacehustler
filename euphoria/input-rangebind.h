@@ -12,7 +12,7 @@ Classes for input handling.
 namespace input {
 class RangeBind : public Bind {
  public:
-  explicit RangeBind(Action* action);
+  explicit RangeBind(InputAction* action);
   void update(float dt);
 };
 

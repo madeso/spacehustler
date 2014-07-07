@@ -34,10 +34,10 @@ class ActiveUnit {
 
   /** Add a action to be updated.
    */
-  void Add(std::shared_ptr<InputAction> action);
+  void Add(InputAction* action);
 
  private:
-  std::vector<std::shared_ptr<InputAction>> actions_;
+  std::vector<InputAction*> actions_;
 };
 
 }  // namespace input

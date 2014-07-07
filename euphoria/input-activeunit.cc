@@ -11,7 +11,7 @@ ActiveUnit::~ActiveUnit() { assert(this); }
 
 ActiveUnit::ActiveUnit() { assert(this); }
 
-void ActiveUnit::Add(std::shared_ptr<InputAction> action) {
+void ActiveUnit::Add(InputAction* action) {
   assert(this);
   assert(action);
   actions_.push_back(action);

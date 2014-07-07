@@ -23,6 +23,7 @@ class BindList {
   /** Update the table with the actions.
    */
   void UpdateTable(Table* table);
+
  private:
   std::vector<ActiveRangeToAxis*> rangeToAxes_;
   std::vector<ActiveRange*> ranges_;

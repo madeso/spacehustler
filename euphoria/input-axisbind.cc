@@ -5,7 +5,7 @@
 
 namespace input {
 
-AxisBind::AxisBind(Action* action) : Bind(action) { assert(this); }
+AxisBind::AxisBind(InputAction* action) : Bind(action) { assert(this); }
 
 void AxisBind::update(float dt) {
   assert(this);

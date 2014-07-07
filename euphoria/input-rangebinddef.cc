@@ -7,7 +7,7 @@
 
 namespace input {
 
-RangeBindDef::RangeBindDef(Action* action) : action_(action) {
+RangeBindDef::RangeBindDef(InputAction* action) : action_(action) {
   assert(this);
   assert(action);
 }

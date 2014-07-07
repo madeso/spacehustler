@@ -5,7 +5,9 @@
 
 namespace input {
 
-RangeBind::RangeBind(Action* action) : Bind(action) { assert(this); }
+RangeBind::RangeBind(InputAction* action) : Bind(action, BindType::Range) {
+  assert(this);
+}
 
 void RangeBind::update(float dt) {
   assert(this);

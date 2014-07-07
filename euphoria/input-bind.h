@@ -9,7 +9,7 @@ Classes for input handling.
 
 namespace input {
 
-class Action;
+class InputAction;
 
 namespace BindType {
 enum Type {
@@ -22,16 +22,16 @@ enum Type {
  */
 class Bind {
  public:
-  Bind(Action* action, BindType::Type type);
+  Bind(InputAction* action, BindType::Type type);
 
   float value() const;
   void set_value(float v);
 
   BindType::Type type() const;
-  Action* action();
+  InputAction* action();
 
  private:
-  Action* action_;
+  InputAction* action_;
   BindType::Type type_;
   float value_;
 };

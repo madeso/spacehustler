@@ -15,7 +15,7 @@ Classes for input handling.
 namespace input {
 class AxisBind : public Bind {
  public:
-  explicit AxisBind(Action* action);
+  explicit AxisBind(InputAction* action);
   void update(float dt);
 };
 

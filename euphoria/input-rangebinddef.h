@@ -13,16 +13,17 @@ namespace input {
 
 class RangeBind;
 class Action;
+class InputAction;
 
 /** The range bind def.
  */
 class RangeBindDef {
  public:
-  explicit RangeBindDef(Action* action);
+  explicit RangeBindDef(InputAction* action);
   std::shared_ptr<RangeBind> create();
 
  private:
-  Action* action_;
+  InputAction* action_;
 };
 
 }  // namespace input

@@ -16,11 +16,11 @@ class Action;
 
 class AxisBindDef {
  public:
-  explicit AxisBindDef(Action* action);
+  explicit AxisBindDef(InputAction* action);
   std::shared_ptr<AxisBind> create();
 
  private:
-  Action* action_;
+  InputAction* action_;
 };
 
 }  // namespace input
