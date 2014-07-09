@@ -86,9 +86,9 @@ IF(BUILD_USE_CLOC)
 					   cloc --by-file euphoria/input* --quiet --out code-stat-input.txt
 					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 					   COMMENT "Running cloc on input only" VERBATIM)
-	
-	add_custom_target(doxygen ALL
-						${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-						WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						COMMENT "Running Doxygen" VERBATIM)
 ENDIF(BUILD_USE_CLOC)
+
+add_custom_target(doxygen ALL
+					${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+					WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					COMMENT "Running Doxygen" VERBATIM)
