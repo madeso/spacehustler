@@ -4,8 +4,8 @@
 Classes for input handling.
  */
 
-#ifndef EUPHORIA_INPUT_BINDCHILDLIST_H_
-#define EUPHORIA_INPUT_BINDCHILDLIST_H_
+#ifndef EUPHORIA_INPUT_ACTIVELIST_H_
+#define EUPHORIA_INPUT_ACTIVELIST_H_
 
 #include <vector>
 #include <memory>
@@ -14,16 +14,23 @@ Classes for input handling.
 #include "euphoria/input-activerange.h"
 #include "euphoria/input-activerangetoaxis.h"
 
+class Table;
+
 namespace input {
 
 /** A container for all the actives in the game.
  */
-class BindChildList {
+class ActiveList {
  public:
   void add(std::shared_ptr<ActiveRange> range);
   void add(std::shared_ptr<ActiveAxis> axis);
   void add(std::shared_ptr<ActiveRangeToAxis> axis);
 
+  /** Update the table with the input.
+   */
+  void UpdateTable(Table* table);
+
+  /// @todo move to a global list
   void update(float dt);
 
  private:
@@ -34,4 +41,4 @@ class BindChildList {
 
 }  // namespace input
 
-#endif  // EUPHORIA_INPUT_BINDCHILDLIST_H_
+#endif  // EUPHORIA_INPUT_ACTIVELIST_H_
