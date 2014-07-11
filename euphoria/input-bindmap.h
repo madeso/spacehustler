@@ -4,8 +4,8 @@
 Classes for input handling.
  */
 
-#ifndef EUPHORIA_INPUT_ACTIVEMAP_H_
-#define EUPHORIA_INPUT_ACTIVEMAP_H_
+#ifndef EUPHORIA_INPUT_BINDMAP_H_
+#define EUPHORIA_INPUT_BINDMAP_H_
 
 #include <map>
 #include <memory>
@@ -25,27 +25,25 @@ class Table;
 
 namespace input {
 
-  class InputAction;
+class InputAction;
+class ActiveList;
 
 /** A container for all the actives in the game.
  */
-class ActiveMap {
+class BindMap {
  public:
-   ActiveMap(const InputActionMap& actions);
+  BindMap(const InputActionMap& actions, ActiveList* actives);
   std::shared_ptr<AxisBind> range(const std::string& name);
   std::shared_ptr<RangeBind> axis(const std::string& name);
+
  private:
-   void addRange(std::shared_ptr<InputAction> action);
-   void addAxis(std::shared_ptr<InputAction> action);
+   void addRange(std::shared_ptr<InputAction> action, ActiveList* actives);
+   void addAxis(std::shared_ptr<InputAction> action, ActiveList* actives);
 
-   std::map<std::string, std::shared_ptr<RangeBind>> rangeBinds_;
-   std::map<std::string, std::shared_ptr<AxisBind>> axisBinds_;
-
-   std::vector<std::shared_ptr<ActiveRange>> rangeActives_;
-   std::vector<std::shared_ptr<ActiveAxis>> axisActives_;
-   std::vector<std::shared_ptr<ActiveRangeToAxis>> rangeToAxisActive_;
+  std::map<std::string, std::shared_ptr<RangeBind>> rangeBinds_;
+  std::map<std::string, std::shared_ptr<AxisBind>> axisBinds_;
 };
 
 }  // namespace input
 
-#endif  // EUPHORIA_INPUT_ACTIVEMAP_H_
+#endif  // EUPHORIA_INPUT_BINDMAP_H_
