@@ -9,7 +9,7 @@
 
 namespace input {
 
-  BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
+BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   assert(this);
   std::shared_ptr<InputAction> action;
 
@@ -26,7 +26,8 @@ namespace input {
   }
 }
 
-  void BindMap::addRange(std::shared_ptr<InputAction> action, ActiveList* actives) {
+void BindMap::addRange(std::shared_ptr<InputAction> action,
+                       ActiveList* actives) {
   assert(this);
   std::string actionname;
 
@@ -39,7 +40,8 @@ namespace input {
   rangeBinds_.insert(std::make_pair(actionname, bind));
 }
 
-  void BindMap::addAxis(std::shared_ptr<InputAction> action, ActiveList* actives) {
+void BindMap::addAxis(std::shared_ptr<InputAction> action,
+                      ActiveList* actives) {
   assert(this);
   std::string actionname;
 

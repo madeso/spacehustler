@@ -37,8 +37,8 @@ class BindMap {
   std::shared_ptr<RangeBind> axis(const std::string& name);
 
  private:
-   void addRange(std::shared_ptr<InputAction> action, ActiveList* actives);
-   void addAxis(std::shared_ptr<InputAction> action, ActiveList* actives);
+  void addRange(std::shared_ptr<InputAction> action, ActiveList* actives);
+  void addAxis(std::shared_ptr<InputAction> action, ActiveList* actives);
 
   std::map<std::string, std::shared_ptr<RangeBind>> rangeBinds_;
   std::map<std::string, std::shared_ptr<AxisBind>> axisBinds_;
