@@ -10,22 +10,32 @@ Classes for input handling.
 #include <memory>
 #include <cassert>
 
-#include "euphoria/input-axisbind.h"
+#include "euphoria/input-bind.h"
 
 namespace input {
 
 template <typename T>
-class TAxisBind : public AxisBind {
+class TAxisBind {
  public:
-  TAxisBind(T axis, InputAction* action) : AxisBind(action), axis_(axis) {}
+  TAxisBind(T axis, std::shared_ptr<Bind> bind) : axis_(axis), bind_(bind) {
+    assert(this);
+    assert(bind);
+  }
 
   const T axis() const {
     assert(this);
     return axis_;
   }
 
+  std::shared_ptr<Bind> bind() {
+    assert(this);
+    assert(bind_);
+    return bind_;
+  }
+
  private:
   T axis_;
+  std::shared_ptr<Bind> bind_;
 };
 
 }  // namespace input

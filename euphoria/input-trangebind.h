@@ -7,19 +7,35 @@ Classes for input handling.
 #ifndef EUPHORIA_INPUT_TRANGEBIND_H_
 #define EUPHORIA_INPUT_TRANGEBIND_H_
 
-#include "euphoria/input-rangebind.h"
+#include <memory>
+#include <cassert>
+
+#include "euphoria/input-bind.h"
 
 namespace input {
 template <typename T>
-class TRangeBind : public RangeBind {
+class TRangeBind {
  public:
-  explicit TRangeBind(T button, InputAction* action)
-      : RangeBind(action), button_(button) {}
+  TRangeBind(T button, std::shared_ptr<Bind> bind)
+      : button_(button), bind_(bind) {
+    assert(this);
+    assert(bind);
+  }
 
-  const T button() const { return button_; }
+  const T button() const {
+    assert(this);
+    return button_;
+  }
+
+  std::shared_ptr<Bind> bind() {
+    assert(this);
+    assert(bind);
+    return bind;
+  }
 
  private:
   T button_;
+  std::shared_ptr<Bind> bind_;
 };
 
 }  // namespace input
