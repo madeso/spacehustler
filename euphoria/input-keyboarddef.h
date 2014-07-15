@@ -12,6 +12,7 @@ Classes for input handling.
 
 #include "euphoria/input-key.h"
 #include "euphoria/input-unitdef.h"
+#include "euphoria/input-binddef.h"
 
 namespace Json {
 class Value;
@@ -36,9 +37,10 @@ class KeyboardDef : public UnitDef {
   @param director the input director
   @returns the active keyboard
    */
-  std::shared_ptr<ActiveUnit> Create(InputDirector* director);
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map) override;
 
  private:
+   std::vector<BindDef<Key::Type>> keys_;
 };
 
 }  // namespace input

@@ -13,6 +13,7 @@ namespace input {
 
 class InputDirector;
 class ActiveUnit;
+class BindMap;
 
 /** Definition of a certain input unit.
 Usually loaded from a file.
@@ -27,7 +28,7 @@ class UnitDef {
   @param director the input director
   @returns the active unit.
    */
-  virtual std::shared_ptr<ActiveUnit> Create(InputDirector* director) = 0;
+  virtual std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map) = 0;
 };
 
 }  // namespace input
