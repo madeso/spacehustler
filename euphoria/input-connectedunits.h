@@ -15,6 +15,7 @@ class Table;
 namespace input {
 
 class ActiveUnit;
+class ActiveList;
 
 /** Contains a list of active units.
  */
@@ -22,7 +23,7 @@ class ConnectedUnits {
  public:
   /** Constructor.
    */
-  ConnectedUnits();
+  explicit ConnectedUnits(std::shared_ptr<ActiveList> actives);
 
   /** Updates all connected units.
   @param table the table to update
@@ -41,6 +42,7 @@ class ConnectedUnits {
 
  private:
   std::vector<std::shared_ptr<ActiveUnit>> units_;
+  std::shared_ptr<ActiveList> actives_;
 };
 
 }  // namespace input

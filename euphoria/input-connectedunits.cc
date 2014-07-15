@@ -4,10 +4,15 @@
 #include <cassert>
 
 #include "euphoria/input-activeunit.h"
+#include "euphoria/input-activelist.h"
 
 namespace input {
 
-ConnectedUnits::ConnectedUnits() { assert(this); }
+ConnectedUnits::ConnectedUnits(std::shared_ptr<ActiveList> actives)
+    : actives_(actives) {
+  assert(this);
+  assert(actives);
+}
 
 void ConnectedUnits::Add(std::shared_ptr<ActiveUnit> unit) {
   assert(this);
@@ -18,15 +23,14 @@ void ConnectedUnits::Add(std::shared_ptr<ActiveUnit> unit) {
 void ConnectedUnits::UpdateTable(Table* table) {
   assert(this);
   assert(table);
+  assert(actives_);
 
+  // not really relevant but this is great for error checking
   if (units_.empty()) {
     throw "No units connected for table update to be completed";
   }
 
-  for (auto unit : units_) {
-    assert(unit);
-    unit->UpdateTable(table);
-  }
+  actives_->UpdateTable(table);
 }
 
 bool ConnectedUnits::IsEmpty() const {
