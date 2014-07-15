@@ -11,7 +11,7 @@ Classes for input handling.
 
 #include "euphoria/input-unitdef.h"
 #include "euphoria/input-axis.h"
-#include "euphoria/input-axisbind.h"
+#include "euphoria/input-binddef.h"
 
 namespace Json {
 class Value;
@@ -34,10 +34,10 @@ class MouseDef : public UnitDef {
   @param director the input director
   @returns the active mouse
    */
-  std::shared_ptr<ActiveUnit> Create(InputDirector* director);
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map) override;
 
  private:
-  std::vector<AxisBind<Axis::Type>> axis_;
+  std::vector<BindDef<Axis::Type>> axis_;
   /// @todo add mouse button binds
 };
 }  // namespace input

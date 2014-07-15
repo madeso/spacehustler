@@ -7,6 +7,7 @@
 #include "euphoria/str.h"
 #include "euphoria/input-mouseactiveunit.h"
 #include "euphoria/input-actionmap.h"
+#include "euphoria/input-bindmap.h"
 #include "json/json.h"
 
 namespace input {
@@ -25,7 +26,7 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
         const std::string error = Str() << "Invalid axis " << axisname;
         throw error;
       }
-      axis_.push_back(AxisBind<Axis::Type>(axis, action, d));
+      axis_.push_back(BindDef<Axis::Type>(actionname, axis));
     } else {
       std::string error = Str() << "Unknown input type: " << type;
       throw error;
@@ -33,8 +34,19 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
   }
 }
 
-std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director) {
-  std::shared_ptr<ActiveUnit> unit(new MouseActiveUnit(axis_, director));
+std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director, BindMap* map) {
+  assert(this);
+  assert(director);
+  assert(map);
+
+  std::vector<std::shared_ptr<TAxisBind<Axis::Type>>> binds;
+
+  for(const auto& key : axis_) {
+    std::shared_ptr<TAxisBind<Axis::Type>> b(new TAxisBind<Axis::Type>(key.type(), map->axis(key.id())));
+    binds.push_back(b);
+  }
+
+  std::shared_ptr<ActiveUnit> unit(new MouseActiveUnit(binds, director));
   return unit;
 }
 
