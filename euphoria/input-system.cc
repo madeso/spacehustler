@@ -58,7 +58,7 @@ void InputSystem::SetUnitForPlayer(const std::string& playerName,
   std::shared_ptr<Player> player = res->second;
 
   auto config = configs_.Get(inputname);
-  player->set_units(config->Connect(input_.get()));
+  player->set_units(config->Connect(&actions_, input_.get()));
 }
 
 void InputSystem::OnKeyboardKey(Key::Type key, bool down) {

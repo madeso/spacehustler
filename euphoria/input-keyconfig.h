@@ -16,6 +16,7 @@ namespace input {
 
 class UnitDef;
 class InputDirector;
+class InputActionMap;
 class BindMap;
 
 /** Contains a list of configurations.
@@ -36,10 +37,12 @@ class KeyConfig {
   @param director the input director
   @returns the connected units
    */
-  ConnectedUnits Connect(InputDirector* director, BindMap* binds) const;
+  ConnectedUnits Connect(const InputActionMap& actions,
+                         InputDirector* director);
 
  private:
   std::vector<std::shared_ptr<UnitDef>> definitions_;
+  std::shared_ptr<BindMap> binds_;
 };
 
 }  // namespace input

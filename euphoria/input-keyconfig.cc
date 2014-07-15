@@ -4,7 +4,9 @@
 #include <cassert>
 
 #include "euphoria/input-unitdef.h"
-
+#include "euphoria/input-bindmap.h"
+#include "euphoria/input-activelist.h"
+#include "euphoria/input-director.h"
 namespace input {
 
 KeyConfig::KeyConfig() { assert(this); }
@@ -15,15 +17,16 @@ void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
   definitions_.push_back(def);
 }
 
-ConnectedUnits KeyConfig::Connect(InputDirector* director,
-                                  BindMap* binds) const {
+ConnectedUnits KeyConfig::Connect(const InputActionMap& actions,
+                                  InputDirector* director) {
   assert(this);
   assert(director);
-  assert(binds);
+  std::shared_ptr<ActiveList> actives(new ActiveList());
+  binds_.reset(new BindMap(actions, actives.get()));
 
-  ConnectedUnits units;
+  ConnectedUnits units(actives);
   for (auto def : definitions_) {
-    auto unit = def->Create(director, binds);
+    auto unit = def->Create(director, binds_.get());
     assert(unit);
     units.Add(unit);
   }
