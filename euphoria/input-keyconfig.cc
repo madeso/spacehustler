@@ -15,13 +15,15 @@ void KeyConfig::Add(std::shared_ptr<UnitDef> def) {
   definitions_.push_back(def);
 }
 
-ConnectedUnits KeyConfig::Connect(InputDirector* director) const {
+ConnectedUnits KeyConfig::Connect(InputDirector* director,
+                                  BindMap* binds) const {
   assert(this);
   assert(director);
+  assert(binds);
 
   ConnectedUnits units;
   for (auto def : definitions_) {
-    auto unit = def->Create(director);
+    auto unit = def->Create(director, binds);
     assert(unit);
     units.Add(unit);
   }

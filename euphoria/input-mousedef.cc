@@ -28,7 +28,7 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
       }
       axis_.push_back(BindDef<Axis::Type>(actionname, axis));
     } else {
-      std::string error = Str() << "Unknown input type: " << type;
+      std::string error = Str() << "Unknown input type for mouse: " << type;
       throw error;
     }
   }

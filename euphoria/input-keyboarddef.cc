@@ -23,15 +23,22 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
     const std::string actionname = d.get("action", "").asString();
     const auto action = map.Get(actionname);
 
-    const std::string keyname = d.get("key", "").asString();
-    const auto key = Key::FromString(keyname);
+    const std::string type = d.get("type", "").asString();
 
-    if (key == Key::Invalid) {
-      auto error = (Str() << keyname << " is a invalid key for the "
-                          << actionname << " action").ToString();
+    if (type == "button") {
+      const std::string keyname = d.get("key", "").asString();
+      const auto key = Key::FromString(keyname);
+
+      if (key == Key::Invalid) {
+        auto error = (Str() << keyname << " is a invalid key for the "
+                            << actionname << " action").ToString();
+        throw error;
+      }
+      keys_.push_back(BindDef<Key::Type>(actionname, key));
+    } else {
+      std::string error = Str() << "Unknown input type for keyboard: " << type;
       throw error;
     }
-    keys_.push_back(BindDef<Key::Type>(actionname, key));
   }
 }
 

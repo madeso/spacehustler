@@ -16,6 +16,7 @@ namespace input {
 
 class UnitDef;
 class InputDirector;
+class BindMap;
 
 /** Contains a list of configurations.
 A good example is Mouse+Keyboard.
@@ -35,7 +36,7 @@ class KeyConfig {
   @param director the input director
   @returns the connected units
    */
-  ConnectedUnits Connect(InputDirector* director) const;
+  ConnectedUnits Connect(InputDirector* director, BindMap* binds) const;
 
  private:
   std::vector<std::shared_ptr<UnitDef>> definitions_;
