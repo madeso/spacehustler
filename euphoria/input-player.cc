@@ -12,12 +12,13 @@ Player::Player() { assert(this); }
 void Player::UpdateTable(Table* table) {
   assert(this);
   assert(table);
-  units_.UpdateTable(table);
+  units_->UpdateTable(table);
 }
 
-void Player::set_units(ConnectedUnits units) {
+void Player::set_units(std::shared_ptr<ConnectedUnits> units) {
   assert(this);
-  assert(units.IsEmpty() == false);
+  assert(units);
+  assert(units->IsEmpty() == false);
   units_ = units;
 }
 

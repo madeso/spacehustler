@@ -7,6 +7,8 @@ Classes for input handling.
 #ifndef EUPHORIA_INPUT_PLAYER_H_
 #define EUPHORIA_INPUT_PLAYER_H_
 
+#include <memory>
+
 #include "euphoria/input-connectedunits.h"
 
 class Table;
@@ -31,10 +33,10 @@ class Player {
   /** Sets the connected units.
   @param units the units
   */
-  void set_units(ConnectedUnits units);
+  void set_units(std::shared_ptr<ConnectedUnits> units);
 
  private:
-  ConnectedUnits units_;
+  std::shared_ptr<ConnectedUnits> units_;
 };
 
 }  // namespace input
