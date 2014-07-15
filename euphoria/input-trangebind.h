@@ -29,8 +29,8 @@ class TRangeBind {
 
   std::shared_ptr<Bind> bind() {
     assert(this);
-    assert(bind);
-    return bind;
+    assert(bind_);
+    return bind_;
   }
 
  private:
