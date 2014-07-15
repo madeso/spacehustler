@@ -35,15 +35,17 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
   }
 }
 
-std::shared_ptr<ActiveUnit> KeyboardDef::Create(InputDirector* director, BindMap* map) {
+std::shared_ptr<ActiveUnit> KeyboardDef::Create(InputDirector* director,
+                                                BindMap* map) {
   assert(this);
   assert(director);
   assert(map);
 
   std::vector<std::shared_ptr<TRangeBind<Key::Type>>> binds;
 
-  for(const auto& key : keys_) {
-    std::shared_ptr<TRangeBind<Key::Type>> b(new TRangeBind<Key::Type>(key.type(), map->range(key.id())));
+  for (const auto& key : keys_) {
+    std::shared_ptr<TRangeBind<Key::Type>> b(
+        new TRangeBind<Key::Type>(key.type(), map->range(key.id())));
     binds.push_back(b);
   }
 

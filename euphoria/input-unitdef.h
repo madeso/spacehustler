@@ -28,7 +28,8 @@ class UnitDef {
   @param director the input director
   @returns the active unit.
    */
-  virtual std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map) = 0;
+  virtual std::shared_ptr<ActiveUnit> Create(InputDirector* director,
+                                             BindMap* map) = 0;
 };
 
 }  // namespace input

@@ -18,19 +18,21 @@ namespace input {
 template <typename Type>
 class BindDef {
  public:
-   BindDef(const std::string& id, const Type type)
-     : id_(id), type_(type) {assert(this);}
-   const std::string& id() const {
-     assert(this);
-     return id_;
-   }
-   const Type type() const {
-     assert(this);
-     return type_;
-   }
+  BindDef(const std::string& id, const Type type) : id_(id), type_(type) {
+    assert(this);
+  }
+  const std::string& id() const {
+    assert(this);
+    return id_;
+  }
+  const Type type() const {
+    assert(this);
+    return type_;
+  }
+
  private:
-   std::string id_;
-   Type type_;
+  std::string id_;
+  Type type_;
 };
 
 }  // namespace input

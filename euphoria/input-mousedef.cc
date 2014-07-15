@@ -34,15 +34,17 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
   }
 }
 
-std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director, BindMap* map) {
+std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director,
+                                             BindMap* map) {
   assert(this);
   assert(director);
   assert(map);
 
   std::vector<std::shared_ptr<TAxisBind<Axis::Type>>> binds;
 
-  for(const auto& key : axis_) {
-    std::shared_ptr<TAxisBind<Axis::Type>> b(new TAxisBind<Axis::Type>(key.type(), map->axis(key.id())));
+  for (const auto& key : axis_) {
+    std::shared_ptr<TAxisBind<Axis::Type>> b(
+        new TAxisBind<Axis::Type>(key.type(), map->axis(key.id())));
     binds.push_back(b);
   }
 

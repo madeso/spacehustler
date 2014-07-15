@@ -7,9 +7,7 @@
 namespace input {
 
 namespace {
-  void test() {
-    BindDef<int> def("dog", 1);
-  }
+void test() { BindDef<int> def("dog", 1); }
 }
 
 }  // namespace input

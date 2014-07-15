@@ -34,7 +34,8 @@ class MouseDef : public UnitDef {
   @param director the input director
   @returns the active mouse
    */
-  std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map) override;
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director,
+                                     BindMap* map) override;
 
  private:
   std::vector<BindDef<Axis::Type>> axis_;
