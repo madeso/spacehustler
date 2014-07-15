@@ -16,8 +16,8 @@ MouseActiveUnit::MouseActiveUnit(
   assert(director_);
 
   for (auto a : axis) {
-    Add(a->action());
-    actions_.insert(std::make_pair(a->axis(), a));
+    Add(a->bind()->action());
+    actions_.insert(std::make_pair(a->axis(), a->bind()));
   }
 
   director_->Add(this);
@@ -27,7 +27,6 @@ void MouseActiveUnit::OnAxis(const Axis::Type& key, float state) {
   assert(this);
   auto res = actions_.find(key);
   if (res != actions_.end()) {
-    /// @todo use axisdata to change state
     res->second->set_value(state);
   }
 }

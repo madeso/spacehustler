@@ -11,7 +11,6 @@ Classes for input handling.
 #include <map>
 
 #include "euphoria/input-axis.h"
-#include "euphoria/input-axisbind.h"
 #include "euphoria/input-activeunit.h"
 #include "euphoria/input-taxisbind.h"
 
@@ -50,7 +49,7 @@ class MouseActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  std::map<Axis::Type, std::shared_ptr<TAxisBind<Axis::Type>>> actions_;
+  std::map<Axis::Type, std::shared_ptr<Bind>> actions_;
 };
 
 }  // namespace input
