@@ -16,6 +16,7 @@ class Table;
 namespace input {
 
 class InputAction;
+class GlobalToggle;
 
 /** A map of all the available input actions.
  */
@@ -36,9 +37,11 @@ class InputActionMap {
   @returns the input action
    */
   std::shared_ptr<InputAction> Get(const std::string& name) const;
+  std::shared_ptr<GlobalToggle> GetGlobalToggle(const std::string& name) const;
 
  private:
   std::map<std::string, std::shared_ptr<InputAction>> actions_;
+  std::map<std::string, std::shared_ptr<GlobalToggle>> toggles_;
 };
 
 /** Load actions from file.

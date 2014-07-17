@@ -19,5 +19,20 @@ const Range::Type InputAction::range() const {
   assert(this);
   return range_;
 }
+  
+  void InputAction::Add(GlobalToggle* toggle) {
+    assert(this);
+    assert(toggle);
+    toggles_.push_back(toggle);
+  }
+  
+  void InputAction::Remove(GlobalToggle* toggle) {
+    assert(this);
+    assert(toggle);
+    auto res = std::find(toggles_.begin(), toggles_.end(), toggle);
+    assert(res != toggles_.end());
+    toggles_.erase(res);
+  }
+
 
 }  // namespace input

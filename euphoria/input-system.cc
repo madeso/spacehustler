@@ -43,9 +43,9 @@ InputSystem::~InputSystem() {
   players_.clear();
 }
 
-std::shared_ptr<InputAction> InputSystem::GetAction(const std::string& name) {
+std::shared_ptr<GlobalToggle> InputSystem::GetAction(const std::string& name) {
   assert(this);
-  return actions_.Get(name);
+  return actions_.GetGlobalToggle(name);
 }
 
 void InputSystem::SetUnitForPlayer(const std::string& playerName,

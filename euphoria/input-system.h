@@ -22,7 +22,7 @@ class Table;
 namespace input {
 
 class Player;
-class InputAction;
+class GlobalToggle;
 class InputDirector;
 
 /** the master class that controls the input system.
@@ -41,7 +41,7 @@ class InputSystem {
   @param name the name of the action
   @returns the action
    */
-  std::shared_ptr<InputAction> GetAction(const std::string& name);
+  std::shared_ptr<GlobalToggle> GetAction(const std::string& name);
 
   /** Setups a input unit for a player.
   @param playerName the name of the player

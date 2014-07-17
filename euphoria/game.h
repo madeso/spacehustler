@@ -82,7 +82,7 @@ class Game {
   int width_;
   int height_;
   bool keep_running_;
-  std::shared_ptr<input::InputAction> tweakaction_;
+  std::shared_ptr<input::GlobalToggle> tweakaction_;
   bool last_tweak_action_;
   bool lock_mouse_;
   bool istweaking_;
