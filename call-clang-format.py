@@ -3,6 +3,7 @@ import argparse
 import sys
 import glob
 import platform
+import os
 from subprocess import call
 
 parser = argparse.ArgumentParser(description="Run clang-format with globbing support and less arguments")
@@ -12,9 +13,10 @@ args = parser.parse_args()
 clangformat = "clang-format"
 # on osx assume that the clang-format is installed via alcatraz in eclipse
 if platform.mac_ver() != '':
-	clangformat = "~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/ClangFormat.xcplugin/Contents/Resources/clang-format"
+	clangformat = "~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/ClangFormat.xcplugin/Contents/Resources/clang-format"
 
 print "clang-format: ", clangformat
+print os.path.exists(clangformat)
 
 error_count = 0
 
@@ -23,8 +25,10 @@ lastcmd = []
 try:
 	for dir in args.files:
 		count = 0
-		for filename in glob.glob(dir):
+		for fname in glob.glob(dir):
+			filename = os.path.abspath(fname)
 			count += 1
+			print "Working ", filename
 			lastcmd = [clangformat, "-i", "-style=Google", filename]
 			retcode = call(lastcmd)
 			if retcode <> 0:
@@ -36,8 +40,9 @@ try:
 			sys.stderr.write(dir + ' didnt yield any files\n')
 except OSError, e:
 	sys.stderr.write("""Failed to call clang-format!
-		Error: %s
 		Command: %s
-		""" % (str(e), str(lastcmd)) )
+		Error %s - %s
+		In %s
+		""" % (str(lastcmd), str(e.errno), e.strerror, e.filename) )
 
 sys.exit(error_count > 0)
