@@ -21,7 +21,7 @@ void InputActionMap::Add(const std::string& name,
   assert(this);
   assert(action);
   actions_.insert(std::make_pair(name, action));
-  if( action->IsGlobal() ) {
+  if (action->IsGlobal()) {
     std::shared_ptr<GlobalToggle> toggle(new GlobalToggle());
     action->toggle(toggle);
     toggles_.insert(std::make_pair(name, toggle));
@@ -40,19 +40,19 @@ std::shared_ptr<InputAction> InputActionMap::Get(const std::string& name)
   assert(res->second);
   return res->second;
 }
-  
-  std::shared_ptr<GlobalToggle> InputActionMap::GetGlobalToggle(const std::string& name)
-  const {
-    assert(this);
-    auto res = toggles_.find(name);
-    if (res == toggles_.end()) {
-      const std::string error = Str() << "Unable to find toggle: " << name;
-      throw error;
-    }
-    
-    assert(res->second);
-    return res->second;
+
+std::shared_ptr<GlobalToggle> InputActionMap::GetGlobalToggle(
+    const std::string& name) const {
+  assert(this);
+  auto res = toggles_.find(name);
+  if (res == toggles_.end()) {
+    const std::string error = Str() << "Unable to find toggle: " << name;
+    throw error;
   }
+
+  assert(res->second);
+  return res->second;
+}
 
 //////////////////////////////////////////////////////////////////////////
 

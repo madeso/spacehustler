@@ -16,8 +16,8 @@ class Table;
 
 namespace input {
 
-  class GlobalToggle;
-  
+class GlobalToggle;
+
 /** A input action.
  */
 class InputAction {
@@ -36,14 +36,15 @@ class InputAction {
   @returns the range of this input
    */
   const Range::Type range() const;
-  
+
   void Add(GlobalToggle* toggle);
   void Remove(GlobalToggle* toggle);
 
  private:
   std::string scriptvarname_;
   Range::Type range_;
-  std::vector<GlobalToggle* > toggles_; // transform into a unique vector instead?
+  std::vector<GlobalToggle*> toggles_;  // transform into a unique vector
+                                        // instead?
 };
 
 }  // namespace input
