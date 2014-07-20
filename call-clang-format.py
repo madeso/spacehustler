@@ -12,7 +12,8 @@ args = parser.parse_args()
 
 clangformat = "clang-format"
 # on osx assume that the clang-format is installed via alcatraz in eclipse
-if platform.mac_ver() != '':
+# http://stackoverflow.com/questions/110362/how-can-i-find-the-current-os-in-python
+if platform.system() == 'Darwin':
 	clangformat = "~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/ClangFormat.xcplugin/Contents/Resources/clang-format"
 
 print "clang-format: ", clangformat
