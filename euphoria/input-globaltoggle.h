@@ -25,9 +25,12 @@ class GlobalToggle {
   void Add(Bind* bind);
   void Remove(Bind* bind);
 
+  bool state() const;
+
  private:
   std::shared_ptr<InputAction> action_;
-  float state_;
+  bool state_;
+  Bind* currentStateHolder_;
 };
 
 }  // namespace input

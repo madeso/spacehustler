@@ -25,7 +25,7 @@
 #include "euphoria/oculusvr.h"
 #include "euphoria/fbo.h"
 #include "euphoria/quad.h"
-#include "euphoria/input-action.h"
+#include "euphoria/input-globaltoggle.h"
 
 namespace {
 Game*& GameInstance() {
@@ -259,7 +259,7 @@ void Game::Update(float dt) {
   RUNTWEAKCODE(tweakers_->update());
   container_->Step(dt);
 
-  const bool tweak = tweakaction_->state() > 0.5f;
+  const bool tweak = tweakaction_->state();
 
   if (tweak && tweak != last_tweak_action_) {
     istweaking_ = !istweaking_;
