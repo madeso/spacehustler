@@ -13,10 +13,19 @@ Classes for input handling.
 #include "euphoria/input-active.h"
 
 namespace input {
+
+class ActiveAxis;
+class ActiveRangeToAxis;
+
 class ActiveMasterAxis : public InputActive {
  public:
-  explicit ActiveMasterAxis(InputAction* action);
+  explicit ActiveMasterAxis(InputAction* action, ActiveAxis* axis,
+                            ActiveRangeToAxis* range);
   void update(float dt);
+
+ private:
+  ActiveAxis* axis_;
+  ActiveRangeToAxis* range_;
 };
 
 }  // namespace input

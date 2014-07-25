@@ -6,6 +6,7 @@
 #include "euphoria/input-activeaxis.h"
 #include "euphoria/input-activerange.h"
 #include "euphoria/input-activerangetoaxis.h"
+#include "euphoria/input-activemasteraxis.h"
 
 #include "euphoria/input-action.h"
 #include "euphoria/lua.h"
@@ -25,6 +26,11 @@ void ActiveList::add(std::shared_ptr<ActiveAxis> axis) {
 void ActiveList::add(std::shared_ptr<ActiveRangeToAxis> axis) {
   assert(this);
   rangeToAxisBinds_.push_back(axis);
+}
+
+void ActiveList::add(std::shared_ptr<ActiveMasterAxis> axis) {
+  assert(this);
+  masterAxisBinds_.push_back(axis);
 }
 
 void ActiveList::UpdateTable(Table* table) {
@@ -52,6 +58,9 @@ void ActiveList::Update(float dt) {
     axis->update(dt);
   }
   for (auto axis : rangeToAxisBinds_) {
+    axis->update(dt);
+  }
+  for (auto axis : masterAxisBinds_) {
     axis->update(dt);
   }
 }

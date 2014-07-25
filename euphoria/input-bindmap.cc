@@ -6,6 +6,7 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-range.h"
 #include "euphoria/input-activelist.h"
+#include "euphoria/input-activemasteraxis.h"
 #include "euphoria/str.h"
 
 namespace input {
@@ -82,6 +83,10 @@ void BindMap::addAxis(std::shared_ptr<InputAction> action,
   actives->add(activeAxis);
   rangeBinds_.insert(std::make_pair(actionname + "-", bindNeg));
   rangeBinds_.insert(std::make_pair(actionname + "+", bindPos));
+
+  std::shared_ptr<ActiveMasterAxis> masterAxis(
+      new ActiveMasterAxis(action.get(), active.get(), activeAxis.get()));
+  actives->add(masterAxis);
 }
 
 }  // namespace input
