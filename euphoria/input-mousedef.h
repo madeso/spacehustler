@@ -12,6 +12,7 @@ Classes for input handling.
 #include "euphoria/input-unitdef.h"
 #include "euphoria/input-axis.h"
 #include "euphoria/input-binddef.h"
+#include "euphoria/input-key.h"
 
 namespace Json {
 class Value;
@@ -39,7 +40,7 @@ class MouseDef : public UnitDef {
 
  private:
   std::vector<BindDef<Axis::Type>> axis_;
-  /// @todo add mouse button binds
+  std::vector<BindDef<MouseButton::Type>> keys_;
 };
 }  // namespace input
 

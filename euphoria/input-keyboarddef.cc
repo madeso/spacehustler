@@ -9,10 +9,9 @@
 #include "json/json.h"
 
 #include "euphoria/input-keyboardactiveunit.h"
-#include "euphoria/input-actionmap.h"
 #include "euphoria/input-bindmap.h"
-#include "euphoria/input-action.h"
 #include "euphoria/stringutils.h"
+#include "euphoria/input-commondef.h"
 
 namespace input {
 
@@ -22,38 +21,21 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
   for (Json::ArrayIndex i = 0; i < data.size(); ++i) {
     Json::Value d = data[i];
 
-    const std::string bindname = d.get("action", "").asString();
+    auto common = GetCommonDef(d, map);
 
-    // verify action
-    const std::string actionname =
-        RemoveFromEnd(RemoveFromEnd(bindname, "+"), "-");
-    const auto action = map.Get(actionname);
-    if (actionname != bindname) {
-      // bindname is different from actionname, must be a axis
-      bool isAxis = action->range() == Range::Infinite ||
-                    action->range() == Range::WithinNegative1Positive1;
-      if (!isAxis) {
-        const std::string error =
-            Str() << "bind " << bindname
-                  << " looks like a axis but isn't for action " << actionname;
-        throw error;
-      }
-    }
-
-    const std::string type = d.get("type", "").asString();
-
-    if (type == "button") {
+    if (common.type == "button") {
       const std::string keyname = d.get("key", "").asString();
       const auto key = Key::FromString(keyname);
 
       if (key == Key::Invalid) {
         auto error = (Str() << keyname << " is a invalid key for the "
-                            << bindname << " action").ToString();
+                            << common.bindname << " action").ToString();
         throw error;
       }
-      keys_.push_back(BindDef<Key::Type>(bindname, key));
+      keys_.push_back(BindDef<Key::Type>(common.bindname, key));
     } else {
-      std::string error = Str() << "Unknown input type for keyboard: " << type;
+      std::string error =
+          Str() << "Unknown input type for keyboard: " << common.type;
       throw error;
     }
   }
@@ -65,15 +47,14 @@ std::shared_ptr<ActiveUnit> KeyboardDef::Create(InputDirector* director,
   assert(director);
   assert(map);
 
-  std::vector<std::shared_ptr<TRangeBind<Key::Type>>> binds;
-
+  std::vector<std::shared_ptr<TRangeBind<Key::Type>>> keybinds;
   for (const auto& key : keys_) {
     std::shared_ptr<TRangeBind<Key::Type>> b(
         new TRangeBind<Key::Type>(key.type(), map->range(key.id())));
-    binds.push_back(b);
+    keybinds.push_back(b);
   }
 
-  std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(binds, director));
+  std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(keybinds, director));
   return unit;
 }
 

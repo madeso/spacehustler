@@ -27,6 +27,18 @@ enum Type {
   ,
   X2  /// The X2 mouse button
 };
+
+/** Generate a string representation of the given button
+@param k the key
+@returns the string representation
+ */
+std::string ToString(Type k);
+
+/** Generate a key from a string.
+@param keyname the name of the button
+@returns the Button or None
+ */
+Type FromString(const std::string& keyname);
 }  // namespace MouseButton
 
 namespace Key {

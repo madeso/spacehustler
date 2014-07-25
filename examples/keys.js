@@ -7,7 +7,6 @@
 				"binds":
 				[
 					  {"action":"enable_tweak", "type":"button", "key":"Tab"}
-					, {"action":"force",        "type":"button", "key":"Space"}
 					, {"action":"yaw+",          "type":"button", "key":"Q"}
 					, {"action":"yaw-",          "type":"button", "key":"E"}
 					, {"action":"pitch+",        "type":"button", "key":"S"}
@@ -24,6 +23,7 @@
 				[
 					  {"action":"camhorizontal", "type":"axis", "sign":"+", "axis":"x", "invert":false, "scale":1.2}
 					, {"action":"camvertical",    "type":"axis", "sign":"-", "axis":"y", "scale":1.2}
+					, {"action":"force",        "type":"button", "key":"left"}
 				]
 			}
 		]

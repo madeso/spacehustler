@@ -51,10 +51,10 @@ Planned Features and stuff that needs to be done
 * make sdl the only launcher
 * force feedback/haptics
 * complete oculus rift support
-* fix osx build
 * physics motor support
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
+* fix osx build
 * debug overlay
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
