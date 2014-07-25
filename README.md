@@ -47,10 +47,10 @@ Planned Features and stuff that needs to be done
 * add override to all virtual function overrides
 * Investigate constexpr
 * static_assert
-* upgrade assimp
 * remove all traces of astyle
 * make sdl the only launcher
 * force feedback/haptics
+* complete oculus rift support
 * fix osx build
 * physics motor support
 * hud/2d support
@@ -58,9 +58,9 @@ Planned Features and stuff that needs to be done
 * debug overlay
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
+* upgrade assimp
 * port to android?
 * replace filehandling with physfs (on android: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
-* complete oculus rift support
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * culling + world editor
 * lights and shaddows
