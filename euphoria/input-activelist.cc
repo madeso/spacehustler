@@ -8,7 +8,7 @@
 #include "euphoria/input-activerangetoaxis.h"
 
 #include "euphoria/input-action.h"
-#include "lua.h"
+#include "euphoria/lua.h"
 
 namespace input {
 
