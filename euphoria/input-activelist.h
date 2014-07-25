@@ -10,13 +10,13 @@ Classes for input handling.
 #include <vector>
 #include <memory>
 
-#include "euphoria/input-activeaxis.h"
-#include "euphoria/input-activerange.h"
-#include "euphoria/input-activerangetoaxis.h"
-
 class Table;
 
 namespace input {
+
+class ActiveRange;
+class ActiveAxis;
+class ActiveRangeToAxis;
 
 /** A container for all the actives in the game.
  */
@@ -31,7 +31,7 @@ class ActiveList {
   void UpdateTable(Table* table);
 
   /// @todo move to a global list
-  void update(float dt);
+  void Update(float dt);
 
  private:
   std::vector<std::shared_ptr<ActiveRange>> rangeBinds_;

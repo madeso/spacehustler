@@ -257,6 +257,7 @@ input::InputSystem& Game::inputsystem() {
 void Game::Update(float dt) {
   assert(this);
   RUNTWEAKCODE(tweakers_->update());
+  inputsystem_.Update(dt);
   container_->Step(dt);
 
   const bool tweak = tweakaction_->state();

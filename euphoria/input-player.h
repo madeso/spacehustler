@@ -30,6 +30,8 @@ class Player {
   */
   void UpdateTable(Table* table);
 
+  void Update(float dt);
+
   /** Sets the connected units.
   @param units the units
   */

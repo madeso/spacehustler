@@ -3,6 +3,13 @@
 #include "euphoria/input-activelist.h"
 #include <cassert>
 
+#include "euphoria/input-activeaxis.h"
+#include "euphoria/input-activerange.h"
+#include "euphoria/input-activerangetoaxis.h"
+
+#include "euphoria/input-action.h"
+#include "lua.h"
+
 namespace input {
 
 void ActiveList::add(std::shared_ptr<ActiveRange> range) {
@@ -23,9 +30,21 @@ void ActiveList::add(std::shared_ptr<ActiveRangeToAxis> axis) {
 void ActiveList::UpdateTable(Table* table) {
   assert(this);
   assert(table);
+
+  for (auto b : rangeBinds_) {
+    table->Set(b->action().scriptvarname(), b->state());
+  }
+
+  for (auto b : axisBinds_) {
+    table->Set(b->action().scriptvarname(), b->state());
+  }
+
+  for (auto b : rangeToAxisBinds_) {
+    table->Set(b->action().scriptvarname(), b->state());
+  }
 }
 
-void ActiveList::update(float dt) {
+void ActiveList::Update(float dt) {
   for (auto range : rangeBinds_) {
     range->update(dt);
   }

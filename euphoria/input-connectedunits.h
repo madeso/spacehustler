@@ -30,6 +30,8 @@ class ConnectedUnits {
    */
   void UpdateTable(Table* table);
 
+  void Update(float dt);
+
   /** Add a unit.
   @param unit the unit to add
    */

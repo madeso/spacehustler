@@ -33,6 +33,13 @@ void ConnectedUnits::UpdateTable(Table* table) {
   actives_->UpdateTable(table);
 }
 
+void ConnectedUnits::Update(float dt) {
+  assert(this);
+  assert(actives_);
+
+  actives_->Update(dt);
+}
+
 bool ConnectedUnits::IsEmpty() const {
   assert(this);
   return units_.empty();

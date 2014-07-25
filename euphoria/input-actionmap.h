@@ -26,6 +26,8 @@ class InputActionMap {
    */
   InputActionMap();
 
+  void Update();
+
   /** Add a action.
   @param name the name of the action
   @param action the action itself

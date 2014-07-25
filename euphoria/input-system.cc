@@ -50,6 +50,7 @@ std::shared_ptr<GlobalToggle> InputSystem::GetAction(const std::string& name) {
 
 void InputSystem::SetUnitForPlayer(const std::string& playerName,
                                    const std::string& inputname) {
+  assert(this);
   auto res = players_.find(playerName);
   if (res == players_.end()) {
     const std::string error = Str() << "Unable to find player " << playerName;
@@ -59,6 +60,15 @@ void InputSystem::SetUnitForPlayer(const std::string& playerName,
 
   auto config = configs_.Get(inputname);
   player->set_units(config->Connect(actions_, input_.get()));
+}
+
+void InputSystem::Update(float dt) {
+  assert(this);
+  actions_.Update();
+
+  for (auto p : players_) {
+    p.second->Update(dt);
+  }
 }
 
 void InputSystem::OnKeyboardKey(Key::Type key, bool down) {

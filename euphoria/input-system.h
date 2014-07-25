@@ -50,6 +50,8 @@ class InputSystem {
   void SetUnitForPlayer(const std::string& playerName,
                         const std::string& inputName);
 
+  void Update(float dt);
+
   /** Send a keyboard event.
   @param key the key to act upon
   @param down true if it is down, false if not

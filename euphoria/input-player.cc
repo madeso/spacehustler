@@ -15,6 +15,11 @@ void Player::UpdateTable(Table* table) {
   units_->UpdateTable(table);
 }
 
+void Player::Update(float dt) {
+  assert(this);
+  units_->Update(dt);
+}
+
 void Player::set_units(std::shared_ptr<ConnectedUnits> units) {
   assert(this);
   assert(units);

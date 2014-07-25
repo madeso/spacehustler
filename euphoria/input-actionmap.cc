@@ -16,6 +16,13 @@ namespace input {
 
 InputActionMap::InputActionMap() { assert(this); }
 
+void InputActionMap::Update() {
+  assert(this);
+  for (auto t : toggles_) {
+    (t.second)->Update();
+  }
+}
+
 void InputActionMap::Add(const std::string& name,
                          std::shared_ptr<InputAction> action) {
   assert(this);
