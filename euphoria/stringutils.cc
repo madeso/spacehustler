@@ -81,3 +81,14 @@ void Copy(char* dst, const std::string& src,
   strncpy(dst, src.c_str(), count - 1);
   dst[count - 1] = 0;
 }
+
+std::string RemoveFromEnd(const std::string& str, const std::string& end) {
+  if (EndsWith(str, end)) {
+    const auto new_length = str.length() - end.length();
+    if (new_length == 0) return "";
+    assert(new_length > 0);
+    return str.substr(0, new_length);
+  } else {
+    return str;
+  }
+}

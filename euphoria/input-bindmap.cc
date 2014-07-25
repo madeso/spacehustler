@@ -11,18 +11,20 @@ namespace input {
 
 BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   assert(this);
-  std::shared_ptr<InputAction> action;
+  const auto as = actions.GetActionList();
 
-  switch (action->range()) {
-    case Range::Infinite:
-    case Range::WithinNegative1Positive1:
-      addAxis(action, actives);
-      break;
-    case Range::Within01:
-      addRange(action, actives);
-      break;
-    default:
-      throw "Invalid range type";
+  for (auto action : as) {
+    switch (action->range()) {
+      case Range::Infinite:
+      case Range::WithinNegative1Positive1:
+        addAxis(action, actives);
+        break;
+      case Range::Within01:
+        addRange(action, actives);
+        break;
+      default:
+        throw "Invalid range type";
+    }
   }
 }
 

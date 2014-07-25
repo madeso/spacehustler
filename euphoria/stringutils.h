@@ -90,6 +90,8 @@ terminator)
 void Copy(char* dst, const std::string& src,
           const std::string::size_type& count);
 
+std::string RemoveFromEnd(const std::string& str, const std::string& end);
+
 /** @} */
 
 #endif  // EUPHORIA_STRINGUTILS_H_

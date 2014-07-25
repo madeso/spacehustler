@@ -60,6 +60,16 @@ std::shared_ptr<GlobalToggle> InputActionMap::GetGlobalToggle(
   return res->second;
 }
 
+std::vector<std::shared_ptr<InputAction>> InputActionMap::GetActionList()
+    const {
+  assert(this);
+  std::vector<std::shared_ptr<InputAction>> ret;
+  for (auto a : actions_) {
+    ret.push_back(a.second);
+  }
+  return ret;
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 void Load(InputActionMap* map, const std::string& filename) {

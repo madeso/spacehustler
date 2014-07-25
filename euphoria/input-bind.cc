@@ -16,7 +16,7 @@ Bind::Bind(InputAction* action, BindType::Type type)
   assert(action_);
 
   // if the action is a global, we should have a toggle
-  assert(action_->global() && toggle_ != 0);
+  assert(action_->global() == (toggle_ != 0));
 
   if (toggle_) {
     assert(action->global());  // the action should be global
