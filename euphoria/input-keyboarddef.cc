@@ -33,7 +33,9 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
       bool isAxis = action->range() == Range::Infinite ||
                     action->range() == Range::WithinNegative1Positive1;
       if (!isAxis) {
-        const std::string error = Str() << "bind looks like a axis but isn't";
+        const std::string error =
+            Str() << "bind " << bindname
+                  << " looks like a axis but isn't for action " << actionname;
         throw error;
       }
     }

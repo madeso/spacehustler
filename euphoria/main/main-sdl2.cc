@@ -345,7 +345,8 @@ class Joystick {
   explicit Joystick(int id)
       : id_(id), joystick_(SDL_JoystickOpen(id)), numHats_(0) {
     if (joystick_ == NULL) {
-      const std::string error = Str() << "Failed to open joystick"; throw error;
+      const std::string error = Str() << "Failed to open joystick at " << id;
+      throw error;
     }
 
     numHats_ = SDL_JoystickNumHats(joystick_);
@@ -1087,11 +1088,14 @@ void logic() {
                              ? di.height()
                              : settings.height();
       if (width > di.width()) {
-        const std::string error = Str() << "Target width is too large";
+        const std::string error = Str() << "Target width is too large "
+          << width << " vs " << di.width();
         throw error;
       }
       if (height > di.height()) {
-        const std::string error = Str() << "height is too large"; throw error;
+        const std::string error = Str() << "height is too large "
+          << height << " vs " << di.height();
+        throw error;
       }
 
       const int x = di.x() + (di.width() - width) / 2;
@@ -1120,8 +1124,7 @@ void logic() {
   }
 
   if (primaryscreen.get() == NULL) {
-    const std::string error = Str() << "Unable to find primary screen";
-    throw error;
+    throw "Unable to find primary screen";
   }
 
   Context context(primaryscreen.get());

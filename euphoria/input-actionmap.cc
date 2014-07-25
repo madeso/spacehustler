@@ -98,7 +98,7 @@ void Load(InputActionMap* map, const std::string& filename) {
       throw error;
     }
     std::shared_ptr<InputAction> action(
-        new InputAction(varname, range, global));
+        new InputAction(name, varname, range, global));
     map->Add(name, action);
   }
 }

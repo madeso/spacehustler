@@ -26,7 +26,8 @@ class InputAction {
   @param range the range of valid values for the scriptvar
   @param global true if this is marked as a global
    */
-  InputAction(const std::string& scriptvarname, Range::Type range, bool global);
+  InputAction(const std::string& name, const std::string& scriptvarname,
+              Range::Type range, bool global);
   ~InputAction();
 
   /** Get the name of the script var.
@@ -38,6 +39,8 @@ class InputAction {
    */
   const Range::Type range() const;
 
+  const std::string& name() const;
+
   bool global() const;
   GlobalToggle* toggle();
 
@@ -45,6 +48,7 @@ class InputAction {
   void ClearToggle(GlobalToggle* toggle);
 
  private:
+  std::string name_;
   std::string scriptvarname_;
   Range::Type range_;
   bool global_;

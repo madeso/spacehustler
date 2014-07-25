@@ -5,6 +5,7 @@
 #include <string>
 
 #include "euphoria/input-bind.h"
+#include "euphoria/input-action.h"
 
 #include "euphoria/str.h"
 
@@ -16,7 +17,8 @@ ActiveAxis::ActiveAxis(InputAction* action, Bind* axis)
   assert(axis_);
 
   if (axis_->type() != BindType::Axis) {
-    const std::string error = Str() << "bound type is not a axis";
+    const std::string error = Str() << "bound type for " << action->name()
+                                    << " is not a axis, is " << axis_->type();
     throw error;
   }
 }

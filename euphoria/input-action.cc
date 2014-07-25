@@ -5,9 +5,11 @@
 
 namespace input {
 
-InputAction::InputAction(const std::string& scriptvarname, Range::Type range,
+InputAction::InputAction(const std::string& name,
+                         const std::string& scriptvarname, Range::Type range,
                          bool global)
-    : scriptvarname_(scriptvarname),
+    : name_(name),
+      scriptvarname_(scriptvarname),
       range_(range),
       global_(global),
       toggle_(0) {
@@ -27,6 +29,11 @@ const std::string& InputAction::scriptvarname() const {
 const Range::Type InputAction::range() const {
   assert(this);
   return range_;
+}
+
+const std::string& InputAction::name() const {
+  assert(this);
+  return name_;
 }
 
 bool InputAction::global() const {

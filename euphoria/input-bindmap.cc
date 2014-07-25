@@ -15,7 +15,8 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   const auto as = actions.GetActionList();
 
   for (auto action : as) {
-    switch (action->range()) {
+    auto range = action->range();
+    switch (range) {
       case Range::Infinite:
       case Range::WithinNegative1Positive1:
         addAxis(action, actives);
@@ -24,7 +25,7 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
         addRange(action, actives);
         break;
       default:
-        const std::string error = Str() << "Invalid range type";
+        const std::string error = Str() << "Invalid range type " << range;
         throw error;
     }
   }
@@ -33,7 +34,7 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
 std::shared_ptr<Bind> BindMap::range(const std::string& name) {
   auto res = rangeBinds_.find(name);
   if (res == rangeBinds_.end()) {
-    const std::string error = Str() << "unable to find range bind";
+    const std::string error = Str() << "unable to find range bind " << name;
     throw error;
   }
   return res->second;
@@ -42,7 +43,7 @@ std::shared_ptr<Bind> BindMap::range(const std::string& name) {
 std::shared_ptr<Bind> BindMap::axis(const std::string& name) {
   auto res = axisBinds_.find(name);
   if (res == axisBinds_.end()) {
-    const std::string error = Str() << "unable to find axis bind";
+    const std::string error = Str() << "unable to find axis bind " << name;
     throw error;
   }
   return res->second;

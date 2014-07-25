@@ -25,7 +25,7 @@ const std::string& EnumType::ToString(size_t v) const {
   } else {
     List::const_iterator i = created_but_not_added_list.find(v);
     if (i == created_but_not_added_list.end()) {
-      const std::string error = Str() << "unknown index";
+      const std::string error = Str() << "unknown index " << v;
       throw error;
     } else {
       return i->second;
@@ -45,7 +45,8 @@ const EnumValue EnumType::ToEnum(const std::string& name) {
       return EnumValue(this, id);
     } else {
       const std::string error =
-          Str() << "loading has finished, enum doesn't exist or is misspelled";
+          Str() << "loading has finished, enum doesn't exist or is misspelled "
+                << name;
       throw error;
     }
   } else {
@@ -64,7 +65,7 @@ void EnumType::AddEnum(const std::string& name) {
   } else {
     Map::iterator f = created_but_not_added_map.find(name);
     if (f == created_but_not_added_map.end()) {
-      const std::string error = Str() << "enum already added";
+      const std::string error = Str() << "enum " << name << " already added";
       throw error;
     } else {
       // move to list
@@ -94,15 +95,14 @@ void Load(EnumType* type, const std::string& filename) {
   Json::Reader reader;
   std::ifstream file(filename.c_str());
   if (!file) {
-    const std::string error = Str() << "Failed to open json";
+    const std::string error = Str() << "Failed to open json " << filename;
     throw error;
   }
   bool parsingSuccessful = reader.parse(file, root);
   if (!parsingSuccessful) {
-    std::stringstream ss;
-    ss << "Failed to parse " << filename << ": "
-       << reader.getFormattedErrorMessages();
-    throw ss.str();
+    const std::string error = Str() << "Failed to parse " << filename << ": "
+                                    << reader.getFormattedErrorMessages();
+    throw error;
   }
 
   for (Json::Value::ArrayIndex index = 0; index < root.size(); ++index) {
