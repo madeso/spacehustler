@@ -43,6 +43,7 @@ Planned Features and stuff that needs to be done
 =======
 * redesign input system
 * change enums to enum class
+* write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * add override to all virtual function overrides
 * Investigate constexpr
 * static_assert
