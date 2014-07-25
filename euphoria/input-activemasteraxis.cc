@@ -22,8 +22,7 @@ void ActiveMasterAxis::update(float dt) {
   const float axisvalue = axis_->state();
   const float rangevalue = range_->state();
 
-  /// @todo: change to a bind check instead of a value check
-  return set_state(axisvalue == 0.0f ? rangevalue : axisvalue);
+  return set_state(rangevalue + axisvalue);
 }
 
 }  // namespace input

@@ -41,11 +41,7 @@ void ActiveList::UpdateTable(Table* table) {
     table->Set(b->action().scriptvarname(), b->state());
   }
 
-  for (auto b : axisBinds_) {
-    table->Set(b->action().scriptvarname(), b->state());
-  }
-
-  for (auto b : rangeToAxisBinds_) {
+  for (auto b : masterAxisBinds_) {
     table->Set(b->action().scriptvarname(), b->state());
   }
 }
