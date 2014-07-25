@@ -52,7 +52,7 @@ std::shared_ptr<Bind> BindMap::axis(const std::string& name) {
 void BindMap::addRange(std::shared_ptr<InputAction> action,
                        ActiveList* actives) {
   assert(this);
-  std::string actionname;
+  std::string actionname = action->name();
 
   /// @todo verify that it is indeed a range
 
@@ -66,7 +66,7 @@ void BindMap::addRange(std::shared_ptr<InputAction> action,
 void BindMap::addAxis(std::shared_ptr<InputAction> action,
                       ActiveList* actives) {
   assert(this);
-  std::string actionname;
+  std::string actionname = action->name();
 
   /// @todo verify that it is indeed a axis
 
