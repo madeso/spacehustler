@@ -51,12 +51,17 @@ Planned Features and stuff that needs to be done
 * remove all traces of astyle
 * make sdl the only launcher
 * force feedback/haptics
+* fix osx build
+* physics motor support
+* hud/2d support
+* text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
+* debug overlay
+* add support for sixense (razer hydra/stem system)
+* add support for leapmotion
 * port to android?
 * replace filehandling with physfs (on android: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
-* fix osx build
 * complete oculus rift support
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
-* physics motor support
 * culling + world editor
 * lights and shaddows
   - depth map shadows?
@@ -65,13 +70,8 @@ Planned Features and stuff that needs to be done
   - http://tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
   - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
-* add support for sixense (razer hydra/stem system)
-* add support for leapmotion
 * change from json to yaml/protobuf?
 * fix luadocgen
-* text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
-* hud/2d support
-* debug overlay
 * menu support (ce gui?)
 * audio and music support, fmod studio
 * sprite + line drawer
