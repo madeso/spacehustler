@@ -45,10 +45,12 @@ void cvec3_cardinal(ScriptParams* p) {
     // -- Returns: vec3 The created vector.
     vec3* r = lua_pushobject(p->ReturnFullUserData(), vec3)(0, 0, 0);
     if (i > 3) {
-      throw "Invalid cardinal index";
+      const std::string error = Str() << "Invalid cardinal index";
+      throw error;
     }
     if (i <= 0) {
-      throw "Invalid cardinal index";
+      const std::string error = Str() << "Invalid cardinal index";
+      throw error;
     }
     r->cardinal(i - 1);
   }
@@ -81,7 +83,8 @@ void vec3_index(ScriptParams* p) {
     } else if (key == "z") {
       p->Return((*a)[2]);
     } else {
-      throw "Invalid key";
+      const std::string error = Str() << "Invalid key";
+      throw error;
     }
   } else if (ScriptOverload(p) << mFullUserData(vec3, &a) << &index) {
     // -- Description: Getor sets a value from the vector
@@ -90,10 +93,12 @@ void vec3_index(ScriptParams* p) {
     // -- Returns: Number The value
     assert(a);
     if (index <= 0) {
-      throw "Invalid index";
+      const std::string error = Str() << "Invalid index";
+      throw error;
     }
     if (index > 3) {
-      throw "Invalid index";
+      const std::string error = Str() << "Invalid index";
+      throw error;
     }
     p->Return((*a)[index - 1]);
   }
@@ -115,15 +120,18 @@ void vec3_newindex(ScriptParams* p) {
     } else if (key == "z") {
       (*a)[2] = value;
     } else {
-      throw "Invalid key";
+      const std::string error = Str() << "Invalid key";
+      throw error;
     }
   } else if (ScriptOverload(p) << mFullUserData(vec3, &a) << &index << &value) {
     assert(a);
     if (index <= 0) {
-      throw "Invalid index";
+      const std::string error = Str() << "Invalid index";
+      throw error;
     }
     if (index > 3) {
-      throw "Invalid index";
+      const std::string error = Str() << "Invalid index";
+      throw error;
     }
     (*a)[index - 1] = value;
   }

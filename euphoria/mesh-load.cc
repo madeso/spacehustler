@@ -9,6 +9,8 @@
 #include <string>
 #include <sstream>
 
+#include "euphoria/str.h"
+
 namespace {
 const unsigned int kAssimpFlags =
     aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_SortByPType |
@@ -42,7 +44,9 @@ void AddMaterials(Mesh* ret, const aiScene* scene) {
     internal::Material material;
 
     if (mat->GetTextureCount(aiTextureType_DIFFUSE) <= 0) {
-      // throw "Missing texture";
+      /*
+      const std::string error = Str() << "Missing texture"; throw error;
+      */
       /// @todo change to a better path, possible configurable or a auto
       /// generated one
       material.texture = "hazard.png";
@@ -101,7 +105,8 @@ Mesh ConvertScene(const aiScene* scene) {
    */
 
   if (scene->HasMeshes() == false) {
-    throw "Scene is missing meshes";
+    const std::string error = Str() << "Scene is missing meshes";
+    throw error;
   }
 
   AddMaterials(&ret, scene);

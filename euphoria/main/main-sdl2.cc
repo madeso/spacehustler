@@ -14,6 +14,7 @@
 #include "euphoria/game.h"
 #include "euphoria/exception.h"
 #include "euphoria/settings.h"
+#include "euphoria/str.h"
 
 #ifdef WIN32
 // unresolved external symbol _GetFileVersionInfoA@16 referenced in function
@@ -344,7 +345,7 @@ class Joystick {
   explicit Joystick(int id)
       : id_(id), joystick_(SDL_JoystickOpen(id)), numHats_(0) {
     if (joystick_ == NULL) {
-      throw "Failed to open joystick";
+      const std::string error = Str() << "Failed to open joystick"; throw error;
     }
 
     numHats_ = SDL_JoystickNumHats(joystick_);
@@ -1086,10 +1087,11 @@ void logic() {
                              ? di.height()
                              : settings.height();
       if (width > di.width()) {
-        throw "Target width is too large";
+        const std::string error = Str() << "Target width is too large";
+        throw error;
       }
       if (height > di.height()) {
-        throw "height is too large";
+        const std::string error = Str() << "height is too large"; throw error;
       }
 
       const int x = di.x() + (di.width() - width) / 2;
@@ -1118,7 +1120,8 @@ void logic() {
   }
 
   if (primaryscreen.get() == NULL) {
-    throw "Unable to find primary screen";
+    const std::string error = Str() << "Unable to find primary screen";
+    throw error;
   }
 
   Context context(primaryscreen.get());

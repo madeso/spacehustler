@@ -6,6 +6,7 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-range.h"
 #include "euphoria/input-activelist.h"
+#include "euphoria/str.h"
 
 namespace input {
 
@@ -23,7 +24,8 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
         addRange(action, actives);
         break;
       default:
-        throw "Invalid range type";
+        const std::string error = Str() << "Invalid range type";
+        throw error;
     }
   }
 }
@@ -31,7 +33,8 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
 std::shared_ptr<Bind> BindMap::range(const std::string& name) {
   auto res = rangeBinds_.find(name);
   if (res == rangeBinds_.end()) {
-    throw "unable to find range bind";
+    const std::string error = Str() << "unable to find range bind";
+    throw error;
   }
   return res->second;
 }
@@ -39,7 +42,8 @@ std::shared_ptr<Bind> BindMap::range(const std::string& name) {
 std::shared_ptr<Bind> BindMap::axis(const std::string& name) {
   auto res = axisBinds_.find(name);
   if (res == axisBinds_.end()) {
-    throw "unable to find axis bind";
+    const std::string error = Str() << "unable to find axis bind";
+    throw error;
   }
   return res->second;
 }

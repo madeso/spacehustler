@@ -8,6 +8,7 @@
 #include <string>
 
 #include "euphoria/ogldebug.h"
+#include "euphoria/str.h"
 
 Shader::Shader(const Type& type)
     : object_(glCreateShader(type == Shader::kVertexShader
@@ -16,7 +17,8 @@ Shader::Shader(const Type& type)
   assert(this);
 
   if (object_ == 0) {
-    throw "glCreateShader failed";
+    const std::string error = Str() << "glCreateShader failed";
+    throw error;
   }
 }
 
@@ -78,13 +80,16 @@ Program::Program() : object_(glCreateProgram()) {
   assert(this);
 
   if (object_ == 0) {
-    throw "glCreateProgram failed";
+    const std::string error = Str() << "glCreateProgram failed";
+    throw error;
   }
 }
 
 std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
   if (shaders.shaders.empty()) {
-    throw "No shaders were provided to create the program";
+    const std::string error =
+        Str() << "No shaders were provided to create the program";
+    throw error;
   }
 
   std::shared_ptr<Program> program(new Program());
@@ -127,7 +132,8 @@ GLint Program::LookupAttribute(const std::string& name) const {
 
   const GLint attrib = glGetAttribLocation(object_, name.c_str());
   if (attrib == -1) {
-    throw "Program attribute not found: " + name;
+    const std::string error = Str() << "Program attribute not found: ";
+    throw error + name;
   }
   return attrib;
 }
@@ -138,7 +144,8 @@ GLint Program::LookupUniform(const std::string& name) const {
 
   const GLint attrib = glGetUniformLocation(object_, name.c_str());
   if (attrib == -1) {
-    throw "Program uniform not found: " + name;
+    const std::string error = Str() << "Program uniform not found: ";
+    throw error + name;
   }
   return attrib;
 }

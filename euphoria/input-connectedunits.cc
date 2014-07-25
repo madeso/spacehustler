@@ -2,9 +2,12 @@
 
 #include "euphoria/input-connectedunits.h"
 #include <cassert>
+#include <string>
 
 #include "euphoria/input-activeunit.h"
 #include "euphoria/input-activelist.h"
+
+#include "euphoria/str.h"
 
 namespace input {
 
@@ -27,7 +30,9 @@ void ConnectedUnits::UpdateTable(Table* table) {
 
   // not really relevant but this is great for error checking
   if (units_.empty()) {
-    throw "No units connected for table update to be completed";
+    const std::string error =
+        Str() << "No units connected for table update to be completed";
+    throw error;
   }
 
   actives_->UpdateTable(table);

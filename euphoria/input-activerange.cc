@@ -2,8 +2,10 @@
 
 #include "euphoria/input-activerange.h"
 #include <cassert>
+#include <string>
 
 #include "euphoria/input-bind.h"
+#include "euphoria/str.h"
 
 namespace input {
 
@@ -13,7 +15,8 @@ ActiveRange::ActiveRange(InputAction* action, Bind* range)
   assert(range_);
 
   if (range_->type() != BindType::Axis) {
-    throw "bound type is not a axis";
+    const std::string error = Str() << "bound type is not a axis";
+    throw error;
   }
 }
 

@@ -6,6 +6,7 @@
 #include <string>
 
 #include "soil/SOIL.h"
+#include "euphoria/str.h"
 
 /** @todo change file loading to use a VFS instead.
    */
@@ -17,8 +18,9 @@ ImageData::ImageData(const std::string& path)
                             SOIL_LOAD_RGBA);
 
   if (pixels_ == 0) {
-    const std::string error = SOIL_last_result();
-    throw "Failed to load b/c " + error;
+    const std::string error = Str() << "Failed to load b/c "
+                                    << SOIL_last_result();
+    throw error;
   }
 }
 
@@ -60,7 +62,8 @@ TextureObject::TextureObject() : object_(0) {
 
   glGenTextures(1, &object_);
   if (object_ == 0) {
-    throw "Failed to create texture object";
+    const std::string error = Str() << "Failed to create texture object";
+    throw error;
   }
 }
 
@@ -104,7 +107,8 @@ GLint C(Texture::WrapMode mode) {
     case Texture::kWrap_ClampToEdge:
       return GL_CLAMP_TO_EDGE;
     default:
-      throw "Unknown texture wrap mode";
+      const std::string error = Str() << "Unknown texture wrap mode";
+      throw error;
   }
 }
 
@@ -117,7 +121,8 @@ GLint C(Texture::FilterMode mode) {
     case Texture::kFilter_Mimap:
       return GL_LINEAR_MIPMAP_LINEAR;
     default:
-      throw "Unknown texture filter mode";
+      const std::string error = Str() << "Unknown texture filter mode";
+      throw error;
   }
 }
 
@@ -132,7 +137,8 @@ GLint C(Texture::Type type) {
     case Texture::kType_CompressedRgba:
       return GL_COMPRESSED_RGBA;
     default:
-      throw "Unknown texture type";
+      const std::string error = Str() << "Unknown texture type";
+      throw error;
   }
 }
 }  // namespace
@@ -160,7 +166,8 @@ Texture::Texture(const ImageData& data, Type textureType, WrapMode wraps,
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_COMPRESSED, &result);
 
     if (result != GL_TRUE) {
-      throw "failed to compress image";
+      const std::string error = Str() << "failed to compress image";
+      throw error;
     }
   }
 

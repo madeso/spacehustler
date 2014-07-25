@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "json/json.h"
+#include "euphoria/str.h"
 
 EnumType::EnumType() : is_adding(true), next_index(0) {}
 
@@ -24,7 +25,8 @@ const std::string& EnumType::ToString(size_t v) const {
   } else {
     List::const_iterator i = created_but_not_added_list.find(v);
     if (i == created_but_not_added_list.end()) {
-      throw "unknown index";
+      const std::string error = Str() << "unknown index";
+      throw error;
     } else {
       return i->second;
     }
@@ -42,7 +44,9 @@ const EnumValue EnumType::ToEnum(const std::string& name) {
       map_.insert(Map::value_type(name, id));
       return EnumValue(this, id);
     } else {
-      throw "loading has finished, enum doesn't exist or is misspelled";
+      const std::string error =
+          Str() << "loading has finished, enum doesn't exist or is misspelled";
+      throw error;
     }
   } else {
     return EnumValue(this, r->second);
@@ -60,7 +64,8 @@ void EnumType::AddEnum(const std::string& name) {
   } else {
     Map::iterator f = created_but_not_added_map.find(name);
     if (f == created_but_not_added_map.end()) {
-      throw "enum already added";
+      const std::string error = Str() << "enum already added";
+      throw error;
     } else {
       // move to list
       const size_t id = f->second;
@@ -89,7 +94,8 @@ void Load(EnumType* type, const std::string& filename) {
   Json::Reader reader;
   std::ifstream file(filename.c_str());
   if (!file) {
-    throw "Failed to open json";
+    const std::string error = Str() << "Failed to open json";
+    throw error;
   }
   bool parsingSuccessful = reader.parse(file, root);
   if (!parsingSuccessful) {

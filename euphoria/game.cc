@@ -26,6 +26,7 @@
 #include "euphoria/fbo.h"
 #include "euphoria/quad.h"
 #include "euphoria/input-globaltoggle.h"
+#include "euphoria/str.h"
 
 namespace {
 Game*& GameInstance() {
@@ -71,7 +72,8 @@ Game::Game(const Settings& settings, bool renderoculus)
   glEnable(GL_CULL_FACE);
 
   if (!GLEW_VERSION_3_2) {
-    throw "System not supporting opengl 3.2";
+    const std::string error = Str() << "System not supporting opengl 3.2";
+    throw error;
   }
 
   texturecache_.reset(new TextureCache());
