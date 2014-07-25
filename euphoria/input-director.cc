@@ -67,7 +67,8 @@ void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
   }
 }
 
-void InputDirector::OnJoystickPov(Axis::Type type, int joystick, float value) {
+void InputDirector::OnJoystickPov(Axis::Type type, int hat, int joystick,
+                                  float value) {
   assert(this);
 }
 

@@ -86,9 +86,10 @@ void InputSystem::OnMouseButton(MouseButton::Type button, bool down) {
   input_->OnMouseButton(button, down);
 }
 
-void InputSystem::OnJoystickPov(Axis::Type type, int joystick, float value) {
+void InputSystem::OnJoystickPov(Axis::Type type, int hat, int joystick,
+                                float value) {
   assert(this);
-  input_->OnJoystickPov(type, joystick, value);
+  input_->OnJoystickPov(type, hat, joystick, value);
 }
 
 void InputSystem::OnJoystickButton(int button, int joystick, bool down) {

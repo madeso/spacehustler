@@ -376,9 +376,10 @@ class Joystick {
       for (int i = 0; i < numHats_; ++i) {
         const Uint8 hat = SDL_JoystickGetHat(joystick_, i);
         const Posi values = GetHatValues(hat);
-        game->inputsystem().OnJoystickPov(Axis::X, id_,
+
+        game->inputsystem().OnJoystickPov(Axis::X, i, id_,
                                           static_cast<float>(values.first));
-        game->inputsystem().OnJoystickPov(Axis::Y, id_,
+        game->inputsystem().OnJoystickPov(Axis::Y, i, id_,
                                           static_cast<float>(values.second));
       }
     }
