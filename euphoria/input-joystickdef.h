@@ -31,7 +31,7 @@ class JoystickDef : public UnitDef {
   @param director the input director
   @returns the active joystick
    */
-  std::shared_ptr<ActiveUnit> Create(InputDirector* director);
+  std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map);
 
  private:
   /// @todo add joystick binds

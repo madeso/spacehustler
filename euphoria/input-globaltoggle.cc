@@ -19,7 +19,7 @@ GlobalToggle::~GlobalToggle() {
   action_->Remove(this);
 }
 
-void GlobalToggle::update() {
+void GlobalToggle::Update() {
   assert(this);
   // foreach bind
   // update and combine into state

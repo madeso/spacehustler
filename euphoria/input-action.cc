@@ -5,8 +5,9 @@
 
 namespace input {
 
-InputAction::InputAction(const std::string& scriptvarname, Range::Type range)
-    : scriptvarname_(scriptvarname), range_(range) {
+InputAction::InputAction(const std::string& scriptvarname, Range::Type range,
+                         bool global)
+    : scriptvarname_(scriptvarname), range_(range), global_(global) {
   assert(this);
 }
 
@@ -18,6 +19,11 @@ const std::string& InputAction::scriptvarname() const {
 const Range::Type InputAction::range() const {
   assert(this);
   return range_;
+}
+
+bool InputAction::global() const {
+  assert(this);
+  return global_;
 }
 
 void InputAction::Add(GlobalToggle* toggle) {

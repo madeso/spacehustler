@@ -21,9 +21,8 @@ void InputActionMap::Add(const std::string& name,
   assert(this);
   assert(action);
   actions_.insert(std::make_pair(name, action));
-  if (action->IsGlobal()) {
-    std::shared_ptr<GlobalToggle> toggle(new GlobalToggle());
-    action->toggle(toggle);
+  if (action->global()) {
+    std::shared_ptr<GlobalToggle> toggle(new GlobalToggle(action));
     toggles_.insert(std::make_pair(name, toggle));
   }
 }
@@ -73,6 +72,7 @@ void Load(InputActionMap* map, const std::string& filename) {
     Json::Value d = root[i];
     const std::string name = d.get("name", "").asString();
     const std::string varname = d.get("var", "").asString();
+    const bool global = d.get("global", false).asBool();
     const std::string rangename = d.get("range", "").asString();
     const Range::Type range = Range::FromString(rangename);
     if (range == Range::Invalid) {
@@ -80,7 +80,8 @@ void Load(InputActionMap* map, const std::string& filename) {
                                       << " for the " << name << " action";
       throw error;
     }
-    std::shared_ptr<InputAction> action(new InputAction(varname, range));
+    std::shared_ptr<InputAction> action(
+        new InputAction(varname, range, global));
     map->Add(name, action);
   }
 }

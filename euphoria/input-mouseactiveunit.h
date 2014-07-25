@@ -11,6 +11,7 @@ Classes for input handling.
 #include <map>
 
 #include "euphoria/input-axis.h"
+#include "euphoria/input-key.h"
 #include "euphoria/input-activeunit.h"
 #include "euphoria/input-taxisbind.h"
 
@@ -37,6 +38,8 @@ class MouseActiveUnit : public ActiveUnit {
   @param state the state of the axis
    */
   void OnAxis(const Axis::Type& key, float state);
+
+  void OnButton(MouseButton::Type key, float state);
 
   /** Destructor.
    */

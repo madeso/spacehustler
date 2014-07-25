@@ -63,7 +63,7 @@ void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
   assert(this);
 
   for (auto m : mouse_) {
-    m->OnButton(key, down);
+    m->OnButton(key, down ? 1.0f : 0.0f);
   }
 }
 

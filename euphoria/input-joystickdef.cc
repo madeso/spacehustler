@@ -11,7 +11,8 @@ namespace input {
 
 JoystickDef::JoystickDef(const Json::Value& data) {}
 
-std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director) {
+std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director,
+                                                BindMap* map) {
   std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
   return unit;
 }

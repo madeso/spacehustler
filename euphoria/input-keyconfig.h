@@ -37,8 +37,8 @@ class KeyConfig {
   @param director the input director
   @returns the connected units
    */
-  ConnectedUnits Connect(const InputActionMap& actions,
-                         InputDirector* director);
+  std::shared_ptr<ConnectedUnits> Connect(const InputActionMap& actions,
+                                          InputDirector* director);
 
  private:
   std::vector<std::shared_ptr<UnitDef>> definitions_;

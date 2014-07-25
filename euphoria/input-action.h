@@ -25,8 +25,9 @@ class InputAction {
   /** Constructor.
   @param scriptvarname the name of the variable in the script.
   @param range the range of valid values for the scriptvar
+  @param global true if this is marked as a global
    */
-  InputAction(const std::string& scriptvarname, Range::Type range);
+  InputAction(const std::string& scriptvarname, Range::Type range, bool global);
 
   /** Get the name of the script var.
    */
@@ -37,12 +38,15 @@ class InputAction {
    */
   const Range::Type range() const;
 
+  bool global() const;
+
   void Add(GlobalToggle* toggle);
   void Remove(GlobalToggle* toggle);
 
  private:
   std::string scriptvarname_;
   Range::Type range_;
+  bool global_;
   std::vector<GlobalToggle*> toggles_;  // transform into a unique vector
                                         // instead?
 };
