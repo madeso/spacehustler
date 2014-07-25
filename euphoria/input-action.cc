@@ -7,8 +7,16 @@ namespace input {
 
 InputAction::InputAction(const std::string& scriptvarname, Range::Type range,
                          bool global)
-    : scriptvarname_(scriptvarname), range_(range), global_(global) {
+    : scriptvarname_(scriptvarname),
+      range_(range),
+      global_(global),
+      toggle_(0) {
   assert(this);
+}
+
+InputAction::~InputAction() {
+  assert(this);
+  assert(toggle_ == 0);
 }
 
 const std::string& InputAction::scriptvarname() const {
@@ -26,18 +34,23 @@ bool InputAction::global() const {
   return global_;
 }
 
-void InputAction::Add(GlobalToggle* toggle) {
+GlobalToggle* InputAction::toggle() {
   assert(this);
-  assert(toggle);
-  toggles_.push_back(toggle);
+  return toggle_;
 }
 
-void InputAction::Remove(GlobalToggle* toggle) {
+void InputAction::Setup(GlobalToggle* toggle) {
   assert(this);
   assert(toggle);
-  auto res = std::find(toggles_.begin(), toggles_.end(), toggle);
-  assert(res != toggles_.end());
-  toggles_.erase(res);
+  assert(toggle_ == 0);
+  toggle_ = toggle;
+}
+
+void InputAction::ClearToggle(GlobalToggle* toggle) {
+  assert(this);
+  assert(toggle);
+  assert(toggle == toggle_);
+  toggle_ = 0;
 }
 
 }  // namespace input

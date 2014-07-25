@@ -10,6 +10,7 @@ Classes for input handling.
 namespace input {
 
 class InputAction;
+class GlobalToggle;
 
 namespace BindType {
 enum Type {
@@ -23,6 +24,7 @@ enum Type {
 class Bind {
  public:
   Bind(InputAction* action, BindType::Type type);
+  ~Bind();
 
   float value() const;
   void set_value(float v);
@@ -33,6 +35,7 @@ class Bind {
  private:
   InputAction* action_;
   BindType::Type type_;
+  GlobalToggle* toggle_;
   float value_;
 };
 

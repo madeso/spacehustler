@@ -26,6 +26,22 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   }
 }
 
+std::shared_ptr<Bind> BindMap::range(const std::string& name) {
+  auto res = rangeBinds_.find(name);
+  if (res == rangeBinds_.end()) {
+    throw "unable to find range bind";
+  }
+  return res->second;
+}
+
+std::shared_ptr<Bind> BindMap::axis(const std::string& name) {
+  auto res = axisBinds_.find(name);
+  if (res == axisBinds_.end()) {
+    throw "unable to find axis bind";
+  }
+  return res->second;
+}
+
 void BindMap::addRange(std::shared_ptr<InputAction> action,
                        ActiveList* actives) {
   assert(this);

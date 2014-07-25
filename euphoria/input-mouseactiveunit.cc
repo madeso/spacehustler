@@ -31,6 +31,10 @@ void MouseActiveUnit::OnAxis(const Axis::Type& key, float state) {
   }
 }
 
+void MouseActiveUnit::OnButton(MouseButton::Type key, float state) {
+  // todo: implement me
+}
+
 MouseActiveUnit::~MouseActiveUnit() { director_->Remove(this); }
 
 void MouseActiveUnit::Rumble() {}

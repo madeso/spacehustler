@@ -8,6 +8,7 @@ Classes for input handling.
 #define EUPHORIA_INPUT_GLOBALTOGGLE_H_
 
 #include <memory>
+#include <vector>
 
 namespace input {
 
@@ -30,7 +31,9 @@ class GlobalToggle {
  private:
   std::shared_ptr<InputAction> action_;
   bool state_;
-  Bind* currentStateHolder_;
+  bool last_down_;
+  Bind* current_state_holder_;
+  std::vector<Bind*> binds_;
 };
 
 }  // namespace input

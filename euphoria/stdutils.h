@@ -10,6 +10,8 @@ Contains various helper extras for the std library.
 #include <string>
 #include <vector>
 #include <map>
+#include <cassert>
+#include <algorithm>
 
 #include "euphoria/str.h"
 
@@ -38,5 +40,37 @@ std::vector<std::string> Keys(const std::map<K, V>& m) {
   }
   return strings;
 }
+
+// todo: provide an indexed version of this function as well.
+template <typename T>
+void SwapBackAndEraseObject(T what, std::vector<T>* from) {
+  assert(from);
+  typedef std::vector<T> Vec;
+  typename Vec::iterator result = std::find(from->begin(), from->end(), what);
+  if (result == from->end()) {
+    return;
+  }
+  typename Vec::iterator last = from->end();
+  --last;  // point to a valid entry
+  std::swap(*result, *last);
+  from->pop_back();
+}
+
+template <typename T>
+class BuildVector {
+ public:
+  BuildVector& operator<<(const T& t) {
+    assert(this);
+    ts.push_back(t);
+    return *this;
+  }
+
+  operator std::vector<T>() {
+    assert(this);
+    return ts;
+  }
+
+  std::vector<T> ts;
+};
 
 #endif  // EUPHORIA_STDUTILS_H_
