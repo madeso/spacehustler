@@ -32,19 +32,10 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   }
 }
 
-std::shared_ptr<Bind> BindMap::range(const std::string& name) {
-  auto res = rangeBinds_.find(name);
-  if (res == rangeBinds_.end()) {
-    const std::string error = Str() << "unable to find range bind " << name;
-    throw error;
-  }
-  return res->second;
-}
-
-std::shared_ptr<Bind> BindMap::axis(const std::string& name) {
-  auto res = axisBinds_.find(name);
-  if (res == axisBinds_.end()) {
-    const std::string error = Str() << "unable to find axis bind " << name;
+std::shared_ptr<Bind> BindMap::bind(const std::string& name) {
+  auto res = binds_.find(name);
+  if (res == binds_.end()) {
+    const std::string error = Str() << "unable to find bind " << name;
     throw error;
   }
   return res->second;
@@ -61,7 +52,7 @@ void BindMap::addRange(std::shared_ptr<InputAction> action,
   std::shared_ptr<ActiveRange> active(
       new ActiveRange(action.get(), bind.get()));
   actives->add(active);
-  rangeBinds_.insert(std::make_pair(actionname, bind));
+  binds_.insert(std::make_pair(actionname, bind));
 }
 
 void BindMap::addAxis(std::shared_ptr<InputAction> action,
@@ -74,15 +65,15 @@ void BindMap::addAxis(std::shared_ptr<InputAction> action,
   std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::Axis));
   std::shared_ptr<ActiveAxis> active(new ActiveAxis(action.get(), bind.get()));
   actives->add(active);
-  axisBinds_.insert(std::make_pair(actionname, bind));
+  binds_.insert(std::make_pair(actionname, bind));
 
   std::shared_ptr<Bind> bindNeg(new Bind(action.get(), BindType::Range));
   std::shared_ptr<Bind> bindPos(new Bind(action.get(), BindType::Range));
   std::shared_ptr<ActiveRangeToAxis> activeAxis(
       new ActiveRangeToAxis(action.get(), bindPos.get(), bindNeg.get()));
   actives->add(activeAxis);
-  rangeBinds_.insert(std::make_pair(actionname + "-", bindNeg));
-  rangeBinds_.insert(std::make_pair(actionname + "+", bindPos));
+  binds_.insert(std::make_pair(actionname + "-", bindNeg));
+  binds_.insert(std::make_pair(actionname + "+", bindPos));
 
   std::shared_ptr<ActiveMasterAxis> masterAxis(
       new ActiveMasterAxis(action.get(), active.get(), activeAxis.get()));

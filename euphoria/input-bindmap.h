@@ -32,15 +32,13 @@ class ActiveList;
 class BindMap {
  public:
   BindMap(const InputActionMap& actions, ActiveList* actives);
-  std::shared_ptr<Bind> range(const std::string& name);
-  std::shared_ptr<Bind> axis(const std::string& name);
+  std::shared_ptr<Bind> bind(const std::string& name);
 
  private:
   void addRange(std::shared_ptr<InputAction> action, ActiveList* actives);
   void addAxis(std::shared_ptr<InputAction> action, ActiveList* actives);
 
-  std::map<std::string, std::shared_ptr<Bind>> rangeBinds_;
-  std::map<std::string, std::shared_ptr<Bind>> axisBinds_;
+  std::map<std::string, std::shared_ptr<Bind>> binds_;
 };
 
 }  // namespace input

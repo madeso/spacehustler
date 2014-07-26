@@ -50,19 +50,11 @@ std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director,
   assert(director);
   assert(map);
 
-  std::vector<std::shared_ptr<TAxisBind<Axis::Type>>> axisbinds;
-  for (const auto& key : axis_) {
-    std::shared_ptr<TAxisBind<Axis::Type>> b(
-        new TAxisBind<Axis::Type>(key.type(), map->axis(key.id())));
-    axisbinds.push_back(b);
-  }
+  std::vector<std::shared_ptr<TAxisBind<Axis::Type>>> axisbinds =
+      CreateBinds<TAxisBind<Axis::Type>, Axis::Type>(axis_, map);
 
-  std::vector<std::shared_ptr<TRangeBind<MouseButton::Type>>> keybinds;
-  for (const auto& key : keys_) {
-    std::shared_ptr<TRangeBind<MouseButton::Type>> b(
-        new TRangeBind<MouseButton::Type>(key.type(), map->range(key.id())));
-    keybinds.push_back(b);
-  }
+  std::vector<std::shared_ptr<TRangeBind<MouseButton::Type>>> keybinds =
+      CreateBinds<TRangeBind<MouseButton::Type>, MouseButton::Type>(keys_, map);
 
   std::shared_ptr<ActiveUnit> unit(
       new MouseActiveUnit(axisbinds, keybinds, director));

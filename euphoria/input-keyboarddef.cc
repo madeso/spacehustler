@@ -47,12 +47,8 @@ std::shared_ptr<ActiveUnit> KeyboardDef::Create(InputDirector* director,
   assert(director);
   assert(map);
 
-  std::vector<std::shared_ptr<TRangeBind<Key::Type>>> keybinds;
-  for (const auto& key : keys_) {
-    std::shared_ptr<TRangeBind<Key::Type>> b(
-        new TRangeBind<Key::Type>(key.type(), map->range(key.id())));
-    keybinds.push_back(b);
-  }
+  std::vector<std::shared_ptr<TRangeBind<Key::Type>>> keybinds =
+      CreateBinds<TRangeBind<Key::Type>, Key::Type>(keys_, map);
 
   std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(keybinds, director));
   return unit;
