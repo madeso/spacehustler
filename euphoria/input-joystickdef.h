@@ -7,7 +7,11 @@ Classes for input handling.
 #ifndef EUPHORIA_INPUT_JOYSTICKDEF_H_
 #define EUPHORIA_INPUT_JOYSTICKDEF_H_
 
+#include <vector>
+
 #include "euphoria/input-unitdef.h"
+#include "euphoria/input-binddef.h"
+#include "euphoria/input-hataxis.h"
 
 namespace Json {
 class Value;
@@ -17,6 +21,7 @@ namespace input {
 
 class InputDirector;
 class ActiveUnit;
+class InputActionMap;
 
 /** Joystick definition.
  */
@@ -25,7 +30,7 @@ class JoystickDef : public UnitDef {
   /** Constructor.
   @param data the data structure to load from
    */
-  explicit JoystickDef(const Json::Value& data);
+  JoystickDef(const Json::Value& data, const InputActionMap& map);
 
   /** Create a active joystick interface.
   @param director the input director
@@ -34,7 +39,9 @@ class JoystickDef : public UnitDef {
   std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map);
 
  private:
-  /// @todo add joystick binds
+   std::vector<BindDef<int>> axis_;
+   std::vector<BindDef<int>> buttons_;
+   std::vector<BindDef<HatAxis>> hats_;
 };
 
 }  // namespace input
