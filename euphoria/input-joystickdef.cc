@@ -7,6 +7,8 @@
 #include "json/json.h"
 
 #include "euphoria/input-dummyactiveunit.h"
+#include "euphoria/input-taxisbind.h"
+#include "euphoria/input-trangebind.h"
 
 #include "euphoria/str.h"
 #include "euphoria/input-actionmap.h"
@@ -64,6 +66,19 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
 
 std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director,
                                                 BindMap* map) {
+  assert(this);
+  assert(director);
+  assert(map);
+
+  std::vector<std::shared_ptr<TAxisBind<int>>> axisbinds =
+      CreateBinds<TAxisBind<int>, int>(axis_, map);
+
+  std::vector<std::shared_ptr<TRangeBind<int>>> buttonbinds =
+      CreateBinds<TRangeBind<int>, int>(buttons_, map);
+
+  std::vector<std::shared_ptr<TAxisBind<HatAxis>>> hatbinds =
+      CreateBinds<TAxisBind<HatAxis>, HatAxis>(hats_, map);
+
   std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
   return unit;
 }

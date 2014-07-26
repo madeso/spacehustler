@@ -18,12 +18,12 @@ MouseActiveUnit::MouseActiveUnit(
 
   for (auto a : axis) {
     Add(a->bind()->action());
-    actions_.insert(std::make_pair(a->axis(), a->bind()));
+    actions_.insert(std::make_pair(a->type(), a->bind()));
   }
 
   for (auto a : buttons) {
     Add(a->bind()->action());
-    buttons_.insert(std::make_pair(a->button(), a->bind()));
+    buttons_.insert(std::make_pair(a->type(), a->bind()));
   }
 
   director_->Add(this);

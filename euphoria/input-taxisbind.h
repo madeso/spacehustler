@@ -22,7 +22,7 @@ class TAxisBind {
     assert(bind);
   }
 
-  const T axis() const {
+  const T type() const {
     assert(this);
     return axis_;
   }
