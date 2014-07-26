@@ -10,10 +10,9 @@ namespace input {
 
 template <typename TBind, typename Type>
 std::map<Type, std::shared_ptr<Bind>> ConvertToBindMap(
-    ActiveUnit* au, const std::vector<std::shared_ptr<TBind>>& axis) {
+    const std::vector<std::shared_ptr<TBind>>& axis) {
   std::map<Type, std::shared_ptr<Bind>> actions_;
   for (auto a : axis) {
-    au->Add(a->bind()->action());
     actions_.insert(std::make_pair(a->type(), a->bind()));
   }
   return actions_;
@@ -27,9 +26,9 @@ MouseActiveUnit::MouseActiveUnit(
   assert(this);
   assert(director_);
 
-  actions_ = ConvertToBindMap<TAxisBind<Axis::Type>, Axis::Type>(this, axis);
+  actions_ = ConvertToBindMap<TAxisBind<Axis::Type>, Axis::Type>(axis);
   buttons_ = ConvertToBindMap<TRangeBind<MouseButton::Type>, MouseButton::Type>(
-      this, buttons);
+      buttons);
 
   director_->Add(this);
 }

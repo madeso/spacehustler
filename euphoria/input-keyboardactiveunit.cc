@@ -16,7 +16,6 @@ KeyboardActiveUnit::KeyboardActiveUnit(
   assert(director_);
 
   for (auto b : binds) {
-    Add(b->bind()->action());
     actions_.insert(std::make_pair(b->type(), b->bind()));
   }
 
