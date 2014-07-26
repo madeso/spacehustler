@@ -27,14 +27,15 @@ class ActiveUnit {
    */
   virtual void Rumble() = 0;
 
+  /** Add a action to be updated.
+  @param action the action
+   */
+  void Add(InputAction* action);
+
  protected:
   /** Constructor.
    */
   ActiveUnit();
-
-  /** Add a action to be updated.
-   */
-  void Add(InputAction* action);
 
  private:
   std::vector<InputAction*> actions_;
