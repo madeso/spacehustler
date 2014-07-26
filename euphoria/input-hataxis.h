@@ -12,12 +12,13 @@ Classes for input definitions.
 namespace input {
 
 class HatAxis {
-public:
+ public:
   HatAxis(int hat, Axis::Type axis);
 
   Axis::Type axis() const;
   int hat() const;
-private:
+
+ private:
   int hat_;
   Axis::Type axis_;
 };

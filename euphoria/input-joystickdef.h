@@ -39,9 +39,9 @@ class JoystickDef : public UnitDef {
   std::shared_ptr<ActiveUnit> Create(InputDirector* director, BindMap* map);
 
  private:
-   std::vector<BindDef<int>> axis_;
-   std::vector<BindDef<int>> buttons_;
-   std::vector<BindDef<HatAxis>> hats_;
+  std::vector<BindDef<int>> axis_;
+  std::vector<BindDef<int>> buttons_;
+  std::vector<BindDef<HatAxis>> hats_;
 };
 
 }  // namespace input

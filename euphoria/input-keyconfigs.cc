@@ -70,7 +70,7 @@ std::shared_ptr<UnitDef> CreateUnit(const std::string& type,
     return def;
   } else if (type == "joystick") {
     std::shared_ptr<UnitDef> def;
-    def.reset(new JoystickDef(data));
+    def.reset(new JoystickDef(data, map));
     return def;
   } else {
     throw std::logic_error(Str() << "Unknown unit definition " << type);

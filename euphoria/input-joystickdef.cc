@@ -2,6 +2,7 @@
 
 #include "euphoria/input-joystickdef.h"
 #include <cassert>
+#include <string>
 
 #include "json/json.h"
 
@@ -23,7 +24,8 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
     if (common.type == "axis") {
       const int axis = d.get("axis", -1).asInt();
       if (axis < 0) {
-        const std::string error = Str() << "Invalid axis for " << common.bindname << " action";
+        const std::string error = Str() << "Invalid axis for "
+                                        << common.bindname << " action";
         throw error;
       }
       axis_.push_back(BindDef<int>(common.bindname, axis));
@@ -31,14 +33,16 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
       const int key = d.get("key", -1).asInt();
 
       if (key < 0) {
-        const std::string error = Str() << "Invalid button for the " << common.bindname << " action";
+        const std::string error = Str() << "Invalid button for the "
+                                        << common.bindname << " action";
         throw error;
       }
       buttons_.push_back(BindDef<int>(common.bindname, key));
     } else if (common.type == "hat") {
       const int hat = d.get("hat", -1).asInt();
       if (hat < 0) {
-        const std::string error = Str() << "Invalid hat for the " << common.bindname << " action";
+        const std::string error = Str() << "Invalid hat for the "
+                                        << common.bindname << " action";
         throw error;
       }
 
@@ -52,7 +56,7 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
       hats_.push_back(BindDef<HatAxis>(common.bindname, HatAxis(hat, axis)));
     } else {
       std::string error =
-        Str() << "Unknown input type for mouse: " << common.type;
+          Str() << "Unknown input type for mouse: " << common.type;
       throw error;
     }
   }
