@@ -24,16 +24,16 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
     if (common.type == "axis") {
       const int axis = d.get("axis", -1).asInt();
       if (axis < 0) {
-        const std::string error = Str() << "Invalid axis for "
+        const std::string error = Str() << "Invalid joystick axis for "
                                         << common.bindname << " action";
         throw error;
       }
       axis_.push_back(BindDef<int>(common.bindname, axis));
     } else if (common.type == "button") {
-      const int key = d.get("key", -1).asInt();
+      const int key = d.get("button", -1).asInt();
 
       if (key < 0) {
-        const std::string error = Str() << "Invalid button for the "
+        const std::string error = Str() << "Invalid joystick button for the "
                                         << common.bindname << " action";
         throw error;
       }
@@ -41,7 +41,7 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
     } else if (common.type == "hat") {
       const int hat = d.get("hat", -1).asInt();
       if (hat < 0) {
-        const std::string error = Str() << "Invalid hat for the "
+        const std::string error = Str() << "Invalid joystick hat for the "
                                         << common.bindname << " action";
         throw error;
       }

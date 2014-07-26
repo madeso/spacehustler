@@ -19,16 +19,18 @@ CommonDef GetCommonDef(Json::Value& d, const InputActionMap& map) {
 
   common.bindname = d.get("action", "").asString();
   // verify action
-  common.actionname = RemoveFromEnd(RemoveFromEnd(common.bindname, "+"), "-");
+  common.actionname = RemoveFromEnd(
+      RemoveFromEnd(RemoveFromEnd(common.bindname, "+"), "-"), "-axis");
   const auto action = map.Get(common.actionname);
   if (common.actionname != common.bindname) {
+    const bool needsAxis = false == EndsWith(common.bindname, "-axis");
     // bindname is different from actionname, must be a axis
     bool isAxis = action->range() == Range::Infinite ||
                   action->range() == Range::WithinNegative1Positive1;
-    if (!isAxis) {
+    if (isAxis == !needsAxis) {
       const std::string error =
-          Str() << "bind " << common.bindname
-                << " looks like a axis but isn't for action "
+          Str() << "bind " << common.bindname << " looks like a "
+                << (needsAxis ? "axis" : "range") << " but isn't for action "
                 << common.actionname;
       throw error;
     }
