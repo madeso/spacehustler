@@ -5,30 +5,21 @@
 
 #include "euphoria/input-director.h"
 #include "euphoria/input-action.h"
+#include "euphoria/input-commondef.h"
 
 namespace input {
-
-template <typename TBind, typename Type>
-std::map<Type, std::shared_ptr<Bind>> ConvertToBindMap(
-    const std::vector<std::shared_ptr<TBind>>& axis) {
-  std::map<Type, std::shared_ptr<Bind>> actions_;
-  for (auto a : axis) {
-    actions_.insert(std::make_pair(a->type(), a->bind()));
-  }
-  return actions_;
-}
 
 MouseActiveUnit::MouseActiveUnit(
     const std::vector<std::shared_ptr<TAxisBind<Axis::Type>>>& axis,
     const std::vector<std::shared_ptr<TRangeBind<MouseButton::Type>>>& buttons,
     InputDirector* director)
-    : director_(director) {
+    : director_(director),
+      actions_(ConvertToBindMap<TAxisBind<Axis::Type>, Axis::Type>(axis)),
+      buttons_(
+          ConvertToBindMap<TRangeBind<MouseButton::Type>, MouseButton::Type>(
+              buttons)) {
   assert(this);
   assert(director_);
-
-  actions_ = ConvertToBindMap<TAxisBind<Axis::Type>, Axis::Type>(axis);
-  buttons_ = ConvertToBindMap<TRangeBind<MouseButton::Type>, MouseButton::Type>(
-      buttons);
 
   director_->Add(this);
 }

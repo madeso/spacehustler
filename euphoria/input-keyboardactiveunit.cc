@@ -5,19 +5,17 @@
 
 #include "euphoria/input-director.h"
 #include "euphoria/input-action.h"
+#include "euphoria/input-commondef.h"
 
 namespace input {
 
 KeyboardActiveUnit::KeyboardActiveUnit(
     const std::vector<std::shared_ptr<TRangeBind<Key::Type>>>& binds,
     InputDirector* director)
-    : director_(director) {
+    : director_(director),
+      actions_(ConvertToBindMap<TRangeBind<Key::Type>, Key::Type>(binds)) {
   assert(this);
   assert(director_);
-
-  for (auto b : binds) {
-    actions_.insert(std::make_pair(b->type(), b->bind()));
-  }
 
   director_->Add(this);
 }

@@ -49,7 +49,7 @@ class KeyboardActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  std::map<Key::Type, std::shared_ptr<Bind>> actions_;
+  const std::map<Key::Type, std::shared_ptr<Bind>> actions_;
 };
 
 }  // namespace input

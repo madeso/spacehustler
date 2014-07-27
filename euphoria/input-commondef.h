@@ -10,8 +10,10 @@ Classes for common input def loading.
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 #include "euphoria/input-binddef.h"
+#include "euphoria/input-bind.h"
 
 namespace Json {
 class Value;
@@ -38,6 +40,16 @@ std::vector<std::shared_ptr<TBind>> CreateBinds(std::vector<BindDef<Type>> defs,
     keybinds.push_back(b);
   }
   return keybinds;
+}
+
+template <typename TBind, typename Type>
+std::map<Type, std::shared_ptr<Bind>> ConvertToBindMap(
+    const std::vector<std::shared_ptr<TBind>>& axis) {
+  std::map<Type, std::shared_ptr<Bind>> actions_;
+  for (auto a : axis) {
+    actions_.insert(std::make_pair(a->type(), a->bind()));
+  }
+  return actions_;
 }
 
 }  // namespace input

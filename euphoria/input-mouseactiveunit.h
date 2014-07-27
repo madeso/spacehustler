@@ -55,8 +55,8 @@ class MouseActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  std::map<Axis::Type, std::shared_ptr<Bind>> actions_;
-  std::map<MouseButton::Type, std::shared_ptr<Bind>> buttons_;
+  const std::map<Axis::Type, std::shared_ptr<Bind>> actions_;
+  const std::map<MouseButton::Type, std::shared_ptr<Bind>> buttons_;
 };
 
 }  // namespace input
