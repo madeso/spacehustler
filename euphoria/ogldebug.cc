@@ -82,8 +82,8 @@ void CALLBACK MyDebugCallback(GLenum source, GLenum type, GLuint id,
 
 bool OglDebug::IsSupported() { return GLEW_ARB_debug_output == GL_TRUE; }
 
-OglDebug::OglDebug(bool d) : debug(d) {
-  if (debug) {
+OglDebug::OglDebug(bool d) : debug_enabled_(d) {
+  if (debug_enabled_) {
     if (IsSupported() == false) {
       const std::string error = Str() << "No debug supported";
       throw error;
@@ -97,7 +97,7 @@ OglDebug::OglDebug(bool d) : debug(d) {
 }
 
 OglDebug::~OglDebug() {
-  if (debug) {
+  if (debug_enabled_) {
     Verify();
     glDebugMessageCallbackARB(0, 0);
     Verify();

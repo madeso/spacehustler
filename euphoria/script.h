@@ -252,7 +252,7 @@ class ScriptParams {
   messages.
   @param failure the validation failure message/status.
    */
-  void addFailure(const std::string& failure);
+  void AddFailure(const std::string& failure);
 
  private:
   lua_State* state_;

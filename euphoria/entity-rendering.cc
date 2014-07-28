@@ -26,8 +26,7 @@ class RenderType : public ComponentType {
   std::shared_ptr<CompiledMesh> mesh;
 };
 
-class RenderObject {
- public:
+struct RenderObject {
   RenderObject(Entity* entity, std::shared_ptr<Instance> instance)
       : entity(entity), instance(instance) {}
 

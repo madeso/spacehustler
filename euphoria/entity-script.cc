@@ -20,8 +20,7 @@ class ScriptType : public ComponentType {
   Table table;
 };
 
-class ScriptObject {
- public:
+struct ScriptObject {
   ScriptObject(Entity* entity, ScriptType* type, Lua* script)
       : entity(entity), table(script) {}
 

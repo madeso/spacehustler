@@ -59,7 +59,7 @@ btQuaternion C(const quat& src) {
 }
 }  // namespace
 
-class PhysicsObject;
+struct PhysicsObject;
 
 class CollisionInfo {
  public:
@@ -74,8 +74,7 @@ class CollisionInfo {
   PhysicsObject* other_;
 };
 
-class PhysicsObject {
- public:
+struct PhysicsObject {
   PhysicsObject(Entity* entity, std::shared_ptr<btDiscreteDynamicsWorld> world,
                 const PhysicsType& data, size_t index)
       : entity(entity), dynamicsWorld(world), index_(new size_t(index)) {
@@ -129,8 +128,7 @@ class PhysicsObject {
   std::shared_ptr<size_t> index_;
 };
 
-class StaticMesh {
- public:
+struct StaticMesh {
   StaticMesh(const internal::MeshPart& part,
              std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld) {
     mesh.reset(new btTriangleMesh());

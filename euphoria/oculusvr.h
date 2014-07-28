@@ -120,7 +120,7 @@ class OculusVr : boost::noncopyable {
   const std::string GetDetectionMessage() const;
 
  private:
-  struct OculusVrPimpl;
+  class OculusVrPimpl;
   std::unique_ptr<OculusVrPimpl> pimpl_;
 };
 

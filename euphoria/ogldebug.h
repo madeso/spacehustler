@@ -33,7 +33,7 @@ class OglDebug : boost::noncopyable {
   static void Verify();
 
  private:
-  const bool debug;
+  const bool debug_enabled_;
 };
 
 #endif  // EUPHORIA_OGLDEBUG_H_

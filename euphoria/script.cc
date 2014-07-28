@@ -198,7 +198,7 @@ ScriptOverload::operator bool() {
     for (auto a : arguments_) {
       ret.push_back(a->ToString());
     }
-    parameters_->addFailure(StringMerger::Array().Generate(ret));
+    parameters_->AddFailure(StringMerger::Array().Generate(ret));
   }
   return val;
 }
@@ -280,7 +280,7 @@ void ScriptParams::SetValidated() {
   is_validated_ = true;
 }
 
-void ScriptParams::addFailure(const std::string& f) {
+void ScriptParams::AddFailure(const std::string& f) {
   assert(this);
   failures_.push_back(f);
 }

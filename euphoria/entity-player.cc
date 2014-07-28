@@ -19,8 +19,7 @@ class PlayerType : public ComponentType {
   std::string name;
 };
 
-class PlayerObject {
- public:
+struct PlayerObject {
   PlayerObject(Entity* ent, const PlayerType& t, input::InputSystem* input)
       : entity(ent), player(input->GetPlayer(t.name)) {
     assert(entity);
