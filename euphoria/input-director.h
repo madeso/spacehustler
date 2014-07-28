@@ -16,6 +16,7 @@ namespace input {
 
 class KeyboardActiveUnit;
 class MouseActiveUnit;
+class JoystickActiveUnit;
 
 /** Container class for directing input.
  */
@@ -48,6 +49,16 @@ class InputDirector {
   @param au the mouse
   */
   void Remove(MouseActiveUnit* au);
+
+  /** Add a joystick.
+  @param au the joystick
+  */
+  void Add(JoystickActiveUnit* au);
+
+  /** Remove a joystick.
+  @param au the joystick
+  */
+  void Remove(JoystickActiveUnit* au);
 
   /** Send a keyboard event.
   @param key the key to act upon
@@ -92,6 +103,7 @@ class InputDirector {
  private:
   std::vector<KeyboardActiveUnit*> keyboards_;
   std::vector<MouseActiveUnit*> mouse_;
+  std::vector<JoystickActiveUnit*> joystick_;
 };
 
 }  // namespace input

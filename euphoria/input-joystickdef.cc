@@ -15,6 +15,8 @@
 #include "euphoria/input-bindmap.h"
 #include "euphoria/input-commondef.h"
 
+#include "euphoria/input-joystickactiveunit.h"
+
 namespace input {
 
 JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
@@ -70,6 +72,9 @@ std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director,
   assert(director);
   assert(map);
 
+  /// @todo fix the joystick number
+  int js = 0;
+
   std::vector<std::shared_ptr<TAxisBind<int>>> axisbinds =
       CreateBinds<TAxisBind<int>, int>(axis_, map);
 
@@ -79,7 +84,7 @@ std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director,
   std::vector<std::shared_ptr<TAxisBind<HatAxis>>> hatbinds =
       CreateBinds<TAxisBind<HatAxis>, HatAxis>(hats_, map);
 
-  std::shared_ptr<ActiveUnit> unit(new DummyActiveUnit());
+  std::shared_ptr<ActiveUnit> unit(new JoystickActiveUnit(js, director, axisbinds, buttonbinds, hatbinds));
   return unit;
 }
 

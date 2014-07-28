@@ -5,6 +5,7 @@
 
 #include "euphoria/input-keyboardactiveunit.h"
 #include "euphoria/input-mouseactiveunit.h"
+#include "euphoria/input-joystickactiveunit.h"
 
 namespace input {
 
@@ -44,6 +45,22 @@ void InputDirector::Remove(MouseActiveUnit* au) {
   }
 }
 
+void InputDirector::Add(JoystickActiveUnit* au) {
+  assert(this);
+  assert(au);
+  joystick_.push_back(au);
+}
+
+void InputDirector::Remove(JoystickActiveUnit* au) {
+  assert(this);
+  assert(au);
+  auto res = std::find(joystick_.begin(), joystick_.end(), au);
+  if (res != joystick_.end()) {
+    /// @todo implement as a swap back and erase function
+    joystick_.erase(res);
+  }
+}
+
 void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
   assert(this);
   for (auto kb : keyboards_) {
@@ -70,14 +87,32 @@ void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
 void InputDirector::OnJoystickPov(Axis::Type type, int hat, int joystick,
                                   float value) {
   assert(this);
+
+  /// @todo fix the joystick number
+
+  for (auto j : joystick_) {
+    j->OnHat(HatAxis(hat, type), value);
+  }
 }
 
 void InputDirector::OnJoystickButton(int button, int joystick, bool down) {
   assert(this);
+
+  /// @todo fix the joystick number
+
+  for (auto j : joystick_) {
+    j->OnButton(button, down ? 1.0f : 0.0f);
+  }
 }
 
 void InputDirector::OnJoystickAxis(int axis, int joystick, float value) {
   assert(this);
+
+  /// @todo fix the joystick number
+
+  for (auto j : joystick_) {
+    j->OnAxis(axis, value);
+  }
 }
 
 }  // namespace input

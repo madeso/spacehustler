@@ -31,10 +31,10 @@ class JoystickActiveUnit : public ActiveUnit {
   @param director the input director
    */
   JoystickActiveUnit(
-      int joystick, const std::vector<std::shared_ptr<TAxisBind<int>>>& axis,
+      int joystick, InputDirector* director,
+      const std::vector<std::shared_ptr<TAxisBind<int>>>& axis,
       const std::vector<std::shared_ptr<TRangeBind<int>>>& buttons,
-      const std::vector<std::shared_ptr<TAxisBind<HatAxis>>>& hats,
-      InputDirector* director);
+      const std::vector<std::shared_ptr<TAxisBind<HatAxis>>>& hats);
 
   /** React to a change in the axis.
   @param axis the axis
@@ -58,7 +58,7 @@ class JoystickActiveUnit : public ActiveUnit {
  private:
   int joystick_;
   InputDirector* director_;
-  std::map<int, std::shared_ptr<Bind>> actions_;
+  std::map<int, std::shared_ptr<Bind>> axis_;
   std::map<int, std::shared_ptr<Bind>> buttons_;
   std::map<HatAxis, std::shared_ptr<Bind>> hats_;
 };
