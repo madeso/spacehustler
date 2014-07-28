@@ -101,51 +101,51 @@ class ImageData : boost::noncopyable {
 enum class WrapMode {
   /** Repeat it.
     */
-  kWrap_Repeat,
+  REPEAT,
 
   /** Repeat, but mirror instead of restarting.
     */
-  kWrap_MirrorRepeat,
+  MIRROR_REPEAT,
 
   /** Clamp to the edge.
     */
-  kWrap_ClampToEdge
+  CLAMP_TO_EDGE
 };
 
 /** The texture filtering mode.
   */
-enum class FilterMode {
+enum class TextureFilter {
   /** Nearest filtering. Good for images that doesn't look good when scaled.
     */
-  kFilter_Nearest,
+  NEAREST,
 
   /** Linear filtering. Good for textures.
     */
-  kFilter_Linear,
+  LINEAR,
 
   /** Mipmap linear filtering, good for textures.
   */
-  kFilter_Mimap
+  MIPMAP
 };
 
 /** How the image is stored.
   */
-enum class TextureType {
+enum class ImageStorage {
   /** Store it as RGB without alpha.
     */
-  kType_Rgb,
+  RGB,
 
   /** Store is a RGB with alpha.
     */
-  kType_Rgba,
+  RGBA,
 
   /** Store it as compressed RGB without alpha.
     */
-  kType_CompressedRgb,
+  COMPRESED_RGB,
 
   /** Store it as compressed RGB with alpha.
     */
-  kType_CompressedRgba
+  COMPRESSED_RGBA
 };
 
 /** A OpenGL texture.
@@ -160,8 +160,8 @@ class Texture {
   @param filter how to filter the texture when rendering
   @param anisotropic the anisotropic data
    */
-  Texture(const ImageData& data, TextureType textureType, WrapMode wraps,
-          WrapMode wrapt, FilterMode filter, float anisotropic);
+  Texture(const ImageData& data, ImageStorage textureType, WrapMode wraps,
+          WrapMode wrapt, TextureFilter filter, float anisotropic);
 
   /** Destructs the texture.
    */

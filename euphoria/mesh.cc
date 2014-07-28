@@ -56,8 +56,7 @@ vec3 MeshPart::GetVertex(unsigned int p) const {
   return vec3(x, y, z);
 }
 
-Material::Material()
-    : wraps(WrapMode::kWrap_Repeat), wrapt(WrapMode::kWrap_Repeat) {}
+Material::Material() : wraps(WrapMode::REPEAT), wrapt(WrapMode::REPEAT) {}
 
 }  // namespace internal
 

@@ -24,13 +24,13 @@ const unsigned int kAssimpFlags =
 WrapMode GetTextureWrappingMode(const int mode) {
   switch (mode) {
     case aiTextureMapMode_Wrap:
-      return WrapMode::kWrap_Repeat;
+      return WrapMode::REPEAT;
     case aiTextureMapMode_Clamp:
-      return WrapMode::kWrap_ClampToEdge;
+      return WrapMode::CLAMP_TO_EDGE;
     case aiTextureMapMode_Decal:
       throw "Unsupported texture wrapping mode: decal";
     case aiTextureMapMode_Mirror:
-      return WrapMode::kWrap_MirrorRepeat;
+      return WrapMode::MIRROR_REPEAT;
     default:
       throw "Unhandled texture wrapping mode";
   }

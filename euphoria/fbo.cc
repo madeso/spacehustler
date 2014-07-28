@@ -48,9 +48,9 @@ Fbo::Fbo(int w, int h, bool mipmap) : fbo_(0), width_(w), height_(h) {
   // for now we just disable it
   const float anisotropic = 1.0f;
   ImageData data(width_, height_, 0);
-  texture_.reset(new Texture(
-      data, TextureType::kType_Rgba, WrapMode::kWrap_ClampToEdge,
-      WrapMode::kWrap_ClampToEdge, FilterMode::kFilter_Nearest, anisotropic));
+  texture_.reset(new Texture(data, ImageStorage::RGBA, WrapMode::CLAMP_TO_EDGE,
+                             WrapMode::CLAMP_TO_EDGE, TextureFilter::NEAREST,
+                             anisotropic));
 
   depth_buffer_.reset(new RenderBuffer(GL_DEPTH_COMPONENT, width_, height_));
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,

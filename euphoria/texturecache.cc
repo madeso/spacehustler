@@ -32,10 +32,9 @@ struct TextureCreator {
     ImageData data(instructions.file);
 
     /// @todo include anisotropic in instructions.
-    std::shared_ptr<Texture> ret(
-        new Texture(data, TextureType::kType_CompressedRgb, instructions.wraps,
-                    instructions.wrapt, FilterMode::kFilter_Linear,
-                    settings.anisotropic()));
+    std::shared_ptr<Texture> ret(new Texture(
+        data, ImageStorage::COMPRESED_RGB, instructions.wraps,
+        instructions.wrapt, TextureFilter::LINEAR, settings.anisotropic()));
     return ret;
   }
 };

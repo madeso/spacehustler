@@ -100,11 +100,11 @@ float GetMaxAnistropy() {
 namespace {
 GLint C(WrapMode mode) {
   switch (mode) {
-    case WrapMode::kWrap_Repeat:
+    case WrapMode::REPEAT:
       return GL_REPEAT;
-    case WrapMode::kWrap_MirrorRepeat:
+    case WrapMode::MIRROR_REPEAT:
       return GL_MIRRORED_REPEAT;
-    case WrapMode::kWrap_ClampToEdge:
+    case WrapMode::CLAMP_TO_EDGE:
       return GL_CLAMP_TO_EDGE;
     default:
       const std::string error = Str() << "Unknown texture wrap mode";
@@ -112,13 +112,13 @@ GLint C(WrapMode mode) {
   }
 }
 
-GLint C(FilterMode mode) {
+GLint C(TextureFilter mode) {
   switch (mode) {
-    case FilterMode::kFilter_Linear:
+    case TextureFilter::LINEAR:
       return GL_LINEAR;
-    case FilterMode::kFilter_Nearest:
+    case TextureFilter::NEAREST:
       return GL_NEAREST;
-    case FilterMode::kFilter_Mimap:
+    case TextureFilter::MIPMAP:
       return GL_LINEAR_MIPMAP_LINEAR;
     default:
       const std::string error = Str() << "Unknown texture filter mode";
@@ -126,15 +126,15 @@ GLint C(FilterMode mode) {
   }
 }
 
-GLint C(TextureType type) {
+GLint C(ImageStorage type) {
   switch (type) {
-    case TextureType::kType_Rgb:
+    case ImageStorage::RGB:
       return GL_RGB;
-    case TextureType::kType_Rgba:
+    case ImageStorage::RGBA:
       return GL_RGBA;
-    case TextureType::kType_CompressedRgb:
+    case ImageStorage::COMPRESED_RGB:
       return GL_COMPRESSED_RGB;
-    case TextureType::kType_CompressedRgba:
+    case ImageStorage::COMPRESSED_RGBA:
       return GL_COMPRESSED_RGBA;
     default:
       const std::string error = Str() << "Unknown texture type";
@@ -143,8 +143,9 @@ GLint C(TextureType type) {
 }
 }  // namespace
 
-Texture::Texture(const ImageData& data, TextureType textureType, WrapMode wraps,
-                 WrapMode wrapt, FilterMode filter, float anisotropic) {
+Texture::Texture(const ImageData& data, ImageStorage textureType,
+                 WrapMode wraps, WrapMode wrapt, TextureFilter filter,
+                 float anisotropic) {
   assert(this);
   glBindTexture(GL_TEXTURE_2D, texture_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
@@ -154,13 +155,13 @@ Texture::Texture(const ImageData& data, TextureType textureType, WrapMode wraps,
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropic);
 
   glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP,
-                  filter == FilterMode::kFilter_Mimap ? GL_TRUE : GL_FALSE);
+                  filter == TextureFilter::MIPMAP ? GL_TRUE : GL_FALSE);
   glTexImage2D(GL_TEXTURE_2D, 0, C(textureType), (GLsizei)data.width(),
                (GLsizei)data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
                data.pixels());
 
-  if (textureType == TextureType::kType_CompressedRgb ||
-      textureType == TextureType::kType_CompressedRgba) {
+  if (textureType == ImageStorage::COMPRESED_RGB ||
+      textureType == ImageStorage::COMPRESSED_RGBA) {
     GLint result = GL_FALSE;
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_COMPRESSED, &result);
 
