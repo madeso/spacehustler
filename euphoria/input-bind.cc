@@ -18,6 +18,11 @@ std::string ToString(const BindType& bt) {
   }
 }
 
+std::ostream& operator<<(std::ostream& ss, const BindType& bt) {
+  ss << ToString(bt);
+  return ss;
+}
+
 Bind::Bind(InputAction* action, BindType type)
     : action_(action),
       type_(type),

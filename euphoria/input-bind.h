@@ -21,11 +21,7 @@ enum class BindType {
 
 std::string ToString(const BindType& bt);
 
-template <typename Stream>
-Stream& operator<<(Stream& ss, const BindType& bt) {
-  ss << ToString(bt);
-  return ss;
-}
+std::ostream& operator<<(std::ostream& ss, const BindType& bt);
 
 /** A bind.
  */
