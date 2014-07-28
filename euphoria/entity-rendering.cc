@@ -71,7 +71,7 @@ class RenderingSystem : public System, boost::noncopyable {
   void Step(float dt) {
     assert(this);
     for (auto& o : objects_) {
-      o.instance->transform = cmat44(o.entity->position, o.entity->rotation);
+      o.instance->set_transform(cmat44(o.entity->position, o.entity->rotation));
     }
   }
 

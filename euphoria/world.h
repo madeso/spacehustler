@@ -36,13 +36,17 @@ class Instance {
    */
   void Render(const Camera& camera);
 
+  const mat44& transform() const;
+  void set_transform(const mat44& transform);
+
+ private:
   /** The mesh to be rendered.
    */
-  std::shared_ptr<CompiledMesh> mesh;
+  std::shared_ptr<CompiledMesh> mesh_;
 
   /** The transform of the instance.
    */
-  mat44 transform;
+  mat44 transform_;
 };
 
 /** List of instances that can be rendered.

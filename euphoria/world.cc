@@ -7,13 +7,22 @@
 #include "euphoria/str.h"
 #include "json/json.h"
 
-Instance::Instance(std::shared_ptr<CompiledMesh> m, const mat44& t)
-    : mesh(m), transform(t) {  // NOLINT
+Instance::Instance(std::shared_ptr<CompiledMesh> mesh, const mat44& transform)
+    : mesh_(mesh), transform_(transform) {  // NOLINT
 }
 
 void Instance::Render(const Camera& camera) {
   assert(this);
-  mesh->Render(camera, transform);
+  mesh_->Render(camera, transform_);
+}
+
+const mat44& Instance::transform() const {
+  assert(this);
+  return transform_;
+}
+void Instance::set_transform(const mat44& transform) {
+  assert(this);
+  transform_ = transform;
 }
 
 World::World(const std::string& filename, TextureCache* texturecache,
@@ -62,7 +71,7 @@ void World::Render(const Camera& camera) {
   for (auto i : instances_) {
     i->Render(camera);
     if (debug_transforms_) {
-      Debug(&debug_renderer_, i->transform);
+      Debug(&debug_renderer_, i->transform());
     }
   }
 
