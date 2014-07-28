@@ -39,7 +39,7 @@ class MouseDef : public UnitDef {
                                      BindMap* map) override;
 
  private:
-  std::vector<BindDef<Axis::Type>> axis_;
+  std::vector<BindDef<Axis>> axis_;
   std::vector<BindDef<MouseButton::Type>> keys_;
 };
 }  // namespace input

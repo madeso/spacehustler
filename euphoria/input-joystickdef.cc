@@ -51,7 +51,7 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
       }
 
       const std::string axisname = d.get("axis", "").asString();
-      const auto axis = Axis::FromString(axisname);
+      const auto axis = ToAxis(axisname);
       if (axis == Axis::Invalid) {
         const std::string error = Str() << "Invalid axis " << axisname;
         throw error;

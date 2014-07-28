@@ -27,10 +27,9 @@ enum class Sign {
  */
 Sign ToSign(const std::string& signname);
 
-namespace Axis {
 /** Axis types.
  */
-enum Type {
+enum class Axis {
   Invalid  /// Invalid axis
   ,
   Unbound  /// Unbound axis
@@ -44,13 +43,12 @@ enum Type {
 @param k the axis
 @returns the string representation
  */
-std::string ToString(Type k);
+std::string ToString(Axis k);
 
 /** Generate a axis from a string.
 @param keyname the name of the key
 @returns the key or None
  */
-Type FromString(const std::string& keyname);
-}  // namespace Axis
+Axis ToAxis(const std::string& keyname);
 
 #endif  // EUPHORIA_INPUT_AXIS_H_

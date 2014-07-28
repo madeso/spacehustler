@@ -13,16 +13,16 @@ namespace input {
 
 class HatAxis {
  public:
-  HatAxis(int hat, Axis::Type axis);
+  HatAxis(int hat, Axis axis);
 
-  Axis::Type axis() const;
+  Axis axis() const;
   int hat() const;
 
   bool operator<(const HatAxis& rhs) const;
 
  private:
   int hat_;
-  Axis::Type axis_;
+  Axis axis_;
 };
 
 }  // namespace input

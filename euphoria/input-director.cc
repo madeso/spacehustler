@@ -68,7 +68,7 @@ void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
   }
 }
 
-void InputDirector::OnMouseAxis(Axis::Type axis, float value) {
+void InputDirector::OnMouseAxis(Axis axis, float value) {
   assert(this);
 
   for (auto m : mouse_) {
@@ -84,7 +84,7 @@ void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
   }
 }
 
-void InputDirector::OnJoystickPov(Axis::Type type, int hat, int joystick,
+void InputDirector::OnJoystickPov(Axis type, int hat, int joystick,
                                   float value) {
   assert(this);
 

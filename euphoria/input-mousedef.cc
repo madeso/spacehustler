@@ -20,12 +20,12 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
 
     if (common.type == "axis") {
       const std::string axisname = d.get("axis", "").asString();
-      const auto axis = Axis::FromString(axisname);
+      const auto axis = ToAxis(axisname);
       if (axis == Axis::Invalid) {
         const std::string error = Str() << "Invalid axis " << axisname;
         throw error;
       }
-      axis_.push_back(BindDef<Axis::Type>(common.bindname, axis));
+      axis_.push_back(BindDef<Axis>(common.bindname, axis));
     } else if (common.type == "button") {
       const std::string keyname = d.get("key", "").asString();
       const auto key = MouseButton::FromString(keyname);
@@ -50,8 +50,8 @@ std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director,
   assert(director);
   assert(map);
 
-  std::vector<std::shared_ptr<TAxisBind<Axis::Type>>> axisbinds =
-      CreateBinds<TAxisBind<Axis::Type>, Axis::Type>(axis_, map);
+  std::vector<std::shared_ptr<TAxisBind<Axis>>> axisbinds =
+      CreateBinds<TAxisBind<Axis>, Axis>(axis_, map);
 
   std::vector<std::shared_ptr<TRangeBind<MouseButton::Type>>> keybinds =
       CreateBinds<TRangeBind<MouseButton::Type>, MouseButton::Type>(keys_, map);

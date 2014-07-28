@@ -70,7 +70,7 @@ class InputDirector {
   @param axis the axis
   @param value the value
    */
-  void OnMouseAxis(Axis::Type axis, float value);
+  void OnMouseAxis(Axis axis, float value);
 
   /** Send a mouse button.
   @param button the button to act upon
@@ -84,7 +84,7 @@ class InputDirector {
   @param joystick the joystick id
   @param value the value
    */
-  void OnJoystickPov(Axis::Type type, int hat, int joystick, float value);
+  void OnJoystickPov(Axis type, int hat, int joystick, float value);
 
   /** Send a joystick button.
   @param button the button to act upon

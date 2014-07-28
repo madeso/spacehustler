@@ -30,17 +30,16 @@ class MouseActiveUnit : public ActiveUnit {
   @param axis the axis binds to use
   @param director the input director
    */
-  MouseActiveUnit(
-      const std::vector<std::shared_ptr<TAxisBind<Axis::Type>>>& axis,
-      const std::vector<std::shared_ptr<TRangeBind<MouseButton::Type>>>&
-          buttons,
-      InputDirector* director);
+  MouseActiveUnit(const std::vector<std::shared_ptr<TAxisBind<Axis>>>& axis,
+                  const std::vector<
+                      std::shared_ptr<TRangeBind<MouseButton::Type>>>& buttons,
+                  InputDirector* director);
 
   /** React to a change in the axis.
   @param key the axis
   @param state the state of the axis
    */
-  void OnAxis(const Axis::Type& key, float state);
+  void OnAxis(const Axis& key, float state);
 
   void OnButton(MouseButton::Type key, float state);
 
@@ -55,7 +54,7 @@ class MouseActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  const std::map<Axis::Type, std::shared_ptr<Bind>> actions_;
+  const std::map<Axis, std::shared_ptr<Bind>> actions_;
   const std::map<MouseButton::Type, std::shared_ptr<Bind>> buttons_;
 };
 

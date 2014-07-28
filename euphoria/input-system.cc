@@ -76,7 +76,7 @@ void InputSystem::OnKeyboardKey(Key::Type key, bool down) {
   input_->OnKeyboardKey(key, down);
 }
 
-void InputSystem::OnMouseAxis(Axis::Type axis, float value) {
+void InputSystem::OnMouseAxis(Axis axis, float value) {
   assert(this);
   input_->OnMouseAxis(axis, value);
 }
@@ -86,8 +86,7 @@ void InputSystem::OnMouseButton(MouseButton::Type button, bool down) {
   input_->OnMouseButton(button, down);
 }
 
-void InputSystem::OnJoystickPov(Axis::Type type, int hat, int joystick,
-                                float value) {
+void InputSystem::OnJoystickPov(Axis type, int hat, int joystick, float value) {
   assert(this);
   input_->OnJoystickPov(type, hat, joystick, value);
 }

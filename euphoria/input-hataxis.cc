@@ -5,11 +5,9 @@
 
 namespace input {
 
-HatAxis::HatAxis(int hat, Axis::Type axis) : hat_(hat), axis_(axis) {
-  assert(this);
-}
+HatAxis::HatAxis(int hat, Axis axis) : hat_(hat), axis_(axis) { assert(this); }
 
-Axis::Type HatAxis::axis() const {
+Axis HatAxis::axis() const {
   assert(this);
   return axis_;
 }
