@@ -19,4 +19,12 @@ int HatAxis::hat() const {
   return hat_;
 }
 
+bool HatAxis::operator<(const HatAxis& rhs) const {
+  if (axis_ == rhs.axis_) {
+    return hat_ < rhs.hat_;
+  } else {
+    return axis_ < rhs.axis_;
+  }
+}
+
 }  // namespace input

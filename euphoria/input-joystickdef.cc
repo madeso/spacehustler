@@ -84,7 +84,8 @@ std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director,
   std::vector<std::shared_ptr<TAxisBind<HatAxis>>> hatbinds =
       CreateBinds<TAxisBind<HatAxis>, HatAxis>(hats_, map);
 
-  std::shared_ptr<ActiveUnit> unit(new JoystickActiveUnit(js, director, axisbinds, buttonbinds, hatbinds));
+  std::shared_ptr<ActiveUnit> unit(
+      new JoystickActiveUnit(js, director, axisbinds, buttonbinds, hatbinds));
   return unit;
 }
 

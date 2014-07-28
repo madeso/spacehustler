@@ -18,6 +18,8 @@ class HatAxis {
   Axis::Type axis() const;
   int hat() const;
 
+  bool operator<(const HatAxis& rhs) const;
+
  private:
   int hat_;
   Axis::Type axis_;
