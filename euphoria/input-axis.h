@@ -9,10 +9,9 @@ Axis enum.
 
 #include <string>
 
-namespace Sign {
 /** Sign type
  */
-enum Type {
+enum class Sign {
   Invalid  /// Invalid sign
   ,
   Positive  /// Positive sign
@@ -26,8 +25,7 @@ enum Type {
 @param signname the name of the sign
 @returns the sign or Invalid
  */
-Type FromString(const std::string& signname);
-}  // namespace Sign
+Sign ToSign(const std::string& signname);
 
 namespace Axis {
 /** Axis types.

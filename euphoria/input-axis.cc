@@ -16,12 +16,12 @@ class Signname {
     bind(Sign::FullRange, "+-");
   }
 
-  void bind(Sign::Type key, const std::string& name) {
+  void bind(Sign key, const std::string& name) {
     strtokey.insert(std::make_pair(ToLower(name), key));
     keytostr.insert(std::make_pair(key, name));
   }
 
-  std::string fromAxis(Sign::Type key) const {
+  std::string fromAxis(Sign key) const {
     auto r = keytostr.find(key);
     if (r == keytostr.end()) {
       return "Unknown";
@@ -30,7 +30,7 @@ class Signname {
     }
   }
 
-  Sign::Type fromString(const std::string& signname) const {
+  Sign fromString(const std::string& signname) const {
     if (signname == "") {
       return Sign::FullRange;
     }
@@ -42,8 +42,8 @@ class Signname {
     }
   }
 
-  std::map<std::string, Sign::Type> strtokey;
-  std::map<Sign::Type, std::string> keytostr;
+  std::map<std::string, Sign> strtokey;
+  std::map<Sign, std::string> keytostr;
 };
 
 const Signname& AllSigns() {
@@ -52,11 +52,9 @@ const Signname& AllSigns() {
 }
 }  // namespace
 
-namespace Sign {
-Type FromString(const std::string& signname) {
+Sign ToSign(const std::string& signname) {
   return AllSigns().fromString(signname);
 }
-}  // namespace Sign
 
 namespace {
 class Axisname {
