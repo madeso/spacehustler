@@ -1,5 +1,5 @@
 {
-	"controlscheme":"keyboard"
+	"controlscheme":"joystick"
 	, "width": 1280
 	, "height": 800
 	, "oculusvr": "oculusvr"

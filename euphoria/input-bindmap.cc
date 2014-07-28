@@ -53,6 +53,12 @@ void BindMap::addRange(std::shared_ptr<InputAction> action,
       new ActiveRange(action.get(), bind.get()));
   actives->add(active);
   binds_.insert(std::make_pair(actionname, bind));
+
+  bind.reset(new Bind(action.get(), BindType::Axis));
+  std::shared_ptr<ActiveRange> activea(
+      new ActiveRange(action.get(), bind.get()));
+  actives->add(activea);
+  binds_.insert(std::make_pair(actionname + "-axis", bind));
 }
 
 void BindMap::addAxis(std::shared_ptr<InputAction> action,
