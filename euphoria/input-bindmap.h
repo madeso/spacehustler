@@ -18,7 +18,6 @@ Classes for input handling.
 
 #include "euphoria/input-activeaxis.h"
 #include "euphoria/input-activerange.h"
-#include "euphoria/input-activerangetoaxis.h"
 
 class Table;
 

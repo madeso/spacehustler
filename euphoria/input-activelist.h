@@ -16,8 +16,12 @@ namespace input {
 
 class ActiveRange;
 class ActiveAxis;
+
+class ActiveAxisToRange;
 class ActiveRangeToAxis;
+
 class ActiveMasterAxis;
+class ActiveMasterRange;
 
 /** A container for all the actives in the game.
  */
@@ -25,8 +29,12 @@ class ActiveList {
  public:
   void add(std::shared_ptr<ActiveRange> range);
   void add(std::shared_ptr<ActiveAxis> axis);
+
+  void add(std::shared_ptr<ActiveAxisToRange> axis);
   void add(std::shared_ptr<ActiveRangeToAxis> axis);
+
   void add(std::shared_ptr<ActiveMasterAxis> axis);
+  void add(std::shared_ptr<ActiveMasterRange> axis);
 
   /** Update the table with the input.
    */
@@ -38,8 +46,10 @@ class ActiveList {
  private:
   std::vector<std::shared_ptr<ActiveRange>> rangeBinds_;
   std::vector<std::shared_ptr<ActiveAxis>> axisBinds_;
+  std::vector<std::shared_ptr<ActiveAxisToRange>> axisToRangeBinds_;
   std::vector<std::shared_ptr<ActiveRangeToAxis>> rangeToAxisBinds_;
   std::vector<std::shared_ptr<ActiveMasterAxis>> masterAxisBinds_;
+  std::vector<std::shared_ptr<ActiveMasterRange>> masterRangeBinds_;
 };
 
 }  // namespace input
