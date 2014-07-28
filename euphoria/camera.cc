@@ -40,7 +40,7 @@ void Camera::set_view(const mat44& view) {
   view_ = view;
 }
 
-void Camera::set_near_far(float near, float far) {
+void Camera::SetNearFar(float near, float far) {
   assert(this);
 
   znear_ = near;

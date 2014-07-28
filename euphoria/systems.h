@@ -31,7 +31,7 @@ class InputSystem;
 
 /** Arguments for creating a system.
  */
-class CreateSystemArg : boost::noncopyable {
+struct CreateSystemArg : boost::noncopyable {
  public:
   /** Constructor.
   @param acontainer where to put the systems

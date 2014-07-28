@@ -88,7 +88,7 @@ Game::Game(const Settings& settings, bool renderoculus)
 
   camera_.reset(new Camera(width_, height_));
   camera_->set_fov(45);
-  camera_->set_near_far(0.1f, 800.0f);
+  camera_->SetNearFar(0.1f, 800.0f);
 
   container_.reset(new SystemContainer());
   LoadSystems(

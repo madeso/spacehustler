@@ -9,7 +9,7 @@ Basic class for handling colors.
 
 /** A color.
  */
-class Color {
+struct Color {
  public:
   /** Construct a gray color.
   @param gray the intensity of gray ranging from 0 to 1.

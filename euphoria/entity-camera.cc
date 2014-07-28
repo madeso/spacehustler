@@ -16,7 +16,7 @@ class CameraType : public ComponentType {
   explicit CameraType(const Json::Value& data) {}
 };
 
-class CameraObject {
+struct CameraObject {
  public:
   CameraObject(Entity* ent, const CameraType& t) : entity(ent) {
     assert(entity);
@@ -27,7 +27,7 @@ class CameraObject {
 
 class CameraSystem : public System {
  public:
-  explicit CameraSystem(Camera* cam) : camera(cam) {
+  explicit CameraSystem(Camera* cam) : camera_(cam) {
     assert(this);
     assert(cam);
   }
@@ -49,17 +49,17 @@ class CameraSystem : public System {
 
   void Step(float dt) {
     assert(this);
-    assert(camera);
+    assert(camera_);
 
     for (auto& o : objects_) {
       quat temp = o.entity->rotation;
       temp.conjugate();
-      camera->set_view(cmat44(temp) * cmat44(vec3(-o.entity->position)));
+      camera_->set_view(cmat44(temp) * cmat44(vec3(-o.entity->position)));
     }
   }
 
  private:
-  Camera* camera;
+  Camera* camera_;
 
   std::vector<std::shared_ptr<CameraType> > types_;
   std::vector<CameraObject> objects_;

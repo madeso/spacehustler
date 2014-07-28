@@ -10,21 +10,21 @@
 #include "json/json.h"
 #include "euphoria/str.h"
 
-EnumType::EnumType() : is_adding(true), next_index(0) {}
+EnumType::EnumType() : is_adding_(true), next_index_(0) {}
 
 EnumType::~EnumType() {
-  assert(is_adding == false);
-  assert(created_but_not_added_list.empty() == true);
+  assert(is_adding_ == false);
+  assert(created_but_not_added_list_.empty() == true);
 }
 
 const std::string& EnumType::ToString(size_t v) const {
-  assert(v < next_index);
+  assert(v < next_index_);
   List::const_iterator f = list_.find(v);
   if (f != list_.end()) {
     return f->second;
   } else {
-    List::const_iterator i = created_but_not_added_list.find(v);
-    if (i == created_but_not_added_list.end()) {
+    List::const_iterator i = created_but_not_added_list_.find(v);
+    if (i == created_but_not_added_list_.end()) {
       const std::string error = Str() << "unknown index " << v;
       throw error;
     } else {
@@ -36,11 +36,11 @@ const std::string& EnumType::ToString(size_t v) const {
 const EnumValue EnumType::ToEnum(const std::string& name) {
   Map::const_iterator r = map_.find(name);
   if (r == map_.end()) {
-    if (is_adding) {
-      const size_t id = next_index;
-      ++next_index;
-      created_but_not_added_list.insert(List::value_type(id, name));
-      created_but_not_added_map.insert(Map::value_type(name, id));
+    if (is_adding_) {
+      const size_t id = next_index_;
+      ++next_index_;
+      created_but_not_added_list_.insert(List::value_type(id, name));
+      created_but_not_added_map_.insert(Map::value_type(name, id));
       map_.insert(Map::value_type(name, id));
       return EnumValue(this, id);
     } else {
@@ -55,34 +55,34 @@ const EnumValue EnumType::ToEnum(const std::string& name) {
 }
 
 void EnumType::AddEnum(const std::string& name) {
-  assert(is_adding == true);
+  assert(is_adding_ == true);
   Map::const_iterator r = map_.find(name);
   if (r == map_.end()) {
-    const size_t id = next_index;
-    ++next_index;
+    const size_t id = next_index_;
+    ++next_index_;
     list_.insert(List::value_type(id, name));
     map_.insert(Map::value_type(name, id));
   } else {
-    Map::iterator f = created_but_not_added_map.find(name);
-    if (f == created_but_not_added_map.end()) {
+    Map::iterator f = created_but_not_added_map_.find(name);
+    if (f == created_but_not_added_map_.end()) {
       const std::string error = Str() << "enum " << name << " already added";
       throw error;
     } else {
       // move to list
       const size_t id = f->second;
-      List::iterator i = created_but_not_added_list.find(id);
+      List::iterator i = created_but_not_added_list_.find(id);
       // createdButNotAdded list/map inconsistencies
-      assert(i != created_but_not_added_list.end());
-      created_but_not_added_list.erase(i);
-      created_but_not_added_map.erase(f);
+      assert(i != created_but_not_added_list_.end());
+      created_but_not_added_list_.erase(i);
+      created_but_not_added_map_.erase(f);
     }
   }
 }
 
 void EnumType::StopAdding() {
-  assert(is_adding == true);
-  is_adding = false;
-  assert(created_but_not_added_list.empty() == true);  // if this isn't empty,
+  assert(is_adding_ == true);
+  is_adding_ = false;
+  assert(created_but_not_added_list_.empty() == true);  // if this isn't empty,
   // some enums have not been added or misspelling has occurred,
   // see throw above
 }

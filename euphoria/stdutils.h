@@ -61,16 +61,17 @@ class BuildVector {
  public:
   BuildVector& operator<<(const T& t) {
     assert(this);
-    ts.push_back(t);
+    vector_.push_back(t);
     return *this;
   }
 
   operator std::vector<T>() {
     assert(this);
-    return ts;
+    return vector_;
   }
 
-  std::vector<T> ts;
+ private:
+  std::vector<T> vector_;
 };
 
 #endif  // EUPHORIA_STDUTILS_H_

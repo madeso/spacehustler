@@ -49,7 +49,7 @@ class Camera {
   @param near the new near plane position.
   @param far the new far plane position.
    */
-  void set_near_far(float near, float far);
+  void SetNearFar(float near, float far);
 
  private:
   mat44 view_;

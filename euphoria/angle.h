@@ -9,7 +9,7 @@ Axis enum.
 
 /** A angle in both degrees and radians. Internally stored as a radian.
 */
-struct Angle {
+class Angle {
  public:
   /** Convert the current value to degrees.
   @returns the angle in degrees

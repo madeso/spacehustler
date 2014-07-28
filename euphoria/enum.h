@@ -61,10 +61,10 @@ class EnumType {
   List list_;
   Map map_;
 
-  List created_but_not_added_list;
-  Map created_but_not_added_map;
-  bool is_adding;
-  size_t next_index;
+  List created_but_not_added_list_;
+  Map created_but_not_added_map_;
+  bool is_adding_;
+  size_t next_index_;
 };
 
 /** Adds values from a file to a EnumType.
