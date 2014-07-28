@@ -7,34 +7,42 @@ Classes for input handling.
 #ifndef EUPHORIA_INPUT_BIND_H_
 #define EUPHORIA_INPUT_BIND_H_
 
+#include <string>
+
 namespace input {
 
 class InputAction;
 class GlobalToggle;
 
-namespace BindType {
-enum Type {
+enum class BindType {
   Range,
   Axis
 };
+
+std::string ToString(const BindType& bt);
+
+template <typename Stream>
+Stream& operator<<(Stream& ss, const BindType& bt) {
+  ss << ToString(bt);
+  return ss;
 }
 
 /** A bind.
  */
 class Bind {
  public:
-  Bind(InputAction* action, BindType::Type type);
+  Bind(InputAction* action, BindType type);
   ~Bind();
 
   float value() const;
   void set_value(float v);
 
-  BindType::Type type() const;
+  BindType type() const;
   InputAction* action();
 
  private:
   InputAction* action_;
-  BindType::Type type_;
+  BindType type_;
   GlobalToggle* toggle_;
   float value_;
 };

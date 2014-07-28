@@ -7,7 +7,18 @@
 
 namespace input {
 
-Bind::Bind(InputAction* action, BindType::Type type)
+std::string ToString(const BindType& bt) {
+  switch (bt) {
+    case BindType::Axis:
+      return "axis";
+    case BindType::Range:
+      return "range";
+    default:
+      return "<unknown BindType>";
+  }
+}
+
+Bind::Bind(InputAction* action, BindType type)
     : action_(action),
       type_(type),
       toggle_(action ? action->toggle() : 0),
@@ -41,7 +52,7 @@ void Bind::set_value(float v) {
   value_ = v;
 }
 
-BindType::Type Bind::type() const {
+BindType Bind::type() const {
   assert(this);
   return type_;
 }
