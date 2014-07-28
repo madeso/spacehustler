@@ -40,7 +40,8 @@ void SystemContainer::Add(const std::string& name,
   systemlist_.push_back(sys);
 }
 
-std::shared_ptr<System> SystemContainer::getSystem(const std::string& name) {
+std::shared_ptr<System> SystemContainer::GetSystemByName(
+    const std::string& name) {
   assert(this);
   auto res = systems_.find(name);
   if (res == systems_.end()) {
@@ -56,7 +57,7 @@ EntityDef::EntityDef(SystemContainer* container, const Json::Value& value) {
   assert(container);
   for (Json::ArrayIndex i = 0; i < value.size(); ++i) {
     const std::string systemname = value[i].get("system", "").asString();
-    auto system = container->getSystem(systemname);
+    auto system = container->GetSystemByName(systemname);
     auto arg = value[i]["data"];
     ComponentType* type = system->AddType(arg);
     component_types_.push_back(std::make_pair(system, type));

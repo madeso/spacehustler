@@ -11,7 +11,7 @@
 
 const std::string PlayerSystemType = "Player";
 
-class PlayerType : public ComponentType {
+struct PlayerType : public ComponentType {
  public:
   explicit PlayerType(const Json::Value& data)
       : name(data.get("name", "").asString()) {}

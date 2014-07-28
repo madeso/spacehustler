@@ -69,9 +69,13 @@ GLuint Shader::object() const {
 
 ShaderList& ShaderList::operator()(std::shared_ptr<Shader> shader) {
   assert(this);
-
-  shaders.push_back(shader);
+  shaders_.push_back(shader);
   return *this;
+}
+
+const std::vector<std::shared_ptr<Shader>> ShaderList::shaders() const {
+  assert(this);
+  return shaders_;
 }
 
 /////////////////////
@@ -86,7 +90,7 @@ Program::Program() : object_(glCreateProgram()) {
 }
 
 std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
-  if (shaders.shaders.empty()) {
+  if (shaders.shaders().empty()) {
     const std::string error =
         Str() << "No shaders were provided to create the program";
     throw error;
@@ -94,11 +98,11 @@ std::shared_ptr<Program> Program::FromShaderList(const ShaderList& shaders) {
 
   std::shared_ptr<Program> program(new Program());
 
-  for (auto sh : shaders.shaders) {
+  for (auto sh : shaders.shaders()) {
     glAttachShader(program->object(), sh->object());
   }
   glLinkProgram(program->object());
-  for (auto sh : shaders.shaders) {
+  for (auto sh : shaders.shaders()) {
     glDetachShader(program->object(), sh->object());
   }
 

@@ -41,19 +41,19 @@ std::string StringMerger::Generate(const std::vector<std::string>& strings)
 
 const StringMerger& StringMerger::EnglishAnd() {
   static const StringMerger sep =
-      StringMerger().set_separator(", ", " and ").set_start_end("", "");
+      StringMerger().set_separator(", ", " and ").SetStartEnd("", "");
   return sep;
 }
 
 const StringMerger& StringMerger::EnglishOr() {
   static const StringMerger sep =
-      StringMerger().set_separator(", ", " or ").set_start_end("", "");
+      StringMerger().set_separator(", ", " or ").SetStartEnd("", "");
   return sep;
 }
 
 const StringMerger& StringMerger::Array() {
   static const StringMerger sep =
-      StringMerger().set_separator(", ").set_start_end("[", "]");
+      StringMerger().set_separator(", ").SetStartEnd("[", "]");
   return sep;
 }
 
@@ -78,8 +78,8 @@ StringMerger& StringMerger::set_empty(const std::string& empty) {
   return *this;
 }
 
-StringMerger& StringMerger::set_start_end(const std::string& start,
-                                          const std::string& end) {
+StringMerger& StringMerger::SetStartEnd(const std::string& start,
+                                        const std::string& end) {
   assert(this);
   start_ = start;
   end_ = end;

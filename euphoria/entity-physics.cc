@@ -155,8 +155,8 @@ struct StaticMesh {
     // rigid body is dynamic if and only if mass is non zero, otherwise static
     btVector3 localInertia(0, 0, 0);
 
-    myMotionState.reset(new btDefaultMotionState(trans));
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState.get(),
+    my_motion_state.reset(new btDefaultMotionState(trans));
+    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, my_motion_state.get(),
                                                     shape.get(), localInertia);
     body.reset(new btRigidBody(rbInfo));
 
@@ -166,7 +166,7 @@ struct StaticMesh {
 
   std::shared_ptr<btTriangleMesh> mesh;
   std::shared_ptr<btCollisionShape> shape;
-  std::shared_ptr<btDefaultMotionState> myMotionState;
+  std::shared_ptr<btDefaultMotionState> my_motion_state;
   std::shared_ptr<btRigidBody> body;
   std::shared_ptr<WorldBodyConenction> connection;
 };

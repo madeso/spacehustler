@@ -108,7 +108,7 @@ class SystemContainer {
   @returns the system that was added
   @throws when a requested system can't be found
    */
-  std::shared_ptr<System> getSystem(const std::string& name);
+  std::shared_ptr<System> GetSystemByName(const std::string& name);
 
  private:
   typedef std::map<std::string, std::shared_ptr<System>> SystemMap;

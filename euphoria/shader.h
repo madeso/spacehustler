@@ -65,9 +65,12 @@ class ShaderList {
    */
   ShaderList& operator()(std::shared_ptr<Shader> shader);
 
+  const std::vector<std::shared_ptr<Shader>> shaders() const;
+
+ private:
   /** The actual list of the shaders.
    */
-  std::vector<std::shared_ptr<Shader> > shaders;
+  std::vector<std::shared_ptr<Shader>> shaders_;
 };
 
 /** A OpenGl shader program full of shaders.

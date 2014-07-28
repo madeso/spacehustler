@@ -16,7 +16,7 @@ class Settings;
 
 const std::string RenderingSystemType = "Rendering";
 
-class RenderType : public ComponentType {
+struct RenderType : public ComponentType {
  public:
   RenderType(const Json::Value& data, TextureCache* tc, ShaderCache* sc,
              const Settings& settings) {

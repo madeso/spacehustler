@@ -13,7 +13,7 @@
 
 const std::string ScriptingSystemType = "Script";
 
-class ScriptType : public ComponentType {
+struct ScriptType : public ComponentType {
  public:
   ScriptType(const Json::Value& data, Lua* script) : table(script) {}
 

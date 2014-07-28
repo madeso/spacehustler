@@ -56,7 +56,7 @@ class StringMerger {
   @param end the end string.
   @returns this for easy chaining.
    */
-  StringMerger& set_start_end(const std::string& start, const std::string& end);
+  StringMerger& SetStartEnd(const std::string& start, const std::string& end);
 
   /** Generate a string representation based on the current settings.
   @param strings the strings.
