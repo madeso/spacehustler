@@ -50,7 +50,7 @@ const Angle operator*(const Angle& lhs, const float rhs) {
 
 const Angle operator*(const float rhs, const Angle& lhs) { return lhs * rhs; }
 
-namespace AngleOperations {
+namespace angle {
 
 const float Sin(const Angle& ang) { return std::sin(ang.InRadians()); }
 
@@ -92,4 +92,4 @@ const Angle FromPercentOf360(const float percent) {
 
 const Angle Zero() { return Angle::FromRadians(0); }
 
-}  // namespace AngleOperations
+}  // namespace angle

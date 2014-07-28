@@ -32,8 +32,7 @@ class PhysicsType : public ComponentType {
   float depth;
 };
 
-class WorldBodyConenction {
- public:
+struct WorldBodyConenction {
   WorldBodyConenction(std::shared_ptr<btDiscreteDynamicsWorld> dworld,
                       std::shared_ptr<btRigidBody> rbody)
       : world(dworld), body(rbody) {

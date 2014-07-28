@@ -66,7 +66,7 @@ class VideoMode {
   explicit VideoMode(const SDL_DisplayMode& mode)
       : width_(mode.w),
         height_(mode.h),
-        refreshRate_(mode.refresh_rate),
+        refresh_rate_(mode.refresh_rate),
         pixel_format_(SDL_GetPixelFormatName(mode.format)) {
     assert(this);
   }
@@ -83,7 +83,7 @@ class VideoMode {
 
   int refreshRate() const {
     assert(this);
-    return refreshRate_;
+    return refresh_rate_;
   }
 
   const std::string& pixel_format() const {
@@ -94,7 +94,7 @@ class VideoMode {
  private:
   int width_;
   int height_;
-  int refreshRate_;
+  int refresh_rate_;
   std::string pixel_format_;
 };
 

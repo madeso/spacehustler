@@ -86,7 +86,7 @@ const Angle operator*(const Angle& lhs, const float rhs);
 */
 const Angle operator*(const float rhs, const Angle& lhs);
 
-namespace AngleOperations {
+namespace angle {
 /** Sine.
 Ratio of the length of the side opposite the given angle to the length of the
 hypotenuse of a right-angled triangle.
@@ -149,6 +149,6 @@ const Angle FromPercentOf360(const float percent);
 @returns the zero angle.
  */
 const Angle Zero();
-}  // namespace AngleOperations
+}  // namespace angle
 
 #endif  // EUPHORIA_ANGLE_H_

@@ -16,8 +16,7 @@ class Settings;
 
 /** Instructions on how to load a texture.
  */
-class TextureLoadingInstruction {
- public:
+struct TextureLoadingInstruction {
   /** Constructor.
   @param file the file to load.
   @param wraps how to wrap the texture in the S axis.

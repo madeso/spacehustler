@@ -92,7 +92,7 @@ const float Remap(const float ol, const float ou, const float v, const float nl,
 const float Get360Angular(const float min, const float value, const float max) {
   const float halfdiff = (max - min) / 2.0f;
   return min + halfdiff -
-         halfdiff * AngleOperations::Cos(Angle::FromDegrees(value * 360.0f));
+         halfdiff * angle::Cos(Angle::FromDegrees(value * 360.0f));
 }
 
 const float KeepWithin(const float min, const float v, const float max) {
