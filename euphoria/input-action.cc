@@ -6,7 +6,7 @@
 namespace input {
 
 InputAction::InputAction(const std::string& name,
-                         const std::string& scriptvarname, Range::Type range,
+                         const std::string& scriptvarname, Range range,
                          bool global)
     : name_(name),
       scriptvarname_(scriptvarname),
@@ -26,7 +26,7 @@ const std::string& InputAction::scriptvarname() const {
   return scriptvarname_;
 }
 
-const Range::Type InputAction::range() const {
+const Range InputAction::range() const {
   assert(this);
   return range_;
 }

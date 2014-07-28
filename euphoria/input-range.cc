@@ -16,12 +16,12 @@ class RangeName {
     bind(Range::WithinNegative1Positive1, "-11");
   }
 
-  void bind(Range::Type range, const std::string& name) {
+  void bind(Range range, const std::string& name) {
     strtokey.insert(std::make_pair(ToLower(name), range));
     keytostr.insert(std::make_pair(range, name));
   }
 
-  std::string fromRange(Range::Type range) const {
+  std::string fromRange(Range range) const {
     auto r = keytostr.find(range);
     if (r == keytostr.end()) {
       return "Unknown";
@@ -30,7 +30,7 @@ class RangeName {
     }
   }
 
-  Range::Type fromString(const std::string& signname) const {
+  Range fromString(const std::string& signname) const {
     if (signname == "") {
       return Range::Infinite;
     }
@@ -42,8 +42,8 @@ class RangeName {
     }
   }
 
-  std::map<std::string, Range::Type> strtokey;
-  std::map<Range::Type, std::string> keytostr;
+  std::map<std::string, Range> strtokey;
+  std::map<Range, std::string> keytostr;
 };
 
 const RangeName& AllRanges() {
@@ -52,10 +52,8 @@ const RangeName& AllRanges() {
 }
 }  // namespace
 
-namespace Range {
-std::string ToString(Type k) { return AllRanges().fromRange(k); }
+std::string ToString(Range k) { return AllRanges().fromRange(k); }
 
-Type FromString(const std::string& keyname) {
+Range ToRange(const std::string& keyname) {
   return AllRanges().fromString(keyname);
 }
-}  // namespace Range
