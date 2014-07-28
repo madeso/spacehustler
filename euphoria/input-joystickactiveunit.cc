@@ -29,7 +29,7 @@ void JoystickActiveUnit::OnAxis(int axis, float state) {
   assert(this);
   auto actionsit = axis_.find(axis);
   if (actionsit != axis_.end()) {
-    actionsit->second->set_value(state ? 1.0f : 0.0f);
+    actionsit->second->set_value(state);
   }
 }
 
@@ -37,7 +37,7 @@ void JoystickActiveUnit::OnButton(int button, float state) {
   assert(this);
   auto actionsit = buttons_.find(button);
   if (actionsit != buttons_.end()) {
-    actionsit->second->set_value(state ? 1.0f : 0.0f);
+    actionsit->second->set_value(state);
   }
 }
 
@@ -45,7 +45,7 @@ void JoystickActiveUnit::OnHat(const HatAxis& hatAxis, float state) {
   assert(this);
   auto actionsit = hats_.find(hatAxis);
   if (actionsit != hats_.end()) {
-    actionsit->second->set_value(state ? 1.0f : 0.0f);
+    actionsit->second->set_value(state);
   }
 }
 
