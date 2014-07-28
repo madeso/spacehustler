@@ -81,11 +81,11 @@ struct Material {
 
   /** The wrapping for S.
    */
-  Texture::WrapMode wraps;
+  WrapMode wraps;
 
   /** The wrapping for T.
    */
-  Texture::WrapMode wrapt;
+  WrapMode wrapt;
 };
 
 }  // namespace internal

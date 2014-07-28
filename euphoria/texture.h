@@ -96,62 +96,62 @@ class ImageData : boost::noncopyable {
   unsigned char* pixels_;
 };
 
+/** Type defining how to wrap the texture.
+   */
+enum class WrapMode {
+  /** Repeat it.
+    */
+  kWrap_Repeat,
+
+  /** Repeat, but mirror instead of restarting.
+    */
+  kWrap_MirrorRepeat,
+
+  /** Clamp to the edge.
+    */
+  kWrap_ClampToEdge
+};
+
+/** The texture filtering mode.
+  */
+enum class FilterMode {
+  /** Nearest filtering. Good for images that doesn't look good when scaled.
+    */
+  kFilter_Nearest,
+
+  /** Linear filtering. Good for textures.
+    */
+  kFilter_Linear,
+
+  /** Mipmap linear filtering, good for textures.
+  */
+  kFilter_Mimap
+};
+
+/** How the image is stored.
+  */
+enum class TextureType {
+  /** Store it as RGB without alpha.
+    */
+  kType_Rgb,
+
+  /** Store is a RGB with alpha.
+    */
+  kType_Rgba,
+
+  /** Store it as compressed RGB without alpha.
+    */
+  kType_CompressedRgb,
+
+  /** Store it as compressed RGB with alpha.
+    */
+  kType_CompressedRgba
+};
+
 /** A OpenGL texture.
  */
 class Texture {
  public:
-  /** Type defining how to wrap the texture.
-   */
-  enum WrapMode {
-    /** Repeat it.
-     */
-    kWrap_Repeat,
-
-    /** Repeat, but mirror instead of restarting.
-     */
-    kWrap_MirrorRepeat,
-
-    /** Clamp to the edge.
-     */
-    kWrap_ClampToEdge
-  };
-
-  /** The texture filtering mode.
-   */
-  enum FilterMode {
-    /** Nearest filtering. Good for images that doesn't look good when scaled.
-     */
-    kFilter_Nearest,
-
-    /** Linear filtering. Good for textures.
-     */
-    kFilter_Linear,
-
-    /** Mipmap linear filtering, good for textures.
-    */
-    kFilter_Mimap
-  };
-
-  /** How the image is stored.
-   */
-  enum Type {
-    /** Store it as RGB without alpha.
-     */
-    kType_Rgb,
-
-    /** Store is a RGB with alpha.
-     */
-    kType_Rgba,
-
-    /** Store it as compressed RGB without alpha.
-     */
-    kType_CompressedRgb,
-
-    /** Store it as compressed RGB with alpha.
-     */
-    kType_CompressedRgba
-  };
-
   /** Construct a new texture object.
   @param data the image data
   @param textureType how to store the texture
@@ -160,8 +160,8 @@ class Texture {
   @param filter how to filter the texture when rendering
   @param anisotropic the anisotropic data
    */
-  Texture(const ImageData& data, Type textureType, WrapMode wraps,
-          Texture::WrapMode wrapt, FilterMode filter, float anisotropic);
+  Texture(const ImageData& data, TextureType textureType, WrapMode wraps,
+          WrapMode wrapt, FilterMode filter, float anisotropic);
 
   /** Destructs the texture.
    */

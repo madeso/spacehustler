@@ -8,8 +8,8 @@
 #include "euphoria/settings.h"
 
 TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
-                                                     Texture::WrapMode wraps,
-                                                     Texture::WrapMode wrapt)
+                                                     WrapMode wraps,
+                                                     WrapMode wrapt)
     : file(file), wraps(wraps), wrapt(wrapt) {}
 
 bool TextureLoadingInstruction::operator<(const TextureLoadingInstruction& rhs)
@@ -32,9 +32,10 @@ struct TextureCreator {
     ImageData data(instructions.file);
 
     /// @todo include anisotropic in instructions.
-    std::shared_ptr<Texture> ret(new Texture(
-        data, Texture::kType_CompressedRgb, instructions.wraps,
-        instructions.wrapt, Texture::kFilter_Linear, settings.anisotropic()));
+    std::shared_ptr<Texture> ret(
+        new Texture(data, TextureType::kType_CompressedRgb, instructions.wraps,
+                    instructions.wrapt, FilterMode::kFilter_Linear,
+                    settings.anisotropic()));
     return ret;
   }
 };

@@ -23,8 +23,8 @@ class TextureLoadingInstruction {
   @param wraps how to wrap the texture in the S axis.
   @param wrapt how to wrap the texture in the T axis.
    */
-  TextureLoadingInstruction(const std::string& file, Texture::WrapMode wraps,
-                            Texture::WrapMode wrapt);
+  TextureLoadingInstruction(const std::string& file, WrapMode wraps,
+                            WrapMode wrapt);
 
   /** Comparison operator.
   @param rhs the right hand value.
@@ -38,11 +38,11 @@ class TextureLoadingInstruction {
 
   /** How to wrap the texture in the S axis.
    */
-  Texture::WrapMode wraps;
+  WrapMode wraps;
 
   /** How to wrap the texture in the T axis.
    */
-  Texture::WrapMode wrapt;
+  WrapMode wrapt;
 };
 
 /** The texture cache.

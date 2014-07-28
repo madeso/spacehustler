@@ -21,16 +21,16 @@ const unsigned int kAssimpFlags =
     aiProcess_ValidateDataStructure | aiProcess_GenSmoothNormals |
     aiProcess_FindInvalidData;
 
-Texture::WrapMode GetTextureWrappingMode(const int mode) {
+WrapMode GetTextureWrappingMode(const int mode) {
   switch (mode) {
     case aiTextureMapMode_Wrap:
-      return Texture::kWrap_Repeat;
+      return WrapMode::kWrap_Repeat;
     case aiTextureMapMode_Clamp:
-      return Texture::kWrap_ClampToEdge;
+      return WrapMode::kWrap_ClampToEdge;
     case aiTextureMapMode_Decal:
       throw "Unsupported texture wrapping mode: decal";
     case aiTextureMapMode_Mirror:
-      return Texture::kWrap_MirrorRepeat;
+      return WrapMode::kWrap_MirrorRepeat;
     default:
       throw "Unhandled texture wrapping mode";
   }
