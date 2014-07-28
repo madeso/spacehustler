@@ -17,16 +17,16 @@ float InputActive::state() const {
   float value = state_;
 
   switch (action().range()) {
-    case Range::Infinite:
+    case Range::INFINITE:
       /* do nothing */
       break;
-    case Range::Within01:
+    case Range::WITHIN_ZERO_ONE:
       value = KeepWithin(0.0f, value, 1.0f);
       break;
-    case Range::WithinNegative1Positive1:
+    case Range::WITHIN_NEGATIVE_ONE_POSITIVE_ONE:
       value = KeepWithin(-1.0f, value, 1.0f);
       break;
-    case Range::Invalid:
+    case Range::INVALID:
     default:
       assert(0 && "Using invalid value");
       break;

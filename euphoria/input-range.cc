@@ -11,9 +11,9 @@ namespace {
 class RangeName {
  public:
   RangeName() {
-    bind(Range::Infinite, "inf");
-    bind(Range::Within01, "01");
-    bind(Range::WithinNegative1Positive1, "-11");
+    bind(Range::INFINITE, "inf");
+    bind(Range::WITHIN_ZERO_ONE, "01");
+    bind(Range::WITHIN_NEGATIVE_ONE_POSITIVE_ONE, "-11");
   }
 
   void bind(Range range, const std::string& name) {
@@ -32,11 +32,11 @@ class RangeName {
 
   Range fromString(const std::string& signname) const {
     if (signname == "") {
-      return Range::Infinite;
+      return Range::INFINITE;
     }
     auto r = strtokey.find(ToLower(signname));
     if (r == strtokey.end()) {
-      return Range::Invalid;
+      return Range::INVALID;
     } else {
       return r->second;
     }
@@ -53,6 +53,11 @@ const RangeName& AllRanges() {
 }  // namespace
 
 std::string ToString(Range k) { return AllRanges().fromRange(k); }
+
+std::ostream& operator<<(std::ostream& s, const Range& v) {
+  s << ToString(v);
+  return s;
+}
 
 Range ToRange(const std::string& keyname) {
   return AllRanges().fromString(keyname);

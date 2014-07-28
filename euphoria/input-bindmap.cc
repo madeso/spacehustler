@@ -23,11 +23,11 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   for (auto action : as) {
     auto range = action->range();
     switch (range) {
-      case Range::Infinite:
-      case Range::WithinNegative1Positive1:
+      case Range::INFINITE:
+      case Range::WITHIN_NEGATIVE_ONE_POSITIVE_ONE:
         AddAxis(action, actives);
         break;
-      case Range::Within01:
+      case Range::WITHIN_ZERO_ONE:
         AddRange(action, actives);
         break;
       default:

@@ -25,8 +25,8 @@ CommonDef GetCommonDef(Json::Value& d, const InputActionMap& map) {
   if (common.actionname != common.bindname) {
     const bool needsAxis = false == EndsWith(common.bindname, "-axis");
     // bindname is different from actionname, must be a axis
-    bool isAxis = action->range() == Range::Infinite ||
-                  action->range() == Range::WithinNegative1Positive1;
+    bool isAxis = action->range() == Range::INFINITE ||
+                  action->range() == Range::WITHIN_NEGATIVE_ONE_POSITIVE_ONE;
     if (isAxis == !needsAxis) {
       const std::string error =
           Str() << "bind " << common.bindname << " looks like a "

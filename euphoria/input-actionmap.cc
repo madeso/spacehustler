@@ -92,7 +92,7 @@ void Load(InputActionMap* map, const std::string& filename) {
     const bool global = d.get("global", false).asBool();
     const std::string rangename = d.get("range", "").asString();
     const Range range = ToRange(rangename);
-    if (range == Range::Invalid) {
+    if (range == Range::INVALID) {
       const std::string error = Str() << "Invalid range: " << rangename
                                       << " for the " << name << " action";
       throw error;

@@ -12,10 +12,10 @@ Range enum.
 /** Definition of the kind of range.
  */
 enum class Range {
-  Invalid,
-  Infinite,
-  Within01,
-  WithinNegative1Positive1
+  INVALID,
+  INFINITE,
+  WITHIN_ZERO_ONE,
+  WITHIN_NEGATIVE_ONE_POSITIVE_ONE
 };
 
 /** Generate a string representation of the given range
@@ -23,6 +23,8 @@ enum class Range {
 @returns the string representation
  */
 std::string ToString(Range k);
+
+std::ostream& operator<<(std::ostream& s, const Range& v);
 
 /** Generate a range from a string.
 @param name the name of the range
