@@ -25,10 +25,10 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
     switch (range) {
       case Range::Infinite:
       case Range::WithinNegative1Positive1:
-        addAxis(action, actives);
+        AddAxis(action, actives);
         break;
       case Range::Within01:
-        addRange(action, actives);
+        AddRange(action, actives);
         break;
       default:
         const std::string error = Str() << "Invalid range type " << range;
@@ -37,7 +37,7 @@ BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
   }
 }
 
-std::shared_ptr<Bind> BindMap::bind(const std::string& name) {
+std::shared_ptr<Bind> BindMap::GetBindByName(const std::string& name) {
   auto res = binds_.find(name);
   if (res == binds_.end()) {
     const std::string error = Str() << "unable to find bind " << name;
@@ -46,7 +46,7 @@ std::shared_ptr<Bind> BindMap::bind(const std::string& name) {
   return res->second;
 }
 
-void BindMap::addRange(std::shared_ptr<InputAction> action,
+void BindMap::AddRange(std::shared_ptr<InputAction> action,
                        ActiveList* actives) {
   assert(this);
   std::string actionname = action->name();
@@ -56,21 +56,21 @@ void BindMap::addRange(std::shared_ptr<InputAction> action,
   std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::Range));
   std::shared_ptr<ActiveRange> active(
       new ActiveRange(action.get(), bind.get()));
-  actives->add(active);
+  actives->Add(active);
   binds_.insert(std::make_pair(actionname, bind));
 
   bind.reset(new Bind(action.get(), BindType::Axis));
   std::shared_ptr<ActiveAxisToRange> activeAxis(
       new ActiveAxisToRange(action.get(), bind.get()));
-  actives->add(activeAxis);
+  actives->Add(activeAxis);
   binds_.insert(std::make_pair(actionname + "-axis", bind));
 
   std::shared_ptr<ActiveMasterRange> masterRange(
       new ActiveMasterRange(action.get(), active.get(), activeAxis.get()));
-  actives->add(masterRange);
+  actives->Add(masterRange);
 }
 
-void BindMap::addAxis(std::shared_ptr<InputAction> action,
+void BindMap::AddAxis(std::shared_ptr<InputAction> action,
                       ActiveList* actives) {
   assert(this);
   std::string actionname = action->name();
@@ -79,20 +79,20 @@ void BindMap::addAxis(std::shared_ptr<InputAction> action,
 
   std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::Axis));
   std::shared_ptr<ActiveAxis> active(new ActiveAxis(action.get(), bind.get()));
-  actives->add(active);
+  actives->Add(active);
   binds_.insert(std::make_pair(actionname, bind));
 
   std::shared_ptr<Bind> bindNeg(new Bind(action.get(), BindType::Range));
   std::shared_ptr<Bind> bindPos(new Bind(action.get(), BindType::Range));
   std::shared_ptr<ActiveRangeToAxis> activeAxis(
       new ActiveRangeToAxis(action.get(), bindPos.get(), bindNeg.get()));
-  actives->add(activeAxis);
+  actives->Add(activeAxis);
   binds_.insert(std::make_pair(actionname + "-", bindNeg));
   binds_.insert(std::make_pair(actionname + "+", bindPos));
 
   std::shared_ptr<ActiveMasterAxis> masterAxis(
       new ActiveMasterAxis(action.get(), active.get(), activeAxis.get()));
-  actives->add(masterAxis);
+  actives->Add(masterAxis);
 }
 
 }  // namespace input

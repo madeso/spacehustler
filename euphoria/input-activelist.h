@@ -27,14 +27,14 @@ class ActiveMasterRange;
  */
 class ActiveList {
  public:
-  void add(std::shared_ptr<ActiveRange> range);
-  void add(std::shared_ptr<ActiveAxis> axis);
+  void Add(std::shared_ptr<ActiveRange> range);
+  void Add(std::shared_ptr<ActiveAxis> axis);
 
-  void add(std::shared_ptr<ActiveAxisToRange> axis);
-  void add(std::shared_ptr<ActiveRangeToAxis> axis);
+  void Add(std::shared_ptr<ActiveAxisToRange> axis);
+  void Add(std::shared_ptr<ActiveRangeToAxis> axis);
 
-  void add(std::shared_ptr<ActiveMasterAxis> axis);
-  void add(std::shared_ptr<ActiveMasterRange> axis);
+  void Add(std::shared_ptr<ActiveMasterAxis> axis);
+  void Add(std::shared_ptr<ActiveMasterRange> axis);
 
   /** Update the table with the input.
    */
@@ -44,12 +44,12 @@ class ActiveList {
   void Update(float dt);
 
  private:
-  std::vector<std::shared_ptr<ActiveRange>> rangeBinds_;
-  std::vector<std::shared_ptr<ActiveAxis>> axisBinds_;
-  std::vector<std::shared_ptr<ActiveAxisToRange>> axisToRangeBinds_;
-  std::vector<std::shared_ptr<ActiveRangeToAxis>> rangeToAxisBinds_;
-  std::vector<std::shared_ptr<ActiveMasterAxis>> masterAxisBinds_;
-  std::vector<std::shared_ptr<ActiveMasterRange>> masterRangeBinds_;
+  std::vector<std::shared_ptr<ActiveRange>> range_binds_;
+  std::vector<std::shared_ptr<ActiveAxis>> axis_binds_;
+  std::vector<std::shared_ptr<ActiveAxisToRange>> axis_to_range_binds_;
+  std::vector<std::shared_ptr<ActiveRangeToAxis>> range_to_axis_binds_;
+  std::vector<std::shared_ptr<ActiveMasterAxis>> master_axis_binds_;
+  std::vector<std::shared_ptr<ActiveMasterRange>> master_range_binds_;
 };
 
 }  // namespace input

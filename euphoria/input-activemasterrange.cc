@@ -16,7 +16,7 @@ ActiveMasterRange::ActiveMasterRange(InputAction* action, ActiveRange* range,
   assert(axis_);
 }
 
-void ActiveMasterRange::update(float dt) {
+void ActiveMasterRange::Update(float dt) {
   assert(this);
 
   const float axisvalue = axis_->state();

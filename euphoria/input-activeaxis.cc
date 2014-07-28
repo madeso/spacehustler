@@ -23,7 +23,7 @@ ActiveAxis::ActiveAxis(InputAction* action, Bind* axis)
   }
 }
 
-void ActiveAxis::update(float dt) {
+void ActiveAxis::Update(float dt) {
   assert(this);
   assert(axis_);
   set_state(axis_->value());

@@ -31,11 +31,11 @@ class ActiveList;
 class BindMap {
  public:
   BindMap(const InputActionMap& actions, ActiveList* actives);
-  std::shared_ptr<Bind> bind(const std::string& name);
+  std::shared_ptr<Bind> GetBindByName(const std::string& name);
 
  private:
-  void addRange(std::shared_ptr<InputAction> action, ActiveList* actives);
-  void addAxis(std::shared_ptr<InputAction> action, ActiveList* actives);
+  void AddRange(std::shared_ptr<InputAction> action, ActiveList* actives);
+  void AddAxis(std::shared_ptr<InputAction> action, ActiveList* actives);
 
   std::map<std::string, std::shared_ptr<Bind>> binds_;
 };

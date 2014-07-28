@@ -9,7 +9,7 @@
 
 const std::string NameSystemType = "Name";
 
-class NameType : public ComponentType {
+struct NameType : public ComponentType {
  public:
   explicit NameType(const Json::Value& data)
       : name(data.get("name", "").asString()) {}
@@ -17,7 +17,7 @@ class NameType : public ComponentType {
   const std::string name;
 };
 
-class NameObject {
+struct NameObject {
  public:
   NameObject(Entity* ent, const NameType& t) : entity(ent) { assert(entity); }
 
@@ -61,7 +61,7 @@ class NameSystem : public System {
 
   void Step(float dt) { assert(this); }
 
-  Entity* getEntity(const std::string& name) {
+  Entity* GetEntity(const std::string& name) {
     auto r = entities_.find(name);
     if (r == entities_.end()) {
       return NULL;
@@ -101,7 +101,7 @@ void FromName(ScriptParams* params) {
     if (Instance() == 0) {
       throw std::logic_error("Name system is not initialized.");
     }
-    Entity* obj = Instance()->getEntity(name);
+    Entity* obj = Instance()->GetEntity(name);
     if (obj == NULL) {
       params->ReturnNil();
     } else {

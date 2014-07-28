@@ -21,7 +21,7 @@ class ActiveMasterAxis : public InputActive {
  public:
   explicit ActiveMasterAxis(InputAction* action, ActiveAxis* axis,
                             ActiveRangeToAxis* range);
-  void update(float dt);
+  void Update(float dt);
 
  private:
   ActiveAxis* axis_;

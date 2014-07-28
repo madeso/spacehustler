@@ -16,7 +16,7 @@ ActiveMasterAxis::ActiveMasterAxis(InputAction* action, ActiveAxis* axis,
   assert(range_);
 }
 
-void ActiveMasterAxis::update(float dt) {
+void ActiveMasterAxis::Update(float dt) {
   assert(this);
 
   const float axisvalue = axis_->state();

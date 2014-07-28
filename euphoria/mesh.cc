@@ -72,7 +72,7 @@ namespace internal {
 CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
                                    std::shared_ptr<Program> prog,
                                    std::shared_ptr<Texture> tex)
-    : program_(prog), texture_(tex), elementCount_(mesh.faces.size()) {
+    : program_(prog), texture_(tex), element_count_(mesh.faces.size()) {
   vao_.Bind();
   vbo_.Bind();
 
@@ -107,7 +107,7 @@ void CompiledMeshPart::Render() {
   vao_.Bind();
   elements_.Bind();
   const GLvoid* stride = 0;
-  glDrawElements(GL_TRIANGLES, elementCount_, GL_UNSIGNED_SHORT, stride);
+  glDrawElements(GL_TRIANGLES, element_count_, GL_UNSIGNED_SHORT, stride);
   elements_.Unbind();
   vao_.Unbind();
 }

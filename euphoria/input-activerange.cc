@@ -22,7 +22,7 @@ ActiveRange::ActiveRange(InputAction* action, Bind* range)
   }
 }
 
-void ActiveRange::update(float dt) {
+void ActiveRange::Update(float dt) {
   assert(this);
   assert(range_);
   set_state(range_->value());

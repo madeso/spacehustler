@@ -22,7 +22,7 @@ namespace internal {
 
 /** Triangle soup with a single material. Part of a Mesh.
  */
-class MeshPart {
+struct MeshPart {
  public:
   /** Constructs a empty mesh.
    */
@@ -69,7 +69,7 @@ class MeshPart {
 
 /** Represents a material.
  */
-class Material {
+struct Material {
  public:
   /** Construct a Material.
    */
@@ -94,7 +94,7 @@ class Material {
  Usually loaded from disc but can also be dynamically generated.
  @see CompiledMesh
  */
-class Mesh {
+struct Mesh {
  public:
   /** Constructs a empty mesh.
    */
@@ -175,7 +175,7 @@ class CompiledMeshPart {
 
   const std::shared_ptr<Program> program_;
   std::shared_ptr<Texture> texture_;
-  GLsizei elementCount_;
+  GLsizei element_count_;
 };
 
 }  // namespace internal

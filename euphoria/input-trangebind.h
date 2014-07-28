@@ -22,7 +22,7 @@ class TRangeBind {
     assert(bind);
   }
 
-  const T type() const {
+  const T GetType() const {
     assert(this);
     return button_;
   }

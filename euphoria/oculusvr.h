@@ -87,37 +87,37 @@ class OculusVr : boost::noncopyable {
   /** Gets the oculus distortion constants.
   @returns the oculus distortion constants.
    */
-  const vec4& get_distortion() const;
+  const vec4& GetDistortion() const;
 
   /** Gets the scale.
   @returns the scale
    */
-  float get_scale() const;
+  float GetScale() const;
 
   /** Gets the orientation of the rift.
   @returns the orientation of the rift.
   @param predict_orientation true if the orientation should be predicted
    */
-  quat get_orientation(bool predict_orientation) const;
+  quat GetOrientation(bool predict_orientation) const;
 
   /** Resets the orientation of the rift.
    */
-  void reset_orientation();
+  void ResetOrientation();
 
   /** Gets the center offset.
   @returns the center offset
    */
-  const vec2& get_center_offset() const;
+  const vec2& GetCenterOffset() const;
 
   /** Gets the chromatic aberration values from the oculus sdk.
   @returns the the chromatic aberration values from the oculus sdk
    */
-  const vec4 get_chromatic_aberration() const;
+  const vec4 GetChromaticAberration() const;
 
   /** Gets the detection message.
   @returns the detection message.
    */
-  const std::string detection_message() const;
+  const std::string GetDetectionMessage() const;
 
  private:
   struct OculusVrPimpl;

@@ -21,7 +21,7 @@ class ActiveMasterRange : public InputActive {
  public:
   explicit ActiveMasterRange(InputAction* action, ActiveRange* range,
                              ActiveAxisToRange* axis);
-  void update(float dt);
+  void Update(float dt);
 
  private:
   ActiveRange* range_;

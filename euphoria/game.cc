@@ -105,8 +105,8 @@ Game::Game(const Settings& settings, bool renderoculus)
   oculusvr_.reset(new OculusVr());
 
   if (renderoculus_) {
-    const int texh = static_cast<int>(ceil(height_ * oculusvr_->get_scale()));
-    const int texw = static_cast<int>(ceil(width_ * oculusvr_->get_scale()));
+    const int texh = static_cast<int>(ceil(height_ * oculusvr_->GetScale()));
+    const int texw = static_cast<int>(ceil(width_ * oculusvr_->GetScale()));
     eyefbo_.reset(new Fbo(texw, texh, false));
 #ifdef OCULUS_TRANSFORM
     eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
@@ -170,7 +170,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   {
     Camera cam(camera);
-    ModifyCamera(&cam, eye, oculus.get_orientation(true));
+    ModifyCamera(&cam, eye, oculus.GetOrientation(true));
     TextureUpdator tex(fbo);
     ClearScreen();
     if (is_right) {
@@ -193,9 +193,9 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   // MA: This is more correct but we would need higher-res texture vertically;
   // we should adopt this once we have asymmetric input texture scale.
-  const float scaleFactor = 1.0f / oculus.get_scale();
+  const float scaleFactor = 1.0f / oculus.GetScale();
 
-  const float dix = (is_right ? -1.0f : 1.0f) * oculus.get_center_offset()[0];
+  const float dix = (is_right ? -1.0f : 1.0f) * oculus.GetCenterOffset()[0];
 
   // We are using 1/4 of DistortionCenter offset value here, since it is
   // relative to [-1,1] range that gets mapped to [0, 0.5].
@@ -216,7 +216,7 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
   const float siy = (2 / h) / as;
   program->SetUniform("ScaleIn", vec2(six, siy));
 
-  program->SetUniform("HmdWarpParam", oculus.get_distortion());
+  program->SetUniform("HmdWarpParam", oculus.GetDistortion());
 
   mat44 texm(w, 0, 0, x, 0, h, 0, y, 0, 0, 0, 0, 0, 0, 0, 1);
   cml::transpose(texm);

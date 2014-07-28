@@ -23,7 +23,7 @@ class ActiveRange : public InputActive {
    */
   ActiveRange(InputAction* action, Bind* range);
 
-  void update(float dt);
+  void Update(float dt);
 
  private:
   Bind* range_;

@@ -85,110 +85,109 @@ void SetupDummyValues(OVR::HMDInfo* device_info) {
 }
 
 struct OculusVr::OculusVrPimpl {
-  OVR::Ptr<OVR::DeviceManager> device_manager_;
-  OVR::Ptr<OVR::HMDDevice> device_;
-  OVR::Util::Render::StereoConfig stereo_config_;
-  OVR::HMDInfo device_info_;
-  float render_scale_;
-  vec4 distortion_;
-  vec2 center_offset_;
-  vec4 chromatic_aberration_;
+  OVR::Ptr<OVR::DeviceManager> device_manager;
+  OVR::Ptr<OVR::HMDDevice> device;
+  OVR::Util::Render::StereoConfig stereo_config;
+  OVR::HMDInfo device_info;
+  float render_scale;
+  vec4 distortion;
+  vec2 center_offset;
+  vec4 chromatic_aberration;
 
-  OVR::Ptr<OVR::SensorDevice> sensor_;
-  OVR::SensorFusion sensor_fusion_;
+  OVR::Ptr<OVR::SensorDevice> sensor;
+  OVR::SensorFusion sensor_fusion;
 
   OculusVrPimpl()
-      : render_scale_(0.0f),
-        distortion_(0.0f, 0.0f, 0.0f, 0.0f),
-        center_offset_(0.0f, 0.0f),
-        chromatic_aberration_(0.0f, 0.0f, 0.0f, 0.0f) {
+      : render_scale(0.0f),
+        distortion(0.0f, 0.0f, 0.0f, 0.0f),
+        center_offset(0.0f, 0.0f),
+        chromatic_aberration(0.0f, 0.0f, 0.0f, 0.0f) {
     assert(this);
 
-    device_manager_ = *OVR::DeviceManager::Create();
-    device_ =
-        *device_manager_->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
+    device_manager = *OVR::DeviceManager::Create();
+    device = *device_manager->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
 
     // Rendering setup:
 
-    if (device_.GetPtr() != NULL) {
-      device_->GetDeviceInfo(&device_info_);
-      stereo_config_.SetHMDInfo(device_info_);
+    if (device.GetPtr() != NULL) {
+      device->GetDeviceInfo(&device_info);
+      stereo_config.SetHMDInfo(device_info);
     } else {
       // no device is connected, setup dummy values for testing
       // without a oculus connected.
-      SetupDummyValues(&device_info_);
+      SetupDummyValues(&device_info);
     }
 
     /// @todo use correct resolution when creating the stereo
-    const int Width = device_info_.HResolution;
-    const int Height = device_info_.VResolution;
+    const int Width = device_info.HResolution;
+    const int Height = device_info.VResolution;
 
-    stereo_config_.SetFullViewport(
+    stereo_config.SetFullViewport(
         OVR::Util::Render::Viewport(0, 0, Width, Height));
-    stereo_config_.SetStereoMode(OVR::Util::Render::Stereo_LeftRight_Multipass);
-    stereo_config_.SetDistortionFitPointVP(-1.0f, 0.0f);
+    stereo_config.SetStereoMode(OVR::Util::Render::Stereo_LeftRight_Multipass);
+    stereo_config.SetDistortionFitPointVP(-1.0f, 0.0f);
 
-    const auto distortion = stereo_config_.GetDistortionConfig();
+    const auto distortion = stereo_config.GetDistortionConfig();
 
-    center_offset_ = vec2(distortion.XCenterOffset, distortion.YCenterOffset);
+    center_offset = vec2(distortion.XCenterOffset, distortion.YCenterOffset);
 
-    render_scale_ = stereo_config_.GetDistortionScale();
-    distortion_ =
-        vec4(device_info_.DistortionK[0], device_info_.DistortionK[1],
-             device_info_.DistortionK[2], device_info_.DistortionK[3]);
+    render_scale = stereo_config.GetDistortionScale();
+    this->distortion =
+        vec4(device_info.DistortionK[0], device_info.DistortionK[1],
+             device_info.DistortionK[2], device_info.DistortionK[3]);
 
-    chromatic_aberration_ = vec4(
+    chromatic_aberration = vec4(
         distortion.ChromaticAberration[0], distortion.ChromaticAberration[1],
         distortion.ChromaticAberration[2], distortion.ChromaticAberration[3]);
 
     // Input setup:
-    if (device_.GetPtr() != NULL) {
-      sensor_ = device_->GetSensor();
+    if (device.GetPtr() != NULL) {
+      sensor = device->GetSensor();
     }
 
-    if (sensor_) {
-      sensor_fusion_.AttachToSensor(sensor_);
+    if (sensor) {
+      sensor_fusion.AttachToSensor(sensor);
     }
   }
 
   const vec4& get_distortion() const {
     assert(this);
-    return distortion_;
+    return distortion;
   }
 
   float get_scale() const {
     assert(this);
-    return render_scale_;
+    return render_scale;
   }
 
   quat get_orientation(bool predict_orientation) const {
     if (predict_orientation) {
-      return C(sensor_fusion_.GetPredictedOrientation());
+      return C(sensor_fusion.GetPredictedOrientation());
     } else {
-      return C(sensor_fusion_.GetOrientation());
+      return C(sensor_fusion.GetOrientation());
     }
   }
 
-  void reset_orientation() { sensor_fusion_.Reset(); }
+  void reset_orientation() { sensor_fusion.Reset(); }
 
   const vec2& get_center_offset() const {
     assert(this);
-    return center_offset_;
+    return center_offset;
   }
 
   const vec4 get_chromatic_aberration() const {
     assert(this);
-    return chromatic_aberration_;
+    return chromatic_aberration;
   }
 
   const std::string detection_message() const {
-    if (!device_ && !sensor_) {
+    if (!device && !sensor) {
       return "Oculus Rift not detected.";
-    } else if (!device_) {
+    } else if (!device) {
       return "Oculus Sensor detected; HMD Display not detected.";
-    } else if (!sensor_) {
+    } else if (!sensor) {
       return "Oculus HMD Display detected; Sensor not detected.";
-    } else if (device_info_.DisplayDeviceName[0] == '\0') {
+    } else if (device_info.DisplayDeviceName[0] == '\0') {
       return "Oculus Sensor detected; HMD display EDID not detected.";
     } else {
       return "";
@@ -200,7 +199,7 @@ struct OculusVr::OculusVrPimpl {
   const EyeSetup Eye(OVR::Util::Render::StereoEye eyeid) {
     assert(this);
     const OVR::Util::Render::StereoEyeParams leftEye =
-        stereo_config_.GetEyeRenderParams(eyeid);
+        stereo_config.GetEyeRenderParams(eyeid);
     // Left eye rendering parameters
     auto vp = leftEye.VP;
 
@@ -236,37 +235,37 @@ const EyeSetup OculusVr::RightEye() {
   return pimpl_->Eye(OVR::Util::Render::StereoEye_Right);
 }
 
-const vec4& OculusVr::get_distortion() const {
+const vec4& OculusVr::GetDistortion() const {
   assert(this);
   return pimpl_->get_distortion();
 }
 
-float OculusVr::get_scale() const {
+float OculusVr::GetScale() const {
   assert(this);
   return pimpl_->get_scale();
 }
 
-quat OculusVr::get_orientation(bool predict_orientation) const {
+quat OculusVr::GetOrientation(bool predict_orientation) const {
   assert(this);
   return pimpl_->get_orientation(predict_orientation);
 }
 
-void OculusVr::reset_orientation() {
+void OculusVr::ResetOrientation() {
   assert(this);
   return pimpl_->reset_orientation();
 }
 
-const vec2& OculusVr::get_center_offset() const {
+const vec2& OculusVr::GetCenterOffset() const {
   assert(this);
   return pimpl_->get_center_offset();
 }
 
-const vec4 OculusVr::get_chromatic_aberration() const {
+const vec4 OculusVr::GetChromaticAberration() const {
   assert(this);
   return pimpl_->get_chromatic_aberration();
 }
 
-const std::string OculusVr::detection_message() const {
+const std::string OculusVr::GetDetectionMessage() const {
   assert(this);
   return pimpl_->detection_message();
 }

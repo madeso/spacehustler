@@ -23,7 +23,7 @@ class ActiveAxis : public InputActive {
    */
   ActiveAxis(InputAction* action, Bind* axis);
 
-  void update(float dt);
+  void Update(float dt);
 
  private:
   Bind* axis_;

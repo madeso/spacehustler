@@ -23,7 +23,7 @@ class ActiveRangeToAxis : public InputActive {
    */
   ActiveRangeToAxis(InputAction* action, Bind* positive, Bind* negative);
 
-  void update(float dt);
+  void Update(float dt);
 
  private:
   Bind* positive_;

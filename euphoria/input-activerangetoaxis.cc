@@ -31,7 +31,7 @@ ActiveRangeToAxis::ActiveRangeToAxis(InputAction* action, Bind* positive,
   }
 }
 
-void ActiveRangeToAxis::update(float dt) {
+void ActiveRangeToAxis::Update(float dt) {
   assert(this);
   assert(positive_);
   assert(negative_);

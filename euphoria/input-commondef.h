@@ -36,7 +36,8 @@ std::vector<std::shared_ptr<TBind>> CreateBinds(std::vector<BindDef<Type>> defs,
                                                 BindMap* map) {
   std::vector<std::shared_ptr<TBind>> keybinds;
   for (const auto& key : defs) {
-    std::shared_ptr<TBind> b(new TBind(key.type(), map->bind(key.id())));
+    std::shared_ptr<TBind> b(
+        new TBind(key.type(), map->GetBindByName(key.id())));
     keybinds.push_back(b);
   }
   return keybinds;
@@ -47,7 +48,7 @@ std::map<Type, std::shared_ptr<Bind>> ConvertToBindMap(
     const std::vector<std::shared_ptr<TBind>>& axis) {
   std::map<Type, std::shared_ptr<Bind>> actions_;
   for (auto a : axis) {
-    actions_.insert(std::make_pair(a->type(), a->bind()));
+    actions_.insert(std::make_pair(a->GetType(), a->bind()));
   }
   return actions_;
 }

@@ -22,7 +22,7 @@ ActiveAxisToRange::ActiveAxisToRange(InputAction* action, Bind* axis)
   }
 }
 
-void ActiveAxisToRange::update(float dt) {
+void ActiveAxisToRange::Update(float dt) {
   assert(this);
   assert(axis_);
   float v = axis_->value();

@@ -343,13 +343,13 @@ Posi GetHatValues(Uint8 hat) {
 class Joystick {
  public:
   explicit Joystick(int id)
-      : id_(id), joystick_(SDL_JoystickOpen(id)), numHats_(0) {
+      : id_(id), joystick_(SDL_JoystickOpen(id)), num_hats_(0) {
     if (joystick_ == NULL) {
       const std::string error = Str() << "Failed to open joystick at " << id;
       throw error;
     }
 
-    numHats_ = SDL_JoystickNumHats(joystick_);
+    num_hats_ = SDL_JoystickNumHats(joystick_);
 
     SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
                 "Opened joystick %s on %d: #axes: %d /"
@@ -357,7 +357,7 @@ class Joystick {
                 SDL_JoystickNameForIndex(id_), id_,
                 SDL_JoystickNumAxes(joystick_),
                 SDL_JoystickNumButtons(joystick_),
-                SDL_JoystickNumBalls(joystick_), numHats_);
+                SDL_JoystickNumBalls(joystick_), num_hats_);
   }
 
   ~Joystick() {
@@ -373,7 +373,7 @@ class Joystick {
 
   void SendPov(Game* game) {
     if (IsAttached()) {
-      for (int i = 0; i < numHats_; ++i) {
+      for (int i = 0; i < num_hats_; ++i) {
         const Uint8 hat = SDL_JoystickGetHat(joystick_, i);
         const Posi values = GetHatValues(hat);
 
@@ -387,7 +387,7 @@ class Joystick {
 
  private:
   int id_;
-  int numHats_;
+  int num_hats_;
   SDL_Joystick* joystick_;
 };
 
