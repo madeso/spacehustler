@@ -92,3 +92,8 @@ add_custom_target(doxygen ALL
 					${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
 					WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 					COMMENT "Running Doxygen" VERBATIM)
+
+add_custom_target(check-doxygen ALL
+					${CMAKE_SOURCE_DIR}/check-doxygen-xml.py
+					WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					COMMENT "Checking doxygen xml against google cpp style" VERBATIM)
