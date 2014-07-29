@@ -50,9 +50,9 @@ class Keyname {
   const T unbound_;
 };
 
-const Keyname<Key::Type>& AllKeys() {
-  static Keyname<Key::Type> names = Keyname<Key::Type>(
-      Key::Unbound, Key::Invalid)(Key::Return, "Return")(Key::Escape, "Escape")(
+const Keyname<Key>& AllKeys() {
+  static Keyname<Key> names = Keyname<Key>(Key::Unbound, Key::Invalid)(
+      Key::Return, "Return")(Key::Escape, "Escape")(
       Key::Backspace, "Backspace")(Key::Tab, "Tab")(Key::Space, "Space")(
       Key::Exclaim, "Exclaim")(Key::Quotedbl, "Quotedbl")(Key::Hash, "Hash")(
       Key::Percent, "Percent")(Key::Dollar, "Dollar")(
@@ -155,13 +155,9 @@ const Keyname<MouseButton>& AllMouseButtons() {
 
 }  // namespace
 
-namespace Key {
-std::string ToString(Type k) { return AllKeys().fromKey(k); }
+std::string ToString(Key k) { return AllKeys().fromKey(k); }
 
-Type FromString(const std::string& keyname) {
-  return AllKeys().fromString(keyname);
-}
-}  // namespace Key
+Key ToKey(const std::string& keyname) { return AllKeys().fromString(keyname); }
 
 std::string ToString(MouseButton k) { return AllMouseButtons().fromKey(k); }
 

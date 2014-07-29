@@ -64,7 +64,7 @@ class InputDirector {
   @param key the key to act upon
   @param down true if it is down, false if not
    */
-  void OnKeyboardKey(Key::Type key, bool down);
+  void OnKeyboardKey(Key key, bool down);
 
   /** Send a mouse axis.
   @param axis the axis

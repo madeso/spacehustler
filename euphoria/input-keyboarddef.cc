@@ -25,14 +25,14 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
 
     if (common.type == "button") {
       const std::string keyname = d.get("key", "").asString();
-      const auto key = Key::FromString(keyname);
+      const auto key = ToKey(keyname);
 
       if (key == Key::Invalid) {
         auto error = (Str() << keyname << " is a invalid key for the "
                             << common.bindname << " action").ToString();
         throw error;
       }
-      keys_.push_back(BindDef<Key::Type>(common.bindname, key));
+      keys_.push_back(BindDef<Key>(common.bindname, key));
     } else {
       std::string error =
           Str() << "Unknown input type for keyboard: " << common.type;
@@ -47,8 +47,8 @@ std::shared_ptr<ActiveUnit> KeyboardDef::Create(InputDirector* director,
   assert(director);
   assert(map);
 
-  std::vector<std::shared_ptr<TRangeBind<Key::Type>>> keybinds =
-      CreateBinds<TRangeBind<Key::Type>, Key::Type>(keys_, map);
+  std::vector<std::shared_ptr<TRangeBind<Key>>> keybinds =
+      CreateBinds<TRangeBind<Key>, Key>(keys_, map);
 
   std::shared_ptr<ActiveUnit> unit(new KeyboardActiveUnit(keybinds, director));
   return unit;

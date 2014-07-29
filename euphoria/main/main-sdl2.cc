@@ -425,7 +425,7 @@ class Context : boost::noncopyable {
   SDL_GLContext context_;
 };
 
-Key::Type ToKey(SDL_Keysym key) {
+Key ToKey(SDL_Keysym key) {
   switch (key.sym) {
     case SDLK_RETURN:
       return Key::Return;

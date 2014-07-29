@@ -29,15 +29,14 @@ class KeyboardActiveUnit : public ActiveUnit {
   @param binds the key binds
   @param director the director
    */
-  KeyboardActiveUnit(
-      const std::vector<std::shared_ptr<TRangeBind<Key::Type>>>& binds,
-      InputDirector* director);
+  KeyboardActiveUnit(const std::vector<std::shared_ptr<TRangeBind<Key>>>& binds,
+                     InputDirector* director);
 
   /** On key handler.
   @param key the key
   @param state the state of the button
    */
-  void OnKey(const Key::Type& key, bool state);
+  void OnKey(const Key& key, bool state);
 
   /** Destructor.
    */
@@ -49,7 +48,7 @@ class KeyboardActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  const std::map<Key::Type, std::shared_ptr<Bind>> actions_;
+  const std::map<Key, std::shared_ptr<Bind>> actions_;
 };
 
 }  // namespace input

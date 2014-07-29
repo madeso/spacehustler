@@ -61,7 +61,7 @@ void InputDirector::Remove(JoystickActiveUnit* au) {
   }
 }
 
-void InputDirector::OnKeyboardKey(Key::Type key, bool down) {
+void InputDirector::OnKeyboardKey(Key key, bool down) {
   assert(this);
   for (auto kb : keyboards_) {
     kb->OnKey(key, down);

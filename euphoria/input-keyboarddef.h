@@ -41,7 +41,7 @@ class KeyboardDef : public UnitDef {
                                      BindMap* map) override;
 
  private:
-  std::vector<BindDef<Key::Type>> keys_;
+  std::vector<BindDef<Key>> keys_;
 };
 
 }  // namespace input

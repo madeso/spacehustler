@@ -71,7 +71,7 @@ void InputSystem::Update(float dt) {
   }
 }
 
-void InputSystem::OnKeyboardKey(Key::Type key, bool down) {
+void InputSystem::OnKeyboardKey(Key key, bool down) {
   assert(this);
   input_->OnKeyboardKey(key, down);
 }

@@ -39,11 +39,9 @@ std::string ToString(MouseButton k);
  */
 MouseButton ToMouseButton(const std::string& keyname);
 
-namespace Key {
-
 /** A key code
  */
-enum Type {
+enum class Key {
   Invalid  /// Invalid key
   ,
   Unbound  /// No key
@@ -523,13 +521,12 @@ enum Type {
 @param k the key
 @returns the string representation
  */
-std::string ToString(Type k);
+std::string ToString(Key k);
 
 /** Generate a key from a string.
 @param keyname the name of the key
 @returns the key or None
  */
-Type FromString(const std::string& keyname);
-}  // namespace Key
+Key ToKey(const std::string& keyname);
 
 #endif  // EUPHORIA_INPUT_KEY_H_
