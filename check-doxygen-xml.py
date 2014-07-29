@@ -40,6 +40,7 @@ def geterrorfile(cref, memref):
 	global docxml
 	tree = ET.parse(docxml +cref+ '.xml')
 	root = tree.getroot()
+	parent_map = dict((c, p) for p in tree.getiterator() for c in p)
 	if memref is None:
 		for d in root.findall('compounddef'):
 			if d.get('id') == cref:
@@ -53,6 +54,14 @@ def geterrorfile(cref, memref):
 		id = d.get('id')
 		if id == memref:
 			location = d.find('location')
+			if location != None:
+				file = location.get('file')
+				line = location.get('line')
+				return str(file) + '(' + str(line) + ')'
+	for d in root.iter('enumvalue'):
+		id = d.get('id')
+		if id == memref:
+			location = parent_map[d].find('location')
 			if location != None:
 				file = location.get('file')
 				line = location.get('line')
