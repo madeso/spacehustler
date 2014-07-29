@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import re
 import argparse
 
-reFileName = re.compile('^[a-z][a-z-_]*\\.((cc)|(h))$')
+reFileName = re.compile('^[a-z][a-z-_0-9]*\\.((cc)|(h))$')
 messageFileName = 'Filenames should be all lowercase and can include underscores (_) or dashes (-). Follow the convention that your project uses. If there is no consistent local pattern to follow, prefer "_".'
 
 reNamespace = re.compile('^([a-z][a-z_]*::)*[a-z][a-z_]*$')
@@ -16,16 +16,16 @@ reTypeName = re.compile('^([^:]+::)*[A-Z][a-zA-Z]*$')
 # for namespaces this is only here to allow namespaces in names as doxgen export the fully qualified name
 messageTypeName = 'Type names start with a capital letter and have a capital letter for each new word, with no underscores: MyExcitingClass, MyExcitingEnum.'
 
-reConst = re.compile('^k[A-Z][a-zA-Z]*$')
+reConst = re.compile('^k[A-Z][a-zA-Z0-9]*$')
 messageConst = 'Use a k followed by mixed case: kDaysInAWeek.'
 
-reMacro = re.compile('^[A-Z][A-Z_]*$')
+reMacro = re.compile('^[A-Z][A-Z_0-9]*$')
 messageMacro = 'If they are absolutely needed, then they should be named with all capitals and underscores. Like this: MY_MACRO_THAT_SCARES_SMALL_CHILDREN.'
 
-reDataMember = re.compile('^[a-z][a-z_]*$')
+reDataMember = re.compile('^[a-z][a-z_0-9]*$')
 messageDataMember = 'Data members (also called instance variables or member variables) are lowercase with optional underscores like regular variable names, but always end with a trailing underscore.'
 
-reFunction = re.compile('^[A-Z][a-zA-Z]*$')
+reFunction = re.compile('^[A-Z][a-zA-Z0-9]*$')
 messageFunction = 'Regular functions have mixed case; accessors and mutators match the name of the variable: MyExcitingFunction(), MyExcitingMethod(), my_exciting_member_variable(), set_my_exciting_member_variable().'
 
 messageEnumValue = 'Enumerators should be named either like constants or like macros: either kEnumName or ENUM_NAME.'
