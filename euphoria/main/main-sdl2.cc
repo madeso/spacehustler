@@ -498,21 +498,21 @@ Key ToKey(SDL_Keysym key) {
     case SDLK_GREATER:
       return Key::GREATER;
     case SDLK_QUESTION:
-      return Key::Question;
+      return Key::QUESTION;
     case SDLK_AT:
-      return Key::At;
+      return Key::AT;
     case SDLK_LEFTBRACKET:
-      return Key::Leftbracket;
+      return Key::LEFT_BRACKET;
     case SDLK_BACKSLASH:
-      return Key::Backslash;
+      return Key::BACKSLASH;
     case SDLK_RIGHTBRACKET:
-      return Key::Rightbracket;
+      return Key::RIGHT_BRACKET;
     case SDLK_CARET:
-      return Key::Caret;
+      return Key::CARET;
     case SDLK_UNDERSCORE:
-      return Key::Underscore;
+      return Key::UNDERSCORE;
     case SDLK_BACKQUOTE:
-      return Key::Backquote;
+      return Key::BACKQUOTE;
     case SDLK_a:
       return Key::A;
     case SDLK_b:
@@ -566,7 +566,7 @@ Key ToKey(SDL_Keysym key) {
     case SDLK_z:
       return Key::Z;
     case SDLK_CAPSLOCK:
-      return Key::Capslock;
+      return Key::CAPSLOCK;
     case SDLK_F1:
       return Key::F1;
     case SDLK_F2:
@@ -592,71 +592,71 @@ Key ToKey(SDL_Keysym key) {
     case SDLK_F12:
       return Key::F12;
     case SDLK_PRINTSCREEN:
-      return Key::Printscreen;
+      return Key::PRINTSCREEN;
     case SDLK_SCROLLLOCK:
-      return Key::Scrolllock;
+      return Key::SCROLLLOCK;
     case SDLK_PAUSE:
-      return Key::Pause;
+      return Key::PAUSE;
     case SDLK_INSERT:
-      return Key::Insert;
+      return Key::INSERT;
     case SDLK_HOME:
-      return Key::Home;
+      return Key::HOME;
     case SDLK_PAGEUP:
-      return Key::Pageup;
+      return Key::PAGEUP;
     case SDLK_DELETE:
-      return Key::Delete;
+      return Key::DELETE;
     case SDLK_END:
-      return Key::End;
+      return Key::END;
     case SDLK_PAGEDOWN:
-      return Key::Pagedown;
+      return Key::PAGEDOWN;
     case SDLK_RIGHT:
-      return Key::Right;
+      return Key::RIGHT;
     case SDLK_LEFT:
-      return Key::Left;
+      return Key::LEFT;
     case SDLK_DOWN:
-      return Key::Down;
+      return Key::DOWN;
     case SDLK_UP:
-      return Key::Up;
+      return Key::UP;
     case SDLK_NUMLOCKCLEAR:
-      return Key::Numlockclear;
+      return Key::NUMLOCK_CLEAR;
     case SDLK_KP_DIVIDE:
-      return Key::Kp_Divide;
+      return Key::KEYPAD_DIVIDE;
     case SDLK_KP_MULTIPLY:
-      return Key::Kp_Multiply;
+      return Key::KEYPAD_MULTIPLY;
     case SDLK_KP_MINUS:
-      return Key::Kp_Minus;
+      return Key::KEYPAD_MINUS;
     case SDLK_KP_PLUS:
-      return Key::Kp_Plus;
+      return Key::KEYPAD_PLUS;
     case SDLK_KP_ENTER:
-      return Key::Kp_Enter;
+      return Key::KEYPAD_ENTER;
     case SDLK_KP_1:
-      return Key::Kp_1;
+      return Key::KEYPAD_1;
     case SDLK_KP_2:
-      return Key::Kp_2;
+      return Key::KEYPAD_2;
     case SDLK_KP_3:
-      return Key::Kp_3;
+      return Key::KEYPAD_3;
     case SDLK_KP_4:
-      return Key::Kp_4;
+      return Key::KEYPAD_4;
     case SDLK_KP_5:
-      return Key::Kp_5;
+      return Key::KEYPAD_5;
     case SDLK_KP_6:
-      return Key::Kp_6;
+      return Key::KEYPAD_6;
     case SDLK_KP_7:
-      return Key::Kp_7;
+      return Key::KEYPAD_7;
     case SDLK_KP_8:
-      return Key::Kp_8;
+      return Key::KEYPAD_8;
     case SDLK_KP_9:
-      return Key::Kp_9;
+      return Key::KEYPAD_9;
     case SDLK_KP_0:
-      return Key::Kp_0;
+      return Key::KEYPAD_0;
     case SDLK_KP_PERIOD:
-      return Key::Kp_Period;
+      return Key::KEYPAD_PERIOD;
     case SDLK_APPLICATION:
-      return Key::Application;
+      return Key::APPLICATION;
     case SDLK_POWER:
-      return Key::Power;
+      return Key::POWER;
     case SDLK_KP_EQUALS:
-      return Key::Kp_Equals;
+      return Key::KEYPAD_EQUALS;
     case SDLK_F13:
       return Key::F13;
     case SDLK_F14:
@@ -682,221 +682,221 @@ Key ToKey(SDL_Keysym key) {
     case SDLK_F24:
       return Key::F24;
     case SDLK_EXECUTE:
-      return Key::Execute;
+      return Key::EXECUTE;
     case SDLK_HELP:
-      return Key::Help;
+      return Key::HELP;
     case SDLK_MENU:
-      return Key::Menu;
+      return Key::MENU;
     case SDLK_SELECT:
-      return Key::Select;
+      return Key::SELECT;
     case SDLK_STOP:
-      return Key::Stop;
+      return Key::STOP;
     case SDLK_AGAIN:
-      return Key::Again;
+      return Key::AGAIN;
     case SDLK_UNDO:
-      return Key::Undo;
+      return Key::UNDO;
     case SDLK_CUT:
-      return Key::Cut;
+      return Key::CUT;
     case SDLK_COPY:
-      return Key::Copy;
+      return Key::COPY;
     case SDLK_PASTE:
-      return Key::Paste;
+      return Key::PASTE;
     case SDLK_FIND:
-      return Key::Find;
+      return Key::FIND;
     case SDLK_MUTE:
-      return Key::Mute;
+      return Key::MUTE;
     case SDLK_VOLUMEUP:
-      return Key::Volumeup;
+      return Key::VOLUME_UP;
     case SDLK_VOLUMEDOWN:
-      return Key::Volumedown;
+      return Key::VOLUME_DOWN;
     case SDLK_KP_COMMA:
-      return Key::Kp_Comma;
+      return Key::KEYPAD_COMMA;
     case SDLK_KP_EQUALSAS400:
-      return Key::Kp_Equalsas400;
+      return Key::KEYPAD_EQUALS_AS_400;
     case SDLK_ALTERASE:
-      return Key::Alterase;
+      return Key::ALT_ERASE;
     case SDLK_SYSREQ:
-      return Key::Sysreq;
+      return Key::SYSREQ;
     case SDLK_CANCEL:
-      return Key::Cancel;
+      return Key::CANCEL;
     case SDLK_CLEAR:
-      return Key::Clear;
+      return Key::CLEAR;
     case SDLK_PRIOR:
-      return Key::Prior;
+      return Key::PRIOR;
     case SDLK_RETURN2:
-      return Key::Return2;
+      return Key::SECOND_RETURN;
     case SDLK_SEPARATOR:
-      return Key::Separator;
+      return Key::SEPARATOR;
     case SDLK_OUT:
-      return Key::Out;
+      return Key::OUT;
     case SDLK_OPER:
-      return Key::Oper;
+      return Key::OPER;
     case SDLK_CLEARAGAIN:
-      return Key::Clearagain;
+      return Key::CLEAR_AGAIN;
     case SDLK_CRSEL:
-      return Key::Crsel;
+      return Key::CRSEL;
     case SDLK_EXSEL:
-      return Key::Exsel;
+      return Key::EXSEL;
     case SDLK_KP_00:
-      return Key::Kp_00;
+      return Key::KEYPAD_00;
     case SDLK_KP_000:
-      return Key::Kp_000;
+      return Key::KEYPAD_000;
     case SDLK_THOUSANDSSEPARATOR:
-      return Key::Thousandsseparator;
+      return Key::THOUSANDSEPARATOR;
     case SDLK_DECIMALSEPARATOR:
-      return Key::Decimalseparator;
+      return Key::DECIMALSEPARATOR;
     case SDLK_CURRENCYUNIT:
-      return Key::Currencyunit;
+      return Key::CURRENCY_UNIT;
     case SDLK_CURRENCYSUBUNIT:
-      return Key::Currencysubunit;
+      return Key::CURRENCY_SUBUNIT;
     case SDLK_KP_LEFTPAREN:
-      return Key::Kp_Leftparen;
+      return Key::KEYPAD_LEFTPAREN;
     case SDLK_KP_RIGHTPAREN:
-      return Key::Kp_Rightparen;
+      return Key::KEYPAD_RIGHTPAREN;
     case SDLK_KP_LEFTBRACE:
-      return Key::Kp_Leftbrace;
+      return Key::KEYPAD_LEFTBRACE;
     case SDLK_KP_RIGHTBRACE:
-      return Key::Kp_Rightbrace;
+      return Key::KEYPAD_RIGHTBRACE;
     case SDLK_KP_TAB:
-      return Key::Kp_Tab;
+      return Key::KEYPAD_TAB;
     case SDLK_KP_BACKSPACE:
-      return Key::Kp_Backspace;
+      return Key::KEYPAD_BACKSPACE;
     case SDLK_KP_A:
-      return Key::Kp_A;
+      return Key::KEYPAD_A;
     case SDLK_KP_B:
-      return Key::Kp_B;
+      return Key::KEYPAD_B;
     case SDLK_KP_C:
-      return Key::Kp_C;
+      return Key::KEYPAD_C;
     case SDLK_KP_D:
-      return Key::Kp_D;
+      return Key::KEYPAD_D;
     case SDLK_KP_E:
-      return Key::Kp_E;
+      return Key::KEYPAD_E;
     case SDLK_KP_F:
-      return Key::Kp_F;
+      return Key::KEYPAD_F;
     case SDLK_KP_XOR:
-      return Key::Kp_Xor;
+      return Key::KEYPAD_XOR;
     case SDLK_KP_POWER:
-      return Key::Kp_Power;
+      return Key::KEYPAD_POWER;
     case SDLK_KP_PERCENT:
-      return Key::Kp_Percent;
+      return Key::KEYPAD_PERCENT;
     case SDLK_KP_LESS:
-      return Key::Kp_Less;
+      return Key::KEYPAD_LESS;
     case SDLK_KP_GREATER:
-      return Key::Kp_Greater;
+      return Key::KEYPAD_GREATER;
     case SDLK_KP_AMPERSAND:
-      return Key::Kp_Ampersand;
+      return Key::KEYPAD_AMPERSAND;
     case SDLK_KP_DBLAMPERSAND:
-      return Key::Kp_Dblampersand;
+      return Key::KEYPAD_DOUBLE_AMPERSAND;
     case SDLK_KP_VERTICALBAR:
-      return Key::Kp_Verticalbar;
+      return Key::KEYPAD_VERTICAL_BAR;
     case SDLK_KP_DBLVERTICALBAR:
-      return Key::Kp_Dblverticalbar;
+      return Key::KEYPAD_DOUBLE_VERTICLE_BAR;
     case SDLK_KP_COLON:
-      return Key::Kp_Colon;
+      return Key::KEYPAD_COLON;
     case SDLK_KP_HASH:
-      return Key::Kp_Hash;
+      return Key::KEYPAD_HASH;
     case SDLK_KP_SPACE:
-      return Key::Kp_Space;
+      return Key::KEYPAD_SPACE;
     case SDLK_KP_AT:
-      return Key::Kp_At;
+      return Key::KEYPAD_AT;
     case SDLK_KP_EXCLAM:
-      return Key::Kp_Exclam;
+      return Key::KEYPAD_EXCLAM;
     case SDLK_KP_MEMSTORE:
-      return Key::Kp_Memstore;
+      return Key::KEYPAD_MEM_STORE;
     case SDLK_KP_MEMRECALL:
-      return Key::Kp_Memrecall;
+      return Key::KEYPAD_MEM_RECALL;
     case SDLK_KP_MEMCLEAR:
-      return Key::Kp_Memclear;
+      return Key::KEYPAD_MEM_CLEAR;
     case SDLK_KP_MEMADD:
-      return Key::Kp_Memadd;
+      return Key::KEYPAD_MEM_ADD;
     case SDLK_KP_MEMSUBTRACT:
-      return Key::Kp_Memsubtract;
+      return Key::KEYPAD_MEM_SUBTRACT;
     case SDLK_KP_MEMMULTIPLY:
-      return Key::Kp_Memmultiply;
+      return Key::KEYPAD_MEM_MULTIPLY;
     case SDLK_KP_MEMDIVIDE:
-      return Key::Kp_Memdivide;
+      return Key::KEYPAD_MEM_DIVIDE;
     case SDLK_KP_PLUSMINUS:
-      return Key::Kp_Plusminus;
+      return Key::KEYPAD_PLUS_MINUS;
     case SDLK_KP_CLEAR:
-      return Key::Kp_Clear;
+      return Key::KEYPAD_CLEAR;
     case SDLK_KP_CLEARENTRY:
-      return Key::Kp_Clearentry;
+      return Key::KEYPAD_CLEAR_ENTRY;
     case SDLK_KP_BINARY:
-      return Key::Kp_Binary;
+      return Key::KEYPAD_BINARY;
     case SDLK_KP_OCTAL:
-      return Key::Kp_Octal;
+      return Key::KEYPAD_OCTAL;
     case SDLK_KP_DECIMAL:
-      return Key::Kp_Decimal;
+      return Key::KEYPAD_DECIMAL;
     case SDLK_KP_HEXADECIMAL:
-      return Key::Kp_Hexadecimal;
+      return Key::KEYPAD_HEXADECIMAL;
     case SDLK_LCTRL:
-      return Key::Lctrl;
+      return Key::CTRL_LEFT;
     case SDLK_LSHIFT:
-      return Key::Lshift;
+      return Key::SHIFT_LEFT;
     case SDLK_LALT:
-      return Key::Lalt;
+      return Key::ALT_LEFT;
     case SDLK_LGUI:
-      return Key::Lgui;
+      return Key::GUI_LEFT;
     case SDLK_RCTRL:
-      return Key::Rctrl;
+      return Key::CTRL_RIGHT;
     case SDLK_RSHIFT:
-      return Key::Rshift;
+      return Key::SHIFT_RIGHT;
     case SDLK_RALT:
-      return Key::Ralt;
+      return Key::ALT_RIGHT;
     case SDLK_RGUI:
-      return Key::Rgui;
+      return Key::GUI_RIGHT;
     case SDLK_MODE:
-      return Key::Mode;
+      return Key::MODE;
     case SDLK_AUDIONEXT:
-      return Key::Audionext;
+      return Key::AUDIO_NEXT;
     case SDLK_AUDIOPREV:
-      return Key::Audioprev;
+      return Key::AUDIO_PREV;
     case SDLK_AUDIOSTOP:
-      return Key::Audiostop;
+      return Key::AUDIO_STOP;
     case SDLK_AUDIOPLAY:
-      return Key::Audioplay;
+      return Key::AUDIO_PLAY;
     case SDLK_AUDIOMUTE:
-      return Key::Audiomute;
+      return Key::AUDIO_MUTE;
     case SDLK_MEDIASELECT:
       return Key::Mediaselect;
     case SDLK_WWW:
-      return Key::Www;
+      return Key::WWW;
     case SDLK_MAIL:
-      return Key::Mail;
+      return Key::MAIL;
     case SDLK_CALCULATOR:
-      return Key::Calculator;
+      return Key::CALCULATOR;
     case SDLK_COMPUTER:
-      return Key::Computer;
+      return Key::COMPUTER;
     case SDLK_AC_SEARCH:
-      return Key::Ac_Search;
+      return Key::AC_SEARCH;
     case SDLK_AC_HOME:
-      return Key::Ac_Home;
+      return Key::AC_HOME;
     case SDLK_AC_BACK:
-      return Key::Ac_Back;
+      return Key::AC_BACK;
     case SDLK_AC_FORWARD:
-      return Key::Ac_Forward;
+      return Key::AC_FORWARD;
     case SDLK_AC_STOP:
-      return Key::Ac_Stop;
+      return Key::AC_STOP;
     case SDLK_AC_REFRESH:
-      return Key::Ac_Refresh;
+      return Key::AC_REFRESH;
     case SDLK_AC_BOOKMARKS:
-      return Key::Ac_Bookmarks;
+      return Key::AC_BOOKMARKS;
     case SDLK_BRIGHTNESSDOWN:
-      return Key::Brightnessdown;
+      return Key::BRIGHTNESS_DOWN;
     case SDLK_BRIGHTNESSUP:
-      return Key::Brightnessup;
+      return Key::BRIGHTNESS_UP;
     case SDLK_DISPLAYSWITCH:
-      return Key::Displayswitch;
+      return Key::DISPLAYSWITCH;
     case SDLK_KBDILLUMTOGGLE:
-      return Key::Kbdillumtoggle;
+      return Key::KEYBOARD_ILLUM_TOGGLE;
     case SDLK_KBDILLUMDOWN:
-      return Key::Kbdillumdown;
+      return Key::KEYBOARD_ILLUM_DOWN;
     case SDLK_KBDILLUMUP:
-      return Key::Kbdillumup;
+      return Key::KEYBOARD_ILLUM_UP;
     case SDLK_EJECT:
-      return Key::Eject;
+      return Key::EJECT;
     case SDLK_SLEEP:
-      return Key::Sleep;
+      return Key::SLEEP;
     default:
       assert(0 && key.sym && "Invalid keyboard button");
       return Key::INVALID;

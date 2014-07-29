@@ -116,21 +116,21 @@ enum class Key {
   ,
   GREATER  /// The key for Greater
   ,
-  Question  /// The key for Question
+  QUESTION  /// The key for Question
   ,
-  At  /// The key for At
+  AT  /// The key for At
   ,
-  Leftbracket  /// The key for Leftbracket
+  LEFT_BRACKET  /// The key for Leftbracket
   ,
-  Backslash  /// The key for Backslash
+  BACKSLASH  /// The key for Backslash
   ,
-  Rightbracket  /// The key for Rightbracket
+  RIGHT_BRACKET  /// The key for Rightbracket
   ,
-  Caret  /// The key for Caret
+  CARET  /// The key for Caret
   ,
-  Underscore  /// The key for Underscore
+  UNDERSCORE  /// The key for Underscore
   ,
-  Backquote  /// The key for Backquote
+  BACKQUOTE  /// The key for Backquote
   ,
   A  /// The key for A
   ,
@@ -184,7 +184,7 @@ enum class Key {
   ,
   Z  /// The key for Z
   ,
-  Capslock  /// The key for Capslock
+  CAPSLOCK  /// The key for Capslock
   ,
   F1  /// The key for F1
   ,
@@ -210,71 +210,71 @@ enum class Key {
   ,
   F12  /// The key for F12
   ,
-  Printscreen  /// The key for Printscreen
+  PRINTSCREEN  /// The key for Printscreen
   ,
-  Scrolllock  /// The key for Scrolllock
+  SCROLLLOCK  /// The key for Scrolllock
   ,
-  Pause  /// The key for Pause
+  PAUSE  /// The key for Pause
   ,
-  Insert  /// The key for Insert
+  INSERT  /// The key for Insert
   ,
-  Home  /// The key for Home
+  HOME  /// The key for Home
   ,
-  Pageup  /// The key for Pageup
+  PAGEUP  /// The key for Pageup
   ,
-  Delete  /// The key for Delete
+  DELETE  /// The key for Delete
   ,
-  End  /// The key for End
+  END  /// The key for End
   ,
-  Pagedown  /// The key for Pagedown
+  PAGEDOWN  /// The key for Pagedown
   ,
-  Right  /// The key for Right
+  RIGHT  /// The key for Right
   ,
-  Left  /// The key for Left
+  LEFT  /// The key for Left
   ,
-  Down  /// The key for Down
+  DOWN  /// The key for Down
   ,
-  Up  /// The key for Up
+  UP  /// The key for Up
   ,
-  Numlockclear  /// The key for Numlockclear
+  NUMLOCK_CLEAR  /// The key for Numlockclear
   ,
-  Kp_Divide  /// The key for Kp_Divide
+  KEYPAD_DIVIDE  /// The key for Kp_Divide
   ,
-  Kp_Multiply  /// The key for Kp_Multiply
+  KEYPAD_MULTIPLY  /// The key for Kp_Multiply
   ,
-  Kp_Minus  /// The key for Kp_Minus
+  KEYPAD_MINUS  /// The key for Kp_Minus
   ,
-  Kp_Plus  /// The key for Kp_Plus
+  KEYPAD_PLUS  /// The key for Kp_Plus
   ,
-  Kp_Enter  /// The key for Kp_Enter
+  KEYPAD_ENTER  /// The key for Kp_Enter
   ,
-  Kp_1  /// The key for Kp_1
+  KEYPAD_1  /// The key for Kp_1
   ,
-  Kp_2  /// The key for Kp_2
+  KEYPAD_2  /// The key for Kp_2
   ,
-  Kp_3  /// The key for Kp_3
+  KEYPAD_3  /// The key for Kp_3
   ,
-  Kp_4  /// The key for Kp_4
+  KEYPAD_4  /// The key for Kp_4
   ,
-  Kp_5  /// The key for Kp_5
+  KEYPAD_5  /// The key for Kp_5
   ,
-  Kp_6  /// The key for Kp_6
+  KEYPAD_6  /// The key for Kp_6
   ,
-  Kp_7  /// The key for Kp_7
+  KEYPAD_7  /// The key for Kp_7
   ,
-  Kp_8  /// The key for Kp_8
+  KEYPAD_8  /// The key for Kp_8
   ,
-  Kp_9  /// The key for Kp_9
+  KEYPAD_9  /// The key for Kp_9
   ,
-  Kp_0  /// The key for Kp_0
+  KEYPAD_0  /// The key for Kp_0
   ,
-  Kp_Period  /// The key for Kp_Period
+  KEYPAD_PERIOD  /// The key for Kp_Period
   ,
-  Application  /// The key for Application
+  APPLICATION  /// The key for Application
   ,
-  Power  /// The key for Power
+  POWER  /// The key for Power
   ,
-  Kp_Equals  /// The key for Kp_Equals
+  KEYPAD_EQUALS  /// The key for Kp_Equals
   ,
   F13  /// The key for F13
   ,
@@ -300,221 +300,221 @@ enum class Key {
   ,
   F24  /// The key for F24
   ,
-  Execute  /// The key for Execute
+  EXECUTE  /// The key for Execute
   ,
-  Help  /// The key for Help
+  HELP  /// The key for Help
   ,
-  Menu  /// The key for Menu
+  MENU  /// The key for Menu
   ,
-  Select  /// The key for Select
+  SELECT  /// The key for Select
   ,
-  Stop  /// The key for Stop
+  STOP  /// The key for Stop
   ,
-  Again  /// The key for Again
+  AGAIN  /// The key for Again
   ,
-  Undo  /// The key for Undo
+  UNDO  /// The key for Undo
   ,
-  Cut  /// The key for Cut
+  CUT  /// The key for Cut
   ,
-  Copy  /// The key for Copy
+  COPY  /// The key for Copy
   ,
-  Paste  /// The key for Paste
+  PASTE  /// The key for Paste
   ,
-  Find  /// The key for Find
+  FIND  /// The key for Find
   ,
-  Mute  /// The key for Mute
+  MUTE  /// The key for Mute
   ,
-  Volumeup  /// The key for Volumeup
+  VOLUME_UP  /// The key for Volumeup
   ,
-  Volumedown  /// The key for Volumedown
+  VOLUME_DOWN  /// The key for Volumedown
   ,
-  Kp_Comma  /// The key for Kp_Comma
+  KEYPAD_COMMA  /// The key for Kp_Comma
   ,
-  Kp_Equalsas400  /// The key for Kp_Equalsas400
+  KEYPAD_EQUALS_AS_400  /// The key for Kp_Equalsas400
   ,
-  Alterase  /// The key for Alterase
+  ALT_ERASE  /// The key for Alterase
   ,
-  Sysreq  /// The key for Sysreq
+  SYSREQ  /// The key for Sysreq
   ,
-  Cancel  /// The key for Cancel
+  CANCEL  /// The key for Cancel
   ,
-  Clear  /// The key for Clear
+  CLEAR  /// The key for Clear
   ,
-  Prior  /// The key for Prior
+  PRIOR  /// The key for Prior
   ,
-  Return2  /// The key for Return2
+  SECOND_RETURN  /// The key for Return2
   ,
-  Separator  /// The key for Separator
+  SEPARATOR  /// The key for Separator
   ,
-  Out  /// The key for Out
+  OUT  /// The key for Out
   ,
-  Oper  /// The key for Oper
+  OPER  /// The key for Oper
   ,
-  Clearagain  /// The key for Clearagain
+  CLEAR_AGAIN  /// The key for Clearagain
   ,
-  Crsel  /// The key for Crsel
+  CRSEL  /// The key for Crsel
   ,
-  Exsel  /// The key for Exsel
+  EXSEL  /// The key for Exsel
   ,
-  Kp_00  /// The key for Kp_00
+  KEYPAD_00  /// The key for Kp_00
   ,
-  Kp_000  /// The key for Kp_000
+  KEYPAD_000  /// The key for Kp_000
   ,
-  Thousandsseparator  /// The key for Thousandsseparator
+  THOUSANDSEPARATOR  /// The key for Thousandsseparator
   ,
-  Decimalseparator  /// The key for Decimalseparator
+  DECIMALSEPARATOR  /// The key for Decimalseparator
   ,
-  Currencyunit  /// The key for Currencyunit
+  CURRENCY_UNIT  /// The key for Currencyunit
   ,
-  Currencysubunit  /// The key for Currencysubunit
+  CURRENCY_SUBUNIT  /// The key for Currencysubunit
   ,
-  Kp_Leftparen  /// The key for Kp_Leftparen
+  KEYPAD_LEFTPAREN  /// The key for Kp_Leftparen
   ,
-  Kp_Rightparen  /// The key for Kp_Rightparen
+  KEYPAD_RIGHTPAREN  /// The key for Kp_Rightparen
   ,
-  Kp_Leftbrace  /// The key for Kp_Leftbrace
+  KEYPAD_LEFTBRACE  /// The key for Kp_Leftbrace
   ,
-  Kp_Rightbrace  /// The key for Kp_Rightbrace
+  KEYPAD_RIGHTBRACE  /// The key for Kp_Rightbrace
   ,
-  Kp_Tab  /// The key for Kp_Tab
+  KEYPAD_TAB  /// The key for Kp_Tab
   ,
-  Kp_Backspace  /// The key for Kp_Backspace
+  KEYPAD_BACKSPACE  /// The key for Kp_Backspace
   ,
-  Kp_A  /// The key for Kp_A
+  KEYPAD_A  /// The key for Kp_A
   ,
-  Kp_B  /// The key for Kp_B
+  KEYPAD_B  /// The key for Kp_B
   ,
-  Kp_C  /// The key for Kp_C
+  KEYPAD_C  /// The key for Kp_C
   ,
-  Kp_D  /// The key for Kp_D
+  KEYPAD_D  /// The key for Kp_D
   ,
-  Kp_E  /// The key for Kp_E
+  KEYPAD_E  /// The key for Kp_E
   ,
-  Kp_F  /// The key for Kp_F
+  KEYPAD_F  /// The key for Kp_F
   ,
-  Kp_Xor  /// The key for Kp_Xor
+  KEYPAD_XOR  /// The key for Kp_Xor
   ,
-  Kp_Power  /// The key for Kp_Power
+  KEYPAD_POWER  /// The key for Kp_Power
   ,
-  Kp_Percent  /// The key for Kp_Percent
+  KEYPAD_PERCENT  /// The key for Kp_Percent
   ,
-  Kp_Less  /// The key for Kp_Less
+  KEYPAD_LESS  /// The key for Kp_Less
   ,
-  Kp_Greater  /// The key for Kp_Greater
+  KEYPAD_GREATER  /// The key for Kp_Greater
   ,
-  Kp_Ampersand  /// The key for Kp_Ampersand
+  KEYPAD_AMPERSAND  /// The key for Kp_Ampersand
   ,
-  Kp_Dblampersand  /// The key for Kp_Dblampersand
+  KEYPAD_DOUBLE_AMPERSAND  /// The key for Kp_Dblampersand
   ,
-  Kp_Verticalbar  /// The key for Kp_Verticalbar
+  KEYPAD_VERTICAL_BAR  /// The key for Kp_Verticalbar
   ,
-  Kp_Dblverticalbar  /// The key for Kp_Dblverticalbar
+  KEYPAD_DOUBLE_VERTICLE_BAR  /// The key for Kp_Dblverticalbar
   ,
-  Kp_Colon  /// The key for Kp_Colon
+  KEYPAD_COLON  /// The key for Kp_Colon
   ,
-  Kp_Hash  /// The key for Kp_Hash
+  KEYPAD_HASH  /// The key for Kp_Hash
   ,
-  Kp_Space  /// The key for Kp_Space
+  KEYPAD_SPACE  /// The key for Kp_Space
   ,
-  Kp_At  /// The key for Kp_At
+  KEYPAD_AT  /// The key for Kp_At
   ,
-  Kp_Exclam  /// The key for Kp_Exclam
+  KEYPAD_EXCLAM  /// The key for Kp_Exclam
   ,
-  Kp_Memstore  /// The key for Kp_Memstore
+  KEYPAD_MEM_STORE  /// The key for Kp_Memstore
   ,
-  Kp_Memrecall  /// The key for Kp_Memrecall
+  KEYPAD_MEM_RECALL  /// The key for Kp_Memrecall
   ,
-  Kp_Memclear  /// The key for Kp_Memclear
+  KEYPAD_MEM_CLEAR  /// The key for Kp_Memclear
   ,
-  Kp_Memadd  /// The key for Kp_Memadd
+  KEYPAD_MEM_ADD  /// The key for Kp_Memadd
   ,
-  Kp_Memsubtract  /// The key for Kp_Memsubtract
+  KEYPAD_MEM_SUBTRACT  /// The key for Kp_Memsubtract
   ,
-  Kp_Memmultiply  /// The key for Kp_Memmultiply
+  KEYPAD_MEM_MULTIPLY  /// The key for Kp_Memmultiply
   ,
-  Kp_Memdivide  /// The key for Kp_Memdivide
+  KEYPAD_MEM_DIVIDE  /// The key for Kp_Memdivide
   ,
-  Kp_Plusminus  /// The key for Kp_Plusminus
+  KEYPAD_PLUS_MINUS  /// The key for Kp_Plusminus
   ,
-  Kp_Clear  /// The key for Kp_Clear
+  KEYPAD_CLEAR  /// The key for Kp_Clear
   ,
-  Kp_Clearentry  /// The key for Kp_Clearentry
+  KEYPAD_CLEAR_ENTRY  /// The key for Kp_Clearentry
   ,
-  Kp_Binary  /// The key for Kp_Binary
+  KEYPAD_BINARY  /// The key for Kp_Binary
   ,
-  Kp_Octal  /// The key for Kp_Octal
+  KEYPAD_OCTAL  /// The key for Kp_Octal
   ,
-  Kp_Decimal  /// The key for Kp_Decimal
+  KEYPAD_DECIMAL  /// The key for Kp_Decimal
   ,
-  Kp_Hexadecimal  /// The key for Kp_Hexadecimal
+  KEYPAD_HEXADECIMAL  /// The key for Kp_Hexadecimal
   ,
-  Lctrl  /// The key for Lctrl
+  CTRL_LEFT  /// The key for Lctrl
   ,
-  Lshift  /// The key for Lshift
+  SHIFT_LEFT  /// The key for Lshift
   ,
-  Lalt  /// The key for Lalt
+  ALT_LEFT  /// The key for Lalt
   ,
-  Lgui  /// The key for Lgui
+  GUI_LEFT  /// The key for Lgui
   ,
-  Rctrl  /// The key for Rctrl
+  CTRL_RIGHT  /// The key for Rctrl
   ,
-  Rshift  /// The key for Rshift
+  SHIFT_RIGHT  /// The key for Rshift
   ,
-  Ralt  /// The key for Ralt
+  ALT_RIGHT  /// The key for Ralt
   ,
-  Rgui  /// The key for Rgui
+  GUI_RIGHT  /// The key for Rgui
   ,
-  Mode  /// The key for Mode
+  MODE  /// The key for Mode
   ,
-  Audionext  /// The key for Audionext
+  AUDIO_NEXT  /// The key for Audionext
   ,
-  Audioprev  /// The key for Audioprev
+  AUDIO_PREV  /// The key for Audioprev
   ,
-  Audiostop  /// The key for Audiostop
+  AUDIO_STOP  /// The key for Audiostop
   ,
-  Audioplay  /// The key for Audioplay
+  AUDIO_PLAY  /// The key for Audioplay
   ,
-  Audiomute  /// The key for Audiomute
+  AUDIO_MUTE  /// The key for Audiomute
   ,
   Mediaselect  /// The key for Mediaselect
   ,
-  Www  /// The key for Www
+  WWW  /// The key for Www
   ,
-  Mail  /// The key for Mail
+  MAIL  /// The key for Mail
   ,
-  Calculator  /// The key for Calculator
+  CALCULATOR  /// The key for Calculator
   ,
-  Computer  /// The key for Computer
+  COMPUTER  /// The key for Computer
   ,
-  Ac_Search  /// The key for Ac_Search
+  AC_SEARCH  /// The key for Ac_Search
   ,
-  Ac_Home  /// The key for Ac_Home
+  AC_HOME  /// The key for Ac_Home
   ,
-  Ac_Back  /// The key for Ac_Back
+  AC_BACK  /// The key for Ac_Back
   ,
-  Ac_Forward  /// The key for Ac_Forward
+  AC_FORWARD  /// The key for Ac_Forward
   ,
-  Ac_Stop  /// The key for Ac_Stop
+  AC_STOP  /// The key for Ac_Stop
   ,
-  Ac_Refresh  /// The key for Ac_Refresh
+  AC_REFRESH  /// The key for Ac_Refresh
   ,
-  Ac_Bookmarks  /// The key for Ac_Bookmarks
+  AC_BOOKMARKS  /// The key for Ac_Bookmarks
   ,
-  Brightnessdown  /// The key for Brightnessdown
+  BRIGHTNESS_DOWN  /// The key for Brightnessdown
   ,
-  Brightnessup  /// The key for Brightnessup
+  BRIGHTNESS_UP  /// The key for Brightnessup
   ,
-  Displayswitch  /// The key for Displayswitch
+  DISPLAYSWITCH  /// The key for Displayswitch
   ,
-  Kbdillumtoggle  /// The key for Kbdillumtoggle
+  KEYBOARD_ILLUM_TOGGLE  /// The key for Kbdillumtoggle
   ,
-  Kbdillumdown  /// The key for Kbdillumdown
+  KEYBOARD_ILLUM_DOWN  /// The key for Kbdillumdown
   ,
-  Kbdillumup  /// The key for Kbdillumup
+  KEYBOARD_ILLUM_UP  /// The key for Kbdillumup
   ,
-  Eject  /// The key for Eject
+  EJECT  /// The key for Eject
   ,
-  Sleep  /// The key for Sleep
+  SLEEP  /// The key for Sleep
 };
 
 /** Generate a string representation of the given key
