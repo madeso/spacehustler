@@ -151,11 +151,11 @@ def logic():
 						errprint(file, membername, 4205, "invalid data member name", messageDataMember)
 			elif memberkind == 'typedef' or memberkind == 'enum':
 				if reTypeName.match(membername) == None:
-					file = geterrorfile(cref, None)
+					file = geterrorfile(cref, memref)
 					errprint(file, membername, 4201, "invalid type name for " + memberkind, messageTypeName)
 			elif memberkind == 'enumvalue':
 				if reConst.match(membername) == None and reMacro.match(membername) == None:
-					file = geterrorfile(cref, None)
+					file = geterrorfile(cref, memref)
 					errprint(file, membername, 4206, "invalid enumvalue", messageEnumValue)
 			elif memberkind == 'function':
 				if reFunction.match(membername) == None:
@@ -170,7 +170,7 @@ def logic():
 						if membername.startswith('~'):
 							invalidname = False
 						if invalidname:
-							file = geterrorfile(cref, None)
+							file = geterrorfile(cref, memref)
 							errprint(file, membername, 4207, "invalid functionname", messageFunction)
 			elif memberkind == 'signal':
 				pass
