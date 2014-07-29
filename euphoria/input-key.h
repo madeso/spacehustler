@@ -42,79 +42,79 @@ MouseButton ToMouseButton(const std::string& keyname);
 /** A key code
  */
 enum class Key {
-  Invalid  /// Invalid key
+  INVALID  /// Invalid key
   ,
-  Unbound  /// No key
+  UNBOUND  /// No key
   ,
-  Return  /// The key for Return
+  RETURN  /// The key for Return
   ,
-  Escape  /// The key for Escape
+  ESCAPE  /// The key for Escape
   ,
-  Backspace  /// The key for Backspace
+  BACKSPACE  /// The key for Backspace
   ,
-  Tab  /// The key for Tab
+  TAB  /// The key for Tab
   ,
-  Space  /// The key for Space
+  SPACE  /// The key for Space
   ,
-  Exclaim  /// The key for Exclaim
+  EXCLAIM  /// The key for Exclaim
   ,
-  Quotedbl  /// The key for Quotedbl
+  QUOTEDBL  /// The key for Quotedbl
   ,
-  Hash  /// The key for Hash
+  HASH  /// The key for Hash
   ,
-  Percent  /// The key for Percent
+  PERCENT  /// The key for Percent
   ,
-  Dollar  /// The key for Dollar
+  DOLLAR  /// The key for Dollar
   ,
-  Ampersand  /// The key for Ampersand
+  AMPERSAND  /// The key for Ampersand
   ,
-  Quote  /// The key for Quote
+  QUOTE  /// The key for Quote
   ,
-  Leftparen  /// The key for Leftparen
+  LEFT_PAREN  /// The key for Leftparen
   ,
-  Rightparen  /// The key for Rightparen
+  RIGHT_PAREN  /// The key for Rightparen
   ,
-  Asterisk  /// The key for Asterisk
+  ASTERIX  /// The key for Asterisk
   ,
-  Plus  /// The key for Plus
+  PLUS  /// The key for Plus
   ,
-  Comma  /// The key for Comma
+  COMMA  /// The key for Comma
   ,
-  Minus  /// The key for Minus
+  MINUS  /// The key for Minus
   ,
-  Period  /// The key for Period
+  PERIOD  /// The key for Period
   ,
-  Slash  /// The key for Slash
+  SLASH  /// The key for Slash
   ,
-  Num0  /// The key for Num0
+  NUM_0  /// The key for Num0
   ,
-  Num1  /// The key for Num1
+  NUM_1  /// The key for Num1
   ,
-  Num2  /// The key for Num2
+  NUM_2  /// The key for Num2
   ,
-  Num3  /// The key for Num3
+  NUM_3  /// The key for Num3
   ,
-  Num4  /// The key for Num4
+  NUM_4  /// The key for Num4
   ,
-  Num5  /// The key for Num5
+  NUM_5  /// The key for Num5
   ,
-  Num6  /// The key for Num6
+  NUM_6  /// The key for Num6
   ,
-  Num7  /// The key for Num7
+  NUM_7  /// The key for Num7
   ,
-  Num8  /// The key for Num8
+  NUM_8  /// The key for Num8
   ,
-  Num9  /// The key for Num9
+  NUM_9  /// The key for Num9
   ,
-  Colon  /// The key for Colon
+  COLON  /// The key for Colon
   ,
-  Semicolon  /// The key for Semicolon
+  SEMICOLON  /// The key for Semicolon
   ,
-  Less  /// The key for Less
+  LESS  /// The key for Less
   ,
-  Equals  /// The key for Equals
+  EQUALS  /// The key for Equals
   ,
-  Greater  /// The key for Greater
+  GREATER  /// The key for Greater
   ,
   Question  /// The key for Question
   ,

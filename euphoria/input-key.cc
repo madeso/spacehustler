@@ -51,20 +51,20 @@ class Keyname {
 };
 
 const Keyname<Key>& AllKeys() {
-  static Keyname<Key> names = Keyname<Key>(Key::Unbound, Key::Invalid)(
-      Key::Return, "Return")(Key::Escape, "Escape")(
-      Key::Backspace, "Backspace")(Key::Tab, "Tab")(Key::Space, "Space")(
-      Key::Exclaim, "Exclaim")(Key::Quotedbl, "Quotedbl")(Key::Hash, "Hash")(
-      Key::Percent, "Percent")(Key::Dollar, "Dollar")(
-      Key::Ampersand, "Ampersand")(Key::Quote, "Quote")(
-      Key::Leftparen, "Leftparen")(Key::Rightparen, "Rightparen")(
-      Key::Asterisk, "Asterisk")(Key::Plus, "Plus")(Key::Comma, "Comma")(
-      Key::Minus, "Minus")(Key::Period, "Period")(Key::Slash, "Slash")(
-      Key::Num0, "Num0")(Key::Num1, "Num1")(Key::Num2, "Num2")(
-      Key::Num3, "Num3")(Key::Num4, "Num4")(Key::Num5, "Num5")(
-      Key::Num6, "Num6")(Key::Num7, "Num7")(Key::Num8, "Num8")(
-      Key::Num9, "Num9")(Key::Colon, "Colon")(Key::Semicolon, "Semicolon")(
-      Key::Less, "Less")(Key::Equals, "Equals")(Key::Greater, "Greater")(
+  static Keyname<Key> names = Keyname<Key>(Key::UNBOUND, Key::INVALID)(
+      Key::RETURN, "Return")(Key::ESCAPE, "Escape")(
+      Key::BACKSPACE, "Backspace")(Key::TAB, "Tab")(Key::SPACE, "Space")(
+      Key::EXCLAIM, "Exclaim")(Key::QUOTEDBL, "Quotedbl")(Key::HASH, "Hash")(
+      Key::PERCENT, "Percent")(Key::DOLLAR, "Dollar")(
+      Key::AMPERSAND, "Ampersand")(Key::QUOTE, "Quote")(
+      Key::LEFT_PAREN, "Leftparen")(Key::RIGHT_PAREN, "Rightparen")(
+      Key::ASTERIX, "Asterisk")(Key::PLUS, "Plus")(Key::COMMA, "Comma")(
+      Key::MINUS, "Minus")(Key::PERIOD, "Period")(Key::SLASH, "Slash")(
+      Key::NUM_0, "Num0")(Key::NUM_1, "Num1")(Key::NUM_2, "Num2")(
+      Key::NUM_3, "Num3")(Key::NUM_4, "Num4")(Key::NUM_5, "Num5")(
+      Key::NUM_6, "Num6")(Key::NUM_7, "Num7")(Key::NUM_8, "Num8")(
+      Key::NUM_9, "Num9")(Key::COLON, "Colon")(Key::SEMICOLON, "Semicolon")(
+      Key::LESS, "Less")(Key::EQUALS, "Equals")(Key::GREATER, "Greater")(
       Key::Question, "Question")(Key::At, "At")(
       Key::Leftbracket, "Leftbracket")(Key::Backslash, "Backslash")(
       Key::Rightbracket, "Rightbracket")(Key::Caret, "Caret")(

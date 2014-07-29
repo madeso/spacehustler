@@ -27,7 +27,7 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
       const std::string keyname = d.get("key", "").asString();
       const auto key = ToKey(keyname);
 
-      if (key == Key::Invalid) {
+      if (key == Key::INVALID) {
         auto error = (Str() << keyname << " is a invalid key for the "
                             << common.bindname << " action").ToString();
         throw error;

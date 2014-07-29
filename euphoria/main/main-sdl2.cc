@@ -428,75 +428,75 @@ class Context : boost::noncopyable {
 Key ToKey(SDL_Keysym key) {
   switch (key.sym) {
     case SDLK_RETURN:
-      return Key::Return;
+      return Key::RETURN;
     case SDLK_ESCAPE:
-      return Key::Escape;
+      return Key::ESCAPE;
     case SDLK_BACKSPACE:
-      return Key::Backspace;
+      return Key::BACKSPACE;
     case SDLK_TAB:
-      return Key::Tab;
+      return Key::TAB;
     case SDLK_SPACE:
-      return Key::Space;
+      return Key::SPACE;
     case SDLK_EXCLAIM:
-      return Key::Exclaim;
+      return Key::EXCLAIM;
     case SDLK_QUOTEDBL:
-      return Key::Quotedbl;
+      return Key::QUOTEDBL;
     case SDLK_HASH:
-      return Key::Hash;
+      return Key::HASH;
     case SDLK_PERCENT:
-      return Key::Percent;
+      return Key::PERCENT;
     case SDLK_DOLLAR:
-      return Key::Dollar;
+      return Key::DOLLAR;
     case SDLK_AMPERSAND:
-      return Key::Ampersand;
+      return Key::AMPERSAND;
     case SDLK_QUOTE:
-      return Key::Quote;
+      return Key::QUOTE;
     case SDLK_LEFTPAREN:
-      return Key::Leftparen;
+      return Key::LEFT_PAREN;
     case SDLK_RIGHTPAREN:
-      return Key::Rightparen;
+      return Key::RIGHT_PAREN;
     case SDLK_ASTERISK:
-      return Key::Asterisk;
+      return Key::ASTERIX;
     case SDLK_PLUS:
-      return Key::Plus;
+      return Key::PLUS;
     case SDLK_COMMA:
-      return Key::Comma;
+      return Key::COMMA;
     case SDLK_MINUS:
-      return Key::Minus;
+      return Key::MINUS;
     case SDLK_PERIOD:
-      return Key::Period;
+      return Key::PERIOD;
     case SDLK_SLASH:
-      return Key::Slash;
+      return Key::SLASH;
     case SDLK_0:
-      return Key::Num0;
+      return Key::NUM_0;
     case SDLK_1:
-      return Key::Num1;
+      return Key::NUM_1;
     case SDLK_2:
-      return Key::Num2;
+      return Key::NUM_2;
     case SDLK_3:
-      return Key::Num3;
+      return Key::NUM_3;
     case SDLK_4:
-      return Key::Num4;
+      return Key::NUM_4;
     case SDLK_5:
-      return Key::Num5;
+      return Key::NUM_5;
     case SDLK_6:
-      return Key::Num6;
+      return Key::NUM_6;
     case SDLK_7:
-      return Key::Num7;
+      return Key::NUM_7;
     case SDLK_8:
-      return Key::Num8;
+      return Key::NUM_8;
     case SDLK_9:
-      return Key::Num9;
+      return Key::NUM_9;
     case SDLK_COLON:
-      return Key::Colon;
+      return Key::COLON;
     case SDLK_SEMICOLON:
-      return Key::Semicolon;
+      return Key::SEMICOLON;
     case SDLK_LESS:
-      return Key::Less;
+      return Key::LESS;
     case SDLK_EQUALS:
-      return Key::Equals;
+      return Key::EQUALS;
     case SDLK_GREATER:
-      return Key::Greater;
+      return Key::GREATER;
     case SDLK_QUESTION:
       return Key::Question;
     case SDLK_AT:
@@ -899,7 +899,7 @@ Key ToKey(SDL_Keysym key) {
       return Key::Sleep;
     default:
       assert(0 && key.sym && "Invalid keyboard button");
-      return Key::Invalid;
+      return Key::INVALID;
   }
 }
 
