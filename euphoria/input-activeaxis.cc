@@ -16,7 +16,7 @@ ActiveAxis::ActiveAxis(InputAction* action, Bind* axis)
   assert(this);
   assert(axis_);
 
-  if (axis_->type() != BindType::Axis) {
+  if (axis_->type() != BindType::AXIS) {
     const std::string error = Str() << "bound type for " << action->name()
                                     << " is not a axis, is " << axis_->type();
     throw error;

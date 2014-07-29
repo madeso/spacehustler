@@ -9,9 +9,9 @@ namespace input {
 
 std::string ToString(const BindType& bt) {
   switch (bt) {
-    case BindType::Axis:
+    case BindType::AXIS:
       return "axis";
-    case BindType::Range:
+    case BindType::RANGE:
       return "range";
     default:
       return "<unknown BindType>";

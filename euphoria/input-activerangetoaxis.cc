@@ -17,13 +17,13 @@ ActiveRangeToAxis::ActiveRangeToAxis(InputAction* action, Bind* positive,
   assert(positive_);
   assert(negative_);
 
-  if (positive_->type() != BindType::Range) {
+  if (positive_->type() != BindType::RANGE) {
     const std::string error = Str() << "bound type for positive "
                                     << action->name() << " is not a range, is "
                                     << positive_->type();
     throw error;
   }
-  if (negative_->type() != BindType::Range) {
+  if (negative_->type() != BindType::RANGE) {
     const std::string error = Str() << "bound type for negative "
                                     << action->name() << " is not a range, is "
                                     << negative_->type();

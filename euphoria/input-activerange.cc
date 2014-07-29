@@ -15,7 +15,7 @@ ActiveRange::ActiveRange(InputAction* action, Bind* range)
   assert(this);
   assert(range_);
 
-  if (range_->type() != BindType::Range) {
+  if (range_->type() != BindType::RANGE) {
     const std::string error = Str() << "bound type for " << action->name()
                                     << " is not a range, is " << range_->type();
     throw error;

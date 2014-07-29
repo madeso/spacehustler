@@ -8,7 +8,7 @@ namespace input {
 namespace {
 void test() {
   InputAction action("test", "test", Range::INFINITE, false);
-  std::shared_ptr<Bind> bind(new Bind(&action, BindType::Range));
+  std::shared_ptr<Bind> bind(new Bind(&action, BindType::RANGE));
   TRangeBind<int> test(4, bind);
 }
 }

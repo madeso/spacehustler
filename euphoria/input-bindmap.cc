@@ -53,13 +53,13 @@ void BindMap::AddRange(std::shared_ptr<InputAction> action,
 
   /// @todo verify that it is indeed a range
 
-  std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::Range));
+  std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::RANGE));
   std::shared_ptr<ActiveRange> active(
       new ActiveRange(action.get(), bind.get()));
   actives->Add(active);
   binds_.insert(std::make_pair(actionname, bind));
 
-  bind.reset(new Bind(action.get(), BindType::Axis));
+  bind.reset(new Bind(action.get(), BindType::AXIS));
   std::shared_ptr<ActiveAxisToRange> activeAxis(
       new ActiveAxisToRange(action.get(), bind.get()));
   actives->Add(activeAxis);
@@ -77,13 +77,13 @@ void BindMap::AddAxis(std::shared_ptr<InputAction> action,
 
   /// @todo verify that it is indeed a axis
 
-  std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::Axis));
+  std::shared_ptr<Bind> bind(new Bind(action.get(), BindType::AXIS));
   std::shared_ptr<ActiveAxis> active(new ActiveAxis(action.get(), bind.get()));
   actives->Add(active);
   binds_.insert(std::make_pair(actionname, bind));
 
-  std::shared_ptr<Bind> bindNeg(new Bind(action.get(), BindType::Range));
-  std::shared_ptr<Bind> bindPos(new Bind(action.get(), BindType::Range));
+  std::shared_ptr<Bind> bindNeg(new Bind(action.get(), BindType::RANGE));
+  std::shared_ptr<Bind> bindPos(new Bind(action.get(), BindType::RANGE));
   std::shared_ptr<ActiveRangeToAxis> activeAxis(
       new ActiveRangeToAxis(action.get(), bindPos.get(), bindNeg.get()));
   actives->Add(activeAxis);

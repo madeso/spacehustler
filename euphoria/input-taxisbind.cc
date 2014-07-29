@@ -7,7 +7,7 @@ namespace input {
 namespace {
 void test() {
   InputAction action("test", "test", Range::INFINITE, false);
-  std::shared_ptr<Bind> bind(new Bind(&action, BindType::Axis));
+  std::shared_ptr<Bind> bind(new Bind(&action, BindType::AXIS));
   TAxisBind<int> test(4, bind);
 }
 }
