@@ -30,9 +30,9 @@ Sign ToSign(const std::string& signname);
 /** Axis types.
  */
 enum class Axis {
-  Invalid  /// Invalid axis
+  INVALID  /// Invalid axis
   ,
-  Unbound  /// Unbound axis
+  UNBOUND  /// Unbound axis
   ,
   X  /// Mouse X
   ,

@@ -60,8 +60,8 @@ namespace {
 class Axisname {
  public:
   Axisname() {
-    bind(Axis::Invalid, "<invalid>");
-    bind(Axis::Unbound, "<unbound>");
+    bind(Axis::INVALID, "<invalid>");
+    bind(Axis::UNBOUND, "<unbound>");
     bind(Axis::X, "X");
     bind(Axis::Y, "Y");
   }
@@ -82,11 +82,11 @@ class Axisname {
 
   Axis fromString(const std::string& keyname) const {
     if (keyname == "") {
-      return Axis::Unbound;
+      return Axis::UNBOUND;
     }
     auto r = strtokey.find(ToLower(keyname));
     if (r == strtokey.end()) {
-      return Axis::Invalid;
+      return Axis::INVALID;
     } else {
       return r->second;
     }

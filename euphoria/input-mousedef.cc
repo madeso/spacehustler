@@ -21,7 +21,7 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
     if (common.type == "axis") {
       const std::string axisname = d.get("axis", "").asString();
       const auto axis = ToAxis(axisname);
-      if (axis == Axis::Invalid) {
+      if (axis == Axis::INVALID) {
         const std::string error = Str() << "Invalid axis " << axisname;
         throw error;
       }
