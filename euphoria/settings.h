@@ -9,17 +9,15 @@ Settings related code.
 
 #include <string>
 
-namespace OculusVrDetection {
 /** Determines how to detect a oculus vr device.
  */
-enum Type {
-  Auto  /// Automatic detection.
+enum class OculusVrDetection {
+  AUTO  /// Automatic detection.
   ,
-  Normal  /// Force a normal display with no vr input
+  NORMAL  /// Force a normal display with no vr input
   ,
-  Oculusvr  /// Force a oculus vr display
+  OCULUS_VR  /// Force a oculus vr display
 };
-}  //  namespace OculusVrDetection
 
 /** Class to store global settings.
  */
@@ -66,7 +64,7 @@ class Settings {
   /** How to detect the oculus vr kit.
   @returns how to detect the oculus.
    */
-  OculusVrDetection::Type oculus_vr_detection() const;
+  OculusVrDetection oculus_vr_detection() const;
 
   /** Gets the anisotropic settings.
   http://en.wikipedia.org/wiki/Anistropic_filtering
@@ -86,7 +84,7 @@ class Settings {
   bool fullscreen_;
   std::string control_scheme_;
   int primary_display_id_;
-  OculusVrDetection::Type oculus_vr_detection_;
+  OculusVrDetection oculus_vr_detection_;
   float anisotropic_;
   bool support_joystick_;
 };

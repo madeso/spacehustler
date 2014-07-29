@@ -81,7 +81,7 @@ class VideoMode {
     return height_;
   }
 
-  int refreshRate() const {
+  int refresh_rate() const {
     assert(this);
     return refresh_rate_;
   }
@@ -936,7 +936,7 @@ int DeterminePrimaryDisplayId(const Settings& settings,
                               const VideoDisplays& displays,
                               bool* foundoculus) {
   assert(foundoculus);
-  if (settings.oculus_vr_detection() == OculusVrDetection::Auto) {
+  if (settings.oculus_vr_detection() == OculusVrDetection::AUTO) {
     const int vrid = FindOculusDisplay(displays);
     if (vrid != -1) {
       *foundoculus = true;
@@ -947,7 +947,7 @@ int DeterminePrimaryDisplayId(const Settings& settings,
     }
   } else {
     *foundoculus =
-        settings.oculus_vr_detection() == OculusVrDetection::Oculusvr;
+        settings.oculus_vr_detection() == OculusVrDetection::OCULUS_VR;
     return settings.primary_display_id();
   }
 }

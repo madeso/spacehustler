@@ -12,11 +12,11 @@
 #include "euphoria/stdutils.h"
 #include "json/json.h"
 
-OculusVrDetection::Type DetermineOculusVrValue(const std::string& name) {
-  std::map<std::string, OculusVrDetection::Type> values;
-  values.insert(std::make_pair("auto", OculusVrDetection::Auto));
-  values.insert(std::make_pair("normal", OculusVrDetection::Normal));
-  values.insert(std::make_pair("oculusvr", OculusVrDetection::Oculusvr));
+OculusVrDetection DetermineOculusVrValue(const std::string& name) {
+  std::map<std::string, OculusVrDetection> values;
+  values.insert(std::make_pair("auto", OculusVrDetection::AUTO));
+  values.insert(std::make_pair("normal", OculusVrDetection::NORMAL));
+  values.insert(std::make_pair("oculusvr", OculusVrDetection::OCULUS_VR));
   const auto res = values.find(name);
   if (res == values.end()) {
     throw std::logic_error(
@@ -33,7 +33,7 @@ Settings::Settings()
       fullscreen_(false),
       control_scheme_("keyboard"),
       primary_display_id_(0),
-      oculus_vr_detection_(OculusVrDetection::Auto),
+      oculus_vr_detection_(OculusVrDetection::AUTO),
       anisotropic_(1.0f),
       support_joystick_(true) {
   assert(this);
@@ -100,7 +100,7 @@ int Settings::primary_display_id() const {
   return primary_display_id_;
 }
 
-OculusVrDetection::Type Settings::oculus_vr_detection() const {
+OculusVrDetection Settings::oculus_vr_detection() const {
   assert(this);
   return oculus_vr_detection_;
 }
