@@ -858,7 +858,7 @@ Key ToKey(SDL_Keysym key) {
     case SDLK_AUDIOMUTE:
       return Key::AUDIO_MUTE;
     case SDLK_MEDIASELECT:
-      return Key::Mediaselect;
+      return Key::MEDIASELECT;
     case SDLK_WWW:
       return Key::WWW;
     case SDLK_MAIL:

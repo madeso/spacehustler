@@ -476,7 +476,7 @@ enum class Key {
   ,
   AUDIO_MUTE  /// The key for Audiomute
   ,
-  Mediaselect  /// The key for Mediaselect
+  MEDIASELECT  /// The key for Mediaselect
   ,
   WWW  /// The key for Www
   ,

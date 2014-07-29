@@ -140,7 +140,7 @@ const Keyname<Key>& AllKeys() {
       Key::ALT_RIGHT, "Ralt")(Key::GUI_RIGHT, "Rgui")(Key::MODE, "Mode")(
       Key::AUDIO_NEXT, "Audionext")(Key::AUDIO_PREV, "Audioprev")(
       Key::AUDIO_STOP, "Audiostop")(Key::AUDIO_PLAY, "Audioplay")(
-      Key::AUDIO_MUTE, "Audiomute")(Key::Mediaselect, "Mediaselect")(
+      Key::AUDIO_MUTE, "Audiomute")(Key::MEDIASELECT, "Mediaselect")(
       Key::WWW, "Www")(Key::MAIL, "Mail")(Key::CALCULATOR, "Calculator")(
       Key::COMPUTER, "Computer")(Key::AC_SEARCH, "Ac_Search")(
       Key::AC_HOME, "Ac_Home")(Key::AC_BACK, "Ac_Back")(
