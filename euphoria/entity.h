@@ -22,7 +22,7 @@ Core Entity related code.
 
 /** A entity in the component/entity framework.
  */
-class Entity {
+struct Entity {
  public:
   /** Constructor.
   @param lua the lua engine.

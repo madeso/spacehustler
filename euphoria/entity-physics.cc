@@ -16,7 +16,7 @@
 
 const std::string PhysicsSystemType = "Physics";
 
-class PhysicsType : public ComponentType {
+struct PhysicsType : public ComponentType {
  public:
   explicit PhysicsType(const Json::Value& data) {
     mass = data.get("mass", 1.0f).asFloat();
@@ -76,7 +76,7 @@ class CollisionInfo {
 struct PhysicsObject {
   PhysicsObject(Entity* entity, std::shared_ptr<btDiscreteDynamicsWorld> world,
                 const PhysicsType& data, size_t index)
-      : entity(entity), dynamicsWorld(world), index_(new size_t(index)) {
+      : entity(entity), dynamics_world(world), object_index(new size_t(index)) {
     shape.reset(new btBoxShape(
         btVector3(data.width / 2, data.height / 2, data.depth / 2)));
 
@@ -94,14 +94,14 @@ struct PhysicsObject {
       shape->calculateLocalInertia(mass, localInertia);
     }
 
-    myMotionState.reset(new btDefaultMotionState(trans));
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState.get(),
+    motion_state.reset(new btDefaultMotionState(trans));
+    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motion_state.get(),
                                                     shape.get(), localInertia);
     body.reset(new btRigidBody(rbInfo));
-    body->setUserPointer(index_.get());
+    body->setUserPointer(object_index.get());
 
     // add the body to the dynamics world
-    connection.reset(new WorldBodyConenction(dynamicsWorld, body));
+    connection.reset(new WorldBodyConenction(dynamics_world, body));
   }
 
   void Update() {
@@ -113,18 +113,18 @@ struct PhysicsObject {
     entity->rotation = C(trans.getRotation());
   }
 
-  void addCollision(float distance, float impulse, PhysicsObject* other) {
+  void AddCollision(float distance, float impulse, PhysicsObject* other) {
     collisioninfo.push_back(CollisionInfo(distance, impulse, other));
   }
 
   Entity* entity;
-  std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld;
+  std::shared_ptr<btDiscreteDynamicsWorld> dynamics_world;
   std::shared_ptr<btCollisionShape> shape;
-  std::shared_ptr<btDefaultMotionState> myMotionState;
+  std::shared_ptr<btDefaultMotionState> motion_state;
   std::shared_ptr<btRigidBody> body;
   std::shared_ptr<WorldBodyConenction> connection;
   std::vector<CollisionInfo> collisioninfo;
-  std::shared_ptr<size_t> index_;
+  std::shared_ptr<size_t> object_index;
 };
 
 struct StaticMesh {
@@ -209,6 +209,15 @@ class DebugDrawing : public btIDebugDraw {
   int mode_;
 };
 
+class PhysicsSystem;
+
+namespace {
+PhysicsSystem*& GetGlobalInstance() {
+  static PhysicsSystem* psys = 0;
+  return psys;
+}
+}
+
 class PhysicsSystem : public System {
  public:
   explicit PhysicsSystem(World* world) : debug_drawer_(world) {
@@ -233,13 +242,13 @@ class PhysicsSystem : public System {
 
     dynamics_world_->setDebugDrawer(&debug_drawer_);
 
-    assert(globalInstance == 0);
-    globalInstance = this;
+    assert(GetGlobalInstance() == 0);
+    GetGlobalInstance() = this;
   }
 
   ~PhysicsSystem() {
-    assert(globalInstance == this);
-    globalInstance = 0;
+    assert(GetGlobalInstance() == this);
+    GetGlobalInstance() = 0;
   }
 
   ComponentType* AddType(const Json::Value& data) {
@@ -296,25 +305,23 @@ class PhysicsSystem : public System {
           const btVector3& ptB = pt.getPositionWorldOnB();
           const btVector3& normalOnB = pt.m_normalWorldOnB;
           if (physA) {
-            physA->addCollision(pt.m_distance1, pt.m_appliedImpulse, physB);
+            physA->AddCollision(pt.m_distance1, pt.m_appliedImpulse, physB);
           }
           if (physB) {
-            physA->addCollision(pt.m_distance1, pt.m_appliedImpulse, physA);
+            physA->AddCollision(pt.m_distance1, pt.m_appliedImpulse, physA);
           }
         }
       }
     }
   }
 
-  PhysicsObject* getObject(Entity* ent) {
+  PhysicsObject* GetObject(Entity* ent) {
     auto res = lookup_.find(ent);
     if (res == lookup_.end()) {
       return 0;
     }
     return &objects_[res->second];
   }
-
-  static PhysicsSystem* globalInstance;
 
  private:
   // collision configuration contains default setup for memory, collision
@@ -343,8 +350,6 @@ class PhysicsSystem : public System {
   DebugDrawing debug_drawer_;
 };
 
-PhysicsSystem* PhysicsSystem::globalInstance = 0;
-
 void AddPhysicsCallback(const CreateSystemArg& arg, Json::Value data) {
   assert(arg.container);
   std::shared_ptr<System> sys(new PhysicsSystem(arg.world));
@@ -372,10 +377,10 @@ void GetPhysics(ScriptParams* params) {
   Entity* entity = 0;
 
   if (ScriptOverload(params) << cLightUserData(&entity)) {
-    if (PhysicsSystem::globalInstance == 0) {
+    if (GetGlobalInstance() == 0) {
       throw std::logic_error("Physics system is not initialized.");
     }
-    PhysicsObject* obj = PhysicsSystem::globalInstance->getObject(entity);
+    PhysicsObject* obj = GetGlobalInstance()->GetObject(entity);
     params->Return(obj);
   }
 }
