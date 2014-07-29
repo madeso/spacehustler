@@ -44,6 +44,6 @@ std::shared_ptr<Texture> TextureCache::GetOrCreate(
     const TextureLoadingInstruction& instructions, const Settings& settings) {
   assert(this);
   static TextureCreator c;
-  return Cache_Get<TextureLoadingInstruction, Texture, TextureCreator>(
+  return CacheGet<TextureLoadingInstruction, Texture, TextureCreator>(
       &cache_, c, instructions, settings);
 }

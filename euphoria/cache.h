@@ -24,7 +24,7 @@ Tip: use a function object as CreateFunction, the compiler will inline this.
 @returns the object
  */
 template <typename TKey, typename TData, typename TCreateFunction>
-std::shared_ptr<TData> Cache_Get(std::map<TKey, std::weak_ptr<TData>>* cache,
+std::shared_ptr<TData> CacheGet(std::map<TKey, std::weak_ptr<TData>>* cache,
                                  TCreateFunction create, const TKey& name,
                                  const Settings& settings) {
   auto found = cache->find(name);

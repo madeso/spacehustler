@@ -21,5 +21,5 @@ std::shared_ptr<Program> ShaderCache::GetOrCreate(const std::string& path,
                                                   const Settings& settings) {
   assert(this);
   static ShaderCreator c;
-  return Cache_Get(&cache_, c, path, settings);
+  return CacheGet(&cache_, c, path, settings);
 }
