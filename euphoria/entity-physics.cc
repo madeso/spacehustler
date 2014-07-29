@@ -356,7 +356,7 @@ void AddPhysicsCallback(const CreateSystemArg& arg, Json::Value data) {
   arg.container->Add(PhysicsSystemType, sys);
 }
 
-void Entity_AddPhysics(SystemCreatorList* sc) {
+void EntityAddPhysics(SystemCreatorList* sc) {
   sc->Add(PhysicsSystemType, AddPhysicsCallback);
 }
 

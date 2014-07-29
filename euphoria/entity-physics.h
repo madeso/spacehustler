@@ -13,6 +13,6 @@ Entity Physics System.
 @param sc the list.
 @ingroup systems
  */
-void Entity_AddPhysics(SystemCreatorList* sc);
+void EntityAddPhysics(SystemCreatorList* sc);
 
 #endif  // EUPHORIA_ENTITY_PHYSICS_H_

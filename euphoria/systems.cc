@@ -73,12 +73,12 @@ void LoadSystems(const std::string& filename, const CreateSystemArg& arg) {
 
   SystemCreatorList creators;
 
-  Entity_AddRendering(&creators);
-  Entity_AddPhysics(&creators);
-  Entity_AddCamera(&creators);
-  Entity_AddScript(&creators);
-  Entity_AddName(&creators);
-  Entity_AddPlayer(&creators);
+  EntityAddRendering(&creators);
+  EntityAddPhysics(&creators);
+  EntityAddCamera(&creators);
+  EntityAddScript(&creators);
+  EntityAddName(&creators);
+  EntityAddPlayer(&creators);
 
   for (Json::ArrayIndex i = 0; i < root.size(); ++i) {
     const std::string systemname = root[i].get("system", "").asString();

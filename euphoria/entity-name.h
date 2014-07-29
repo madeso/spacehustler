@@ -13,6 +13,6 @@ Entity Name System.
 @param sc the list.
 @ingroup systems
  */
-void Entity_AddName(SystemCreatorList* sc);
+void EntityAddName(SystemCreatorList* sc);
 
 #endif  // EUPHORIA_ENTITY_NAME_H_

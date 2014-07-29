@@ -13,6 +13,6 @@ Entity rendering System.
 @param sc the list.
 @ingroup systems
  */
-void Entity_AddRendering(SystemCreatorList* sc);
+void EntityAddRendering(SystemCreatorList* sc);
 
 #endif  // EUPHORIA_ENTITY_RENDERING_H_

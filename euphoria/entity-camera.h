@@ -13,6 +13,6 @@ Entity Camera System.
 @param sc the list.
 @ingroup systems
  */
-void Entity_AddCamera(SystemCreatorList* sc);
+void EntityAddCamera(SystemCreatorList* sc);
 
 #endif  // EUPHORIA_ENTITY_CAMERA_H_

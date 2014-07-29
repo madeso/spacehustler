@@ -84,7 +84,7 @@ void AddNameCallback(const CreateSystemArg& arg, Json::Value data) {
   arg.container->Add(NameSystemType, sys);
 }
 
-void Entity_AddName(SystemCreatorList* sc) {
+void EntityAddName(SystemCreatorList* sc) {
   sc->Add(NameSystemType, AddNameCallback);
 }
 

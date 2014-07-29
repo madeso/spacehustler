@@ -13,6 +13,6 @@ Script System.
 @param sc the list.
 @ingroup systems
  */
-void Entity_AddScript(SystemCreatorList* sc);
+void EntityAddScript(SystemCreatorList* sc);
 
 #endif  // EUPHORIA_ENTITY_SCRIPT_H_

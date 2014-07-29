@@ -103,7 +103,7 @@ void AddScriptCallback(const CreateSystemArg& arg, Json::Value data) {
   arg.container->Add(name, sys);
 }
 
-void Entity_AddScript(SystemCreatorList* sc) {
+void EntityAddScript(SystemCreatorList* sc) {
   sc->Add(ScriptingSystemType, AddScriptCallback);
 }
 

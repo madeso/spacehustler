@@ -71,6 +71,6 @@ void AddPlayerCallback(const CreateSystemArg& arg, Json::Value data) {
   arg.container->Add(PlayerSystemType, sys);
 }
 
-void Entity_AddPlayer(SystemCreatorList* sc) {
+void EntityAddPlayer(SystemCreatorList* sc) {
   sc->Add(PlayerSystemType, AddPlayerCallback);
 }

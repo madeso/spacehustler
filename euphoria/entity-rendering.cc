@@ -90,6 +90,6 @@ void AddRenderingCallback(const CreateSystemArg& arg, Json::Value data) {
   arg.container->Add(RenderingSystemType, sys);
 }
 
-void Entity_AddRendering(SystemCreatorList* sc) {
+void EntityAddRendering(SystemCreatorList* sc) {
   sc->Add(RenderingSystemType, AddRenderingCallback);
 }
