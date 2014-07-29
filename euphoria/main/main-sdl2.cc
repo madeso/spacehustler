@@ -903,7 +903,7 @@ Key::Type ToKey(SDL_Keysym key) {
   }
 }
 
-MouseButton::Type ToKey(SDL_MouseButtonEvent mb) {
+MouseButton ToKey(SDL_MouseButtonEvent mb) {
   switch (mb.button) {
     case SDL_BUTTON_LEFT:
       return MouseButton::Left;

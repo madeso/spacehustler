@@ -68,7 +68,7 @@ class InputSystem {
   @param button the button to act upon
   @param down true if it is down, false if not
    */
-  void OnMouseButton(MouseButton::Type button, bool down);
+  void OnMouseButton(MouseButton button, bool down);
 
   /** Send a joystick pov.
   @param type the pov type

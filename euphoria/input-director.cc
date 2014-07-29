@@ -76,7 +76,7 @@ void InputDirector::OnMouseAxis(Axis axis, float value) {
   }
 }
 
-void InputDirector::OnMouseButton(MouseButton::Type key, bool down) {
+void InputDirector::OnMouseButton(MouseButton key, bool down) {
   assert(this);
 
   for (auto m : mouse_) {

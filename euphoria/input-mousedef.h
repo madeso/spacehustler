@@ -40,7 +40,7 @@ class MouseDef : public UnitDef {
 
  private:
   std::vector<BindDef<Axis>> axis_;
-  std::vector<BindDef<MouseButton::Type>> keys_;
+  std::vector<BindDef<MouseButton>> keys_;
 };
 }  // namespace input
 

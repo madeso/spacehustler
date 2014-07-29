@@ -11,13 +11,12 @@ namespace input {
 
 MouseActiveUnit::MouseActiveUnit(
     const std::vector<std::shared_ptr<TAxisBind<Axis>>>& axis,
-    const std::vector<std::shared_ptr<TRangeBind<MouseButton::Type>>>& buttons,
+    const std::vector<std::shared_ptr<TRangeBind<MouseButton>>>& buttons,
     InputDirector* director)
     : director_(director),
       actions_(ConvertToBindMap<TAxisBind<Axis>, Axis>(axis)),
       buttons_(
-          ConvertToBindMap<TRangeBind<MouseButton::Type>, MouseButton::Type>(
-              buttons)) {
+          ConvertToBindMap<TRangeBind<MouseButton>, MouseButton>(buttons)) {
   assert(this);
   assert(director_);
 
@@ -32,7 +31,7 @@ void MouseActiveUnit::OnAxis(const Axis& key, float state) {
   }
 }
 
-void MouseActiveUnit::OnButton(MouseButton::Type key, float state) {
+void MouseActiveUnit::OnButton(MouseButton key, float state) {
   assert(this);
   auto res = buttons_.find(key);
   if (res != buttons_.end()) {

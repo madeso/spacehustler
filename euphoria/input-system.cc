@@ -81,7 +81,7 @@ void InputSystem::OnMouseAxis(Axis axis, float value) {
   input_->OnMouseAxis(axis, value);
 }
 
-void InputSystem::OnMouseButton(MouseButton::Type button, bool down) {
+void InputSystem::OnMouseButton(MouseButton button, bool down) {
   assert(this);
   input_->OnMouseButton(button, down);
 }

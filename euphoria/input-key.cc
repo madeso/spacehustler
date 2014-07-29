@@ -145,8 +145,8 @@ const Keyname<Key::Type>& AllKeys() {
   return names;
 }
 
-const Keyname<MouseButton::Type>& AllMouseButtons() {
-  static Keyname<MouseButton::Type> buttons = Keyname<MouseButton::Type>(
+const Keyname<MouseButton>& AllMouseButtons() {
+  static Keyname<MouseButton> buttons = Keyname<MouseButton>(
       MouseButton::Unbound, MouseButton::Invalid)(MouseButton::Left, "left")(
       MouseButton::Middle, "middle")(MouseButton::Right, "right")(
       MouseButton::X1, "x1")(MouseButton::X2, "x2");
@@ -163,10 +163,8 @@ Type FromString(const std::string& keyname) {
 }
 }  // namespace Key
 
-namespace MouseButton {
-std::string ToString(Type k) { return AllMouseButtons().fromKey(k); }
+std::string ToString(MouseButton k) { return AllMouseButtons().fromKey(k); }
 
-Type FromString(const std::string& keyname) {
+MouseButton ToMouseButton(const std::string& keyname) {
   return AllMouseButtons().fromString(keyname);
 }
-}  // namespace MouseButton

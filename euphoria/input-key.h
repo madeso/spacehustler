@@ -9,10 +9,9 @@ Key related code
 
 #include <string>
 
-namespace MouseButton {
 /** The mouse button
  */
-enum Type {
+enum class MouseButton {
   Invalid  /// Invalid key
   ,
   Unbound  /// No key
@@ -32,14 +31,13 @@ enum Type {
 @param k the key
 @returns the string representation
  */
-std::string ToString(Type k);
+std::string ToString(MouseButton k);
 
 /** Generate a key from a string.
 @param keyname the name of the button
 @returns the Button or None
  */
-Type FromString(const std::string& keyname);
-}  // namespace MouseButton
+MouseButton ToMouseButton(const std::string& keyname);
 
 namespace Key {
 
