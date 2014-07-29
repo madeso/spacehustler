@@ -61,17 +61,27 @@ def geterrorfile(cref, memref):
 
 errorcount = 0
 
+errormessages = set([])
+
 def errprint(file, name, id, error, desc):
 	global errorcount
 	global errorstoignore
 	global ignoreNoFiles
+	global errormessages
 	
 	if id in errorstoignore:
 		return
 	if file == NOFILE and ignoreNoFiles:
 		return
-	print file + ": Error N" + str(id) + ": " + error + ": [" + name + "]"
-	errorcount += 1
+	error = file + ": Error N" + str(id) + ": " + error + ": [" + name + "]"
+	
+	# if the error meeage already has been displayed, don't display it again
+	if error in errormessages:
+		pass
+	else:
+		print error
+		errormessages.add(error)
+		errorcount += 1
 
 def logic():
 	global docxml
