@@ -12,15 +12,15 @@ Key related code
 /** The mouse button
  */
 enum class MouseButton {
-  Invalid  /// Invalid key
+  INVALID  /// Invalid key
   ,
-  Unbound  /// No key
+  UNBOUND  /// No key
   ,
-  Left  /// The left mouse button
+  LEFT  /// The left mouse button
   ,
-  Middle  /// The middle mouse button
+  MIDDLE  /// The middle mouse button
   ,
-  Right  /// The right mouse button
+  RIGHT  /// The right mouse button
   ,
   X1  /// The X2 mouse button
   ,

@@ -906,18 +906,18 @@ Key ToKey(SDL_Keysym key) {
 MouseButton ToKey(SDL_MouseButtonEvent mb) {
   switch (mb.button) {
     case SDL_BUTTON_LEFT:
-      return MouseButton::Left;
+      return MouseButton::LEFT;
     case SDL_BUTTON_MIDDLE:
-      return MouseButton::Middle;
+      return MouseButton::MIDDLE;
     case SDL_BUTTON_RIGHT:
-      return MouseButton::Right;
+      return MouseButton::RIGHT;
     case SDL_BUTTON_X1:
       return MouseButton::X1;
     case SDL_BUTTON_X2:
       return MouseButton::X2;
     default:
       assert(0 && mb.button && "Invalid mouse button");
-      return MouseButton::Invalid;
+      return MouseButton::INVALID;
   }
 }
 

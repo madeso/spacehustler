@@ -30,7 +30,7 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
       const std::string keyname = d.get("key", "").asString();
       const auto key = ToMouseButton(keyname);
 
-      if (key == MouseButton::Invalid) {
+      if (key == MouseButton::INVALID) {
         auto error = (Str() << keyname << " is a invalid key for the "
                             << common.bindname << " action").ToString();
         throw error;

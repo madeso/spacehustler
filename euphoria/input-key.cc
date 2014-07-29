@@ -147,8 +147,8 @@ const Keyname<Key>& AllKeys() {
 
 const Keyname<MouseButton>& AllMouseButtons() {
   static Keyname<MouseButton> buttons = Keyname<MouseButton>(
-      MouseButton::Unbound, MouseButton::Invalid)(MouseButton::Left, "left")(
-      MouseButton::Middle, "middle")(MouseButton::Right, "right")(
+      MouseButton::UNBOUND, MouseButton::INVALID)(MouseButton::LEFT, "left")(
+      MouseButton::MIDDLE, "middle")(MouseButton::RIGHT, "right")(
       MouseButton::X1, "x1")(MouseButton::X2, "x2");
   return buttons;
 }
