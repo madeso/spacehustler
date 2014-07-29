@@ -11,9 +11,9 @@ namespace {
 class Signname {
  public:
   Signname() {
-    bind(Sign::Positive, "+");
-    bind(Sign::Negative, "-");
-    bind(Sign::FullRange, "+-");
+    bind(Sign::POSITIVE, "+");
+    bind(Sign::NEGATIVE, "-");
+    bind(Sign::FULL_RANGE, "+-");
   }
 
   void bind(Sign key, const std::string& name) {
@@ -32,11 +32,11 @@ class Signname {
 
   Sign fromString(const std::string& signname) const {
     if (signname == "") {
-      return Sign::FullRange;
+      return Sign::FULL_RANGE;
     }
     auto r = strtokey.find(ToLower(signname));
     if (r == strtokey.end()) {
-      return Sign::Invalid;
+      return Sign::INVALID;
     } else {
       return r->second;
     }

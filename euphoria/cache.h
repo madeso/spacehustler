@@ -25,8 +25,8 @@ Tip: use a function object as CreateFunction, the compiler will inline this.
  */
 template <typename TKey, typename TData, typename TCreateFunction>
 std::shared_ptr<TData> CacheGet(std::map<TKey, std::weak_ptr<TData>>* cache,
-                                 TCreateFunction create, const TKey& name,
-                                 const Settings& settings) {
+                                TCreateFunction create, const TKey& name,
+                                const Settings& settings) {
   auto found = cache->find(name);
   if (found != cache->end()) {
     auto cached = found->second.lock();

@@ -12,13 +12,13 @@ Axis enum.
 /** Sign type
  */
 enum class Sign {
-  Invalid  /// Invalid sign
+  INVALID  /// Invalid sign
   ,
-  Positive  /// Positive sign
+  POSITIVE  /// Positive sign
   ,
-  Negative  /// Negative sign
+  NEGATIVE  /// Negative sign
   ,
-  FullRange  /// Both positive and negative sign
+  FULL_RANGE  /// Both positive and negative sign
 };
 
 /** Generate a sign from a string.
