@@ -72,6 +72,18 @@ errorcount = 0
 
 errormessages = set([])
 
+def GetFunctionArgs(cref, memref):
+	global docxml
+	tree = ET.parse(docxml +cref+ '.xml')
+	root = tree.getroot()
+	for d in root.iter('memberdef'):
+		id = d.get('id')
+		if id == memref:
+			args = d.find('argsstring')
+			if args != None:
+				return args.text
+	return ''
+
 def errprint(file, name, id, error, desc):
 	global errorcount
 	global errorstoignore
@@ -196,13 +208,20 @@ def logic():
 					if membername in memfunctions:
 						pass
 					else:
+						funcargs = GetFunctionArgs(cref, memref)
 						invalidname = True
 						# allow various c++ functions too!
 						if membername.startswith('operator'):
 							invalidname = False
+						if membername.endswith('operator'):
+							invalidname = False
 						if membername.startswith('~'):
 							invalidname = False
 						if membername in allowedfunctions:
+							invalidname = False
+						if funcargs.endswith('override'):
+							#ignore invalid functions marked as override as they implement external interfaces
+							# they might also implement internal interfaces but they are already checked 
 							invalidname = False
 						if invalidname:
 							file = geterrorfile(cref, memref)
