@@ -17,7 +17,7 @@ class DummyActiveUnit : public ActiveUnit {
  public:
   /** Rumble.
    */
-  void Rumble();
+  void Rumble() override;
 
  private:
 };

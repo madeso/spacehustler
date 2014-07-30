@@ -53,7 +53,7 @@ class JoystickActiveUnit : public ActiveUnit {
   /** Rumble the joystick.
   Doesn't do anything.
    */
-  void Rumble();
+  void Rumble() override;
 
  private:
   int joystick_;

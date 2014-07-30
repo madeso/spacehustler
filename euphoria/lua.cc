@@ -103,7 +103,7 @@ class IntFunctionReturn : public internal::FunctionReturn {
     assert(this);
   }
 
-  void Get(lua_State* state) {
+  void Get(lua_State* state) override {
     assert(int_);
     assert(this);
     *int_ = lua_tointeger(state, -1);
@@ -120,7 +120,7 @@ class StringFunctionReturn : public internal::FunctionReturn {
     assert(this);
   }
 
-  void Get(lua_State* state) {
+  void Get(lua_State* state) override {
     assert(string_);
     assert(this);
     *string_ = lua_tostring(state, -1);

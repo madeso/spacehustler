@@ -57,8 +57,8 @@ class LightUserDataScriptArgument : public internal::ScriptArgument {
   @param data the data
    */
   explicit LightUserDataScriptArgument(void** data);
-  bool IsValid(lua_State* state, int position);
-  void Get(lua_State* state, int position);
+  bool IsValid(lua_State* state, int position) override;
+  void Get(lua_State* state, int position) override;
   std::string ToString() const;
 
  private:
@@ -74,8 +74,8 @@ class FullUserDataScriptArgument : public internal::ScriptArgument {
   @param name the name of the data
    */
   FullUserDataScriptArgument(void** data, const std::string& name);
-  bool IsValid(lua_State* state, int position);
-  void Get(lua_State* state, int position);
+  bool IsValid(lua_State* state, int position) override;
+  void Get(lua_State* state, int position) override;
   std::string ToString() const;
 
  private:

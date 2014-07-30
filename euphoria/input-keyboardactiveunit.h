@@ -44,7 +44,7 @@ class KeyboardActiveUnit : public ActiveUnit {
 
   /** Rumble function, not really useful.
    */
-  void Rumble();
+  void Rumble() override;
 
  private:
   InputDirector* director_;

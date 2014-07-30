@@ -80,12 +80,12 @@ class FloatScriptArgument : public internal::ScriptArgument {
     assert(data);
   }
 
-  virtual bool IsValid(lua_State* state, int position) {
+  bool IsValid(lua_State* state, int position) override {
     assert(this);
     return lua_isnumber(state, position) == 1;
   }
 
-  virtual void Get(lua_State* state, int position) {
+  void Get(lua_State* state, int position) override {
     assert(this);
     assert(data);
     *data = static_cast<float>(lua_tonumber(state, position));
@@ -106,12 +106,12 @@ class IntScriptArgument : public internal::ScriptArgument {
     assert(data);
   }
 
-  virtual bool IsValid(lua_State* state, int position) {
+  bool IsValid(lua_State* state, int position) override {
     assert(this);
     return lua_isnumber(state, position) == 1;
   }
 
-  virtual void Get(lua_State* state, int position) {
+  void Get(lua_State* state, int position) override {
     assert(this);
     assert(data);
     *data = static_cast<int>(lua_tonumber(state, position));
@@ -132,12 +132,12 @@ class StringScriptArgument : public internal::ScriptArgument {
     assert(data);
   }
 
-  virtual bool IsValid(lua_State* state, int position) {
+  bool IsValid(lua_State* state, int position) override {
     assert(this);
     return lua_isstring(state, position) == 1;
   }
 
-  virtual void Get(lua_State* state, int position) {
+  void Get(lua_State* state, int position) override {
     assert(this);
     assert(data);
     *data = lua_tostring(state, position);

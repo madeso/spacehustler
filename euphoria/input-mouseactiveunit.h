@@ -50,7 +50,7 @@ class MouseActiveUnit : public ActiveUnit {
   /** Rumble the mouse.
   Doesn't do anything.
    */
-  void Rumble();
+  void Rumble() override;
 
  private:
   InputDirector* director_;
