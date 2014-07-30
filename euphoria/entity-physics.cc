@@ -253,14 +253,14 @@ class PhysicsSystem : public System {
     GetGlobalInstance() = 0;
   }
 
-  ComponentType* AddType(const Json::Value& data) {
+  ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<PhysicsType> type(new PhysicsType(data));
     types_.push_back(type);
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) {
+  void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
@@ -271,7 +271,7 @@ class PhysicsSystem : public System {
         PhysicsObject(entity, dynamics_world_, *pt, objects_.size()));
   }
 
-  void Step(float dt) {
+  void Step(float dt) override {
     assert(this);
     dynamics_world_->stepSimulation(dt, 10);
     for (auto& o : objects_) {

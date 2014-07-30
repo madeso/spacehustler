@@ -48,7 +48,7 @@ class RenderingSystem : public System, boost::noncopyable {
     assert(shader_cache);
   }
 
-  ComponentType* AddType(const Json::Value& data) {
+  ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<RenderType> type(
         new RenderType(data, texture_cache_, shader_cache_, settings_));
@@ -56,7 +56,7 @@ class RenderingSystem : public System, boost::noncopyable {
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) {
+  virtual void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
@@ -67,7 +67,7 @@ class RenderingSystem : public System, boost::noncopyable {
     objects_.push_back(RenderObject(entity, instance));
   }
 
-  void Step(float dt) {
+  void Step(float dt) override {
     assert(this);
     for (auto& o : objects_) {
       o.instance->set_transform(cmat44(o.entity->position, o.entity->rotation));

@@ -32,14 +32,14 @@ class CameraSystem : public System {
     assert(cam);
   }
 
-  ComponentType* AddType(const Json::Value& data) {
+  ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<CameraType> type(new CameraType(data));
     types_.push_back(type);
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) {
+  void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
@@ -47,7 +47,7 @@ class CameraSystem : public System {
     objects_.push_back(CameraObject(entity, *st));
   }
 
-  void Step(float dt) {
+  void Step(float dt) override {
     assert(this);
     assert(camera_);
 

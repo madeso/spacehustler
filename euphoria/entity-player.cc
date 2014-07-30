@@ -35,14 +35,14 @@ class PlayerSystem : public System {
     assert(this);
   }
 
-  ComponentType* AddType(const Json::Value& data) {
+  ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<PlayerType> type(new PlayerType(data));
     types_.push_back(type);
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) {
+  virtual void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
@@ -50,7 +50,7 @@ class PlayerSystem : public System {
     objects_.push_back(PlayerObject(entity, *st, input_));
   }
 
-  void Step(float dt) {
+  void Step(float dt) override {
     assert(this);
 
     for (auto& o : objects_) {

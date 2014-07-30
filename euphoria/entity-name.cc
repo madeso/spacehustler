@@ -41,14 +41,14 @@ class NameSystem : public System {
     Instance() = this;
   }
 
-  ComponentType* AddType(const Json::Value& data) {
+  ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<NameType> type(new NameType(data));
     types_.push_back(type);
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) {
+  void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
@@ -59,7 +59,7 @@ class NameSystem : public System {
     objects_.push_back(NameObject(entity, *st));
   }
 
-  void Step(float dt) { assert(this); }
+  void Step(float dt) override { assert(this); }
 
   Entity* GetEntity(const std::string& name) {
     auto r = entities_.find(name);

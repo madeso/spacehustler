@@ -40,7 +40,7 @@ class ScriptSystem : public System {
     assert(this);
   }
 
-  ComponentType* AddType(const Json::Value& data) {
+  ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<ScriptType> type(new ScriptType(data, script_));
     types_.push_back(type);
@@ -54,7 +54,7 @@ class ScriptSystem : public System {
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) {
+  virtual void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
@@ -73,7 +73,7 @@ class ScriptSystem : public System {
     objects_.push_back(o);
   }
 
-  void Step(float dt) {
+  void Step(float dt) override {
     assert(this);
 
     for (auto& o : objects_) {
