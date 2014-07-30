@@ -92,6 +92,18 @@ def errprint(file, name, id, error, desc):
 		errormessages.add(error)
 		errorcount += 1
 
+# If you are naming something that is analogous to an existing C or C++ entity then you can follow the existing naming convention scheme.
+# uint typedef
+def IsBaseType(name):
+	name = name.rstrip('0123456789')
+	if name.endswith('int'):
+		return True
+	if name.endswith('float'):
+		return True
+	if name.endswith('double'):
+		return True
+	return False
+	
 def logic():
 	global docxml
 	global errorcount
@@ -170,8 +182,9 @@ def logic():
 						errprint(file, membername, 4205, "invalid data member name", messageDataMember)
 			elif memberkind == 'typedef' or memberkind == 'enum':
 				if reTypeName.match(membername) == None:
-					file = geterrorfile(cref, memref)
-					errprint(file, membername, 4201, "invalid type name for " + memberkind, messageTypeName)
+					if IsBaseType(membername) == False:
+						file = geterrorfile(cref, memref)
+						errprint(file, membername, 4201, "invalid type name for " + memberkind, messageTypeName)
 			elif memberkind == 'enumvalue':
 				if reConst.match(membername) == None and reMacro.match(membername) == None:
 					file = geterrorfile(cref, memref)
