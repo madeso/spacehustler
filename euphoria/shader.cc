@@ -11,7 +11,7 @@
 #include "euphoria/str.h"
 
 Shader::Shader(const Type& type)
-    : object_(glCreateShader(type == Shader::kVertexShader
+    : object_(glCreateShader(type == Shader::Type::VERTEX
                                  ? GL_VERTEX_SHADER
                                  : GL_FRAGMENT_SHADER)) {
   assert(this);

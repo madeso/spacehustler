@@ -22,14 +22,14 @@ class Shader : boost::noncopyable {
  public:
   /** The type of the shader.
    */
-  enum Type {
+  enum class Type {
     /** The vertex shader type.
      */
-    kVertexShader,
+    VERTEX,
 
     /** The fragment shader type.
      */
-    kFragmentShader
+    FRAGMENT
   };
 
   /** Create a shader from source.

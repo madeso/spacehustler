@@ -43,8 +43,8 @@ std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename) {
 
   ShaderList shaders;
 
-  LoadShaders(root["vertices"], Shader::kVertexShader, &shaders);
-  LoadShaders(root["fragments"], Shader::kFragmentShader, &shaders);
+  LoadShaders(root["vertices"], Shader::Type::VERTEX, &shaders);
+  LoadShaders(root["fragments"], Shader::Type::FRAGMENT, &shaders);
 
   return Program::FromShaderList(shaders);
 }
