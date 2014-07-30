@@ -54,7 +54,7 @@ class ScriptSystem : public System {
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) override {
+  void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);

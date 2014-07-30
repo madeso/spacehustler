@@ -56,7 +56,7 @@ class RenderingSystem : public System, boost::noncopyable {
     return type.get();
   }
 
-  virtual void AddComponent(Entity* entity, ComponentType* type) override {
+  void AddComponent(Entity* entity, ComponentType* type) override {
     assert(this);
     assert(entity);
     assert(type);
