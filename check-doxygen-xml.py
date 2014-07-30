@@ -107,6 +107,7 @@ def IsBaseType(name):
 def logic():
 	global docxml
 	global errorcount
+	allowedfunctions = ['main']
 	errorcount = 0
 	tree = ET.parse(docxml + 'index.xml')
 	root = tree.getroot()
@@ -200,6 +201,8 @@ def logic():
 						if membername.startswith('operator'):
 							invalidname = False
 						if membername.startswith('~'):
+							invalidname = False
+						if membername in allowedfunctions:
 							invalidname = False
 						if invalidname:
 							file = geterrorfile(cref, memref)
