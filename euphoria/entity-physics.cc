@@ -185,24 +185,26 @@ class DebugDrawing : public btIDebugDraw {
               DBG_DrawConstraintLimits | DBG_FastWireframe | DBG_DrawNormals) {
     assert(w);
   }
-  void drawLine(const btVector3& from, const btVector3& to,
-                const btVector3& color) {
+  virtual void drawLine(const btVector3& from, const btVector3& to,
+                        const btVector3& color) override {
     assert(this);
     assert(world_);
     world_->debug_renderer().Line(C(from), C(to), ToColor(color));
   }
 
-  void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
-                        btScalar distance, int lifeTime,
-                        const btVector3& color) {}
+  virtual void drawContactPoint(const btVector3& PointOnB,
+                                const btVector3& normalOnB, btScalar distance,
+                                int lifeTime,
+                                const btVector3& color) override {}
 
-  void reportErrorWarning(const char* warningString) {}
+  virtual void reportErrorWarning(const char* warningString) override {}
 
-  void draw3dText(const btVector3& location, const char* textString) {}
+  virtual void draw3dText(const btVector3& location,
+                          const char* textString) override {}
 
-  void setDebugMode(int debugMode) { mode_ = debugMode; }
+  virtual void setDebugMode(int debugMode) override { mode_ = debugMode; }
 
-  int getDebugMode() const { return mode_; }
+  virtual int getDebugMode() const override { return mode_; }
 
  private:
   World* world_;
