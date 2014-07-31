@@ -6,7 +6,7 @@ import argparse
 reFileName = re.compile('^[a-z][a-z-_0-9]*\\.((cc)|(h))$')
 messageFileName = 'Filenames should be all lowercase and can include underscores (_) or dashes (-). Follow the convention that your project uses. If there is no consistent local pattern to follow, prefer "_".'
 
-reNamespace = re.compile('^([a-z][a-z_]*::)*[a-z][a-z_]*$')
+reNamespace = re.compile('^([a-z][a-z_]*::)*[a-z][a-z_]*[0-9]*$')
 messageNamespace = 'Namespace names are all lower-case, and based on project names and possibly their directory structure: google_awesome_project.'
 # anonymous namespace apperently starts with @and a number
 reAnonNamespace = re.compile('^([a-z][a-z_]*::)*@[0-9]+$')
