@@ -11,7 +11,7 @@ messageNamespace = 'Namespace names are all lower-case, and based on project nam
 # anonymous namespace apperently starts with @and a number
 reAnonNamespace = re.compile('^([a-z][a-z_]*::)*@[0-9]+$')
 
-reTypeName = re.compile('^([^:]+::)*[A-Z][a-zA-Z]*$')
+reTypeName = re.compile('^([^:]+::)*[A-Z][a-zA-Z]*[0-9]*$')
 # the namespace check here includes invalid namespaces too, that is catched by the more extensive check designed
 # for namespaces this is only here to allow namespaces in names as doxgen export the fully qualified name
 messageTypeName = 'Type names start with a capital letter and have a capital letter for each new word, with no underscores: MyExcitingClass, MyExcitingEnum.'
