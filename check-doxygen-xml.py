@@ -83,6 +83,26 @@ def GetFunctionArgs(cref, memref):
 			if args != None:
 				return args.text
 	return ''
+def StrOrEmpty(e):
+	if e is None:
+		return ''
+	else:
+		return e
+def GetFunctionReturn(cref, memref):
+	global docxml
+	tree = ET.parse(docxml +cref+ '.xml')
+	root = tree.getroot()
+	for d in root.iter('memberdef'):
+		id = d.get('id')
+		if id == memref:
+			type = d.find('type')
+			if type is not None:
+				ref = type.find('ref')
+				if ref is not None:
+					return StrOrEmpty(ref.text) + StrOrEmpty(type.text)
+				else:
+					return StrOrEmpty(type.text)
+	return ''
 
 def errprint(file, name, id, error, desc):
 	global errorcount
@@ -209,6 +229,7 @@ def logic():
 						pass
 					else:
 						funcargs = GetFunctionArgs(cref, memref)
+						funcret = GetFunctionReturn(cref, memref)
 						invalidname = True
 						# allow various c++ functions too!
 						if membername.startswith('operator'):
@@ -222,6 +243,10 @@ def logic():
 						if funcargs.endswith('override'):
 							#ignore invalid functions marked as override as they implement external interfaces
 							# they might also implement internal interfaces but they are already checked 
+							invalidname = False
+						if funcret == '':
+							# if the function doesn't return anything, it probably isn't a function but
+							# something that looks like a function, say a macro call
 							invalidname = False
 						if invalidname:
 							file = geterrorfile(cref, memref)
