@@ -7,8 +7,8 @@
 
 #include "OVR.h"  // NOLINT this is how you should include OVR
 
-EyeSetup::EyeSetup(float w, float h, float x, float y, const mat44& projection,
-                   const mat44& view_adjust)
+EyeSetup::EyeSetup(float w, float h, float x, float y, const Mat44& projection,
+                   const Mat44& view_adjust)
     : w_(w),
       h_(h),
       x_(x),
@@ -32,25 +32,25 @@ float EyeSetup::y() const {
   assert(this);
   return y_;
 }
-const mat44& EyeSetup::projection() const {
+const Mat44& EyeSetup::projection() const {
   assert(this);
   return projection_;
 }
-const mat44& EyeSetup::view_adjust() const {
+const Mat44& EyeSetup::view_adjust() const {
   assert(this);
   return view_adjust_;
 }
 
-mat44 C(const OVR::Matrix4f& m) {
+Mat44 C(const OVR::Matrix4f& m) {
   // matrix4f is row-major
   // mat44 is col major
   /// @todo this seems wrong, but it works out for the better, perhaps the
   /// viewmatrix should be transposed too, so we need to transpose twice?
-  return mat44(m.M);
+  return Mat44(m.M);
   // return cml::transpose(mat44(m.M));
 }
 
-quat C(const OVR::Quatf& q) { return quat(q.x, q.y, q.z, q.w); }
+Quat C(const OVR::Quatf& q) { return Quat(q.x, q.y, q.z, q.w); }
 
 void SetupDummyValues(OVR::HMDInfo* device_info) {
   assert(device_info);
@@ -91,9 +91,9 @@ class OculusVr::OculusVrPimpl {
   OVR::Util::Render::StereoConfig stereo_config_;
   OVR::HMDInfo device_info_;
   float render_scale_;
-  vec4 distortion_;
-  vec2 center_offset_;
-  vec4 chromatic_aberration_;
+  Vec4 distortion_;
+  Vec2 center_offset_;
+  Vec4 chromatic_aberration_;
 
   OVR::Ptr<OVR::SensorDevice> sensor_;
   OVR::SensorFusion sensor_fusion_;
@@ -132,14 +132,14 @@ class OculusVr::OculusVrPimpl {
 
     const auto distortion = stereo_config_.GetDistortionConfig();
 
-    center_offset_ = vec2(distortion.XCenterOffset, distortion.YCenterOffset);
+    center_offset_ = Vec2(distortion.XCenterOffset, distortion.YCenterOffset);
 
     render_scale_ = stereo_config_.GetDistortionScale();
     distortion_ =
-        vec4(device_info_.DistortionK[0], device_info_.DistortionK[1],
+        Vec4(device_info_.DistortionK[0], device_info_.DistortionK[1],
              device_info_.DistortionK[2], device_info_.DistortionK[3]);
 
-    chromatic_aberration_ = vec4(
+    chromatic_aberration_ = Vec4(
         distortion.ChromaticAberration[0], distortion.ChromaticAberration[1],
         distortion.ChromaticAberration[2], distortion.ChromaticAberration[3]);
 
@@ -153,7 +153,7 @@ class OculusVr::OculusVrPimpl {
     }
   }
 
-  const vec4& distortion() const {
+  const Vec4& distortion() const {
     assert(this);
     return distortion_;
   }
@@ -163,7 +163,7 @@ class OculusVr::OculusVrPimpl {
     return render_scale_;
   }
 
-  quat CalculateOrientation(bool predict_orientation) const {
+  Quat CalculateOrientation(bool predict_orientation) const {
     if (predict_orientation) {
       return C(sensor_fusion_.GetPredictedOrientation());
     } else {
@@ -173,12 +173,12 @@ class OculusVr::OculusVrPimpl {
 
   void ResetOrientation() { sensor_fusion_.Reset(); }
 
-  const vec2& center_offset() const {
+  const Vec2& center_offset() const {
     assert(this);
     return center_offset_;
   }
 
-  const vec4 chromatic_aberration() const {
+  const Vec4 chromatic_aberration() const {
     assert(this);
     return chromatic_aberration_;
   }
@@ -238,7 +238,7 @@ const EyeSetup OculusVr::RightEye() {
   return pimpl_->GetEyeSetup(OVR::Util::Render::StereoEye_Right);
 }
 
-const vec4& OculusVr::GetDistortion() const {
+const Vec4& OculusVr::GetDistortion() const {
   assert(this);
   return pimpl_->distortion();
 }
@@ -248,7 +248,7 @@ float OculusVr::GetScale() const {
   return pimpl_->render_scale();
 }
 
-quat OculusVr::GetOrientation(bool predict_orientation) const {
+Quat OculusVr::GetOrientation(bool predict_orientation) const {
   assert(this);
   return pimpl_->CalculateOrientation(predict_orientation);
 }
@@ -258,12 +258,12 @@ void OculusVr::ResetOrientation() {
   return pimpl_->ResetOrientation();
 }
 
-const vec2& OculusVr::GetCenterOffset() const {
+const Vec2& OculusVr::GetCenterOffset() const {
   assert(this);
   return pimpl_->center_offset();
 }
 
-const vec4 OculusVr::GetChromaticAberration() const {
+const Vec4 OculusVr::GetChromaticAberration() const {
   assert(this);
   return pimpl_->chromatic_aberration();
 }

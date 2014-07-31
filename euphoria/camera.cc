@@ -13,12 +13,12 @@ Camera::Camera(int width, int height)
   UpdateProjection();
 }
 
-const mat44 Camera::projection() const {
+const Mat44 Camera::projection() const {
   assert(this);
   return projection_;
 }
 
-void Camera::set_projection(const mat44& projection) {
+void Camera::set_projection(const Mat44& projection) {
   assert(this);
   projection_ = projection;
 }
@@ -30,12 +30,12 @@ void Camera::set_fov(float fov) {
   UpdateProjection();
 }
 
-const mat44& Camera::view() const {
+const Mat44& Camera::view() const {
   assert(this);
   return view_;
 }
 
-void Camera::set_view(const mat44& view) {
+void Camera::set_view(const Mat44& view) {
   assert(this);
   view_ = view;
 }

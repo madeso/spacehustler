@@ -204,7 +204,7 @@ class Vec3Tweakable : public Tweakable {
 
   /** The data.
    */
-  vec3 data;
+  Vec3 data;
 
  private:
   bool isdirection;
@@ -261,12 +261,12 @@ class TweakerStore {
   /** Tweak a quaternion.
    */
   tweaks::Tweakable& tweak(const std::string& id, const std::string& name,
-                           quat* data);
+                           Quat* data);
 
   /** Tweak a vec3.
    */
   tweaks::Vec3Tweakable& tweak(const std::string& id, const std::string& name,
-                               vec3* data);
+                               Vec3* data);
 
   /** update the store.
   Remove tweaks that are no longer needed etc..

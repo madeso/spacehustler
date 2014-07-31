@@ -31,11 +31,11 @@ struct Entity {
 
   /** The position.
    */
-  vec3 position;
+  Vec3 position;
 
   /** The rotation.
    */
-  quat rotation;
+  Quat rotation;
 
   /** Lua table,
    */
@@ -156,7 +156,7 @@ class EntityList {
   @param rot the rotation of the entity
   @param lua the lua engine
    */
-  void CreateEntity(const std::string& entity, const vec3& pos, const quat& rot,
+  void CreateEntity(const std::string& entity, const Vec3& pos, const Quat& rot,
                     Lua* lua);
 
  private:

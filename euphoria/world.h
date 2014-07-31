@@ -28,7 +28,7 @@ class Instance {
   @param mesh the mesh to be rendered.
   @param transform the initial transformation of the mesh.
    */
-  Instance(std::shared_ptr<CompiledMesh> mesh, const mat44& transform);
+  Instance(std::shared_ptr<CompiledMesh> mesh, const Mat44& transform);
 
   /** Render this mesh. Should really only be called by World::render()
   @see World::render()
@@ -36,8 +36,8 @@ class Instance {
    */
   void Render(const Camera& camera);
 
-  const mat44& transform() const;
-  void set_transform(const mat44& transform);
+  const Mat44& transform() const;
+  void set_transform(const Mat44& transform);
 
  private:
   /** The mesh to be rendered.
@@ -46,7 +46,7 @@ class Instance {
 
   /** The transform of the instance.
    */
-  mat44 transform_;
+  Mat44 transform_;
 };
 
 /** List of instances that can be rendered.

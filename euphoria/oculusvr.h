@@ -25,8 +25,8 @@ class EyeSetup {
   @param projection the projection matrix used with this eye.
   @param view_adjust the translation to be applied to view matrix.
    */
-  EyeSetup(float w, float h, float x, float y, const mat44& projection,
-           const mat44& view_adjust);
+  EyeSetup(float w, float h, float x, float y, const Mat44& projection,
+           const Mat44& view_adjust);
 
   /** Get the width of the viewport
   @return the width of the viewport
@@ -51,20 +51,20 @@ class EyeSetup {
   /** Get the projection matrix used with this eye.
   @return the projection matrix used with this eye.
    */
-  const mat44& projection() const;
+  const Mat44& projection() const;
 
   /** Get the translation to be applied to view matrix.
   @return the translation to be applied to view matrix.
    */
-  const mat44& view_adjust() const;
+  const Mat44& view_adjust() const;
 
  private:
   float w_;
   float h_;
   float x_;
   float y_;
-  mat44 projection_;
-  mat44 view_adjust_;
+  Mat44 projection_;
+  Mat44 view_adjust_;
 };
 
 /** A util class for integration of the oculus vr kit.
@@ -87,7 +87,7 @@ class OculusVr : boost::noncopyable {
   /** Gets the oculus distortion constants.
   @returns the oculus distortion constants.
    */
-  const vec4& GetDistortion() const;
+  const Vec4& GetDistortion() const;
 
   /** Gets the scale.
   @returns the scale
@@ -98,7 +98,7 @@ class OculusVr : boost::noncopyable {
   @returns the orientation of the rift.
   @param predict_orientation true if the orientation should be predicted
    */
-  quat GetOrientation(bool predict_orientation) const;
+  Quat GetOrientation(bool predict_orientation) const;
 
   /** Resets the orientation of the rift.
    */
@@ -107,12 +107,12 @@ class OculusVr : boost::noncopyable {
   /** Gets the center offset.
   @returns the center offset
    */
-  const vec2& GetCenterOffset() const;
+  const Vec2& GetCenterOffset() const;
 
   /** Gets the chromatic aberration values from the oculus sdk.
   @returns the the chromatic aberration values from the oculus sdk
    */
-  const vec4 GetChromaticAberration() const;
+  const Vec4 GetChromaticAberration() const;
 
   /** Gets the detection message.
   @returns the detection message.

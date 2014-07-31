@@ -19,56 +19,56 @@ Math related code.
 /** A vector in 2 dimensions.
  */
 typedef cml::vector<float,  // NOLINT(build/include_what_you_use)
-                    cml::fixed<2> > vec2;
+                    cml::fixed<2> > Vec2;
 
 /** A vector in 3 dimensions.
  */
 typedef cml::vector<float,  // NOLINT(build/include_what_you_use)
-                    cml::fixed<3> > vec3;
+                    cml::fixed<3> > Vec3;
 
 /** A vector in 4 dimensions.
  */
 typedef cml::vector<float,  // NOLINT(build/include_what_you_use)
-                    cml::fixed<4> > vec4;
+                    cml::fixed<4> > Vec4;
 
 /** A 4 x 4 matrix.
  */
 typedef cml::matrix<float, cml::fixed<4, 4>, cml::col_basis, cml::col_major>
-    mat44;
+    Mat44;
 
 /** A quaternion.
  */
 typedef cml::quaternion<float, cml::fixed<>, cml::vector_first,
-                        cml::negative_cross> quat;
+                        cml::negative_cross> Quat;
 
 /** Generate a zero vector.
 @returns the following vector (0,0,0)
  */
-vec3 cvec3zero();
+Vec3 cvec3zero();
 
 /** Create a translation matrix.
 @param v the vector containing the translation.
 @returns the translation matrix.
  */
-mat44 cmat44(const vec3& v);
+Mat44 cmat44(const Vec3& v);
 
 /** Create a rotation matrix.
 @param q the quaternion contining the rotation.
 @returns the rotation matrix.
  */
-mat44 cmat44(const quat& q);
+Mat44 cmat44(const Quat& q);
 
 /** Combine a translation and a rotation into a translation/rototation matrix.
 @param v the translation.
 @param q the rotation.
 @returns the combined matrix.
  */
-mat44 cmat44(const vec3& v, const quat& q);
+Mat44 cmat44(const Vec3& v, const Quat& q);
 
 /** Create a identity rotation.
 @returns the identity rotation.
  */
-quat cquatIdent();
+Quat cquatIdent();
 
 /** @} */
 

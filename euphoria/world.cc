@@ -7,7 +7,7 @@
 #include "euphoria/str.h"
 #include "json/json.h"
 
-Instance::Instance(std::shared_ptr<CompiledMesh> mesh, const mat44& transform)
+Instance::Instance(std::shared_ptr<CompiledMesh> mesh, const Mat44& transform)
     : mesh_(mesh), transform_(transform) {  // NOLINT
 }
 
@@ -16,11 +16,11 @@ void Instance::Render(const Camera& camera) {
   mesh_->Render(camera, transform_);
 }
 
-const mat44& Instance::transform() const {
+const Mat44& Instance::transform() const {
   assert(this);
   return transform_;
 }
-void Instance::set_transform(const mat44& transform) {
+void Instance::set_transform(const Mat44& transform) {
   assert(this);
   transform_ = transform;
 }
@@ -51,7 +51,7 @@ World::World(const std::string& filename, TextureCache* texturecache,
 
     std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
         LoadMesh(meshfile), texturecache, shadercache, settings));
-    mat44 worldmat = cmat44(cvec3zero());
+    Mat44 worldmat = cmat44(cvec3zero());
 
     std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
     Add(wi);

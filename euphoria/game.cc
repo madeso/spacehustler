@@ -139,9 +139,9 @@ bool Game::keep_running() const {
 }
 
 void ModifyCamera(Camera* cam, const EyeSetup& eye,
-                  const quat& oculus_orientation) {
-  const mat44 va = eye.view_adjust();
-  mat44 vaa = va;
+                  const Quat& oculus_orientation) {
+  const Mat44 va = eye.view_adjust();
+  Mat44 vaa = va;
   /// @todo fix this scaling when we have scaled the example
   cml::matrix_set_translation(vaa, cml::matrix_get_translation(va) * 10);
   cam->set_projection(eye.projection());
@@ -202,23 +202,23 @@ void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
 
   const float lcx = x + (w + dix * 0.5f) * 0.5f;
   const float lcy = y + h * 0.5f;
-  program->SetUniform("LensCenter", vec2(lcx, lcy));
+  program->SetUniform("LensCenter", Vec2(lcx, lcy));
 
   const float scx = x + w * 0.5f;
   const float scy = y + h * 0.5f;
-  program->SetUniform("ScreenCenter", vec2(scx, scy));
+  program->SetUniform("ScreenCenter", Vec2(scx, scy));
 
   const float sx = (w / 2) * scaleFactor;
   const float sy = (h / 2) * scaleFactor * as;
-  program->SetUniform("Scale", vec2(sx, sy));
+  program->SetUniform("Scale", Vec2(sx, sy));
 
   const float six = (2 / w);
   const float siy = (2 / h) / as;
-  program->SetUniform("ScaleIn", vec2(six, siy));
+  program->SetUniform("ScaleIn", Vec2(six, siy));
 
   program->SetUniform("HmdWarpParam", oculus.GetDistortion());
 
-  mat44 texm(w, 0, 0, x, 0, h, 0, y, 0, 0, 0, 0, 0, 0, 0, 1);
+  Mat44 texm(w, 0, 0, x, 0, h, 0, y, 0, 0, 0, 0, 0, 0, 0, 1);
   cml::transpose(texm);
   program->SetUniform("texm", texm);
 #endif

@@ -176,7 +176,7 @@ void Program::SetUniform(const std::string& name, int i) const {
   glUniform1i(uni, i);
 }
 
-void Program::SetUniform(const std::string& name, const mat44& m) const {
+void Program::SetUniform(const std::string& name, const Mat44& m) const {
   assert(this);
   assert(object_ != 0);
   assert(CurrentBoundProgram() == this);
@@ -184,14 +184,14 @@ void Program::SetUniform(const std::string& name, const mat44& m) const {
   glUniformMatrix4fv(uni, 1, GL_FALSE, m.data());
 }
 
-void Program::SetUniform(const std::string& name, const vec2& v) const {
+void Program::SetUniform(const std::string& name, const Vec2& v) const {
   assert(this);
   assert(object_ != 0);
   assert(CurrentBoundProgram() == this);
   const GLint uni = LookupUniform(name);
   glUniform2f(uni, v[0], v[1]);
 }
-void Program::SetUniform(const std::string& name, const vec4& v) const {
+void Program::SetUniform(const std::string& name, const Vec4& v) const {
   assert(this);
   assert(object_ != 0);
   assert(CurrentBoundProgram() == this);

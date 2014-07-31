@@ -115,19 +115,19 @@ class Program : boost::noncopyable {
   @param name the uniform name.
   @param m the 4x4 matrix value.
    */
-  void SetUniform(const std::string& name, const mat44& m) const;
+  void SetUniform(const std::string& name, const Mat44& m) const;
 
   /** Set a uniform vec2.
   @param name the uniform name.
   @param v the vec2 value.
    */
-  void SetUniform(const std::string& name, const vec2& v) const;
+  void SetUniform(const std::string& name, const Vec2& v) const;
 
   /** Set a uniform vec4.
   @param name the uniform name.
   @param v the vec4 value
    */
-  void SetUniform(const std::string& name, const vec4& v) const;
+  void SetUniform(const std::string& name, const Vec4& v) const;
 
   /** Binds this program.
    */

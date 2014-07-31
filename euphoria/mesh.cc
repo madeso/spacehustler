@@ -47,13 +47,13 @@ void MeshPart::AddFace(unsigned int a, unsigned int b, unsigned int c) {
   faces.push_back(c);
 }
 
-vec3 MeshPart::GetVertex(unsigned int p) const {
+Vec3 MeshPart::GetVertex(unsigned int p) const {
   assert(p < points);
   const unsigned int b = p * 5;
   const float x = vertices[b + 0];
   const float y = vertices[b + 1];
   const float z = vertices[b + 2];
-  return vec3(x, y, z);
+  return Vec3(x, y, z);
 }
 
 Material::Material() : wraps(WrapMode::REPEAT), wrapt(WrapMode::REPEAT) {}
@@ -111,7 +111,7 @@ void CompiledMeshPart::Render() {
   vao_.Unbind();
 }
 
-void CompiledMeshPart::Render(const Camera& camera, const mat44& model) {
+void CompiledMeshPart::Render(const Camera& camera, const Mat44& model) {
   assert(texture_);
   assert(program_);
   program_->Bind();
@@ -158,7 +158,7 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
   }
 }
 
-void CompiledMesh::Render(const Camera& camera, const mat44& model) {
+void CompiledMesh::Render(const Camera& camera, const Mat44& model) {
   for (auto part : parts_) {
     part->Render(camera, model);
   }

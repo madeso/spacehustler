@@ -10,7 +10,7 @@ DebugRenderer::DebugRenderer(ShaderCache* shadercache, const Settings& settings)
       prog_(shadercache->GetOrCreate("debuglines.js", settings)) {}
 
 namespace {
-void Add(std::vector<GLfloat>* d, const vec3& p) {
+void Add(std::vector<GLfloat>* d, const Vec3& p) {
   d->push_back(p[0]);
   d->push_back(p[1]);
   d->push_back(p[2]);
@@ -23,11 +23,11 @@ void Add(std::vector<GLfloat>* d, const Color& c) {
 }
 }  // namespace
 
-void DebugRenderer::Line(const vec3& f, const vec3& t, const Color& c) {
+void DebugRenderer::Line(const Vec3& f, const Vec3& t, const Color& c) {
   Line(f, t, c, c);
 }
 
-void DebugRenderer::Line(const vec3& f, const vec3& t, const Color& fc,
+void DebugRenderer::Line(const Vec3& f, const Vec3& t, const Color& fc,
                          const Color& tc) {
   Add(&pending_, f);
   Add(&pending_, fc);
@@ -83,9 +83,9 @@ void DebugRenderer::Render(const Camera& camera) {
   }
 }
 
-void Debug(DebugRenderer* debug, const mat44& mat) {
+void Debug(DebugRenderer* debug, const Mat44& mat) {
   const float orthoLen = 20;
-  vec3 start = matrix_get_translation(mat);
+  Vec3 start = matrix_get_translation(mat);
   debug->Line(start, start + matrix_get_x_basis_vector(mat) * orthoLen,
               Color(0.7f, 0, 0));
   debug->Line(start, start + matrix_get_y_basis_vector(mat) * orthoLen,

@@ -95,8 +95,8 @@ void EntityList::AddDefs(SystemContainer* container,
   }
 }
 
-void EntityList::CreateEntity(const std::string& entity, const vec3& pos,
-                              const quat& rot, Lua* lua) {
+void EntityList::CreateEntity(const std::string& entity, const Vec3& pos,
+                              const Quat& rot, Lua* lua) {
   assert(this);
   auto res = entitydefs_.find(entity);
   if (res == entitydefs_.end()) {
@@ -110,7 +110,7 @@ void EntityList::CreateEntity(const std::string& entity, const vec3& pos,
 }
 
 namespace {
-vec3 ToVec3(const Json::Value& v) {
+Vec3 ToVec3(const Json::Value& v) {
   if (v.isNull()) {
     return cvec3zero();
   }
@@ -118,10 +118,10 @@ vec3 ToVec3(const Json::Value& v) {
     throw std::logic_error(Str() << "Unable to load vec3 from array with"
                                     " size: " << v.size());
   }
-  return vec3(v[0].asFloat(), v[1].asFloat(), v[2].asFloat());
+  return Vec3(v[0].asFloat(), v[1].asFloat(), v[2].asFloat());
 }
 
-quat ToQuat(const Json::Value& v) {
+Quat ToQuat(const Json::Value& v) {
   if (v.isNull()) {
     return cquatIdent();
   }
@@ -129,7 +129,7 @@ quat ToQuat(const Json::Value& v) {
     throw std::logic_error(Str() << "Unable to load vec3 from array with"
                                     " size: " << v.size());
   }
-  return quat(v[0].asFloat(), v[1].asFloat(), v[2].asFloat(), v[3].asFloat());
+  return Quat(v[0].asFloat(), v[1].asFloat(), v[2].asFloat(), v[3].asFloat());
 }
 }  // namespace
 
@@ -171,7 +171,7 @@ void GetPosition(ScriptParams* params) {
 
   if (ScriptOverload(params) << cLightUserData(&entity)) {
     assert(entity);
-    vec3* v = ReturnVec3(params);
+    Vec3* v = ReturnVec3(params);
     *v = entity->position;
   }
 }
@@ -186,10 +186,10 @@ REGISTER_SCRIPT_FUNCTION("GetPosition", GetPosition);
 void SetPosition(ScriptParams* params) {
   assert(params);
   Entity* entity = 0;
-  vec3* p = 0;
+  Vec3* p = 0;
 
   if (ScriptOverload(params) << cLightUserData(&entity)
-                             << mFullUserData(vec3, &p)) {
+                             << mFullUserData(Vec3, &p)) {
     assert(entity);
     assert(p);
     entity->position = *p;
@@ -210,7 +210,7 @@ void GetRotation(ScriptParams* params) {
 
   if (ScriptOverload(params) << cLightUserData(&entity)) {
     assert(entity);
-    quat* v = ReturnQuat(params);
+    Quat* v = ReturnQuat(params);
     *v = entity->rotation;
   }
 }
@@ -225,10 +225,10 @@ REGISTER_SCRIPT_FUNCTION("GetRotation", GetRotation);
 void SetRotation(ScriptParams* params) {
   assert(params);
   Entity* entity = 0;
-  quat* p = 0;
+  Quat* p = 0;
 
   if (ScriptOverload(params) << cLightUserData(&entity)
-                             << mFullUserData(quat, &p)) {
+                             << mFullUserData(Quat, &p)) {
     assert(entity);
     assert(p);
     entity->rotation = *p;

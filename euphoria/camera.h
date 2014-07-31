@@ -23,22 +23,22 @@ class Camera {
   /** Gets the view matrix.
   @returns the view matrix.
    */
-  const mat44& view() const;
+  const Mat44& view() const;
 
   /** Sets the view matrix.
   @param view the view matrix.
    */
-  void set_view(const mat44& view);
+  void set_view(const Mat44& view);
 
   /** Get the projection matrix.
   @return the projection matrix.
    */
-  const mat44 projection() const;
+  const Mat44 projection() const;
 
   /** Set the projection matrix.
   @param projection the new projection matrix.
    */
-  void set_projection(const mat44& projection);
+  void set_projection(const Mat44& projection);
 
   /** Set the new Field of view.
   @param fov the new FOV.
@@ -52,13 +52,13 @@ class Camera {
   void SetNearFar(float near, float far);
 
  private:
-  mat44 view_;
+  Mat44 view_;
   float fov_;
   float aspect_;
   float znear_;
   float zfar_;
 
-  mat44 projection_;
+  Mat44 projection_;
 
  private:
   void UpdateProjection();

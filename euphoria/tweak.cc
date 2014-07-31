@@ -80,7 +80,7 @@ class IntTweakable : public tweaks::Tweakable {
 
 class QuatTweakable : public tweaks::Tweakable {
  public:
-  quat data;
+  Quat data;
 
   static void TW_CALL QuatSetCallback(const void* value, void* clientData) {
     QuatTweakable* tweak = static_cast<QuatTweakable*>(clientData);
@@ -391,16 +391,16 @@ tweaks::DoubleTweakable& TweakerStore::tweak(const std::string& id,
 }
 
 tweaks::Tweakable& TweakerStore::tweak(const std::string& id,
-                                       const std::string& name, quat* data) {
+                                       const std::string& name, Quat* data) {
   assert(this);
-  return Tweakbase<QuatTweakable, quat>(&tweakables, bar, id, name, data);
+  return Tweakbase<QuatTweakable, Quat>(&tweakables, bar, id, name, data);
 }
 
 tweaks::Vec3Tweakable& TweakerStore::tweak(const std::string& id,
                                            const std::string& name,
-                                           vec3* data) {
+                                           Vec3* data) {
   assert(this);
-  return Tweakbase<tweaks::Vec3Tweakable, vec3>(&tweakables, bar, id, name,
+  return Tweakbase<tweaks::Vec3Tweakable, Vec3>(&tweakables, bar, id, name,
                                                 data);
 }
 

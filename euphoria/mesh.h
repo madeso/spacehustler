@@ -48,7 +48,7 @@ struct MeshPart {
   @param p the index for the vertex to get
   @return the vertex
    */
-  vec3 GetVertex(unsigned int p) const;
+  Vec3 GetVertex(unsigned int p) const;
 
   /** The vertices.
    */
@@ -161,7 +161,7 @@ class CompiledMeshPart {
   @param camera through the camera.
   @param model the model matrix
    */
-  void Render(const Camera& camera, const mat44& model);
+  void Render(const Camera& camera, const Mat44& model);
 
   /** Render the mesh.
   Requires both the shader and the texture to be bound.
@@ -199,7 +199,7 @@ class CompiledMesh {
     @param camera through the camera.
     @param model the model matrix
      */
-  void Render(const Camera& camera, const mat44& model);
+  void Render(const Camera& camera, const Mat44& model);
 
  private:
   std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts_;

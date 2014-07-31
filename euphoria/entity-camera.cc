@@ -52,9 +52,9 @@ class CameraSystem : public System {
     assert(camera_);
 
     for (auto& o : objects_) {
-      quat temp = o.entity->rotation;
+      Quat temp = o.entity->rotation;
       temp.conjugate();
-      camera_->set_view(cmat44(temp) * cmat44(vec3(-o.entity->position)));
+      camera_->set_view(cmat44(temp) * cmat44(Vec3(-o.entity->position)));
     }
   }
 

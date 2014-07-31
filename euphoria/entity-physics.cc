@@ -45,15 +45,15 @@ struct WorldBodyConenction {
 };
 
 namespace {
-vec3 C(const btVector3& src) { return vec3(src.x(), src.y(), src.z()); }
+Vec3 C(const btVector3& src) { return Vec3(src.x(), src.y(), src.z()); }
 
-btVector3 C(const vec3& src) { return btVector3(src[0], src[1], src[2]); }
+btVector3 C(const Vec3& src) { return btVector3(src[0], src[1], src[2]); }
 
-quat C(const btQuaternion& src) {
-  return quat(src.x(), src.y(), src.z(), src.w());
+Quat C(const btQuaternion& src) {
+  return Quat(src.x(), src.y(), src.z(), src.w());
 }
 
-btQuaternion C(const quat& src) {
+btQuaternion C(const Quat& src) {
   return btQuaternion(src[0], src[1], src[2], src[3]);
 }
 }  // namespace
@@ -138,9 +138,9 @@ struct StaticMesh {
       const unsigned int p1 = part.faces[fb + 0];
       const unsigned int p2 = part.faces[fb + 1];
       const unsigned int p3 = part.faces[fb + 2];
-      const vec3 v1 = part.GetVertex(p1);
-      const vec3 v2 = part.GetVertex(p2);
-      const vec3 v3 = part.GetVertex(p3);
+      const Vec3 v1 = part.GetVertex(p1);
+      const Vec3 v2 = part.GetVertex(p2);
+      const Vec3 v3 = part.GetVertex(p3);
       mesh->addTriangle(C(v1), C(v2), C(v3));
     }
 
@@ -405,14 +405,14 @@ void ApplyForce(ScriptParams* params) {
   float x = 0;
   float y = 0;
   float z = 0;
-  vec3* force = 0;
+  Vec3* force = 0;
 
   if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
     assert(obj);
     assert(obj->body);
     obj->body->applyCentralForce(btVector3(x, y, z));
   } else if (ScriptOverload(params) << cLightUserData(&obj)
-                                    << mFullUserData(vec3, &force)) {
+                                    << mFullUserData(Vec3, &force)) {
     assert(obj);
     assert(obj->body);
     assert(force);
@@ -441,14 +441,14 @@ void ApplyTorque(ScriptParams* params) {
   float x = 0;
   float y = 0;
   float z = 0;
-  vec3* force = 0;
+  Vec3* force = 0;
 
   if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
     assert(obj);
     assert(obj->body);
     obj->body->applyTorque(btVector3(x, y, z));
   } else if (ScriptOverload(params) << cLightUserData(&obj)
-                                    << mFullUserData(vec3, &force)) {
+                                    << mFullUserData(Vec3, &force)) {
     assert(obj);
     assert(obj->body);
     assert(force);
@@ -472,7 +472,7 @@ void GetOrientation(ScriptParams* params) {
     assert(obj);
     assert(obj->body);
     const btQuaternion orientation = obj->body->getOrientation();
-    quat* rot = ReturnQuat(params);
+    Quat* rot = ReturnQuat(params);
     *rot = C(orientation);
   }
 }
@@ -488,10 +488,10 @@ REGISTER_SCRIPT_FUNCTION("GetOrientation", GetOrientation);
 void SetOrientation(ScriptParams* params) {
   assert(params);
   PhysicsObject* obj = 0;
-  quat* rot;
+  Quat* rot;
 
   if (ScriptOverload(params) << cLightUserData(&obj)
-                             << mFullUserData(quat, &rot)) {
+                             << mFullUserData(Quat, &rot)) {
     assert(obj);
     assert(obj->body);
     assert(rot);

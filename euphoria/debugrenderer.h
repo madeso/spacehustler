@@ -33,7 +33,7 @@ class DebugRenderer {
   @param t the to point
   @param c the color
    */
-  void Line(const vec3& f, const vec3& t, const Color& c);
+  void Line(const Vec3& f, const Vec3& t, const Color& c);
 
   /** Add a line.
   @param f the from point
@@ -41,7 +41,7 @@ class DebugRenderer {
   @param fc the from color
   @param tc the to color
    */
-  void Line(const vec3& f, const vec3& t, const Color& fc, const Color& tc);
+  void Line(const Vec3& f, const Vec3& t, const Color& fc, const Color& tc);
 
   /** Render the debug lines.
    */
@@ -65,6 +65,6 @@ class DebugRenderer {
 @param debug the debug renderer
     @param mat the matrix
      */
-void Debug(DebugRenderer* debug, const mat44& mat);
+void Debug(DebugRenderer* debug, const Mat44& mat);
 
 #endif  // EUPHORIA_DEBUGRENDERER_H_

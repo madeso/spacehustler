@@ -61,7 +61,7 @@ class RenderingSystem : public System, boost::noncopyable {
     assert(entity);
     assert(type);
     RenderType* st = static_cast<RenderType*>(type);
-    mat44 mat = cmat44(entity->position, entity->rotation);
+    Mat44 mat = cmat44(entity->position, entity->rotation);
     std::shared_ptr<Instance> instance(new Instance(st->mesh, mat));
     world_->Add(instance);
     objects_.push_back(RenderObject(entity, instance));
