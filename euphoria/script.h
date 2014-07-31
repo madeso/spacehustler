@@ -155,7 +155,7 @@ class ScriptOverload {
 @return the light user data argument.
  */
 template <typename T>
-std::shared_ptr<internal::ScriptArgument> cLightUserData(T** t) {
+std::shared_ptr<internal::ScriptArgument> CLightUserData(T** t) {
   std::shared_ptr<internal::ScriptArgument> r(
       new internal::LightUserDataScriptArgument(reinterpret_cast<void**>(t)));
   return r;
@@ -167,7 +167,7 @@ std::shared_ptr<internal::ScriptArgument> cLightUserData(T** t) {
 @return the full user data argument
  */
 template <typename T>
-std::shared_ptr<internal::ScriptArgument> cFullUserData(
+std::shared_ptr<internal::ScriptArgument> CFullUserData(
     T** t, const std::string& name) {
   std::shared_ptr<internal::ScriptArgument> r(
       new internal::FullUserDataScriptArgument(reinterpret_cast<void**>(t),
@@ -180,7 +180,7 @@ std::shared_ptr<internal::ScriptArgument> cFullUserData(
 @param t the pointer
 @return the full user data argument
  */
-#define mFullUserData(T, t) cFullUserData<T>(t, #T)
+#define FULL_USER_DATA(T, t) CFullUserData<T>(t, #T)
 
 /** Encapsulated utility class for getting arguments and returning values.
  */

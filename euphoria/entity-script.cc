@@ -126,7 +126,7 @@ void GetValue(ScriptParams* params) {
 
   float f = 0.0f;
 
-  if (ScriptOverload(params) << cLightUserData(&value) << &name << &f) {
+  if (ScriptOverload(params) << CLightUserData(&value) << &name << &f) {
     float ret = value->get(name, f).asFloat();
     params->Return(ret);
   }

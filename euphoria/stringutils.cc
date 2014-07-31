@@ -8,11 +8,6 @@
 #include <cstring>
 #include <vector>
 
-const std::string& kSpaceCharacters() {
-  static const std::string space = " \n\r\t";
-  return space;
-}
-
 std::string TrimRight(const std::string& stringToTrim,
                       const std::string& trimCharacters) {
   return std::string(stringToTrim)

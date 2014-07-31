@@ -70,7 +70,7 @@ void vec3_index(ScriptParams* p) {
   Vec3* a;
   std::string key;
   int index;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &key) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &key) {
     // -- Description: Get or sets a value from the vector
     // -- Arguments:
     // -- String the name, x for x, y for z for z
@@ -86,7 +86,7 @@ void vec3_index(ScriptParams* p) {
       const std::string error = Str() << "Invalid key";
       throw error;
     }
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &index) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &index) {
     // -- Description: Getor sets a value from the vector
     // -- Arguments:
     // -- Number the index between 1 and 3 that indicates the x,y or z value
@@ -111,7 +111,7 @@ void vec3_newindex(ScriptParams* p) {
   std::string key;
   int index;
   float value;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &key << &value) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &key << &value) {
     assert(a);
     if (key == "x") {
       (*a)[0] = value;
@@ -123,7 +123,8 @@ void vec3_newindex(ScriptParams* p) {
       const std::string error = Str() << "Invalid key";
       throw error;
     }
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &index << &value) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &index
+                               << &value) {
     assert(a);
     if (index <= 0) {
       const std::string error = Str() << "Invalid index";
@@ -141,7 +142,7 @@ SCRIPT_FUNCTION("vec3.newindex", vec3_newindex, lvec3_newindex)
 // -- Operator: unary -
 void vec3_unm(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     // -- Description: Returns a negative representation of the vector
     // -- Arguments: vec3 the vector to negate
     // -- Returns: vec3 the negated vector
@@ -157,7 +158,8 @@ void vec3_add(ScriptParams* p) {
   Vec3* a;
   Vec3* b;
   float f;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &b)) {
     assert(a);
     assert(b);
     // -- Description: Add two vectors.
@@ -167,7 +169,7 @@ void vec3_add(ScriptParams* p) {
     // -- Returns: vec3 the sum of the 2 vectors.
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a + *b;
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &f) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &f) {
     assert(a);
     // -- Description: Add a vector and a number.
     // -- Arguments:
@@ -176,7 +178,7 @@ void vec3_add(ScriptParams* p) {
     // -- Returns: vec3 the sum of the vector and the float
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a + Vec3(f, f, f);
-  } else if (ScriptOverload(p) << &f << mFullUserData(Vec3, &a)) {
+  } else if (ScriptOverload(p) << &f << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = Vec3(f, f, f) + *a;
@@ -189,7 +191,8 @@ void vec3_sub(ScriptParams* p) {
   Vec3* a;
   Vec3* b;
   float f;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &b)) {
     assert(a);
     assert(b);
     // -- Description: Substract two vectors.
@@ -199,7 +202,7 @@ void vec3_sub(ScriptParams* p) {
     // -- Returns: vec3 the result.
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a - *b;
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &f) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &f) {
     assert(a);
     // -- Description: Subtract a vector and a number.
     // -- Arguments:
@@ -208,7 +211,7 @@ void vec3_sub(ScriptParams* p) {
     // -- Returns: vec3 the result
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a - Vec3(f, f, f);
-  } else if (ScriptOverload(p) << &f << mFullUserData(Vec3, &a)) {
+  } else if (ScriptOverload(p) << &f << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = Vec3(f, f, f) - *a;
@@ -220,7 +223,7 @@ SCRIPT_FUNCTION("vec3.sub", vec3_sub, lvec3_sub)
 void vec3_mul(ScriptParams* p) {
   Vec3* a;
   float f;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &f) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &f) {
     assert(a);
     // -- Description: Multiply a vector and a number.
     // -- Arguments:
@@ -229,7 +232,7 @@ void vec3_mul(ScriptParams* p) {
     // -- Returns: vec3 the result
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a * f;
-  } else if (ScriptOverload(p) << &f << mFullUserData(Vec3, &a)) {
+  } else if (ScriptOverload(p) << &f << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a * f;
@@ -241,7 +244,7 @@ SCRIPT_FUNCTION("vec3.mul", vec3_mul, lvec3_mul)
 void vec3_div(ScriptParams* p) {
   Vec3* a;
   float f;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &f) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &f) {
     assert(a);
     // -- Description: Divide a vector and a number.
     // -- Arguments:
@@ -257,7 +260,7 @@ SCRIPT_FUNCTION("vec3.div", vec3_div, lvec3_div)
 // -- Function: length
 void vec3_length(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     // -- Description: Gets the length of the vector.
     // -- Arguments: vec3 the vector
@@ -270,7 +273,7 @@ SCRIPT_FUNCTION("vec3.length", vec3_length, lvec3_length)
 // -- Function: length2
 void vec3_length2(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     // -- Description: Returns the squared length.
     // -- Arguments: vec3 the vector
@@ -283,7 +286,7 @@ SCRIPT_FUNCTION("vec3.length2", vec3_length2, lvec3_length2)
 // -- Function: zero
 void vec3_zero(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     // -- Description: Sets all values to 0
     // -- Arguments: vec3 the vector to clear.
@@ -299,7 +302,7 @@ void vec3_set(ScriptParams* p) {
   float y;
   float z;
   float all;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &x << &y << &z) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &x << &y << &z) {
     assert(a);
     // -- Description: sets the value of all values
     // -- Arguments:
@@ -307,7 +310,7 @@ void vec3_set(ScriptParams* p) {
     // -- Number the Y
     // -- Number the Z
     a->set(x, y, z);
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &all) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &all) {
     assert(a);
     // -- Description: sets the values to a single value
     // -- Arguments: Number the the value of X, Y and Z
@@ -324,7 +327,7 @@ void vec3_maximize(ScriptParams* p) {
   float z;
   float all;
   Vec3* o;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &x << &y << &z) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &x << &y << &z) {
     // -- Description: Sets the vector to the pairwise maximum.
     // -- Arguments:
     // -- vec3 the vector
@@ -333,15 +336,15 @@ void vec3_maximize(ScriptParams* p) {
     // -- Number the Z
     assert(a);
     a->maximize(Vec3(x, y, z));
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &all) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &all) {
     assert(a);
     // -- Description: Sets the vector to the pairwise maximum.
     // -- Arguments:
     // -- vec3 the vector
     // -- Number the X, Y and Z
     a->maximize(Vec3(all, all, all));
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a)
-                               << mFullUserData(Vec3, &o)) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                               << FULL_USER_DATA(Vec3, &o)) {
     assert(a);
     // -- Description: Sets the vector to the pairwise maximum.
     // -- Arguments:
@@ -359,7 +362,7 @@ void vec3_minimize(ScriptParams* p) {
   float z;
   float all;
   Vec3* o;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &x << &y << &z) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &x << &y << &z) {
     assert(a);
     // -- Description: Sets the vector to the pairwise minimum.
     // -- Arguments:
@@ -368,15 +371,15 @@ void vec3_minimize(ScriptParams* p) {
     // -- Number the Y
     // -- Number the Z
     a->minimize(Vec3(x, y, z));
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a) << &all) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &all) {
     assert(a);
     // -- Description: Sets the vector to the pairwise minimum.
     // -- Arguments:
     // -- vec3 the vector
     // -- Number the X, Y and Z
     a->minimize(Vec3(all, all, all));
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a)
-                               << mFullUserData(Vec3, &o)) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                               << FULL_USER_DATA(Vec3, &o)) {
     assert(a);
     // -- Description: Sets the vector to the pairwise minimum.
     // -- Arguments:
@@ -389,7 +392,7 @@ SCRIPT_FUNCTION("vec3.minimize", vec3_minimize, lvec3_minimize)
 
 void vec3_toString(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     // -- Function: toString
     // -- Description: Generate a string representation of the vector.
@@ -405,7 +408,8 @@ SCRIPT_FUNCTION("vec3.toString", vec3_toString, lvec3_toString)
 void vec3_dot(ScriptParams* p) {
   Vec3* a;
   Vec3* b;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &b)) {
     assert(a);
     assert(b);
     // -- Function: dot
@@ -422,7 +426,8 @@ SCRIPT_FUNCTION("vec3.dot", vec3_dot, lvec3_dot)
 void vec3_cross(ScriptParams* p) {
   Vec3* a;
   Vec3* b;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &b)) {
     assert(a);
     assert(b);
     // -- Function: cross
@@ -442,7 +447,8 @@ void vec3_crossnorm(ScriptParams* p) {
   /// parallel or nearly parallel the result may be invalid.
   Vec3* a;
   Vec3* b;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &b)) {
     assert(a);
     assert(b);
     // -- Function: crossnorm
@@ -461,8 +467,8 @@ void vec3_rotate(ScriptParams* p) {
   Vec3* a;
   Vec3* axis;
   float angle;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &axis)
-                        << &angle) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &axis) << &angle) {
     assert(a);
     assert(axis);
     // -- Function: rotate
@@ -481,7 +487,8 @@ void vec3_angle(ScriptParams* p) {
   Vec3* a;
   Vec3* b;
   Vec3* c;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a) << mFullUserData(Vec3, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                        << FULL_USER_DATA(Vec3, &b)) {
     assert(a);
     assert(b);
     // -- Function: angle
@@ -493,9 +500,9 @@ void vec3_angle(ScriptParams* p) {
     // -- Returns: Number the angle in radians
     const float angle = unsigned_angle(*a, *b);
     p->Return(angle);
-  } else if (ScriptOverload(p) << mFullUserData(Vec3, &a)
-                               << mFullUserData(Vec3, &b)
-                               << mFullUserData(Vec3, &c)) {
+  } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)
+                               << FULL_USER_DATA(Vec3, &b)
+                               << FULL_USER_DATA(Vec3, &c)) {
     assert(a);
     assert(b);
     assert(c);
@@ -516,7 +523,7 @@ SCRIPT_FUNCTION("vec3.angle", vec3_angle, lvec3_angle)
 
 void vec3_normalize(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     // -- Function: normalize
     // -- Description: Normalize the vector.
@@ -530,7 +537,7 @@ SCRIPT_FUNCTION("vec3.normalize", vec3_normalize, lvec3_normalize)
 
 void vec3_getnormalized(ScriptParams* p) {
   Vec3* a;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &a)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
     // -- Function: getNormalized
     // -- Description: Gets the normalized vector without modifying
@@ -643,7 +650,7 @@ SCRIPT_FUNCTION("cquat.worldz", cquat_worldz, worldz)
 void cquat_axisangle(ScriptParams* p) {
   Vec3* axis = 0;
   float angle = 0.0f;
-  if (ScriptOverload(p) << mFullUserData(Vec3, &axis) << &angle) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &axis) << &angle) {
     assert(axis);
     // -- Description: Creates a rotation quaternion from axis and angle
     // -- Arguments:
@@ -702,7 +709,8 @@ void quat_mul(ScriptParams* p) {
   Quat* a = 0;
   Quat* b = 0;
 
-  if (ScriptOverload(p) << mFullUserData(Quat, &a) << mFullUserData(Quat, &b)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Quat, &a)
+                        << FULL_USER_DATA(Quat, &b)) {
     assert(a);
     assert(b);
     // -- Description: Multiplies two quaternions
@@ -720,7 +728,7 @@ SCRIPT_FUNCTION("quat.mul", quat_mul, mul)
 void quat_getx(ScriptParams* p) {
   Quat* q = 0;
 
-  if (ScriptOverload(p) << mFullUserData(Quat, &q)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Quat, &q)) {
     assert(q);
     // -- Description: Gets the x base vector
     // -- Arguments:
@@ -736,7 +744,7 @@ SCRIPT_FUNCTION("quat.getx", quat_getx, getx)
 void quat_gety(ScriptParams* p) {
   Quat* q = 0;
 
-  if (ScriptOverload(p) << mFullUserData(Quat, &q)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Quat, &q)) {
     assert(q);
     // -- Description: Gets the y base vector
     // -- Arguments:
@@ -752,7 +760,7 @@ SCRIPT_FUNCTION("quat.gety", quat_gety, gety)
 void quat_getz(ScriptParams* p) {
   Quat* q = 0;
 
-  if (ScriptOverload(p) << mFullUserData(Quat, &q)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Quat, &q)) {
     assert(q);
     // -- Description: Gets the z base vector
     // -- Arguments:
@@ -769,8 +777,8 @@ void quat_unm(ScriptParams* p) {
   Quat* q = 0;
   Quat* junk = 0;
 
-  if (ScriptOverload(p) << mFullUserData(Quat, &q)
-                        << mFullUserData(Quat, &junk)) {
+  if (ScriptOverload(p) << FULL_USER_DATA(Quat, &q)
+                        << FULL_USER_DATA(Quat, &junk)) {
     assert(q);
     // -- Description: Gets the conjugate of the quaterion
     // -- Arguments:

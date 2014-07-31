@@ -169,7 +169,7 @@ void GetPosition(ScriptParams* params) {
   assert(params);
   Entity* entity = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&entity)) {
+  if (ScriptOverload(params) << CLightUserData(&entity)) {
     assert(entity);
     Vec3* v = ReturnVec3(params);
     *v = entity->position;
@@ -188,8 +188,8 @@ void SetPosition(ScriptParams* params) {
   Entity* entity = 0;
   Vec3* p = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&entity)
-                             << mFullUserData(Vec3, &p)) {
+  if (ScriptOverload(params) << CLightUserData(&entity)
+                             << FULL_USER_DATA(Vec3, &p)) {
     assert(entity);
     assert(p);
     entity->position = *p;
@@ -208,7 +208,7 @@ void GetRotation(ScriptParams* params) {
   assert(params);
   Entity* entity = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&entity)) {
+  if (ScriptOverload(params) << CLightUserData(&entity)) {
     assert(entity);
     Quat* v = ReturnQuat(params);
     *v = entity->rotation;
@@ -227,8 +227,8 @@ void SetRotation(ScriptParams* params) {
   Entity* entity = 0;
   Quat* p = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&entity)
-                             << mFullUserData(Quat, &p)) {
+  if (ScriptOverload(params) << CLightUserData(&entity)
+                             << FULL_USER_DATA(Quat, &p)) {
     assert(entity);
     assert(p);
     entity->rotation = *p;

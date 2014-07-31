@@ -376,7 +376,7 @@ void GetPhysics(ScriptParams* params) {
   assert(params);
   Entity* entity = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&entity)) {
+  if (ScriptOverload(params) << CLightUserData(&entity)) {
     if (GetGlobalInstance() == 0) {
       throw std::logic_error("Physics system is not initialized.");
     }
@@ -407,12 +407,12 @@ void ApplyForce(ScriptParams* params) {
   float z = 0;
   Vec3* force = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
+  if (ScriptOverload(params) << CLightUserData(&obj) << &x << &y << &z) {
     assert(obj);
     assert(obj->body);
     obj->body->applyCentralForce(btVector3(x, y, z));
-  } else if (ScriptOverload(params) << cLightUserData(&obj)
-                                    << mFullUserData(Vec3, &force)) {
+  } else if (ScriptOverload(params) << CLightUserData(&obj)
+                                    << FULL_USER_DATA(Vec3, &force)) {
     assert(obj);
     assert(obj->body);
     assert(force);
@@ -443,12 +443,12 @@ void ApplyTorque(ScriptParams* params) {
   float z = 0;
   Vec3* force = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&obj) << &x << &y << &z) {
+  if (ScriptOverload(params) << CLightUserData(&obj) << &x << &y << &z) {
     assert(obj);
     assert(obj->body);
     obj->body->applyTorque(btVector3(x, y, z));
-  } else if (ScriptOverload(params) << cLightUserData(&obj)
-                                    << mFullUserData(Vec3, &force)) {
+  } else if (ScriptOverload(params) << CLightUserData(&obj)
+                                    << FULL_USER_DATA(Vec3, &force)) {
     assert(obj);
     assert(obj->body);
     assert(force);
@@ -468,7 +468,7 @@ void GetOrientation(ScriptParams* params) {
   assert(params);
   PhysicsObject* obj = 0;
 
-  if (ScriptOverload(params) << cLightUserData(&obj)) {
+  if (ScriptOverload(params) << CLightUserData(&obj)) {
     assert(obj);
     assert(obj->body);
     const btQuaternion orientation = obj->body->getOrientation();
@@ -490,8 +490,8 @@ void SetOrientation(ScriptParams* params) {
   PhysicsObject* obj = 0;
   Quat* rot;
 
-  if (ScriptOverload(params) << cLightUserData(&obj)
-                             << mFullUserData(Quat, &rot)) {
+  if (ScriptOverload(params) << CLightUserData(&obj)
+                             << FULL_USER_DATA(Quat, &rot)) {
     assert(obj);
     assert(obj->body);
     assert(rot);

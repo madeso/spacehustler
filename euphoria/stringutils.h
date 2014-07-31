@@ -17,7 +17,7 @@ String utility functions
 /** Space characters.
 @returns the space characters.
  */
-const std::string& kSpaceCharacters();
+const std::string kSpaceCharacters = " \n\r\t";
 
 /** Remove characters from the right, stops at a invalid character.
 @param stringToTrim the string to remove characters from.
@@ -25,7 +25,7 @@ const std::string& kSpaceCharacters();
 @returns the trimmed string.
  */
 std::string TrimRight(const std::string& stringToTrim,
-                      const std::string& trimCharacters = kSpaceCharacters());
+                      const std::string& trimCharacters = kSpaceCharacters);
 
 /** Remove characters from the left, stops at invalid character.
 @param stringToTrim the string to remove characters from.
@@ -33,7 +33,7 @@ std::string TrimRight(const std::string& stringToTrim,
 @returns the trimmed string.
  */
 std::string TrimLeft(const std::string& stringToTrim,
-                     const std::string& trimCharacters = kSpaceCharacters());
+                     const std::string& trimCharacters = kSpaceCharacters);
 
 /** Remove characters from both the start and the end.
 @param stringToTrim the string to remove characters from.
@@ -41,7 +41,7 @@ std::string TrimLeft(const std::string& stringToTrim,
 @returns the trimmed string.
  */
 std::string Trim(const std::string& stringToTrim,
-                 const std::string& trimCharacters = kSpaceCharacters());
+                 const std::string& trimCharacters = kSpaceCharacters);
 
 /** Tests if a string starts with another string.
 @param stringToTest the string to test.
