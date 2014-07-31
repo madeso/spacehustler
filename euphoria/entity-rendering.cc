@@ -61,7 +61,7 @@ class RenderingSystem : public System, boost::noncopyable {
     assert(entity);
     assert(type);
     RenderType* st = static_cast<RenderType*>(type);
-    Mat44 mat = cmat44(entity->position, entity->rotation);
+    Mat44 mat = CreateMat44(entity->position, entity->rotation);
     std::shared_ptr<Instance> instance(new Instance(st->mesh, mat));
     world_->Add(instance);
     objects_.push_back(RenderObject(entity, instance));
@@ -70,7 +70,8 @@ class RenderingSystem : public System, boost::noncopyable {
   void Step(float dt) override {
     assert(this);
     for (auto& o : objects_) {
-      o.instance->set_transform(cmat44(o.entity->position, o.entity->rotation));
+      o.instance->set_transform(
+          CreateMat44(o.entity->position, o.entity->rotation));
     }
   }
 

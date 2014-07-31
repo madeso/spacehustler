@@ -9,7 +9,7 @@ Camera::Camera(int width, int height)
       aspect_(static_cast<float>(width) / height),
       znear_(0.1f),
       zfar_(100.0f) {
-  view_ = cmat44(cvec3zero(), cquatIdent());
+  view_ = CreateMat44(CreateZeroedVec3(), CreateIdentityQuat());
   UpdateProjection();
 }
 

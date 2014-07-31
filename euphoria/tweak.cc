@@ -261,7 +261,7 @@ TWEAKABLE_FLOAT_IMPLEMENTATION(DoubleTweakable, double);
 tweaks::Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
                                      const std::string& name)
     : Tweakable(bar, id, name),
-      data(cvec3zero()),
+      data(CreateZeroedVec3()),
       isdirection(false),
       name(name) {
   assert(this);

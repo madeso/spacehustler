@@ -112,7 +112,7 @@ void EntityList::CreateEntity(const std::string& entity, const Vec3& pos,
 namespace {
 Vec3 ToVec3(const Json::Value& v) {
   if (v.isNull()) {
-    return cvec3zero();
+    return CreateZeroedVec3();
   }
   if (v.size() != 3) {
     throw std::logic_error(Str() << "Unable to load vec3 from array with"
@@ -123,7 +123,7 @@ Vec3 ToVec3(const Json::Value& v) {
 
 Quat ToQuat(const Json::Value& v) {
   if (v.isNull()) {
-    return cquatIdent();
+    return CreateIdentityQuat();
   }
   if (v.size() != 4) {
     throw std::logic_error(Str() << "Unable to load vec3 from array with"

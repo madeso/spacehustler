@@ -54,7 +54,8 @@ class CameraSystem : public System {
     for (auto& o : objects_) {
       Quat temp = o.entity->rotation;
       temp.conjugate();
-      camera_->set_view(cmat44(temp) * cmat44(Vec3(-o.entity->position)));
+      camera_->set_view(CreateMat44(temp) *
+                        CreateMat44(Vec3(-o.entity->position)));
     }
   }
 

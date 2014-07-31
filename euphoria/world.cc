@@ -51,7 +51,7 @@ World::World(const std::string& filename, TextureCache* texturecache,
 
     std::shared_ptr<CompiledMesh> mworld(new CompiledMesh(
         LoadMesh(meshfile), texturecache, shadercache, settings));
-    Mat44 worldmat = cmat44(cvec3zero());
+    Mat44 worldmat = CreateMat44(CreateZeroedVec3());
 
     std::shared_ptr<Instance> wi(new Instance(mworld, worldmat));
     Add(wi);

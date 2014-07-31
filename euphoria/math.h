@@ -44,31 +44,31 @@ typedef cml::quaternion<float, cml::fixed<>, cml::vector_first,
 /** Generate a zero vector.
 @returns the following vector (0,0,0)
  */
-Vec3 cvec3zero();
+Vec3 CreateZeroedVec3();
 
 /** Create a translation matrix.
 @param v the vector containing the translation.
 @returns the translation matrix.
  */
-Mat44 cmat44(const Vec3& v);
+Mat44 CreateMat44(const Vec3& v);
 
 /** Create a rotation matrix.
 @param q the quaternion contining the rotation.
 @returns the rotation matrix.
  */
-Mat44 cmat44(const Quat& q);
+Mat44 CreateMat44(const Quat& q);
 
 /** Combine a translation and a rotation into a translation/rototation matrix.
 @param v the translation.
 @param q the rotation.
 @returns the combined matrix.
  */
-Mat44 cmat44(const Vec3& v, const Quat& q);
+Mat44 CreateMat44(const Vec3& v, const Quat& q);
 
 /** Create a identity rotation.
 @returns the identity rotation.
  */
-Quat cquatIdent();
+Quat CreateIdentityQuat();
 
 /** @} */
 
