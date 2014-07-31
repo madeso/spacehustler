@@ -19,7 +19,7 @@ struct lua_State;
 /** External lua func typedef.
 @param L the state.
  */
-typedef int (*lua_CFunction)(lua_State* L);
+typedef int (*lua_CFunction)(lua_State* L);  // no-doxygen-namechecks
 };
 
 namespace internal {

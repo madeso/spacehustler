@@ -30,7 +30,13 @@ messageFunction = 'Regular functions have mixed case; accessors and mutators mat
 
 messageEnumValue = 'Enumerators should be named either like constants or like macros: either kEnumName or ENUM_NAME.'
 
-NOFILE = 'nofilefound(-1)'
+class ErrFile:
+	def __init__(self, file, line):
+		self.file = file
+		self.line = line
+	def message(self):
+		return str(self.file) + '(' + str(self.line) + ')'
+NOFILE = ErrFile('nofilefound', -1)
 
 errorstoignore = []
 ignoreNoFiles = False
@@ -48,7 +54,7 @@ def geterrorfile(cref, memref):
 				if location != None:
 					file = location.get('file')
 					line = location.get('line')
-					return str(file) + '(' + str(line) + ')'
+					return ErrFile(file, line)
 		return NOFILE
 	for d in root.iter('memberdef'):
 		id = d.get('id')
@@ -57,7 +63,7 @@ def geterrorfile(cref, memref):
 			if location != None:
 				file = location.get('file')
 				line = location.get('line')
-				return str(file) + '(' + str(line) + ')'
+				return ErrFile(file, line)
 	for d in root.iter('enumvalue'):
 		id = d.get('id')
 		if id == memref:
@@ -65,7 +71,7 @@ def geterrorfile(cref, memref):
 			if location != None:
 				file = location.get('file')
 				line = location.get('line')
-				return str(file) + '(' + str(line) + ')'
+				return ErrFile(file, line)
 	return NOFILE
 
 errorcount = 0
@@ -104,6 +110,24 @@ def GetFunctionReturn(cref, memref):
 					return StrOrEmpty(type.text)
 	return ''
 
+def getLine(file):
+	if file.file is None:
+		return ''
+	if file.line is None:
+		return ''
+	with open(file.file) as f:
+		linenumber = 1
+		fline = int(file.line)
+		for line in f:
+			if linenumber == fline:
+				return line.strip()
+			linenumber = linenumber + 1
+	return ''
+
+def hasSourceErrorIgnore(file):
+	line = getLine(file)
+	return 'no-doxygen-namechecks' in line
+	
 def errprint(file, name, id, error, desc):
 	global errorcount
 	global errorstoignore
@@ -114,8 +138,9 @@ def errprint(file, name, id, error, desc):
 		return
 	if file == NOFILE and ignoreNoFiles:
 		return
-	error = file + ": Error N" + str(id) + ": " + error + ": [" + name + "]"
-	
+	error = file.message() + ": Error N" + str(id) + ": " + error + ": [" + name + "]"
+	if hasSourceErrorIgnore(file):
+		return
 	# if the error meeage already has been displayed, don't display it again
 	if error in errormessages:
 		pass
