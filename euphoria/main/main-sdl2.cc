@@ -1051,7 +1051,7 @@ int TwEventSDL2(const SDL_Event* event) {
   return handled;
 }
 
-void logic() {
+void MainFunction() {
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
   Settings settings;
   settings.Load();
@@ -1230,7 +1230,7 @@ void logic() {
 
 int main(int argc, char* argv[]) {
   try {
-    logic();
+    MainFunction();
     return 0;
   }
   catch (...) {

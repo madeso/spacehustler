@@ -34,9 +34,9 @@ Assumes that the metatable is the same name as the class.
 @param state the lua state
 @param Class the class name.
  */
-#define lua_pushobject(state, Class) new (state, #Class) Class
+#define LUA_PUSH_OBJECT(state, Class) new (state, #Class) Class
 
-/** Generic lua gc function for use with lua_pushobject.
+/** Generic lua gc function for use with LUA_PUSH_OBJECT.
 @param state the lua state.
 @returns 0
  */

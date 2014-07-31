@@ -25,11 +25,11 @@ void cvec3_create(ScriptParams* p) {
     // -- Number The Y coordinate
     // -- Number The Z coordinate
     // -- Returns: vec3 a vector
-    lua_pushobject(p->ReturnFullUserData(), Vec3)(x, y, z);
+    LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(x, y, z);
   } else if (ScriptOverload(p)) {
     // -- Description: Creates a vector at origin
     // -- Returns: vec3 a vector placed at origin
-    lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
   }
 }
 SCRIPT_FUNCTION("cvec3.create", cvec3_create, lcvec3_create)
@@ -43,7 +43,7 @@ void cvec3_cardinal(ScriptParams* p) {
     // -- Arguments:
     // -- Number The cardinal vector index, pass 1 to create (1,0,0) etc.
     // -- Returns: vec3 The created vector.
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     if (i > 3) {
       const std::string error = Str() << "Invalid cardinal index";
       throw error;
@@ -147,7 +147,7 @@ void vec3_unm(ScriptParams* p) {
     // -- Arguments: vec3 the vector to negate
     // -- Returns: vec3 the negated vector
     assert(a);
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = -*a;
   }
 }
@@ -167,7 +167,7 @@ void vec3_add(ScriptParams* p) {
     // -- vec3 the left operand
     // -- vec3 the right operand
     // -- Returns: vec3 the sum of the 2 vectors.
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a + *b;
   } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &f) {
     assert(a);
@@ -176,11 +176,11 @@ void vec3_add(ScriptParams* p) {
     // -- vec3 the left operand
     // -- Number the number to add
     // -- Returns: vec3 the sum of the vector and the float
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a + Vec3(f, f, f);
   } else if (ScriptOverload(p) << &f << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = Vec3(f, f, f) + *a;
   }
 }
@@ -200,7 +200,7 @@ void vec3_sub(ScriptParams* p) {
     // -- vec3 the left operand
     // -- vec3 the right operand
     // -- Returns: vec3 the result.
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a - *b;
   } else if (ScriptOverload(p) << FULL_USER_DATA(Vec3, &a) << &f) {
     assert(a);
@@ -209,11 +209,11 @@ void vec3_sub(ScriptParams* p) {
     // -- vec3 the left operand
     // -- Number the number to subtract
     // -- Returns: vec3 the result
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a - Vec3(f, f, f);
   } else if (ScriptOverload(p) << &f << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = Vec3(f, f, f) - *a;
   }
 }
@@ -230,11 +230,11 @@ void vec3_mul(ScriptParams* p) {
     // -- vec3 the left operand
     // -- float the number to multiply with
     // -- Returns: vec3 the result
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a * f;
   } else if (ScriptOverload(p) << &f << FULL_USER_DATA(Vec3, &a)) {
     assert(a);
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a * f;
   }
 }
@@ -251,7 +251,7 @@ void vec3_div(ScriptParams* p) {
     // -- vec3 the left operand
     // -- float the number to divide
     // -- Returns: vec3 the result
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = *a / f;
   }
 }
@@ -436,7 +436,7 @@ void vec3_cross(ScriptParams* p) {
     // -- vec3 the lhs
     // -- vec3 the rhs
     // -- Returns: vec3 the cross product between lhs and rhs
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = cross(*a, *b);
   }
 }
@@ -457,7 +457,7 @@ void vec3_crossnorm(ScriptParams* p) {
     // -- vec3 the lhs
     // -- vec3 the rhs
     // -- Returns: Number the normalized cross product of lhs and rhs
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = unit_cross(*a, *b);
   }
 }
@@ -477,7 +477,7 @@ void vec3_rotate(ScriptParams* p) {
     // -- vec3 the vector
     // -- vec3 the axis
     // -- Number the angle in radians
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = rotate_vector(*a, *axis, angle);
   }
 }
@@ -546,7 +546,7 @@ void vec3_getnormalized(ScriptParams* p) {
     // -- vec3 the vector to normalize
     // -- Returns: vec3 the normalized vector
     /// @todo No checking for near-zero magnitude is performed.
-    Vec3* r = lua_pushobject(p->ReturnFullUserData(), Vec3)(0, 0, 0);
+    Vec3* r = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)(0, 0, 0);
     *r = normalize(*a);
   }
 }
@@ -598,7 +598,7 @@ void cquat_identity(ScriptParams* p) {
   if (ScriptOverload(p)) {
     // -- Description: Creates a identity quaternion
     // -- Returns: quat the quaternion
-    Quat* q = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* q = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     q->identity();
   }
 }
@@ -612,7 +612,7 @@ void cquat_worldx(ScriptParams* p) {
     // -- Arguments:
     // -- Number the angle in radians
     // -- Returns: quat the quaternion
-    Quat* q = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* q = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     quaternion_rotation_world_axis(*q, 0, angle);
   }
 }
@@ -626,7 +626,7 @@ void cquat_worldy(ScriptParams* p) {
     // -- Arguments:
     // -- Number the angle in radians
     // -- Returns: quat the identity quaternion
-    Quat* q = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* q = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     quaternion_rotation_world_axis(*q, 1, angle);
   }
 }
@@ -640,7 +640,7 @@ void cquat_worldz(ScriptParams* p) {
     // -- Arguments:
     // -- Number the angle in radians
     // -- Returns: quat the quaternion
-    Quat* q = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* q = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     quaternion_rotation_world_axis(*q, 2, angle);
   }
 }
@@ -657,7 +657,7 @@ void cquat_axisangle(ScriptParams* p) {
     // -- vec3 the axis
     // -- Number the angle in radians
     // -- Returns: quat the quaternion
-    Quat* q = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* q = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     quaternion_rotation_axis_angle(*q, *axis, angle);
   }
 }
@@ -683,7 +683,7 @@ void cquat_yawpitchroll(ScriptParams* p) {
     // -- Number the pitch
     // -- Number the roll
     // -- Returns: quat the quaternion
-    Quat* q = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* q = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     const Quat qroll = crquat(2, roll);
     const Quat qpitch = crquat(0, pitch);
     const Quat qyaw = crquat(1, yaw);
@@ -734,7 +734,7 @@ void quat_getx(ScriptParams* p) {
     // -- Arguments:
     // -- quat The quaternion
     // -- Returns: vec3 the basis vector
-    Vec3* ret = lua_pushobject(p->ReturnFullUserData(), Vec3)();
+    Vec3* ret = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)();
     *ret = quaternion_get_basis_vector(*q, 0);
   }
 }
@@ -750,7 +750,7 @@ void quat_gety(ScriptParams* p) {
     // -- Arguments:
     // -- quat The quaternion
     // -- Returns: vec3 the basis vector
-    Vec3* ret = lua_pushobject(p->ReturnFullUserData(), Vec3)();
+    Vec3* ret = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)();
     *ret = quaternion_get_basis_vector(*q, 1);
   }
 }
@@ -766,7 +766,7 @@ void quat_getz(ScriptParams* p) {
     // -- Arguments:
     // -- quat The quaternion
     // -- Returns: vec3 the basis vector
-    Vec3* ret = lua_pushobject(p->ReturnFullUserData(), Vec3)();
+    Vec3* ret = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Vec3)();
     *ret = quaternion_get_basis_vector(*q, 2);
   }
 }
@@ -784,7 +784,7 @@ void quat_unm(ScriptParams* p) {
     // -- Arguments:
     // -- quat The quaternion
     // -- Returns: quat the conjugate
-    Quat* ret = lua_pushobject(p->ReturnFullUserData(), Quat)();
+    Quat* ret = LUA_PUSH_OBJECT(p->ReturnFullUserData(), Quat)();
     *ret = *q;
     ret->conjugate();
   }
@@ -807,7 +807,7 @@ LUAMOD_API int scriptlib_quat_open(lua_State* state) {
 }
 }  // namespace
 
-void scriptlib_register(lua_State* state) {
+void RegisterScriptLib(lua_State* state) {
   luaL_requiref(state, "cvec3", scriptlib_vec3_open, 1);
   lua_pop(state, 1);
   luaL_requiref(state, "cquat", scriptlib_quat_open, 1);
@@ -815,9 +815,9 @@ void scriptlib_register(lua_State* state) {
 }
 
 Quat* ReturnQuat(ScriptParams* params) {
-  return lua_pushobject(params->ReturnFullUserData(), Quat)();
+  return LUA_PUSH_OBJECT(params->ReturnFullUserData(), Quat)();
 }
 
 Vec3* ReturnVec3(ScriptParams* params) {
-  return lua_pushobject(params->ReturnFullUserData(), Vec3)();
+  return LUA_PUSH_OBJECT(params->ReturnFullUserData(), Vec3)();
 }

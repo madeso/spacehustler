@@ -14,7 +14,7 @@ extern "C" { struct lua_State; }
 /** Add the scriptlib to the state.
 @param state the lua state.
  */
-void scriptlib_register(lua_State* state);
+void RegisterScriptLib(lua_State* state);
 
 class ScriptParams;
 
