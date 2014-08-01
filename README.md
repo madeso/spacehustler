@@ -43,7 +43,6 @@ Planned Features and stuff that needs to be done
 =======
 * redesign input system
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
-* Investigate constexpr
 * static_assert
 * remove all traces of astyle
 * make sdl the only launcher
@@ -73,6 +72,7 @@ Planned Features and stuff that needs to be done
 * change from json to yaml/protobuf?
 * fix luadocgen
 * menu support (ce gui?)
+* Investigate constexpr
 * audio and music support, fmod studio
 * sprite + line drawer
 * particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/ http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/flexible-particle-system-the-container-r3701 http://www.bfilipek.com/2014/06/flexible-particle-system-updaters.html
