@@ -43,7 +43,6 @@ Planned Features and stuff that needs to be done
 =======
 * redesign input system
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
-* static_assert
 * remove all traces of astyle
 * make sdl the only launcher
 * force feedback/haptics
@@ -55,6 +54,7 @@ Planned Features and stuff that needs to be done
 * physics motor support
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
+* static_assert
 * change cml to glm
 * fix osx build
 * upgrade assimp
