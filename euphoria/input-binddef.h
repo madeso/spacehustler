@@ -18,7 +18,7 @@ namespace input {
 template <typename Type>
 class BindDef {
  public:
-  BindDef(const std::string& id, const Type type) : id_(id), type_(type) {
+  BindDef(const std::string& id, const Type type, bool invert, float scale) : id_(id), type_(type), invert_(invert), scale_(scale) {
     assert(this);
   }
   const std::string& id() const {
@@ -30,9 +30,21 @@ class BindDef {
     return type_;
   }
 
+  bool invert() const {
+    assert(this);
+    return invert_;
+  }
+
+  float scale() const {
+    assert(this);
+    return scale_;
+  }
+
  private:
   std::string id_;
   Type type_;
+  bool invert_;
+  float scale_;
 };
 
 }  // namespace input
