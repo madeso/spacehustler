@@ -244,7 +244,7 @@ set(src_oculus
 	${libovr_include}
 	${libovr_src}
 	${libovr_capi}
-	${libovr_d3d}
+	# ${libovr_d3d} # excluded d3d as we don't use d3d
 	${libovr_gl}
 	${libovr_shaders}
 	${libovr_textures}
@@ -256,3 +256,5 @@ set(src_oculus
 	${libovr_tracking}
 )
 
+include_directories(../external/opengl-registry)
+# include_directories()
