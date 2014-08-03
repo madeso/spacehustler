@@ -36,9 +36,9 @@
 				"binds":
 				[
 					  {"action":"force-axis",   "axis":2, "type":"axis", "invert":true}
-					, {"action":"yaw",     "axis":3, "type":"axis"}
+					, {"action":"yaw",     "axis":3, "type":"axis", "invert": true}
 					, {"action":"pitch",   "axis":1, "type":"axis"}
-					, {"action":"roll",    "axis":0, "type":"axis"}
+					, {"action":"roll",    "axis":0, "type":"axis", "invert": true}
 					, {"action":"camhorizontal", "axis":"x", "type":"hat", "hat":0}
 					, {"action":"camvertical", "axis":"y", "type":"hat", "hat":0}
 				]
