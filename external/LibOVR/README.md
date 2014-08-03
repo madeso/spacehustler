@@ -1,0 +1,1 @@
+Here lies the oculus rift sdk, downloaded from https://developer.oculusvr.com/

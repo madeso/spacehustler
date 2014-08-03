@@ -2,6 +2,8 @@ FILE(GLOB game_src_glob *.cc;*.h;*.inl)
 FILE(GLOB game_input_src_glob input*.cc;input*.h)
 set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
+INCLUDE(LibOVR.cmake)
+
 if(USE_TWEAKABLES)
 	set ( src_anttweakbar
 		../external/anttweakbar/src/TwBar.cpp
@@ -19,139 +21,6 @@ if(USE_TWEAKABLES)
 	)
 	ADD_DEFINITIONS( -DTW_STATIC )
 endif(USE_TWEAKABLES)
-
-if(USE_OCULUS)
-	set ( src_oculus_include
-		../external/LibOvr/Include/OVR.h
-		../external/LibOvr/Include/OVRVersion.h
-	)
-	set ( src_oculus_src_core
-		../external/LibOvr/Src/OVR_DeviceHandle.cpp
-		../external/LibOvr/Src/OVR_DeviceImpl.cpp
-		../external/LibOvr/Src/OVR_JSON.cpp
-		../external/LibOvr/Src/OVR_LatencyTestImpl.cpp
-		../external/LibOvr/Src/OVR_Profile.cpp
-		../external/LibOvr/Src/OVR_SensorFilter.cpp
-		../external/LibOvr/Src/OVR_SensorFusion.cpp
-		../external/LibOvr/Src/OVR_SensorImpl.cpp
-		../external/LibOvr/Src/OVR_ThreadCommandQueue.cpp
-		../external/LibOvr/Src/OVR_Device.h
-		../external/LibOvr/Src/OVR_DeviceConstants.h
-		../external/LibOvr/Src/OVR_DeviceHandle.h
-		../external/LibOvr/Src/OVR_DeviceImpl.h
-		../external/LibOvr/Src/OVR_DeviceMessages.h
-		../external/LibOvr/Src/OVR_HIDDevice.h
-		../external/LibOvr/Src/OVR_HIDDeviceBase.h
-		../external/LibOvr/Src/OVR_HIDDeviceImpl.h
-		../external/LibOvr/Src/OVR_JSON.h
-		../external/LibOvr/Src/OVR_LatencyTestImpl.h
-		../external/LibOvr/Src/OVR_Profile.h
-		../external/LibOvr/Src/OVR_SensorFilter.h
-		../external/LibOvr/Src/OVR_SensorFusion.h
-		../external/LibOvr/Src/OVR_SensorImpl.h
-		../external/LibOvr/Src/OVR_ThreadCommandQueue.h
-	)
-	set ( src_oculus_src_linux
-		../external/LibOvr/Src/OVR_Linux_DeviceManager.cpp
-		../external/LibOvr/Src/OVR_Linux_HIDDevice.cpp
-		../external/LibOvr/Src/OVR_Linux_HMDDevice.cpp
-		../external/LibOvr/Src/OVR_Linux_SensorDevice.cpp
-		../external/LibOvr/Src/OVR_Linux_DeviceManager.h
-		../external/LibOvr/Src/OVR_Linux_HIDDevice.h
-		../external/LibOvr/Src/OVR_Linux_HMDDevice.h
-	)
-	set ( src_oculus_src_osx
-		../external/LibOvr/Src/OVR_OSX_DeviceManager.cpp
-		../external/LibOvr/Src/OVR_OSX_HIDDevice.cpp
-		../external/LibOvr/Src/OVR_OSX_HMDDevice.cpp
-		../external/LibOvr/Src/OVR_OSX_SensorDevice.cpp
-		../external/LibOvr/Src/OVR_OSX_DeviceManager.h
-		../external/LibOvr/Src/OVR_OSX_HIDDevice.h
-		../external/LibOvr/Src/OVR_OSX_HMDDevice.h
-	)
-	set ( src_oculus_src_win32
-		../external/LibOvr/Src/OVR_Win32_DeviceManager.cpp
-		../external/LibOvr/Src/OVR_Win32_DeviceStatus.cpp
-		../external/LibOvr/Src/OVR_Win32_HIDDevice.cpp
-		../external/LibOvr/Src/OVR_Win32_HMDDevice.cpp
-		../external/LibOvr/Src/OVR_Win32_SensorDevice.cpp
-		../external/LibOvr/Src/OVR_Win32_DeviceManager.h
-		../external/LibOvr/Src/OVR_Win32_DeviceStatus.h
-		../external/LibOvr/Src/OVR_Win32_HIDDevice.h
-		../external/LibOvr/Src/OVR_Win32_HMDDevice.h
-		../external/LibOvr/Src/OVR_Win32_SensorDevice.h
-	)
-	IF(WIN32)
-		set (src_oculus_src ${src_oculus_src_core} ${src_oculus_src_win32})
-	ELSE(WIN32)
-		# matches darwin == osx
-		IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-			set (src_oculus_src ${src_oculus_src_core} ${src_oculus_src_osx})
-		ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-			set (src_oculus_src ${src_oculus_src_core} ${src_oculus_src_linux})
-		ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	ENDIF(WIN32)
-	set ( src_oculus_kernel_core
-		../external/LibOvr/Src/Kernel/OVR_Alg.cpp
-		../external/LibOvr/Src/Kernel/OVR_Allocator.cpp
-		../external/LibOvr/Src/Kernel/OVR_Atomic.cpp
-		../external/LibOvr/Src/Kernel/OVR_File.cpp
-		../external/LibOvr/Src/Kernel/OVR_FileFILE.cpp
-		../external/LibOvr/Src/Kernel/OVR_Log.cpp
-		../external/LibOvr/Src/Kernel/OVR_Math.cpp
-		../external/LibOvr/Src/Kernel/OVR_RefCount.cpp
-		../external/LibOvr/Src/Kernel/OVR_Std.cpp
-		../external/LibOvr/Src/Kernel/OVR_String.cpp
-		../external/LibOvr/Src/Kernel/OVR_String_FormatUtil.cpp
-		../external/LibOvr/Src/Kernel/OVR_String_PathUtil.cpp
-		../external/LibOvr/Src/Kernel/OVR_SysFile.cpp
-		../external/LibOvr/Src/Kernel/OVR_System.cpp
-		../external/LibOvr/Src/Kernel/OVR_Timer.cpp
-		../external/LibOvr/Src/Kernel/OVR_UTF8Util.cpp
-		../external/LibOvr/Src/Kernel/OVR_Alg.h
-		../external/LibOvr/Src/Kernel/OVR_Allocator.h
-		../external/LibOvr/Src/Kernel/OVR_Array.h
-		../external/LibOvr/Src/Kernel/OVR_Atomic.h
-		../external/LibOvr/Src/Kernel/OVR_Color.h
-		../external/LibOvr/Src/Kernel/OVR_ContainerAllocator.h
-		../external/LibOvr/Src/Kernel/OVR_File.h
-		../external/LibOvr/Src/Kernel/OVR_Hash.h
-		../external/LibOvr/Src/Kernel/OVR_KeyCodes.h
-		../external/LibOvr/Src/Kernel/OVR_List.h
-		../external/LibOvr/Src/Kernel/OVR_Log.h
-		../external/LibOvr/Src/Kernel/OVR_Math.h
-		../external/LibOvr/Src/Kernel/OVR_RefCount.h
-		../external/LibOvr/Src/Kernel/OVR_Std.h
-		../external/LibOvr/Src/Kernel/OVR_String.h
-		../external/LibOvr/Src/Kernel/OVR_StringHash.h
-		../external/LibOvr/Src/Kernel/OVR_SysFile.h
-		../external/LibOvr/Src/Kernel/OVR_System.h
-		../external/LibOvr/Src/Kernel/OVR_Threads.h
-		../external/LibOvr/Src/Kernel/OVR_Timer.h
-		../external/LibOvr/Src/Kernel/OVR_Types.h
-		../external/LibOvr/Src/Kernel/OVR_UTF8Util.h
-	)
-	set(src_oculus_kernel_win32
-		../external/LibOvr/Src/Kernel/OVR_ThreadsWinAPI.cpp
-	)
-	set(src_oculus_kernel_nonwin32
-		../external/LibOvr/Src/Kernel/OVR_ThreadsPthread.cpp
-	)
-	IF(WIN32)
-		set (src_oculus_kernel ${src_oculus_kernel_core} ${src_oculus_kernel_win32})
-	ELSE(WIN32)
-		set (src_oculus_kernel_core ${src_oculus_kernel_core} ${src_oculus_kernel_nonwin32})
-	ENDIF(WIN32)
-	set ( src_oculus_util
-		../external/LibOvr/Src/Util/Util_LatencyTest.cpp
-		../external/LibOvr/Src/Util/Util_MagCalibration.cpp
-		../external/LibOvr/Src/Util/Util_Render_Stereo.cpp
-		../external/LibOvr/Src/Util/Util_LatencyTest.h
-		../external/LibOvr/Src/Util/Util_MagCalibration.h
-		../external/LibOvr/Src/Util/Util_Render_Stereo.h
-	)
-	set( src_oculus ${src_oculus_include} ${src_oculus_src} ${src_oculus_kernel} ${src_oculus_util} )
-endif(USE_OCULUS)
 
 set ( src_jsoncpp
 	../external/jsoncpp/json_reader.cpp
@@ -231,10 +100,6 @@ endif(USE_TWEAKABLES)
 set(extra_libraries)
 
 if(USE_OCULUS)
-	source_group(oculusvr FILES ${src_oculus_include})
-	source_group(oculusvr\\src FILES ${src_oculus_src})
-	source_group(oculusvr\\src\\kernel FILES ${src_oculus_kernel})
-	source_group(oculusvr\\src\\util FILES ${src_oculus_util})
 	set(all_src ${all_src} ${src_oculus})
 	
 	IF(WIN32)
