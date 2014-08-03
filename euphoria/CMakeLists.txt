@@ -242,60 +242,59 @@ if(USE_OCULUS)
 	ENDIF(WIN32)
 endif(USE_OCULUS)
 
-MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
-	include_directories(${LauncherIncludes})
-	message(STATUS "Including launcher ${LauncherName} ${LauncherIncludes}")
+find_package(SDL2 REQUIRED)
 
-	source_group("" FILES "main/main-${LauncherName}.cc")
-	
-	add_executable(${TargetName} WIN32 ${all_src} "main/main-${LauncherName}.cc")
-	
-	GET_FILENAME_COMPONENT(mainsrc "main/main-${LauncherName}.cc" ABSOLUTE)
-	
-	if(BUILD_USE_CLANG_FORMAT)
-		add_custom_command(TARGET ${TargetName}
+include_directories(${SDL2_INCLUDE_DIR})
+
+source_group("" FILES "main/main-sdl2.cc")
+
+add_executable(main-sdl2 WIN32 ${all_src} "main/main-sdl2.cc")
+
+GET_FILENAME_COMPONENT(mainsrc "main/main-sdl2.cc" ABSOLUTE)
+
+if(BUILD_USE_CLANG_FORMAT)
+	add_custom_command(TARGET main-sdl2
+				   PRE_BUILD
+				   COMMAND ./call-clang-format.py ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h
+				   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+				   COMMENT "Running clang format" VERBATIM)
+endif(BUILD_USE_CLANG_FORMAT)
+
+if(BUILD_USE_CPPLINT)
+	add_custom_command(TARGET main-sdl2
 					   PRE_BUILD
-					   COMMAND ./call-clang-format.py ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h
+					   COMMAND ./cpplint.py ARGS --output=vs7 ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h  ${mainsrc}
 					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					   COMMENT "Running clang format" VERBATIM)
-	endif(BUILD_USE_CLANG_FORMAT)
+					   COMMENT "Running CppLint" VERBATIM)
+endif(BUILD_USE_CPPLINT)
 
-	if(BUILD_USE_CPPLINT)
-		add_custom_command(TARGET ${TargetName}
-						   PRE_BUILD
-						   COMMAND ./cpplint.py ARGS --output=vs7 ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h  ${mainsrc}
-						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						   COMMENT "Running CppLint" VERBATIM)
-	endif(BUILD_USE_CPPLINT)
-	
-	if(BUILD_USE_CPPCHECK)
-		add_custom_command(TARGET ${TargetName}
-						   PRE_BUILD
-						   COMMAND cppcheck --enable=all --std=c++11 --suppress=unusedFunction --quiet --template=vs ${CMAKE_SOURCE_DIR}/euphoria
-						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						   COMMENT "Running cppcheck" VERBATIM)
-	endif(BUILD_USE_CPPCHECK)
+if(BUILD_USE_CPPCHECK)
+	add_custom_command(TARGET main-sdl2
+					   PRE_BUILD
+					   COMMAND cppcheck --enable=all --std=c++11 --suppress=unusedFunction --quiet --template=vs ${CMAKE_SOURCE_DIR}/euphoria
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running cppcheck" VERBATIM)
+endif(BUILD_USE_CPPCHECK)
 
-	if(BUILD_USE_DOXYGEN)
-		add_custom_command(TARGET ${TargetName}
-						   PRE_LINK
-						   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
-						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						   COMMENT "Running Doxygen" VERBATIM)
-	endif(BUILD_USE_DOXYGEN)
+if(BUILD_USE_DOXYGEN)
+	add_custom_command(TARGET main-sdl2
+					   PRE_LINK
+					   COMMAND ${DOXYGEN_EXECUTABLE} ARGS ${CMAKE_CURRENT_BINARY_DIR}/../Doxyfile
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running Doxygen" VERBATIM)
+endif(BUILD_USE_DOXYGEN)
 
-	if(BUILD_USE_LUADOCGEN)
-		add_custom_command(TARGET ${TargetName}
-						   PRE_LINK
-						   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
-						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						   COMMENT "Running luadocgen" VERBATIM)
-	endif(BUILD_USE_LUADOCGEN)
+if(BUILD_USE_LUADOCGEN)
+	add_custom_command(TARGET main-sdl2
+					   PRE_LINK
+					   COMMAND ./luadocgen.py ARGS luadoc/ ${game_src}
+					   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+					   COMMENT "Running luadocgen" VERBATIM)
+endif(BUILD_USE_LUADOCGEN)
 
-	message(STATUS "Linking with launcher ${LauncherName} ${LauncherLibraries}")
+message(STATUS "Linking with launcher sdl2 ${SDL2_LIBRARY}")
 
-	target_link_libraries(${TargetName} ${OPENGL_LIBRARIES} ${LauncherLibraries} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES} ${extra_libraries})
-ENDMACRO(GenerateMain)
+target_link_libraries(main-sdl2 ${OPENGL_LIBRARIES} ${SDL2_LIBRARY} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES} ${extra_libraries})
 
 message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
 message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
@@ -304,31 +303,3 @@ message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
 if(BUILD_USE_DOXYGEN)
 	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir ${CMAKE_SOURCE_DIR}/euphoria")
 endif(BUILD_USE_DOXYGEN)
-
-#	Legacy launcher, not used anymore
-#	option(USE_MAIN_SFML "Use sfml as launch library" ON)
-#	if(USE_MAIN_SFML)
-#		if(WIN32)
-#			#on windows, link to sfml static, to avoid crash on exit with ati cards
-#			set(SFML_STATIC_LIBRARIES TRUE)
-#			message(STATUS "using static sfml libraries")
-#		else(WIN32)
-#			#on linux, link with dynamic since static library dependencies are horrible on linux
-#			message(STATUS "using non-static libraries")
-#		endif(WIN32)
-#	
-#		#on windows main is needed, not on linux
-#		if(WIN32)
-#			find_package(SFML 2 COMPONENTS system window main REQUIRED)
-#		else(WIN32)
-#			find_package(SFML 2 COMPONENTS system window REQUIRED)
-#		endif(WIN32)
-#		
-#		GenerateMain("sfml" main-sfml "${SFML_INCLUDE_DIR}" "${SFML_LIBRARIES}")
-#	endif(USE_MAIN_SFML)
-
-option(USE_MAIN_SDL2 "Use sdl2 as launch library" ON)
-if(USE_MAIN_SDL2)
-	find_package(SDL2 REQUIRED)
-	GenerateMain("sdl2" main-sdl2 "${SDL2_INCLUDE_DIR}" "${SDL2_LIBRARY}")
-endif(USE_MAIN_SDL2)
