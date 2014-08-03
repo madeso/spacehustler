@@ -10,7 +10,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake-modules")
 
-option(BUILD_USE_ASTYLE "Add astyle to the build" OFF)
 option(BUILD_USE_CLANG_FORMAT "Add clang format to the build" ON)
 option(BUILD_USE_CPPLINT "Add cpplint to the build" ON)
 option(BUILD_USE_DOXYGEN "Add doxygen to the build" ON)

@@ -36,12 +36,10 @@ Optional tools
 =============
 * Python, for running cpplint during build
 * Doxygen, for building documentation
-* Astyle, for styling the code (legacy)
 * clang-format, for styling the code
 
 Planned Features and stuff that needs to be done
 =======
-* remove all traces of astyle
 * make sdl the only launcher
 * complete oculus rift support
 * hud/2d support

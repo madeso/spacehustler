@@ -251,14 +251,6 @@ MACRO(GenerateMain LauncherName TargetName LauncherIncludes LauncherLibraries)
 	add_executable(${TargetName} WIN32 ${all_src} "main/main-${LauncherName}.cc")
 	
 	GET_FILENAME_COMPONENT(mainsrc "main/main-${LauncherName}.cc" ABSOLUTE)
-
-	if(BUILD_USE_ASTYLE)
-		add_custom_command(TARGET ${TargetName}
-						   PRE_BUILD
-						   COMMAND astyle ARGS --options=${CMAKE_SOURCE_DIR}/astyle-options.txt ${game_src} ${mainsrc}
-						   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-						   COMMENT "Running astyle" VERBATIM)
-	endif(BUILD_USE_ASTYLE)
 	
 	if(BUILD_USE_CLANG_FORMAT)
 		add_custom_command(TARGET ${TargetName}
