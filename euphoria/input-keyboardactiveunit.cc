@@ -24,7 +24,7 @@ void KeyboardActiveUnit::OnKey(const Key& key, bool state) {
   assert(this);
   auto actionsit = actions_.find(key);
   if (actionsit != actions_.end()) {
-    actionsit->second->set_value(state ? 1.0f : 0.0f);
+    TransformAndSetBindValue(actionsit->second, state ? 1.0f : 0.0f);
   }
 }
 

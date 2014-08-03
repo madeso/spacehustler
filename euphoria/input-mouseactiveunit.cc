@@ -27,7 +27,7 @@ void MouseActiveUnit::OnAxis(const Axis& key, float state) {
   assert(this);
   auto res = actions_.find(key);
   if (res != actions_.end()) {
-    res->second->set_value(state);
+    TransformAndSetBindValue(res->second, state);
   }
 }
 
@@ -35,7 +35,7 @@ void MouseActiveUnit::OnButton(MouseButton key, float state) {
   assert(this);
   auto res = buttons_.find(key);
   if (res != buttons_.end()) {
-    res->second->set_value(state);
+    TransformAndSetBindValue(res->second, state);
   }
 }
 

@@ -32,7 +32,7 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
                                         << common.bindname << " action";
         throw error;
       }
-      axis_.push_back(BindDef<int>(common.bindname, axis));
+      axis_.push_back(BindDef<int>(common.bindname, axis, d));
     } else if (common.type == "button") {
       const int key = d.get("button", -1).asInt();
 
@@ -41,7 +41,7 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
                                         << common.bindname << " action";
         throw error;
       }
-      buttons_.push_back(BindDef<int>(common.bindname, key));
+      buttons_.push_back(BindDef<int>(common.bindname, key, d));
     } else if (common.type == "hat") {
       const int hat = d.get("hat", -1).asInt();
       if (hat < 0) {
@@ -57,7 +57,7 @@ JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
         throw error;
       }
 
-      hats_.push_back(BindDef<HatAxis>(common.bindname, HatAxis(hat, axis)));
+      hats_.push_back(BindDef<HatAxis>(common.bindname, HatAxis(hat, axis), d));
     } else {
       std::string error =
           Str() << "Unknown input type for mouse: " << common.type;

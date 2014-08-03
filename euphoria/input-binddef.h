@@ -10,6 +10,8 @@ Classes for input handling.
 #include <string>
 #include <cassert>
 
+#include "json/json.h"
+
 namespace input {
 
 /** Definition of a bind.
@@ -18,7 +20,11 @@ namespace input {
 template <typename Type>
 class BindDef {
  public:
-  BindDef(const std::string& id, const Type type, bool invert, float scale) : id_(id), type_(type), invert_(invert), scale_(scale) {
+  BindDef(const std::string& id, const Type type, const Json::Value& d)
+      : id_(id),
+        type_(type),
+        invert_(d.get("invert", false).asBool()),
+        scale_(d.get("scale", 1.0f).asFloat()) {
     assert(this);
   }
   const std::string& id() const {

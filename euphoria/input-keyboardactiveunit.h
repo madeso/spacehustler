@@ -20,6 +20,7 @@ namespace input {
 
 class AxisKey;
 class InputDirector;
+struct BindData;
 
 /** A active keyboard.
  */
@@ -48,7 +49,7 @@ class KeyboardActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  const std::map<Key, std::shared_ptr<Bind>> actions_;
+  const std::map<Key, BindData> actions_;
 };
 
 }  // namespace input

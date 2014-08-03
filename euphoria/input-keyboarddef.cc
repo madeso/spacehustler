@@ -32,7 +32,7 @@ KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
                             << common.bindname << " action").ToString();
         throw error;
       }
-      keys_.push_back(BindDef<Key>(common.bindname, key));
+      keys_.push_back(BindDef<Key>(common.bindname, key, d));
     } else {
       std::string error =
           Str() << "Unknown input type for keyboard: " << common.type;

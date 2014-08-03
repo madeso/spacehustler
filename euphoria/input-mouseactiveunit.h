@@ -21,6 +21,7 @@ class Table;
 namespace input {
 
 class InputDirector;
+struct BindData;
 
 /** A active mouse binding
  */
@@ -54,8 +55,8 @@ class MouseActiveUnit : public ActiveUnit {
 
  private:
   InputDirector* director_;
-  const std::map<Axis, std::shared_ptr<Bind>> actions_;
-  const std::map<MouseButton, std::shared_ptr<Bind>> buttons_;
+  const std::map<Axis, BindData> actions_;
+  const std::map<MouseButton, BindData> buttons_;
 };
 
 }  // namespace input

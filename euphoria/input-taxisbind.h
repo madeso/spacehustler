@@ -17,7 +17,8 @@ namespace input {
 template <typename T>
 class TAxisBind {
  public:
-  TAxisBind(T axis, std::shared_ptr<Bind> bind) : axis_(axis), bind_(bind) {
+  TAxisBind(T axis, std::shared_ptr<Bind> bind, bool invert, float scale)
+      : axis_(axis), bind_(bind), invert_(invert), scale_(scale) {
     assert(this);
     assert(bind);
   }
@@ -33,9 +34,21 @@ class TAxisBind {
     return bind_;
   }
 
+  bool invert() const {
+    assert(this);
+    return invert_;
+  }
+
+  float scale() const {
+    assert(this);
+    return scale_;
+  }
+
  private:
   T axis_;
   std::shared_ptr<Bind> bind_;
+  bool invert_;
+  float scale_;
 };
 
 }  // namespace input

@@ -25,7 +25,7 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
         const std::string error = Str() << "Invalid axis " << axisname;
         throw error;
       }
-      axis_.push_back(BindDef<Axis>(common.bindname, axis));
+      axis_.push_back(BindDef<Axis>(common.bindname, axis, d));
     } else if (common.type == "button") {
       const std::string keyname = d.get("key", "").asString();
       const auto key = ToMouseButton(keyname);
@@ -35,7 +35,7 @@ MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
                             << common.bindname << " action").ToString();
         throw error;
       }
-      keys_.push_back(BindDef<MouseButton>(common.bindname, key));
+      keys_.push_back(BindDef<MouseButton>(common.bindname, key, d));
     } else {
       std::string error =
           Str() << "Unknown input type for mouse: " << common.type;
