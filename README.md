@@ -40,7 +40,6 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* make sdl the only launcher
 * complete oculus rift support
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
@@ -49,7 +48,7 @@ Planned Features and stuff that needs to be done
 * physics motor support
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
-* refactor input system with system wide documentation
+* refactor input system with system wide documentation and war thunder input support http://forum.warthunder.com/index.php?/topic/10815-axis-and-sensitivity-settings-for-controllers-explained/
 * sdl gamepad into input system
 * force feedback/haptics
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
