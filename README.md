@@ -41,11 +41,8 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* redesign input system
-* write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * remove all traces of astyle
 * make sdl the only launcher
-* force feedback/haptics
 * complete oculus rift support
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
@@ -54,6 +51,10 @@ Planned Features and stuff that needs to be done
 * physics motor support
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
+* refactor input system with system wide documentation
+* sdl gamepad into input system
+* force feedback/haptics
+* write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * static_assert
 * change cml to glm
 * fix osx build
