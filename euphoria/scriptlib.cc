@@ -587,7 +587,7 @@ void createmeta(lua_State* state, const std::string& name,
 
 LUAMOD_API int scriptlib_vec3_open(lua_State* state) {
   luaL_newlib(state, vec3lib);
-  createmeta(state, "vec3", fvec);
+  createmeta(state, "Vec3", fvec);
   return 1;
 }
 
@@ -802,7 +802,7 @@ static const luaL_Reg fquat[] = {{"__gc", GCMethod<Quat>},
 
 LUAMOD_API int scriptlib_quat_open(lua_State* state) {
   luaL_newlib(state, quatlib);
-  createmeta(state, "quat", fquat);
+  createmeta(state, "Quat", fquat);
   return 1;
 }
 }  // namespace
