@@ -104,6 +104,7 @@ set(extra_libraries)
 
 if(USE_OCULUS)
 	set(all_src ${all_src} ${src_oculus})
+	add_definitions( -DOVR_DISABLE_D3D ) # my modification to the libovr, disable d3d
 	
 	IF(WIN32)
 	# Dbghelp.lib libovrd.lib dxgi.lib dxguid.lib d3d10.lib d3d11.lib d3dcompiler.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
