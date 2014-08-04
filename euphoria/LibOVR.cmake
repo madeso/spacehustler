@@ -218,11 +218,11 @@ set(libovr_util
 	../external/LibOVR/Src/Util/Util_LatencyTest2Reader.cpp
 	../external/LibOVR/Src/Util/Util_LatencyTest2Reader.h
 	../external/LibOVR/Src/Util/Util_LatencyTest2State.h
-	../external/LibOVR/Src/Util/Util_LongPollThread.cpp
+	# ../external/LibOVR/Src/Util/Util_LongPollThread.cpp
 	../external/LibOVR/Src/Util/Util_LongPollThread.h
 	../external/LibOVR/Src/Util/Util_Render_Stereo.cpp
 	../external/LibOVR/Src/Util/Util_Render_Stereo.h
-	../external/LibOVR/Src/Util/Util_Settings.cpp
+	# ../external/LibOVR/Src/Util/Util_Settings.cpp
 	../external/LibOVR/Src/Util/Util_Settings.h
 )
 
@@ -239,6 +239,7 @@ source_group(LibOVR\\Src\\Net FILES ${libovr_net})
 source_group(LibOVR\\Src\\Sensors FILES ${libovr_sensors})
 source_group(LibOVR\\Src\\Service FILES ${libovr_service})
 source_group(LibOVR\\Src\\Tracking FILES ${libovr_tracking})
+source_group(LibOVR\\Src\\Util FILES ${libovr_util})
 
 set(src_oculus 
 	${libovr_include}
@@ -254,6 +255,7 @@ set(src_oculus
 	${libovr_sensors}
 	${libovr_service}
 	${libovr_tracking}
+	${libovr_util}
 )
 
 include_directories(../external/opengl-registry)

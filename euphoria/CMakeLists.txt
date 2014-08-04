@@ -106,7 +106,8 @@ if(USE_OCULUS)
 	set(all_src ${all_src} ${src_oculus})
 	
 	IF(WIN32)
-		set(extra_libraries ${extra_libraries} setupapi.lib)
+	# Dbghelp.lib libovrd.lib dxgi.lib dxguid.lib d3d10.lib d3d11.lib d3dcompiler.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+		set(extra_libraries ${extra_libraries} setupapi.lib ws2_32.lib winmm.lib)
 	ENDIF(WIN32)
 endif(USE_OCULUS)
 
