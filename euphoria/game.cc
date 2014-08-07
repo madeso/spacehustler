@@ -155,6 +155,8 @@ void Game::Render() {
   world_->debug_renderer().Update();
 
   if (oculusvr_->IsHmdDetected()) {
+    oculusvr_->Begin();
+    OglDebug::Verify();
     for (int i = 0; i < oculusvr_->GetNumberOfEyes(); ++i) {
       EyeSetup& eye = oculusvr_->GetEyeIndex(i);
       Camera cam(*camera_);
@@ -163,6 +165,9 @@ void Game::Render() {
       ClearScreen();
       SubRender(world_.get(), cam, istweaking_);
     }
+    OglDebug::Verify();
+    oculusvr_->End();
+    OglDebug::Verify();
   } else {
     ClearScreen();
     SubRender(world_.get(), *camera_, istweaking_);
