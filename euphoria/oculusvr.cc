@@ -53,6 +53,14 @@ Mat44 C(const OVR::Matrix4f& m) {
   // return cml::transpose(mat44(m.M));
 }
 
+Vec3 C(const ovrVector3f& vec) {
+  return Vec3(vec.x, vec.y, vec.z);
+}
+
+Quat C(const ovrQuatf& q) {
+  return Quat(Vec3(q.x, q.y, q.z), q.w);
+}
+
 ovrSizei SizeiMin(ovrSizei a, ovrSizei b) {
   ovrSizei ret;
   ret.w = (a.w  < b.w)  ? a.w  : b.w;
@@ -160,6 +168,12 @@ enum {
   INDEX_RIGHT = 1
 };
 
+
+
+const Mat44 PoseToMatrix(const ovrPosef& pose) {
+  return CreateMat44(C(pose.Position), C(pose.Orientation));
+}
+
 class OculusVr::OculusVrPimpl {
  private:
    ovrHmd hmd_;
@@ -172,6 +186,18 @@ class OculusVr::OculusVrPimpl {
    ovrTexture textures_[2];
    std::unique_ptr<EyeSetup> left_eye_;
    std::unique_ptr<EyeSetup> right_eye_;
+
+private:
+   EyeSetup& GetEyeReferenceFromIndex(ovrEyeType eyeIndex) {
+     assert(this);
+     assert(left_eye_);
+     assert(right_eye_);
+
+     if( eyeIndex == ovrEye_Left ) return *left_eye_;
+     if( eyeIndex == ovrEye_Right ) return *right_eye_;
+     assert(false && "the index is neither left nor right");
+     return *left_eye_;
+   }
 
  public:
   OculusVrPimpl(ovrHmd hmd) : hmd_(hmd) {
@@ -270,16 +296,6 @@ class OculusVr::OculusVrPimpl {
     
     left_eye_->set_projection(C(projection_left));
     right_eye_->set_projection(C(projection_right));
-
-    /*
-    float    orthoDistance = 0.8f; // 2D is 0.8 meter from camera
-    Vector2f orthoScale0   = Vector2f(1.0f) / Vector2f(EyeRenderDesc[0].PixelsPerTanAngleAtCenter);
-    Vector2f orthoScale1   = Vector2f(1.0f) / Vector2f(EyeRenderDesc[1].PixelsPerTanAngleAtCenter);
-    OrthoProjection[0] = ovrMatrix4f_OrthoSubProjection(Projection[0], orthoScale0, orthoDistance,
-      EyeRenderDesc[0].ViewAdjust.x);
-    OrthoProjection[1] = ovrMatrix4f_OrthoSubProjection(Projection[1], orthoScale1, orthoDistance,
-      EyeRenderDesc[1].ViewAdjust.x);
-    */
   }
 
   ~OculusVrPimpl() {
@@ -288,25 +304,43 @@ class OculusVr::OculusVrPimpl {
   }
 
   void begin() {
+    assert(this);
     ovrHmd_BeginFrame(hmd_, 0);
+  }
 
-    for (int eyeIndex = 0; eyeIndex < ovrEye_Count; eyeIndex++)
-    {      
-      ovrEyeType eye = hmd_->EyeRenderOrder[eyeIndex];
-      ovrPosef pose = ovrHmd_GetEyePose(hmd_, eye);
-      poses_[eye] = pose;
-      // view = CalculateViewFromPose(pose);
-    }
+  // for (int eyeIndex = 0; eyeIndex < ovrEye_Count; eyeIndex++)
+  EyeSetup& GetEyeIndex(int eyeIndex) {
+    assert(this);
+    assert(eyeIndex >= 0 && eyeIndex < ovrEye_Count);
+    ovrEyeType eye = hmd_->EyeRenderOrder[eyeIndex];
+    ovrPosef pose = ovrHmd_GetEyePose(hmd_, eye);
+    poses_[eye] = pose;
+    EyeSetup& setup = GetEyeReferenceFromIndex(eye);
+    setup.set_view_adjust( PoseToMatrix(pose) );
+    // view = CalculateViewFromPose(pose);
+    return setup;
   }
 
   void end() {
+    assert(this);
     ovrHmd_EndFrame(hmd_, poses_, textures_);
+  }
+
+  const Vec2i window_size() const {
+    assert(this);
+    return Vec2i(window_size_.h, window_size_.h);
   }
 };
 
 OculusVr::OculusVr() {
   assert(this);
   ovr_Initialize();
+}
+
+OculusVr::~OculusVr() {
+  assert(this);
+  pimpl_.reset();
+  ovr_Shutdown();
 }
 
 bool OculusVr::Detect(bool detect_debug_device) {
@@ -321,58 +355,37 @@ bool OculusVr::Detect(bool detect_debug_device) {
   }
 }
 
-OculusVr::~OculusVr() {
+bool OculusVr::IsHmdDetected() {
   assert(this);
-  pimpl_.reset();
-  ovr_Shutdown();
+  return pimpl_.get() != 0;
 }
 
-#if 0
-
-const EyeSetup OculusVr::LeftEye() {
+const Vec2i OculusVr::GetWindowSize() const {
   assert(this);
-  return pimpl_->GetEyeSetup(OVR::Util::Render::StereoEye_Left);
+  assert(pimpl_ && "hmd must be detected");
+  return pimpl_->window_size();
 }
 
-const EyeSetup OculusVr::RightEye() {
+void OculusVr::Begin() {
   assert(this);
-  return pimpl_->GetEyeSetup(OVR::Util::Render::StereoEye_Right);
+  assert(pimpl_ && "hmd must be detected");
+  pimpl_->begin();
 }
 
-const Vec4& OculusVr::GetDistortion() const {
+int OculusVr::GetNumberOfEyes() const {
   assert(this);
-  return pimpl_->distortion();
+  assert(pimpl_ && "hmd must be detected");
+  return ovrEye_Count;
 }
 
-float OculusVr::GetScale() const {
+EyeSetup& OculusVr::GetEyeIndex(int eyeIndex) {
   assert(this);
-  return pimpl_->render_scale();
+  assert(pimpl_ && "hmd must be detected");
+  return pimpl_->GetEyeIndex(eyeIndex);
 }
 
-Quat OculusVr::GetOrientation(bool predict_orientation) const {
+void OculusVr::End() {
   assert(this);
-  return pimpl_->CalculateOrientation(predict_orientation);
+  assert(pimpl_ && "hmd must be detected");
+  pimpl_->end();
 }
-
-void OculusVr::ResetOrientation() {
-  assert(this);
-  return pimpl_->ResetOrientation();
-}
-
-const Vec2& OculusVr::GetCenterOffset() const {
-  assert(this);
-  return pimpl_->center_offset();
-}
-
-const Vec4 OculusVr::GetChromaticAberration() const {
-  assert(this);
-  return pimpl_->chromatic_aberration();
-}
-
-const std::string OculusVr::GetDetectionMessage() const {
-  assert(this);
-  return pimpl_->GetDetectionMessage();
-}
-
-
-#endif

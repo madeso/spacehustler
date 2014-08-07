@@ -16,6 +16,11 @@ Math related code.
 // cpplint complain that we don't include <vector> but we use cml::vector
 //   here so <vector> isn't needed
 
+/** A integer vector in 2 dimensions.
+ */
+typedef cml::vector<int,  // NOLINT(build/include_what_you_use)
+                    cml::fixed<2> > Vec2i;
+
 /** A vector in 2 dimensions.
  */
 typedef cml::vector<float,  // NOLINT(build/include_what_you_use)

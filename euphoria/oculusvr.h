@@ -55,17 +55,13 @@ class OculusVr : boost::noncopyable {
 
   bool Detect(bool detect_debug_device);
 
-  /** Get the eye configuration for the left eye.
-   @returns the left eye configuration
-   */
-  const EyeSetup LeftEye();
-
   bool IsHmdDetected();
+  const Vec2i GetWindowSize() const;
 
-  /** Get the eye configuration for the right eye.
-   @returns the right eye configuration
-   */
-  const EyeSetup RightEye();
+  void Begin();
+  int GetNumberOfEyes() const;
+  EyeSetup& GetEyeIndex(int eyeIndex);
+  void End();
  private:
   class OculusVrPimpl;
   std::unique_ptr<OculusVrPimpl> pimpl_;
