@@ -71,6 +71,11 @@ class Fbo : boost::noncopyable {
    */
   void Bind();
 
+  /** Gets the texture.
+  @returns the texture
+   */
+  const Texture& texture() const;
+
  private:
   unsigned int fbo_;
   int width_;

@@ -28,11 +28,13 @@ class EyeSetup {
   @return the projection matrix used with this eye.
    */
   const Mat44& projection() const;
+  void set_projection(const Mat44& projection);
 
   /** Get the translation to be applied to view matrix.
   @return the translation to be applied to view matrix.
    */
   const Mat44& view_adjust() const;
+  void set_view_adjust(const Mat44& view_adjust);
 
   Fbo& fbo();
 

@@ -5,6 +5,8 @@
 #include <cassert>
 #include <string>
 
+#include "euphoria/texture.h"
+
 #include "OVR.h"  // NOLINT this is how you should include OVR
 #include "../Src/OVR_CAPI_GL.h"
 
@@ -16,9 +18,20 @@ const Mat44& EyeSetup::projection() const {
   assert(this);
   return projection_;
 }
+
+void EyeSetup::set_projection(const Mat44& projection) {
+  assert(this);
+  projection_ = projection;
+}
+
 const Mat44& EyeSetup::view_adjust() const {
   assert(this);
   return view_adjust_;
+}
+
+void EyeSetup::set_view_adjust(const Mat44& view_adjust) {
+  assert(this);
+  view_adjust_ = view_adjust;
 }
 
 Fbo& EyeSetup::fbo() {
@@ -64,7 +77,8 @@ struct OculusSettings {
     TimewarpEnabled(false),
     TimewarpNoJitEnabled(false),
     Multisample(false),
-    PositionTrackingEnabled(false)
+    PositionTrackingEnabled(false),
+    MipMapEyeTextures(false)
   {
   }
 
@@ -78,8 +92,15 @@ struct OculusSettings {
   bool TimewarpNoJitEnabled;
   bool Multisample;
   bool PositionTrackingEnabled;
+  bool MipMapEyeTextures;
 };
 
+ovrSizei Sizei(int h, int w) {
+  ovrSizei ret;
+  ret.h = h;
+  ret.w = w;
+  return ret;
+}
 ovrSizei Sizei(int i) {
   ovrSizei ret;
   ret.h = ret.w = i;
@@ -112,19 +133,32 @@ ovrHmd DetectHmdOrNull(bool detect_debug_device) {
   return Hmd;
 }
 
+ovrRecti Recti(const ovrSizei& s) {
+  ovrRecti r;
+  r.Pos.x = 0;
+  r.Pos.y = 0;
+  r.Size = s;
+  return r;
+}
+
 ovrTexture GetOvrTexture(const EyeSetup& eye) {
   ovrTexture tex;
 
-  OVR::Sizei newRTSize(eye.fbo().width(), eye.fbo().height());
+  ovrSizei newRTSize = Sizei(eye.fbo().width(), eye.fbo().height());
 
   ovrGLTextureData* texData = (ovrGLTextureData*)&tex;
   texData->Header.API            = ovrRenderAPI_OpenGL;
   texData->Header.TextureSize    = newRTSize;
   texData->Header.RenderViewport = Recti(newRTSize);
-  texData->TexId                 = eye.fbo().texture_()texture();
+  texData->TexId                 = eye.fbo().texture().texture();
 
   return tex;
 }
+
+enum {
+  INDEX_LEFT = 0,
+  INDEX_RIGHT = 1
+};
 
 class OculusVr::OculusVrPimpl {
  private:
@@ -134,11 +168,10 @@ class OculusVr::OculusVrPimpl {
    ovrSizei eye_render_size_[2];
    ovrEyeRenderDesc eye_render_desc_[2];
    ovrGLConfig cfg_;
-   ovrMatrix4f projection_[2];
    ovrPosef poses_[2];
    ovrTexture textures_[2];
-   EyeSetup left_eye_;
-   EyeSetup right_eye_;
+   std::unique_ptr<EyeSetup> left_eye_;
+   std::unique_ptr<EyeSetup> right_eye_;
 
  public:
   OculusVrPimpl(ovrHmd hmd) : hmd_(hmd) {
@@ -156,29 +189,33 @@ class OculusVr::OculusVrPimpl {
       window_size_.w = 618;
     }
 
-    eye_fov_[0] = hmd_->DefaultEyeFov[0];
-    eye_fov_[1] = hmd_->DefaultEyeFov[1];
+    eye_fov_[INDEX_LEFT] = hmd_->DefaultEyeFov[INDEX_LEFT];
+    eye_fov_[INDEX_RIGHT] = hmd_->DefaultEyeFov[INDEX_RIGHT];
 
     OculusSettings settings;
 
     // Configure Stereo settings. Default pixel density is 1.0f.
     float DesiredPixelDensity = 1.0f;
-    ovrSizei recommenedTex0Size = ovrHmd_GetFovTextureSize(hmd_, ovrEye_Left,  eye_fov_[0], DesiredPixelDensity);
-    ovrSizei recommenedTex1Size = ovrHmd_GetFovTextureSize(hmd_, ovrEye_Right, eye_fov_[1], DesiredPixelDensity);
+    ovrSizei recommenedTexleftSize = ovrHmd_GetFovTextureSize(hmd_, ovrEye_Left,  eye_fov_[INDEX_LEFT], DesiredPixelDensity);
+    ovrSizei recommenedTexRightSize = ovrHmd_GetFovTextureSize(hmd_, ovrEye_Right, eye_fov_[INDEX_RIGHT], DesiredPixelDensity);
 
-    ovrSizei tex0Size = EnsureRendertargetAtLeastThisBig(ovrEye_Left,  recommenedTex0Size);
-    ovrSizei tex1Size = EnsureRendertargetAtLeastThisBig(ovrEye_Right, recommenedTex1Size);
+    ovrSizei texLeftSize = EnsureRendertargetAtLeastThisBig(ovrEye_Left,  recommenedTexleftSize);
+    ovrSizei texRightSize = EnsureRendertargetAtLeastThisBig(ovrEye_Right, recommenedTexRightSize);
 
-    eye_render_size_[0] = SizeiMin(tex0Size, recommenedTex0Size);
-    eye_render_size_[1] = SizeiMin(tex1Size, recommenedTex1Size);
+    // setup eye textures and stuff
+    left_eye_.reset( new EyeSetup(CreateIdentityMat44(), CreateIdentityMat44(), texLeftSize.w, texLeftSize.h, settings.MipMapEyeTextures));
+    right_eye_.reset( new EyeSetup(CreateIdentityMat44(), CreateIdentityMat44(), texRightSize.w, texRightSize.h, settings.MipMapEyeTextures));
+
+    eye_render_size_[INDEX_LEFT] = SizeiMin(texLeftSize, recommenedTexleftSize);
+    eye_render_size_[INDEX_RIGHT] = SizeiMin(texRightSize, recommenedTexRightSize);
 
     // Store texture pointers and viewports that will be passed for rendering.
-    textures_[0]                       = GetOvrTexture(left_eye_);
-    textures_[0].Header.TextureSize    = tex0Size;
-    textures_[0].Header.RenderViewport = Recti(eye_render_size_[0]);
-    textures_[1]                       = GetOvrTexture(right_eye_);
-    textures_[1].Header.TextureSize    = tex1Size;
-    textures_[1].Header.RenderViewport = Recti(eye_render_size_[1]);
+    textures_[0]                       = GetOvrTexture(*left_eye_);
+    textures_[0].Header.TextureSize    = texLeftSize;
+    textures_[0].Header.RenderViewport = Recti(eye_render_size_[INDEX_LEFT]);
+    textures_[1]                       = GetOvrTexture(*right_eye_);
+    textures_[1].Header.TextureSize    = texRightSize;
+    textures_[1].Header.RenderViewport = Recti(eye_render_size_[INDEX_RIGHT]);
 
     unsigned hmd_caps = (settings.VsyncEnabled ? 0 : ovrHmdCap_NoVSync);
     if (settings.IsLowPersistence)
@@ -228,8 +265,11 @@ class OculusVr::OculusVrPimpl {
     ovrHmd_ConfigureTracking(hmd_, sensorCaps, 0);
 
     // Calculate projections
-    projection_[0] = ovrMatrix4f_Projection(eye_render_desc_[0].Fov,  0.01f, 10000.0f, true);
-    projection_[1] = ovrMatrix4f_Projection(eye_render_desc_[1].Fov,  0.01f, 10000.0f, true);
+    const ovrMatrix4f projection_left = ovrMatrix4f_Projection(eye_render_desc_[INDEX_LEFT].Fov,  0.01f, 10000.0f, true);
+    const ovrMatrix4f projection_right = ovrMatrix4f_Projection(eye_render_desc_[INDEX_RIGHT].Fov,  0.01f, 10000.0f, true);
+    
+    left_eye_->set_projection(C(projection_left));
+    right_eye_->set_projection(C(projection_right));
 
     /*
     float    orthoDistance = 0.8f; // 2D is 0.8 meter from camera

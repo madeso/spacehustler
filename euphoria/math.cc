@@ -21,6 +21,12 @@ Mat44 CreateMat44(const Quat& q) {
   return ret;
 }
 
+Mat44 CreateIdentityMat44() {
+  Mat44 ret;
+  ret.identity();
+  return ret;
+}
+
 Mat44 CreateMat44(const Vec3& v, const Quat& q) {
   return CreateMat44(v) * CreateMat44(q);
 }

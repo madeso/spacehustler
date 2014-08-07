@@ -32,11 +32,6 @@ unsigned int RenderBuffer::buffer() const {
   return buffer_;
 }
 
-void Fbo::Bind() {
-  assert(this);
-  glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
-}
-
 void UnbindFbo() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 
 Fbo::Fbo(int w, int h, bool mipmap) : fbo_(0), width_(w), height_(h) {
@@ -84,6 +79,17 @@ int Fbo::width() const {
 int Fbo::height() const {
   assert(this);
   return height_;
+}
+
+void Fbo::Bind() {
+  assert(this);
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
+}
+
+const Texture& Fbo::texture() const {
+  assert(this);
+  assert(texture_);
+  return *texture_;
 }
 
 TextureUpdator::TextureUpdator(Fbo* fbo)
