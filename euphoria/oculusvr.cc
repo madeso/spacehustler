@@ -209,7 +209,7 @@ class OculusVr::OculusVrPimpl {
       // as it can have its own contents and isn't tied to the buffer.
       // Sizei(960, 540); avoid rotated output bug.
       window_size_.w = 1100;
-      window_size_.w = 618;
+      window_size_.h = 618;
     }
 
     eye_fov_[INDEX_LEFT] = hmd_->DefaultEyeFov[INDEX_LEFT];
@@ -330,7 +330,7 @@ class OculusVr::OculusVrPimpl {
 
   const Vec2i window_size() const {
     assert(this);
-    return Vec2i(window_size_.h, window_size_.h);
+    return Vec2i(window_size_.w, window_size_.h);
   }
 };
 

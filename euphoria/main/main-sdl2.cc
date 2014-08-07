@@ -15,6 +15,7 @@
 #include "euphoria/exception.h"
 #include "euphoria/settings.h"
 #include "euphoria/str.h"
+#include "euphoria/oculusvr.h"
 
 #ifdef WIN32
 // unresolved external symbol _GetFileVersionInfoA@16 referenced in function
@@ -921,37 +922,6 @@ MouseButton ToKey(SDL_MouseButtonEvent mb) {
   }
 }
 
-int FindOculusDisplay(const VideoDisplays& displays) {
-  for (size_t i = 0; i < displays.displays().size(); ++i) {
-    DisplayInfo di = displays.displays()[i];
-    if (di.name() == "Rift DK1" || di.name() == "Rift DK" ||
-        (di.width() == 1280 && di.height() == 720)) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-int DeterminePrimaryDisplayId(const Settings& settings,
-                              const VideoDisplays& displays,
-                              bool* foundoculus) {
-  assert(foundoculus);
-  if (settings.oculus_vr_detection() == OculusVrDetection::AUTO) {
-    const int vrid = FindOculusDisplay(displays);
-    if (vrid != -1) {
-      *foundoculus = true;
-      return vrid;
-    } else {
-      *foundoculus = false;
-      return settings.primary_display_id();
-    }
-  } else {
-    *foundoculus =
-        settings.oculus_vr_detection() == OculusVrDetection::OCULUS_VR;
-    return settings.primary_display_id();
-  }
-}
-
 int TwEventSDL2(const SDL_Event* event) {
   int handled = 0;
   static int s_KeyMod = 0;
@@ -1071,9 +1041,7 @@ void MainFunction() {
   // The core profile causes http://www.opengl.org/wiki/GLAPI/glGenVertexArrays
   // to crash, weird...
 
-  bool renderoculus = false;
-
-  int displayid = DeterminePrimaryDisplayId(settings, displays, &renderoculus);
+  int displayid = settings.primary_display_id();
 
   for (size_t i = 0; i < displays.displays().size(); ++i) {
     const bool isprimaryscrreen = i == displayid;
@@ -1117,13 +1085,6 @@ void MainFunction() {
     }
   }
 
-  if (renderoculus) {
-    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Renders with the oculus vr");
-  } else {
-    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-                "Renders normally without vr support");
-  }
-
   if (primaryscreen.get() == NULL) {
     throw "Unable to find primary screen";
   }
@@ -1154,7 +1115,12 @@ void MainFunction() {
   Timer timer;
 
   context.MakeCurrent();
-  Game game(settings, renderoculus);
+  Game game(settings);
+
+  if (game.oculus().IsHmdDetected()) {
+    const Vec2i size = game.oculus().GetWindowSize();
+    SDL_SetWindowSize(primaryscreen->window(), size[0], size[1]);
+  }
 
   bool inside = false;
 

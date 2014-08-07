@@ -37,7 +37,7 @@ Game*& GameInstance() {
 
 #define OCULUS_TRANSFORM
 
-Game::Game(const Settings& settings, bool renderoculus)
+Game::Game(const Settings& settings)
     : width_(settings.width()),
       height_(settings.height()),
       keep_running_(true),
@@ -101,8 +101,12 @@ Game::Game(const Settings& settings, bool renderoculus)
 
   LoadEntities(entities_.get(), "entities.js", script_.get());
 
-  oculusvr_.reset(new OculusVr());
-  oculusvr_->Detect(renderoculus);
+  if (settings.oculus_vr_detection() != OculusVrDetection::NORMAL) {
+    oculusvr_.reset(new OculusVr());
+    const bool allow_debug_device =
+        settings.oculus_vr_detection() == OculusVrDetection::OCULUS_VR;
+    oculusvr_->Detect(allow_debug_device);
+  }
 
   OglDebug::Verify();
   istweaking_ = false;
@@ -204,6 +208,12 @@ bool Game::istweaking() const {
 void Game::Quit() {
   assert(this);
   keep_running_ = false;
+}
+
+OculusVr& Game::oculus() {
+  assert(this);
+  assert(oculusvr_);
+  return *oculusvr_;
 }
 
 namespace scriptinggame {

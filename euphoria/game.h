@@ -41,7 +41,7 @@ class Game {
   @param settings the settings
   @param renderoculus true if to render oculus ready data
    */
-  Game(const Settings& settings, bool renderoculus);
+  explicit Game(const Settings& settings);
   ~Game();
 
   /** Returns if the game should keep running.
@@ -77,6 +77,8 @@ class Game {
   @returns the input system
    */
   input::InputSystem& inputsystem();
+
+  OculusVr& oculus();
 
  private:
   int width_;
