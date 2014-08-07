@@ -44,6 +44,11 @@ const Fbo& EyeSetup::fbo() const {
   return fbo_;
 }
 
+Fbo* EyeSetup::GetFboPtr() {
+  assert(this);
+  return &fbo_;
+}
+
 Mat44 C(const OVR::Matrix4f& m) {
   // matrix4f is row-major
   // mat44 is col major

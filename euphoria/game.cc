@@ -44,8 +44,7 @@ Game::Game(const Settings& settings, bool renderoculus)
       tweakaction_(0),
       last_tweak_action_(false),
       lock_mouse_(true),
-      istweaking_(false),
-      renderoculus_(renderoculus) {
+      istweaking_(false) {
   assert(this);
 
   // @todo move this to a press enter to play screen
@@ -103,18 +102,7 @@ Game::Game(const Settings& settings, bool renderoculus)
   LoadEntities(entities_.get(), "entities.js", script_.get());
 
   oculusvr_.reset(new OculusVr());
-
-  if (renderoculus_) {
-    const int texh = static_cast<int>(ceil(height_ * oculusvr_->GetScale()));
-    const int texw = static_cast<int>(ceil(width_ * oculusvr_->GetScale()));
-    eyefbo_.reset(new Fbo(texw, texh, false));
-#ifdef OCULUS_TRANSFORM
-    eyeprogram_ = shadercache_->GetOrCreate("oculus.js", settings);
-#else
-    eyeprogram_ = shadercache_->GetOrCreate("nooculus.js", settings);
-#endif
-    eyequad_.reset(new Quad(eyeprogram_, 1.0f, 1.0f));
-  }
+  oculusvr_->Detect(renderoculus);
 
   OglDebug::Verify();
   istweaking_ = false;
@@ -138,14 +126,13 @@ bool Game::keep_running() const {
   return keep_running_;
 }
 
-void ModifyCamera(Camera* cam, const EyeSetup& eye,
-                  const Quat& oculus_orientation) {
+void ModifyCamera(Camera* cam, const EyeSetup& eye) {
   const Mat44 va = eye.view_adjust();
   Mat44 vaa = va;
   /// @todo fix this scaling when we have scaled the example
   cml::matrix_set_translation(vaa, cml::matrix_get_translation(va) * 10);
   cam->set_projection(eye.projection());
-  cam->set_view(vaa * CreateMat44(oculus_orientation) * cam->view());
+  cam->set_view(vaa * /*CreateMat44(oculus_orientation) */ cam->view());
 }
 
 void ClearScreen() {
@@ -160,74 +147,6 @@ void SubRender(World* world, const Camera& camera, bool istweaking) {
   }
 }
 
-void RenderEye(const Camera& camera, const EyeSetup& eye, World* world,
-               Fbo* fbo, Program* program, Quad* quad, bool is_right,
-               const OculusVr& oculus, int window_height, int window_width,
-               bool istweaking) {
-  assert(fbo);
-  assert(program);
-  assert(quad);
-
-  {
-    Camera cam(camera);
-    ModifyCamera(&cam, eye, oculus.GetOrientation(true));
-    TextureUpdator tex(fbo);
-    ClearScreen();
-    if (is_right) {
-      tex.SetSubRegion(0.5f, 1.0f, 0.0f, 1.0f);
-    } else {
-      tex.SetSubRegion(0.0f, 0.5f, 0.0f, 1.0f);
-    }
-    SubRender(world, cam, istweaking);
-  }
-
-  glViewport(eye.x(), eye.y(), eye.w(), eye.h());
-  program->Bind();
-
-#ifdef OCULUS_TRANSFORM
-  const float w = eye.w() / static_cast<float>(window_width);
-  const float h = eye.h() / static_cast<float>(window_height);
-  const float x = eye.x() / static_cast<float>(window_width);
-  const float y = eye.y() / static_cast<float>(window_height);
-  const float as = eye.w() / static_cast<float>(eye.h());
-
-  // MA: This is more correct but we would need higher-res texture vertically;
-  // we should adopt this once we have asymmetric input texture scale.
-  const float scaleFactor = 1.0f / oculus.GetScale();
-
-  const float dix = (is_right ? -1.0f : 1.0f) * oculus.GetCenterOffset()[0];
-
-  // We are using 1/4 of DistortionCenter offset value here, since it is
-  // relative to [-1,1] range that gets mapped to [0, 0.5].
-
-  const float lcx = x + (w + dix * 0.5f) * 0.5f;
-  const float lcy = y + h * 0.5f;
-  program->SetUniform("LensCenter", Vec2(lcx, lcy));
-
-  const float scx = x + w * 0.5f;
-  const float scy = y + h * 0.5f;
-  program->SetUniform("ScreenCenter", Vec2(scx, scy));
-
-  const float sx = (w / 2) * scaleFactor;
-  const float sy = (h / 2) * scaleFactor * as;
-  program->SetUniform("Scale", Vec2(sx, sy));
-
-  const float six = (2 / w);
-  const float siy = (2 / h) / as;
-  program->SetUniform("ScaleIn", Vec2(six, siy));
-
-  program->SetUniform("HmdWarpParam", oculus.GetDistortion());
-
-  Mat44 texm(w, 0, 0, x, 0, h, 0, y, 0, 0, 0, 0, 0, 0, 0, 1);
-  cml::transpose(texm);
-  program->SetUniform("texm", texm);
-#endif
-
-  fbo->BindTexture(0);
-  quad->Render();
-  program->Unbind();
-}
-
 void Game::Render() {
   assert(this);
   assert(oculusvr_);
@@ -235,19 +154,18 @@ void Game::Render() {
 
   world_->debug_renderer().Update();
 
-  if (renderoculus_) {
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // create left and right camera
-    RenderEye(*camera_.get(), oculusvr_->LeftEye(), world_.get(), eyefbo_.get(),
-              eyeprogram_.get(), eyequad_.get(), false, *oculusvr_.get(),
-              height_, width_, istweaking_);
-    RenderEye(*camera_.get(), oculusvr_->RightEye(), world_.get(),
-              eyefbo_.get(), eyeprogram_.get(), eyequad_.get(), true,
-              *oculusvr_.get(), height_, width_, istweaking_);
+  if (oculusvr_->IsHmdDetected()) {
+    for (int i = 0; i < oculusvr_->GetNumberOfEyes(); ++i) {
+      EyeSetup& eye = oculusvr_->GetEyeIndex(i);
+      Camera cam(*camera_);
+      ModifyCamera(&cam, eye);
+      TextureUpdator tex(eye.GetFboPtr());
+      ClearScreen();
+      SubRender(world_.get(), cam, istweaking_);
+    }
   } else {
     ClearScreen();
-    SubRender(world_.get(), *camera_.get(), istweaking_);
+    SubRender(world_.get(), *camera_, istweaking_);
   }
 }
 

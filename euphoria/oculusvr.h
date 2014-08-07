@@ -41,6 +41,8 @@ class EyeSetup {
 
   const Fbo& fbo() const;
 
+  Fbo* GetFboPtr();
+
  private:
   Mat44 projection_;
   Mat44 view_adjust_;

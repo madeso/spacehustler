@@ -86,7 +86,6 @@ class Game {
   bool last_tweak_action_;
   bool lock_mouse_;
   bool istweaking_;
-  bool renderoculus_;
   input::InputSystem inputsystem_;
   std::unique_ptr<OglDebug> ogldebug_;
   std::unique_ptr<TextureCache> texturecache_;
@@ -97,9 +96,6 @@ class Game {
   std::unique_ptr<SystemContainer> container_;
   std::unique_ptr<EntityList> entities_;
   std::unique_ptr<OculusVr> oculusvr_;
-  std::unique_ptr<Fbo> eyefbo_;
-  std::shared_ptr<Program> eyeprogram_;
-  std::unique_ptr<Quad> eyequad_;
 #ifdef USE_TWEAKABLES
   std::unique_ptr<TweakerStore> tweakers_;
 #endif
