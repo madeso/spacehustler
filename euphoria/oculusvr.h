@@ -22,7 +22,8 @@ class EyeSetup {
   @param projection the projection matrix used with this eye.
   @param view_adjust the translation to be applied to view matrix.
    */
-  EyeSetup(const Mat44& projection, const Mat44& view_adjust, int w, int h, bool mipmap);
+  EyeSetup(const Mat44& projection, const Mat44& view_adjust, int w, int h,
+           bool mipmap);
 
   /** Get the projection matrix used with this eye.
   @return the projection matrix used with this eye.
@@ -62,6 +63,7 @@ class OculusVr : boost::noncopyable {
   int GetNumberOfEyes() const;
   EyeSetup& GetEyeIndex(int eyeIndex);
   void End();
+
  private:
   class OculusVrPimpl;
   std::unique_ptr<OculusVrPimpl> pimpl_;
