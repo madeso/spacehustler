@@ -49,8 +49,11 @@ Planned Features and stuff that needs to be done
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
 * refactor input system with system wide documentation and war thunder input support http://forum.warthunder.com/index.php?/topic/10815-axis-and-sensitivity-settings-for-controllers-explained/
+* state system
+* auto detect input system
 * sdl gamepad into input system
 * force feedback/haptics
+* FEEDBACK
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * static_assert
 * change cml to glm
