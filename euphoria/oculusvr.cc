@@ -55,12 +55,18 @@ Mat44 C(const OVR::Matrix4f& m) {
   /// @todo this seems wrong, but it works out for the better, perhaps the
   /// viewmatrix should be transposed too, so we need to transpose twice?
   return Mat44(m.M);
-  // return cml::transpose(mat44(m.M));
+  // return cml::transpose(Mat44(m.M));
 }
 
 Vec3 C(const ovrVector3f& vec) { return Vec3(vec.x, vec.y, vec.z); }
 
 Quat C(const ovrQuatf& q) { return Quat(Vec3(q.x, q.y, q.z), q.w); }
+
+const bool PROJECTION_RIGHT_HANDED = true;
+
+const Mat44 PoseToMatrix(const ovrPosef& pose) {
+  return CreateMat44(C(pose.Position), C(pose.Orientation));
+}
 
 ovrSizei SizeiMin(ovrSizei a, ovrSizei b) {
   ovrSizei ret;
@@ -167,10 +173,6 @@ enum {
   INDEX_LEFT = 0,
   INDEX_RIGHT = 1
 };
-
-const Mat44 PoseToMatrix(const ovrPosef& pose) {
-  return CreateMat44(C(pose.Position), C(pose.Orientation));
-}
 
 class OculusVr::OculusVrPimpl {
  private:
@@ -291,10 +293,12 @@ class OculusVr::OculusVrPimpl {
     ovrHmd_ConfigureTracking(hmd_, sensorCaps, 0);
 
     // Calculate projections
-    const ovrMatrix4f projection_left = ovrMatrix4f_Projection(
-        eye_render_desc_[INDEX_LEFT].Fov, 0.01f, 10000.0f, true);
-    const ovrMatrix4f projection_right = ovrMatrix4f_Projection(
-        eye_render_desc_[INDEX_RIGHT].Fov, 0.01f, 10000.0f, true);
+    const ovrMatrix4f projection_left =
+        ovrMatrix4f_Projection(eye_render_desc_[INDEX_LEFT].Fov, 0.01f,
+                               10000.0f, PROJECTION_RIGHT_HANDED);
+    const ovrMatrix4f projection_right =
+        ovrMatrix4f_Projection(eye_render_desc_[INDEX_RIGHT].Fov, 0.01f,
+                               10000.0f, PROJECTION_RIGHT_HANDED);
 
     left_eye_->set_projection(C(projection_left));
     right_eye_->set_projection(C(projection_right));
