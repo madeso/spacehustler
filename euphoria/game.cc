@@ -180,11 +180,6 @@ void Game::Render() {
   }
 }
 
-input::InputSystem& Game::inputsystem() {
-  assert(this);
-  return inputsystem_;
-}
-
 void Game::Update(float dt) {
   assert(this);
   RUNTWEAKCODE(tweakers_->update());
@@ -210,6 +205,36 @@ bool Game::istweaking() const {
 void Game::Quit() {
   assert(this);
   keep_running_ = false;
+}
+
+void Game::InputOnKeyboardKey(Key key, bool down) {
+  assert(this);
+  inputsystem_.OnKeyboardKey(key, down);
+}
+
+void Game::InputOnMouseAxis(Axis axis, float value) {
+  assert(this);
+  inputsystem_.OnMouseAxis(axis, value);
+}
+
+void Game::InputOnMouseButton(MouseButton button, bool down) {
+  assert(this);
+  inputsystem_.OnMouseButton(button, down);
+}
+
+void Game::InputOnJoystickPov(Axis type, int hat, int joystick, float value) {
+  assert(this);
+  inputsystem_.OnJoystickPov(type, hat, joystick, value);
+}
+
+void Game::InputOnJoystickButton(int button, int joystick, bool down) {
+  assert(this);
+  inputsystem_.OnJoystickButton(button, joystick, down);
+}
+
+void Game::InputOnJoystickAxis(int axis, int joystick, float value) {
+  assert(this);
+  inputsystem_.OnJoystickAxis(axis, joystick, value);
 }
 
 OculusVr& Game::oculus() {

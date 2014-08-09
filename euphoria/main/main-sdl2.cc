@@ -378,9 +378,9 @@ class Joystick {
         const Uint8 hat = SDL_JoystickGetHat(joystick_, i);
         const Posi values = GetHatValues(hat);
 
-        game->inputsystem().OnJoystickPov(Axis::X, i, id_,
+        game->InputOnJoystickPov(Axis::X, i, id_,
                                           static_cast<float>(values.first));
-        game->inputsystem().OnJoystickPov(Axis::Y, i, id_,
+        game->InputOnJoystickPov(Axis::Y, i, id_,
                                           static_cast<float>(values.second));
       }
     }
@@ -1150,11 +1150,11 @@ void MainFunction() {
         game.Quit();
       } else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
         const bool down = event.type == SDL_KEYDOWN;
-        game.inputsystem().OnKeyboardKey(ToKey(event.key.keysym), down);
+        game.InputOnKeyboardKey(ToKey(event.key.keysym), down);
       } else if (event.type == SDL_MOUSEBUTTONDOWN ||
                  event.type == SDL_MOUSEBUTTONUP) {
         const bool down = event.type == SDL_MOUSEBUTTONDOWN;
-        game.inputsystem().OnMouseButton(ToKey(event.button), down);
+        game.InputOnMouseButton(ToKey(event.button), down);
       } else if (event.type == SDL_MOUSEMOTION) {
         if (lock && game.istweaking() == false) {
           xrel += event.motion.xrel;
@@ -1163,10 +1163,10 @@ void MainFunction() {
       } else if (event.type == SDL_JOYBUTTONDOWN ||
                  event.type == SDL_JOYBUTTONUP) {
         const bool down = event.type == SDL_JOYBUTTONDOWN;
-        game.inputsystem().OnJoystickButton(event.jbutton.button,
+        game.InputOnJoystickButton(event.jbutton.button,
                                             event.jbutton.which, down);
       } else if (event.type == SDL_JOYAXISMOTION) {
-        game.inputsystem().OnJoystickAxis(event.jaxis.axis, event.jaxis.which,
+        game.InputOnJoystickAxis(event.jaxis.axis, event.jaxis.which,
                                           event.jaxis.value / 32768.0f);
       } else if (event.type == SDL_WINDOWEVENT) {
         const auto mouseEvent = event.window.event;
@@ -1189,8 +1189,8 @@ void MainFunction() {
     float dx = xrel / size;
     float dy = yrel / size;
     const float sensitivity = 10.0f;
-    game.inputsystem().OnMouseAxis(Axis::X, dx * sensitivity);
-    game.inputsystem().OnMouseAxis(Axis::Y, dy * sensitivity);
+    game.InputOnMouseAxis(Axis::X, dx * sensitivity);
+    game.InputOnMouseAxis(Axis::Y, dy * sensitivity);
   }
 }
 

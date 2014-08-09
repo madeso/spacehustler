@@ -73,10 +73,45 @@ class Game {
    */
   void Quit();
 
-  /** Gets the input system.
-  @returns the input system
+  /** Send a keyboard event.
+  @param key the key to act upon
+  @param down true if it is down, false if not
    */
-  input::InputSystem& inputsystem();
+  void InputOnKeyboardKey(Key key, bool down);
+
+  /** Send a mouse axis.
+  @param axis the axis
+  @param value the value
+   */
+  void InputOnMouseAxis(Axis axis, float value);
+
+  /** Send a mouse button.
+  @param button the button to act upon
+  @param down true if it is down, false if not
+   */
+  void InputOnMouseButton(MouseButton button, bool down);
+
+  /** Send a joystick pov.
+  @param type the pov type
+  @param hat the joystick pov hat
+  @param joystick the joystick id
+  @param value the value
+   */
+  void InputOnJoystickPov(Axis type, int hat, int joystick, float value);
+
+  /** Send a joystick button.
+  @param button the button to act upon
+  @param joystick the joystick id
+  @param down true if it is down, false if not
+   */
+  void InputOnJoystickButton(int button, int joystick, bool down);
+
+  /** Send a joystick axis.
+  @param axis the axis
+  @param joystick the joystick id
+  @param value the value
+   */
+  void InputOnJoystickAxis(int axis, int joystick, float value);
 
   OculusVr& oculus();
 
