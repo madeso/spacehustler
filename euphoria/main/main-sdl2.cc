@@ -341,6 +341,10 @@ Posi GetHatValues(Uint8 hat) {
   }
 }
 
+void LogInfo(const std::string& info) {
+  SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "%s", info.c_str());
+}
+
 class Joystick {
  public:
   explicit Joystick(int id)

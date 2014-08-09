@@ -6,6 +6,7 @@
 #include <string>
 
 #include "euphoria/texture.h"
+#include "euphoria/log.h"
 
 #include "OVR.h"  // NOLINT this is how you should include OVR
 #include "../Src/OVR_CAPI_GL.h"
@@ -336,6 +337,35 @@ class OculusVr::OculusVrPimpl {
     assert(this);
     return Vec2i(window_size_.w, window_size_.h);
   }
+
+  bool IsDisplayingWarning() const {
+    assert(this);
+    ovrHSWDisplayState display_state;
+    ovrHmd_GetHSWDisplayState(hmd_, &display_state);
+    bool displaying = display_state.Displayed != 0;
+
+    return displaying;
+  }
+
+  void DismissWarning() {
+    assert(this);
+    ovrHSWDisplayState display_state;
+    ovrHmd_GetHSWDisplayState(hmd_, &display_state);
+    bool displaying = display_state.Displayed != 0;
+
+    ovrBool res = ovrHmd_DismissHSWDisplay(hmd_);
+    if (res) {
+      LogInfo("Dismissed HSW display");
+    } else {
+      LogInfo("Unable to dismiss HSW display, dismissing queued");
+      if (displaying) {
+        float seconds = display_state.DismissibleTime - ovr_GetTimeInSeconds();
+        if (seconds > 0) {
+          LOGINFO(seconds << " until auto dismissing");
+        }
+      }
+    }
+  }
 };
 
 OculusVr::OculusVr() {
@@ -393,4 +423,16 @@ void OculusVr::End() {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
   pimpl_->end();
+}
+
+bool OculusVr::IsDisplayingWarning() const {
+  assert(this);
+  assert(pimpl_ && "hmd must be detected");
+  return pimpl_->IsDisplayingWarning();
+}
+
+void OculusVr::DismissWarning() {
+  assert(this);
+  assert(pimpl_ && "hmd must be detected");
+  pimpl_->DismissWarning();
 }

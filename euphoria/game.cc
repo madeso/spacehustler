@@ -207,9 +207,21 @@ void Game::Quit() {
   keep_running_ = false;
 }
 
+bool DismissOculusWarning(OculusVr* oculusvr, bool down) {
+  assert(oculusvr);
+  if (oculusvr->IsHmdDetected() && oculusvr->IsDisplayingWarning()) {
+    if (down == false) {
+      oculusvr->DismissWarning();
+    }
+  }
+  return true;
+}
+
 void Game::InputOnKeyboardKey(Key key, bool down) {
   assert(this);
-  inputsystem_.OnKeyboardKey(key, down);
+  if (DismissOculusWarning(oculusvr_.get(), down)) {
+    inputsystem_.OnKeyboardKey(key, down);
+  }
 }
 
 void Game::InputOnMouseAxis(Axis axis, float value) {
@@ -219,7 +231,9 @@ void Game::InputOnMouseAxis(Axis axis, float value) {
 
 void Game::InputOnMouseButton(MouseButton button, bool down) {
   assert(this);
-  inputsystem_.OnMouseButton(button, down);
+  if (DismissOculusWarning(oculusvr_.get(), down)) {
+    inputsystem_.OnMouseButton(button, down);
+  }
 }
 
 void Game::InputOnJoystickPov(Axis type, int hat, int joystick, float value) {
@@ -229,7 +243,9 @@ void Game::InputOnJoystickPov(Axis type, int hat, int joystick, float value) {
 
 void Game::InputOnJoystickButton(int button, int joystick, bool down) {
   assert(this);
-  inputsystem_.OnJoystickButton(button, joystick, down);
+  if (DismissOculusWarning(oculusvr_.get(), down)) {
+    inputsystem_.OnJoystickButton(button, joystick, down);
+  }
 }
 
 void Game::InputOnJoystickAxis(int axis, int joystick, float value) {

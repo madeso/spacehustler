@@ -66,6 +66,9 @@ class OculusVr : boost::noncopyable {
   EyeSetup& GetEyeIndex(int eyeIndex);
   void End();
 
+  bool IsDisplayingWarning() const;
+  void DismissWarning();
+
  private:
   class OculusVrPimpl;
   std::unique_ptr<OculusVrPimpl> pimpl_;
