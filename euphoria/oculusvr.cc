@@ -63,6 +63,22 @@ Vec3 C(const ovrVector3f& vec) { return Vec3(vec.x, vec.y, vec.z); }
 
 Quat C(const ovrQuatf& q) { return Quat(Vec3(q.x, q.y, q.z), q.w); }
 
+ovrSizei Sizei(int w, int h) {
+  ovrSizei ret;
+  ret.w = w;
+  ret.h = h;
+  return ret;
+}
+
+ovrVector2i Vector2i(int x, int y) {
+  ovrVector2i v;
+  v.x = x;
+  v.y = y;
+  return v;
+}
+
+ovrVector2i Vector2i(int xy) { return Vector2i(xy, xy); }
+
 const bool PROJECTION_RIGHT_HANDED = true;
 
 const Mat44 PoseToMatrix(const ovrPosef& pose) {
@@ -85,16 +101,19 @@ ovrSizei SizeiMax(ovrSizei a, ovrSizei b) {
 struct OculusSettings {
   OculusSettings()
       : VsyncEnabled(false),
-        IsLowPersistence(false),
-        DynamicPrediction(false),
+        IsLowPersistence(true),
+        DynamicPrediction(true),
         DisplaySleep(false),
-        MirrorToWindow(false),
+        MirrorToWindow(true),
         PixelLuminanceOverdrive(false),
-        TimewarpEnabled(false),
+        TimewarpEnabled(true),
         TimewarpNoJitEnabled(false),
-        Multisample(false),
-        PositionTrackingEnabled(false),
-        MipMapEyeTextures(false) {}
+        Multisample(true),
+        PositionTrackingEnabled(true),
+        MipMapEyeTextures(false),
+        ForceZeroIpd(false),
+        RendertargetIsSharedByBothEyes(false),
+        DesiredPixelDensity(1.0f) {}
 
   bool VsyncEnabled;
   bool IsLowPersistence;
@@ -107,15 +126,18 @@ struct OculusSettings {
   bool Multisample;
   bool PositionTrackingEnabled;
   bool MipMapEyeTextures;
+  bool ForceZeroIpd;
+  bool RendertargetIsSharedByBothEyes;
+  float DesiredPixelDensity;
 };
 
-ovrSizei Sizei(int h, int w) {
+ovrSizei hmd_(int h, int w) {
   ovrSizei ret;
   ret.h = h;
   ret.w = w;
   return ret;
 }
-ovrSizei Sizei(int i) {
+ovrSizei hmd_(int i) {
   ovrSizei ret;
   ret.h = ret.w = i;
   return ret;
@@ -126,26 +148,26 @@ ovrSizei EnsureRendertargetAtLeastThisBig(ovrEyeType eye, ovrSizei ret) {
   // Put some sane limits on it. 4k x 4k is fine for most modern video cards.
   // Nobody should be messing around with surfaces smaller than 4k pixels these
   // days.
-  newRTSize = SizeiMax(SizeiMin(newRTSize, Sizei(4096)), Sizei(64));
+  newRTSize = SizeiMax(SizeiMin(newRTSize, hmd_(4096)), hmd_(64));
   return ret;
 }
 
 ovrHmd DetectHmdOrNull(bool detect_debug_device) {
-  ovrHmd Hmd = 0;
+  ovrHmd hmd_ = 0;
 
-  Hmd = ovrHmd_Create(0);
-  if (!Hmd) {
+  hmd_ = ovrHmd_Create(0);
+  if (!hmd_) {
     if (detect_debug_device) {
-      // If we didn't detect an Hmd, create a simulated one for debugging.
-      Hmd = ovrHmd_CreateDebug(ovrHmd_DK1);
-      if (!Hmd) {
+      // If we didn't detect an hmd_, create a simulated one for debugging.
+      hmd_ = ovrHmd_CreateDebug(ovrHmd_DK1);
+      if (!hmd_) {
         assert(false);
         throw "Failed to create OVR debug device";
       }
     }
   }
 
-  return Hmd;
+  return hmd_;
 }
 
 ovrRecti Recti(const ovrSizei& s) {
@@ -156,10 +178,31 @@ ovrRecti Recti(const ovrSizei& s) {
   return r;
 }
 
+ovrRecti Recti(ovrVector2i v, const ovrSizei& s) {
+  ovrRecti r;
+  r.Pos.x = v.x;
+  r.Pos.y = v.y;
+  r.Size = s;
+  return r;
+}
+
+template <typename T>
+const T AlgMax(const T a, const T b) {
+  return (b < a) ? a : b;
+}
+ovrFovPort FovPortMax(const ovrFovPort& a, const ovrFovPort& b) {
+  ovrFovPort fov;
+  fov.UpTan = AlgMax(a.UpTan, b.UpTan);
+  fov.DownTan = AlgMax(a.DownTan, b.DownTan);
+  fov.LeftTan = AlgMax(a.LeftTan, b.LeftTan);
+  fov.RightTan = AlgMax(a.RightTan, b.RightTan);
+  return fov;
+}
+
 ovrTexture GetOvrTexture(const EyeSetup& eye) {
   ovrTexture tex;
 
-  ovrSizei newRTSize = Sizei(eye.fbo().width(), eye.fbo().height());
+  ovrSizei newRTSize = hmd_(eye.fbo().width(), eye.fbo().height());
 
   ovrGLTextureData* texData = reinterpret_cast<ovrGLTextureData*>(&tex);
   texData->Header.API = ovrRenderAPI_OpenGL;
@@ -210,7 +253,7 @@ class OculusVr::OculusVrPimpl {
     } else {
       // In Direct App-rendered mode, we can use smaller window size,
       // as it can have its own contents and isn't tied to the buffer.
-      // Sizei(960, 540); avoid rotated output bug.
+      // hmd_(960, 540); avoid rotated output bug.
       window_size_.w = 1100;
       window_size_.h = 618;
     }
@@ -220,37 +263,105 @@ class OculusVr::OculusVrPimpl {
 
     OculusSettings settings;
 
-    // Configure Stereo settings. Default pixel density is 1.0f.
-    float DesiredPixelDensity = 1.0f;
-    ovrSizei recommenedTexleftSize = ovrHmd_GetFovTextureSize(
-        hmd_, ovrEye_Left, eye_fov_[INDEX_LEFT], DesiredPixelDensity);
-    ovrSizei recommenedTexRightSize = ovrHmd_GetFovTextureSize(
-        hmd_, ovrEye_Right, eye_fov_[INDEX_RIGHT], DesiredPixelDensity);
+    if (settings.ForceZeroIpd) {
+      // ForceZeroIpd does three things:
+      //  1) Sets FOV to maximum symmetrical FOV based on both eyes
+      //  2) Sets eye ViewAdjust values to 0.0 (effective IPD == 0)
+      //  3) Uses only the Left texture for rendering.
 
-    ovrSizei texLeftSize =
-        EnsureRendertargetAtLeastThisBig(ovrEye_Left, recommenedTexleftSize);
-    ovrSizei texRightSize =
-        EnsureRendertargetAtLeastThisBig(ovrEye_Right, recommenedTexRightSize);
+      eye_fov_[0] = FovPortMax(eye_fov_[0], eye_fov_[1]);
+      eye_fov_[1] = eye_fov_[0];
 
-    // setup eye textures and stuff
-    left_eye_.reset(new EyeSetup(CreateIdentityMat44(), CreateIdentityMat44(),
-                                 texLeftSize.w, texLeftSize.h,
-                                 settings.MipMapEyeTextures));
-    right_eye_.reset(new EyeSetup(CreateIdentityMat44(), CreateIdentityMat44(),
-                                  texRightSize.w, texRightSize.h,
-                                  settings.MipMapEyeTextures));
+      ovrSizei recommenedTexSize = ovrHmd_GetFovTextureSize(
+          hmd_, ovrEye_Left, eye_fov_[0], settings.DesiredPixelDensity);
 
-    eye_render_size_[INDEX_LEFT] = SizeiMin(texLeftSize, recommenedTexleftSize);
-    eye_render_size_[INDEX_RIGHT] =
-        SizeiMin(texRightSize, recommenedTexRightSize);
+      ovrSizei textureSize =
+          EnsureRendertargetAtLeastThisBig(ovrEye_Left, recommenedTexSize);
 
-    // Store texture pointers and viewports that will be passed for rendering.
-    textures_[0] = GetOvrTexture(*left_eye_);
-    textures_[0].Header.TextureSize = texLeftSize;
-    textures_[0].Header.RenderViewport = Recti(eye_render_size_[INDEX_LEFT]);
-    textures_[1] = GetOvrTexture(*right_eye_);
-    textures_[1].Header.TextureSize = texRightSize;
-    textures_[1].Header.RenderViewport = Recti(eye_render_size_[INDEX_RIGHT]);
+      left_eye_.reset(new EyeSetup(
+        CreateIdentityMat44(), CreateIdentityMat44(), textureSize.w,
+        textureSize.h, settings.MipMapEyeTextures));
+
+      eye_render_size_[0] = SizeiMin(textureSize, recommenedTexSize);
+      eye_render_size_[1] = eye_render_size_[0];
+
+      // Store texture pointers that will be passed for rendering.
+      textures_[0] = GetOvrTexture(*left_eye_);
+      textures_[0].Header.TextureSize = textureSize;
+      textures_[0].Header.RenderViewport = Recti(eye_render_size_[0]);
+      // Right eye is the same.
+      textures_[1] = textures_[0];
+    } else {
+      // Configure Stereo settings. Default pixel density is 1.0f.
+      float DesiredPixelDensity = 1.0f;
+      ovrSizei recommenedTexleftSize = ovrHmd_GetFovTextureSize(
+          hmd_, ovrEye_Left, eye_fov_[INDEX_LEFT], DesiredPixelDensity);
+      ovrSizei recommenedTexRightSize = ovrHmd_GetFovTextureSize(
+          hmd_, ovrEye_Right, eye_fov_[INDEX_RIGHT], DesiredPixelDensity);
+
+      if (settings.RendertargetIsSharedByBothEyes) {
+        ovrSizei rtSize =
+            Sizei(recommenedTexleftSize.w + recommenedTexRightSize.w,
+                  AlgMax(recommenedTexleftSize.h, recommenedTexRightSize.h));
+
+        // Use returned size as the actual RT size may be different due to HW
+        // limits.
+        rtSize = EnsureRendertargetAtLeastThisBig(ovrEye_Left, rtSize);
+
+        left_eye_.reset(new EyeSetup(
+          CreateIdentityMat44(), CreateIdentityMat44(), rtSize.w,
+          rtSize.h, settings.MipMapEyeTextures));
+
+        // Don't draw more then recommended size; this also ensures that
+        // resolution reported
+        // in the overlay HUD size is updated correctly for FOV/pixel density
+        // change.
+        eye_render_size_[0] =
+            SizeiMin(Sizei(rtSize.w / 2, rtSize.h), recommenedTexleftSize);
+        eye_render_size_[1] =
+            SizeiMin(Sizei(rtSize.w / 2, rtSize.h), recommenedTexRightSize);
+
+        // Store texture pointers that will be passed for rendering.
+        // Same texture is used, but with different viewports.
+        textures_[0] = GetOvrTexture(*left_eye_);
+        textures_[0].Header.TextureSize = rtSize;
+        textures_[0].Header.RenderViewport =
+            Recti(Vector2i(0), eye_render_size_[0]);
+        textures_[1] = GetOvrTexture(*left_eye_);
+        textures_[1].Header.TextureSize = rtSize;
+        textures_[1].Header.RenderViewport =
+            Recti(Vector2i((rtSize.w + 1) / 2, 0), eye_render_size_[1]);
+      } else {
+        ovrSizei texLeftSize = EnsureRendertargetAtLeastThisBig(
+            ovrEye_Left, recommenedTexleftSize);
+        ovrSizei texRightSize = EnsureRendertargetAtLeastThisBig(
+            ovrEye_Right, recommenedTexRightSize);
+
+        // setup eye textures and stuff
+        left_eye_.reset(new EyeSetup(
+            CreateIdentityMat44(), CreateIdentityMat44(), texLeftSize.w,
+            texLeftSize.h, settings.MipMapEyeTextures));
+        right_eye_.reset(new EyeSetup(
+            CreateIdentityMat44(), CreateIdentityMat44(), texRightSize.w,
+            texRightSize.h, settings.MipMapEyeTextures));
+
+        eye_render_size_[INDEX_LEFT] =
+            SizeiMin(texLeftSize, recommenedTexleftSize);
+        eye_render_size_[INDEX_RIGHT] =
+            SizeiMin(texRightSize, recommenedTexRightSize);
+
+        // Store texture pointers and viewports that will be passed for
+        // rendering.
+        textures_[0] = GetOvrTexture(*left_eye_);
+        textures_[0].Header.TextureSize = texLeftSize;
+        textures_[0].Header.RenderViewport =
+            Recti(eye_render_size_[INDEX_LEFT]);
+        textures_[1] = GetOvrTexture(*right_eye_);
+        textures_[1].Header.TextureSize = texRightSize;
+        textures_[1].Header.RenderViewport =
+            Recti(eye_render_size_[INDEX_RIGHT]);
+      }
+    }
 
     unsigned hmd_caps = (settings.VsyncEnabled ? 0 : ovrHmdCap_NoVSync);
     if (settings.IsLowPersistence) hmd_caps |= ovrHmdCap_LowPersistence;
@@ -359,7 +470,7 @@ class OculusVr::OculusVrPimpl {
     } else {
       LogInfo("Unable to dismiss HSW display, dismissing queued");
       if (displaying) {
-        float seconds = display_state.DismissibleTime - ovr_GetTimeInSeconds();
+        double seconds = display_state.DismissibleTime - ovr_GetTimeInSeconds();
         if (seconds > 0) {
           LOGINFO(seconds << " until auto dismissing");
         }

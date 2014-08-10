@@ -27,6 +27,7 @@
 #include "euphoria/quad.h"
 #include "euphoria/input-globaltoggle.h"
 #include "euphoria/str.h"
+#include "euphoria/log.h"
 
 namespace {
 Game*& GameInstance() {
@@ -134,6 +135,7 @@ void ModifyCamera(Camera* cam, const EyeSetup& eye) {
   const Mat44 view_adjust = eye.view_adjust();
   // Mat44 vaa = va;
   /// @todo fix this scaling when we have scaled the example
+  // auto tran = cml::matrix_get_translation(view_adjust);
   // cml::matrix_set_translation(vaa, cml::matrix_get_translation(va) * 1);
   cam->set_projection(eye.projection());
   // cam->set_view(vaa * /*CreateMat44(oculus_orientation) */ cam->view());
