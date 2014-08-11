@@ -4,6 +4,7 @@ Basic structure:
 * render to texture
   - with patch support so empty areas are not rendered
 * scriptable with lua
+* easy tweening/animation support - doom3 scripting?
 
 Basic backgrounds:
 ==============
