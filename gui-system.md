@@ -10,6 +10,7 @@ Basic backgrounds:
 ==============
 * none
 * 9-path with title support
+* 3d world + model
 * image, strecth to fit, scale to fit, tile
 
 Basic widgets:
