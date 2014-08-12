@@ -278,9 +278,9 @@ class OculusVr::OculusVrPimpl {
       ovrSizei textureSize =
           EnsureRendertargetAtLeastThisBig(ovrEye_Left, recommenedTexSize);
 
-      left_eye_.reset(new EyeSetup(
-        CreateIdentityMat44(), CreateIdentityMat44(), textureSize.w,
-        textureSize.h, settings.MipMapEyeTextures));
+      left_eye_.reset(new EyeSetup(CreateIdentityMat44(), CreateIdentityMat44(),
+                                   textureSize.w, textureSize.h,
+                                   settings.MipMapEyeTextures));
 
       eye_render_size_[0] = SizeiMin(textureSize, recommenedTexSize);
       eye_render_size_[1] = eye_render_size_[0];
@@ -308,9 +308,9 @@ class OculusVr::OculusVrPimpl {
         // limits.
         rtSize = EnsureRendertargetAtLeastThisBig(ovrEye_Left, rtSize);
 
-        left_eye_.reset(new EyeSetup(
-          CreateIdentityMat44(), CreateIdentityMat44(), rtSize.w,
-          rtSize.h, settings.MipMapEyeTextures));
+        left_eye_.reset(new EyeSetup(CreateIdentityMat44(),
+                                     CreateIdentityMat44(), rtSize.w, rtSize.h,
+                                     settings.MipMapEyeTextures));
 
         // Don't draw more then recommended size; this also ensures that
         // resolution reported
