@@ -71,10 +71,6 @@ limitations under the License.
 #  define OVR_OS_ANDROID
 #endif
 
-#if defined(OVR_OS_WIN32) && !defined(OVR_DISABLE_D3D)
-#define OVR_D3D
-#endif
-
 
 //-----------------------------------------------------------------------------------
 // ***** CPU Architecture

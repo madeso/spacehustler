@@ -57,7 +57,7 @@ DistortionRenderer::CreateFunc DistortionRenderer::APICreateRegistry[ovrRenderAP
     0, // None
     &GL::DistortionRenderer::Create,
     0, // Android_GLES
-#if defined (OVR_D3D)
+#if defined (OVR_OS_WIN32)
     &D3D9::DistortionRenderer::Create,
     &D3D10::DistortionRenderer::Create,
     &D3D11::DistortionRenderer::Create

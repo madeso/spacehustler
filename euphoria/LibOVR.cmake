@@ -218,12 +218,8 @@ set(libovr_util
 	../external/LibOVR/Src/Util/Util_LatencyTest2Reader.cpp
 	../external/LibOVR/Src/Util/Util_LatencyTest2Reader.h
 	../external/LibOVR/Src/Util/Util_LatencyTest2State.h
-	# ../external/LibOVR/Src/Util/Util_LongPollThread.cpp
-	../external/LibOVR/Src/Util/Util_LongPollThread.h
 	../external/LibOVR/Src/Util/Util_Render_Stereo.cpp
 	../external/LibOVR/Src/Util/Util_Render_Stereo.h
-	# ../external/LibOVR/Src/Util/Util_Settings.cpp
-	../external/LibOVR/Src/Util/Util_Settings.h
 )
 
 source_group(LibOVR\\Include FILES ${libovr_include})

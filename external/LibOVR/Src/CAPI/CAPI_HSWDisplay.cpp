@@ -28,6 +28,7 @@ limitations under the License.
 #include "CAPI_HMDState.h"
 #include "../Kernel/OVR_Log.h"
 #include "../Kernel/OVR_String.h"
+#include "Textures/healthAndSafety.tga.h" // TGA file as a C array declaration.
 
 
 //-------------------------------------------------------------------------------------
@@ -390,6 +391,14 @@ void HSWDisplay::GetOrthoProjection(const HMDRenderState& RenderState, Matrix4f 
 }
 
 
+const uint8_t* HSWDisplay::GetDefaultTexture(size_t& TextureSize)
+{
+    TextureSize = sizeof(healthAndSafety_tga);
+    return healthAndSafety_tga;
+}
+
+
+
 }} // namespace OVR::CAPI
 
 
@@ -399,7 +408,7 @@ void HSWDisplay::GetOrthoProjection(const HMDRenderState& RenderState, Matrix4f 
 // ***** HSWDisplay factory
 //
 
-#if defined (OVR_D3D)
+#if defined (OVR_OS_WIN32)
     #define OVR_D3D_VERSION 9
     #include "D3D1X/CAPI_D3D9_HSWDisplay.h"
     #undef  OVR_D3D_VERSION
@@ -430,7 +439,7 @@ OVR::CAPI::HSWDisplay* OVR::CAPI::HSWDisplay::Factory(ovrRenderAPIType apiType, 
             pHSWDisplay = new OVR::CAPI::GL::HSWDisplay(apiType, hmd, renderState);
             break;
 
-    #if defined(OVR_D3D)
+    #if defined(OVR_OS_WIN32)
         case ovrRenderAPI_D3D9:
             pHSWDisplay = new OVR::CAPI::D3D9::HSWDisplay(apiType, hmd, renderState);
             break;
