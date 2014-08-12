@@ -32,6 +32,7 @@ set(libovr_capi
 	../external/LibOVR/Src/CAPI/CAPI_HSWDisplay.h
 )
 
+IF(WIN32)
 set(libovr_d3d
 	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D10_DistortionRenderer.cpp
 	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D10_DistortionRenderer.h
@@ -53,6 +54,7 @@ set(libovr_d3d
 	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_HSWDisplay.h
 	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_Util.cpp
 )
+ENDIF(WIN32)
 
 set(libovr_gl
 	../external/LibOVR/Src/CAPI/GL/CAPI_GL_DistortionRenderer.cpp
@@ -64,6 +66,7 @@ set(libovr_gl
 	../external/LibOVR/Src/CAPI/GL/CAPI_GL_Util.h
 )
 
+IF(WIN32)
 set(libovr_shaders
 	../external/LibOVR/Src/CAPI/Shaders/bin2header.exe
 	../external/LibOVR/Src/CAPI/Shaders/Distortion_ps.h
@@ -100,6 +103,7 @@ set(libovr_shaders
 	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_vs.vsh
 	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_vs_refl.h
 )
+ENDIF(WIN32)
 
 set(libovr_textures
 	../external/LibOVR/Src/CAPI/Textures/healthAndSafety.tga.h
@@ -108,15 +112,25 @@ set(libovr_textures
 set(libovr_displays
 	../external/LibOVR/Src/Displays/OVR_Display.cpp
 	../external/LibOVR/Src/Displays/OVR_Display.h
-	../external/LibOVR/Src/Displays/OVR_Win32_Display.cpp
-	../external/LibOVR/Src/Displays/OVR_Win32_Display.h
-	../external/LibOVR/Src/Displays/OVR_Win32_Dxgi_Display.h
-	../external/LibOVR/Src/Displays/OVR_Win32_FocusReader.cpp
-	../external/LibOVR/Src/Displays/OVR_Win32_FocusReader.h
-	../external/LibOVR/Src/Displays/OVR_Win32_RenderShim.cpp
-	../external/LibOVR/Src/Displays/OVR_Win32_ShimFunctions.cpp
-	../external/LibOVR/Src/Displays/OVR_Win32_ShimFunctions.h
+	
 )
+if(WIN32)
+	set(libovr_displays ${libovr_displays}
+		../external/LibOVR/Src/Displays/OVR_Win32_Display.cpp
+		../external/LibOVR/Src/Displays/OVR_Win32_Display.h
+		../external/LibOVR/Src/Displays/OVR_Win32_Dxgi_Display.h
+		../external/LibOVR/Src/Displays/OVR_Win32_FocusReader.cpp
+		../external/LibOVR/Src/Displays/OVR_Win32_FocusReader.h
+		../external/LibOVR/Src/Displays/OVR_Win32_RenderShim.cpp
+		../external/LibOVR/Src/Displays/OVR_Win32_ShimFunctions.cpp
+		../external/LibOVR/Src/Displays/OVR_Win32_ShimFunctions.h
+	)
+else(WIN32)
+	set(libovr_displays ${libovr_displays}
+		../external/LibOVR/Src/Displays/OVR_OSX_Display.cpp
+		../external/LibOVR/Src/Displays/OVR_OSX_Display.h
+	)
+endif(WIN32)
 
 set(libovr_kernel
 	../external/LibOVR/Src/Kernel/OVR_Alg.cpp
@@ -165,13 +179,22 @@ set(libovr_kernel
 	../external/LibOVR/Src/Kernel/OVR_ThreadCommandQueue.cpp
 	../external/LibOVR/Src/Kernel/OVR_ThreadCommandQueue.h
 	../external/LibOVR/Src/Kernel/OVR_Threads.h
-	../external/LibOVR/Src/Kernel/OVR_ThreadsWinAPI.cpp
 	../external/LibOVR/Src/Kernel/OVR_Timer.cpp
 	../external/LibOVR/Src/Kernel/OVR_Timer.h
 	../external/LibOVR/Src/Kernel/OVR_Types.h
 	../external/LibOVR/Src/Kernel/OVR_UTF8Util.cpp
 	../external/LibOVR/Src/Kernel/OVR_UTF8Util.h
 )
+if(WIN32)
+	set(libovr_kernel ${libovr_kernel}
+		../external/LibOVR/Src/Kernel/OVR_ThreadsWinAPI.cpp
+	)
+else(WIN32)
+	set(libovr_kernel ${libovr_kernel}
+		../external/LibOVR/Src/Kernel/OVR_ThreadsPthread.cpp
+	)
+endif(WIN32)
+
 
 set(libovr_net
 	../external/LibOVR/Src/Net/OVR_BitStream.cpp
@@ -188,9 +211,18 @@ set(libovr_net
 	../external/LibOVR/Src/Net/OVR_Session.h
 	../external/LibOVR/Src/Net/OVR_Socket.cpp
 	../external/LibOVR/Src/Net/OVR_Socket.h
-	../external/LibOVR/Src/Net/OVR_Win32_Socket.cpp
-	../external/LibOVR/Src/Net/OVR_Win32_Socket.h
 )
+if(WIN32)
+	set(libovr_net ${libovr_net}
+		../external/LibOVR/Src/Net/OVR_Win32_Socket.cpp
+		../external/LibOVR/Src/Net/OVR_Win32_Socket.h
+	)
+else(WIN32)
+	set(libovr_net ${libovr_net}
+		../external/LibOVR/Src/Net/OVR_Unix_Socket.cpp
+		../external/LibOVR/Src/Net/OVR_Unix_Socket.h
+	)
+endif(WIN32)
 
 set(libovr_sensors
 	../external/LibOVR/Src/Sensors/OVR_DeviceConstants.h
@@ -225,9 +257,11 @@ set(libovr_util
 source_group(LibOVR\\Include FILES ${libovr_include})
 source_group(LibOVR\\Src FILES ${libovr_src})
 source_group(LibOVR\\Src\\CAPI FILES ${libovr_capi})
+IF(WIN32)
 source_group(LibOVR\\Src\\CAPI\\D3D1X FILES ${libovr_d3d})
-source_group(LibOVR\\Src\\CAPI\\GL FILES ${libovr_gl})
 source_group(LibOVR\\Src\\CAPI\\Shaders FILES ${libovr_shaders})
+ENDIF(WIN32)
+source_group(LibOVR\\Src\\CAPI\\GL FILES ${libovr_gl})
 source_group(LibOVR\\Src\\CAPI\\Textures FILES ${libovr_textures})
 source_group(LibOVR\\Src\\Displays FILES ${libovr_displays})
 source_group(LibOVR\\Src\\Kernel FILES ${libovr_kernel})
@@ -243,7 +277,7 @@ set(src_oculus
 	${libovr_capi}
 	# ${libovr_d3d} # excluded d3d as we don't use d3d
 	${libovr_gl}
-	${libovr_shaders}
+	# ${libovr_shaders} # excluded d3d as we don't use d3d
 	${libovr_textures}
 	${libovr_displays}
 	${libovr_kernel}
