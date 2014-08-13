@@ -14,6 +14,8 @@ Oculus VR related integration code.
 #include "euphoria/math.h"
 #include "euphoria/fbo.h"
 
+class Settings;
+
 /** Oculus VR data for a eye.
  */
 class EyeSetup {
@@ -56,7 +58,7 @@ class OculusVr : boost::noncopyable {
   OculusVr();
   ~OculusVr();
 
-  bool Detect(bool detect_debug_device);
+  bool Detect(const Settings& settings, bool detect_debug_device);
 
   bool IsHmdDetected();
   const Vec2i GetWindowSize() const;

@@ -77,6 +77,21 @@ class Settings {
    */
   bool support_joystick() const;
 
+  bool vsync_enabled() const;
+  bool is_low_persistence() const;
+  bool dynamic_prediction() const;
+  bool display_sleep() const;
+  bool mirror_to_window() const;
+  bool pixel_luminance_overdrive() const;
+  bool timewarp_enabled() const;
+  bool timewarp_no_jit_enabled() const;
+  bool multisample() const;
+  bool position_tracking_enabled() const;
+  bool mipmap_eye_textures() const;
+  bool force_zero_ipd() const;
+  bool rendertarget_is_shared_by_both_eyes() const;
+  float desired_pixel_density() const;
+
  private:
   bool blackout_;
   int width_;
@@ -87,6 +102,21 @@ class Settings {
   OculusVrDetection oculus_vr_detection_;
   float anisotropic_;
   bool support_joystick_;
+
+  bool vsync_enabled_;
+  bool is_low_persistence_;
+  bool dynamic_prediction_;
+  bool display_sleep_;
+  bool mirror_to_window_;
+  bool pixel_luminance_overdrive_;
+  bool timewarp_enabled_;
+  bool timewarp_no_jit_enabled_;
+  bool multisample_;
+  bool position_tracking_enabled_;
+  bool mipmap_eye_textures_;
+  bool force_zero_ipd_;
+  bool rendertarget_is_shared_by_both_eyes_;
+  float desired_pixel_density_;
 };
 
 #endif  // EUPHORIA_SETTINGS_H_

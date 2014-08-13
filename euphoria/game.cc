@@ -106,7 +106,7 @@ Game::Game(const Settings& settings)
     oculusvr_.reset(new OculusVr());
     const bool allow_debug_device =
         settings.oculus_vr_detection() == OculusVrDetection::OCULUS_VR;
-    oculusvr_->Detect(allow_debug_device);
+    oculusvr_->Detect(settings, allow_debug_device);
   }
 
   OglDebug::Verify();
