@@ -59,9 +59,9 @@ Mat44 C(const OVR::Matrix4f& m) {
   // return cml::transpose(Mat44(m.M));
 }
 
-Vec3 C(const ovrVector3f& vec) { return Vec3(vec.x, vec.y, vec.z); }
+Vec3 C(const ovrVector3f& vec) { return 25 * Vec3(-vec.x, -vec.y, -vec.z); }
 
-Quat C(const ovrQuatf& q) { return Quat(Vec3(q.x, q.y, q.z), q.w); }
+Quat C(const ovrQuatf& q) { return Quat(Vec3(-q.x, -q.y, -q.z), q.w); }
 
 ovrSizei Sizei(int w, int h) {
   ovrSizei ret;
