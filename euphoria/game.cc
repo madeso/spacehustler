@@ -255,7 +255,7 @@ void Game::InputOnJoystickAxis(int axis, int joystick, float value) {
   inputsystem_.OnJoystickAxis(axis, joystick, value);
 }
 
-OculusVr& Game::oculus() {
+OculusVr& Game::oculusvr() {
   assert(this);
   assert(oculusvr_);
   return *oculusvr_;

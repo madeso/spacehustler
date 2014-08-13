@@ -1121,8 +1121,8 @@ void MainFunction() {
   context.MakeCurrent();
   Game game(settings);
 
-  if (game.oculus().IsHmdDetected()) {
-    const Vec2i size = game.oculus().GetWindowSize();
+  if (game.oculusvr().IsHmdDetected()) {
+    const Vec2i size = game.oculusvr().GetWindowSize();
     SDL_SetWindowSize(primaryscreen->window(), size[0], size[1]);
   }
 

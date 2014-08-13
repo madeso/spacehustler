@@ -113,7 +113,7 @@ class Game {
    */
   void InputOnJoystickAxis(int axis, int joystick, float value);
 
-  OculusVr& oculus();
+  OculusVr& oculusvr();
 
  private:
   int width_;
