@@ -40,11 +40,12 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
+* move all code into a euphoria namespace
+* update tweak system for oculus support
 * complete oculus rift support
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
 * debug overlay
-* update tweak system for oculus support
 * physics motor support
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
