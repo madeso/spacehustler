@@ -70,6 +70,12 @@ ovrSizei Sizei(int w, int h) {
   return ret;
 }
 
+ovrSizei Sizei(int i) {
+  ovrSizei ret;
+  ret.h = ret.w = i;
+  return ret;
+}
+
 ovrVector2i Vector2i(int x, int y) {
   ovrVector2i v;
   v.x = x;
@@ -131,24 +137,12 @@ struct OculusSettings {
   float DesiredPixelDensity;
 };
 
-ovrSizei hmd_(int h, int w) {
-  ovrSizei ret;
-  ret.h = h;
-  ret.w = w;
-  return ret;
-}
-ovrSizei hmd_(int i) {
-  ovrSizei ret;
-  ret.h = ret.w = i;
-  return ret;
-}
-
 ovrSizei EnsureRendertargetAtLeastThisBig(ovrEyeType eye, ovrSizei ret) {
   ovrSizei newRTSize = ret;
   // Put some sane limits on it. 4k x 4k is fine for most modern video cards.
   // Nobody should be messing around with surfaces smaller than 4k pixels these
   // days.
-  newRTSize = SizeiMax(SizeiMin(newRTSize, hmd_(4096)), hmd_(64));
+  newRTSize = SizeiMax(SizeiMin(newRTSize, Sizei(4096)), Sizei(64));
   return ret;
 }
 
@@ -202,7 +196,7 @@ ovrFovPort FovPortMax(const ovrFovPort& a, const ovrFovPort& b) {
 ovrTexture GetOvrTexture(const EyeSetup& eye) {
   ovrTexture tex;
 
-  ovrSizei newRTSize = hmd_(eye.fbo().width(), eye.fbo().height());
+  ovrSizei newRTSize = ::Sizei(eye.fbo().width(), eye.fbo().height());
 
   ovrGLTextureData* texData = reinterpret_cast<ovrGLTextureData*>(&tex);
   texData->Header.API = ovrRenderAPI_OpenGL;
@@ -421,7 +415,7 @@ class OculusVr::OculusVrPimpl {
     ovrHmd_Destroy(hmd_);
   }
 
-  void begin() {
+  void Begin() {
     assert(this);
     ovrHmd_BeginFrame(hmd_, 0);
   }
@@ -439,7 +433,7 @@ class OculusVr::OculusVrPimpl {
     return setup;
   }
 
-  void end() {
+  void End() {
     assert(this);
     ovrHmd_EndFrame(hmd_, poses_, textures_);
   }
@@ -515,7 +509,7 @@ const Vec2i OculusVr::GetWindowSize() const {
 void OculusVr::Begin() {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
-  pimpl_->begin();
+  pimpl_->Begin();
 }
 
 int OculusVr::GetNumberOfEyes() const {
@@ -533,7 +527,7 @@ EyeSetup& OculusVr::GetEyeIndex(int eyeIndex) {
 void OculusVr::End() {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
-  pimpl_->end();
+  pimpl_->End();
 }
 
 bool OculusVr::IsDisplayingWarning() const {
