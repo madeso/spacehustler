@@ -26,6 +26,8 @@
 #pragma comment(lib, "Imm32.lib")
 #endif
 
+namespace euphoria {
+
 void Error(const std::string& title, const std::string& text) {
   const int result = SDL_ShowSimpleMessageBox(
       SDL_MESSAGEBOX_ERROR, title.c_str(), text.c_str(), NULL);
@@ -1198,14 +1200,16 @@ void MainFunction() {
   }
 }
 
+}  // namespace euphoria
+
 int main(int argc, char* argv[]) {
   try {
-    MainFunction();
+    ::euphoria::MainFunction();
     return 0;
   }
   catch (...) {
-    const std::string message = GrabExceptionInformation();
-    Error("Error!", message);
+    const std::string message = ::euphoria::GrabExceptionInformation();
+    ::euphoria::Error("Error!", message);
     return 1;
   }
 }

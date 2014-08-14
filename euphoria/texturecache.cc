@@ -7,6 +7,8 @@
 #include "euphoria/cache.h"
 #include "euphoria/settings.h"
 
+namespace euphoria {
+
 TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
                                                      WrapMode wraps,
                                                      WrapMode wrapt)
@@ -47,3 +49,5 @@ std::shared_ptr<Texture> TextureCache::GetOrCreate(
   return CacheGet<TextureLoadingInstruction, Texture, TextureCreator>(
       &cache_, c, instructions, settings);
 }
+
+}  // namespace euphoria

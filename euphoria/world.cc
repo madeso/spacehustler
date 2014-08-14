@@ -7,6 +7,8 @@
 #include "euphoria/str.h"
 #include "json/json.h"
 
+namespace euphoria {
+
 Instance::Instance(std::shared_ptr<CompiledMesh> mesh, const Mat44& transform)
     : mesh_(mesh), transform_(transform) {  // NOLINT
 }
@@ -84,3 +86,5 @@ const Mesh& World::collisionmesh() const {
   assert(this);
   return collisionmesh_;
 }
+
+}  // namespace euphoria

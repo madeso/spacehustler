@@ -10,6 +10,8 @@
 #include <string>
 #include <algorithm>
 
+namespace euphoria {
+
 namespace {
 TweakerStore* GlocalTweakerStoreVariable = 0;
 }  // namespace
@@ -426,5 +428,7 @@ void TweakerStore::update() {
 }
 
 TweakerStore* GlocalTweakerStore() { return GlocalTweakerStoreVariable; }
+
+}  // namespace euphoria
 
 #endif
