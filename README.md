@@ -40,7 +40,6 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* move all code into a euphoria namespace
 * update tweak system for oculus support
 * complete oculus rift support
 * hud/2d support
