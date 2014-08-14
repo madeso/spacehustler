@@ -19,6 +19,8 @@ namespace Json {  // no-doxygen-namechecks
 class Value;
 }
 
+namespace euphoria {
+
 namespace input {
 class InputActionMap;
 class BindMap;
@@ -66,5 +68,7 @@ std::map<Type, BindData> ConvertToBindMap(
 }
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_COMMONDEF_H_

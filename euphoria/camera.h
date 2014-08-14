@@ -9,6 +9,8 @@ Camera related code.
 
 #include "euphoria/math.h"
 
+namespace euphoria {
+
 /** A camera in a world.
 @see World
  */
@@ -63,5 +65,7 @@ class Camera {
  private:
   void UpdateProjection();
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_CAMERA_H_

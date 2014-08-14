@@ -10,6 +10,8 @@ String utility functions
 #include <string>
 #include <vector>
 
+namespace euphoria {
+
 /** @defgroup string String utility functions.
 @{
  */
@@ -93,5 +95,7 @@ void Copy(char* dst, const std::string& src,
 std::string RemoveFromEnd(const std::string& str, const std::string& end);
 
 /** @} */
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_STRINGUTILS_H_

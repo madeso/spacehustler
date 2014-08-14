@@ -11,6 +11,8 @@ Quad related code.
 
 #include "euphoria/mesh.h"
 
+namespace euphoria {
+
 /** Utility to render a quad.
  */
 class Quad {
@@ -30,5 +32,7 @@ class Quad {
   std::shared_ptr<Program> program_;
   std::unique_ptr<internal::CompiledMeshPart> mesh_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_QUAD_H_

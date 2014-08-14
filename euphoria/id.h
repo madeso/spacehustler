@@ -11,6 +11,8 @@ Id related code.
 #include <vector>
 #include "euphoria/ints.h"
 
+namespace euphoria {
+
 /** A generator for unique identifiers.
  */
 class IdGenerator : boost::noncopyable {
@@ -62,5 +64,7 @@ class Id : boost::noncopyable {
   const IdGenerator::ID value_;
   IdGenerator* generator_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_ID_H_

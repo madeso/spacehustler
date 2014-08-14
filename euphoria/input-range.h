@@ -9,6 +9,8 @@ Range enum.
 
 #include <string>
 
+namespace euphoria {
+
 /** Definition of the kind of range.
  */
 enum class Range {
@@ -31,5 +33,7 @@ std::ostream& operator<<(std::ostream& s, const Range& v);
 @returns the range or None
  */
 Range ToRange(const std::string& name);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_RANGE_H_

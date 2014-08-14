@@ -20,6 +20,8 @@ Core Entity related code.
 
 #include "euphoria/lua.h"
 
+namespace euphoria {
+
 /** A entity in the component/entity framework.
  */
 struct Entity {
@@ -172,5 +174,7 @@ class EntityList {
 @todo merge with the World loader.
  */
 void LoadEntities(EntityList* list, const std::string& filename, Lua* lua);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_ENTITY_H_

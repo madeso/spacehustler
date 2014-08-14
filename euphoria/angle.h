@@ -7,6 +7,8 @@ Axis enum.
 #ifndef EUPHORIA_ANGLE_H_
 #define EUPHORIA_ANGLE_H_
 
+namespace euphoria {
+
 /** A angle in both degrees and radians. Internally stored as a radian.
 */
 class Angle {
@@ -150,5 +152,7 @@ const Angle FromPercentOf360(const float percent);
  */
 const Angle Zero();
 }  // namespace angle
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_ANGLE_H_

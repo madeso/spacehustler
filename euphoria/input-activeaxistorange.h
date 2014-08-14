@@ -9,6 +9,8 @@ Classes for input handling.
 
 #include "euphoria/input-active.h"
 
+namespace euphoria {
+
 namespace input {
 
 class InputAction;
@@ -30,5 +32,7 @@ class ActiveAxisToRange : public InputActive {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_ACTIVEAXISTORANGE_H_

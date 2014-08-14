@@ -9,6 +9,8 @@ Definitions for various integers.
 
 #include <boost/cstdint.hpp>
 
+namespace euphoria {
+
 /** @defgroup int Integer typedefs
 @{
  */
@@ -124,5 +126,7 @@ typedef boost::int_fast8_t fint8;
 typedef boost::uint_fast8_t fuint8;
 
 /** @} */
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INTS_H_

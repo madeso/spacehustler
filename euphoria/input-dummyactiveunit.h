@@ -9,6 +9,8 @@ Classes for input handling.
 
 #include "euphoria/input-activeunit.h"
 
+namespace euphoria {
+
 namespace input {
 
 /** A Dummy active unit.
@@ -23,5 +25,7 @@ class DummyActiveUnit : public ActiveUnit {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_DUMMYACTIVEUNIT_H_

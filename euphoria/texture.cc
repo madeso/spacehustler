@@ -8,6 +8,8 @@
 #include "soil/SOIL.h"
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 /** @todo change file loading to use a VFS instead.
    */
 ImageData::ImageData(const std::string& path)
@@ -186,3 +188,5 @@ const internal::TextureObject& Texture::texture() const {
   assert(this);
   return texture_;
 }
+
+}  // namespace euphoria

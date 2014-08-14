@@ -9,10 +9,14 @@ Entity Physics System.
 
 #include "euphoria/systems.h"
 
+namespace euphoria {
+
 /** Add the physics system to the system creator list.
 @param sc the list.
 @ingroup systems
  */
 void EntityAddPhysics(SystemCreatorList* sc);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_ENTITY_PHYSICS_H_

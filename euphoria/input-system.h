@@ -17,6 +17,8 @@ Classes for input handling.
 #include "euphoria/input-keyconfigs.h"
 #include "euphoria/input-actionmap.h"
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -111,5 +113,7 @@ class InputSystem {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_SYSTEM_H_

@@ -15,6 +15,8 @@ extern "C" {
 struct lua_State;
 };
 
+namespace euphoria {
+
 namespace internal {
 /** Function return from lua.
  */
@@ -156,5 +158,7 @@ class Lua {
  private:
   lua_State* state_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_LUA_H_

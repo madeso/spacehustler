@@ -11,6 +11,8 @@ Classes for input handling.
 #include <string>
 #include <memory>
 
+namespace euphoria {
+
 namespace input {
 class KeyConfig;
 class ConnectedUnits;
@@ -63,5 +65,7 @@ void Load(KeyConfigs* configs, const std::string& filename,
           const InputActionMap& map);
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_KEYCONFIGS_H_

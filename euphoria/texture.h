@@ -13,6 +13,8 @@ Logic for the textures.
 
 #include "euphoria/opengl.h"
 
+namespace euphoria {
+
 namespace internal {
 /** A OpenGL texture object.
  */
@@ -180,5 +182,7 @@ class Texture {
  private:
   internal::TextureObject texture_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_TEXTURE_H_

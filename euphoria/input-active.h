@@ -7,6 +7,8 @@ Classes for input handling.
 #ifndef EUPHORIA_INPUT_ACTIVE_H_
 #define EUPHORIA_INPUT_ACTIVE_H_
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -43,5 +45,7 @@ class InputActive {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_ACTIVE_H_

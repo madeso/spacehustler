@@ -9,6 +9,8 @@ Axis enum.
 
 #include <string>
 
+namespace euphoria {
+
 /** Sign type
  */
 enum class Sign {
@@ -50,5 +52,7 @@ std::string ToString(Axis k);
 @returns the key or None
  */
 Axis ToAxis(const std::string& keyname);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_AXIS_H_

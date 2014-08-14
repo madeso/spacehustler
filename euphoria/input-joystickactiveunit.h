@@ -16,6 +16,8 @@ Classes for input handling.
 #include "euphoria/input-taxisbind.h"
 #include "euphoria/input-trangebind.h"
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -65,5 +67,7 @@ class JoystickActiveUnit : public ActiveUnit {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_JOYSTICKACTIVEUNIT_H_

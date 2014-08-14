@@ -16,7 +16,7 @@ Quad::Quad(std::shared_ptr<Program> prog, float uscale, float vscale)
 
   part.AddFace(2, 1, 0);
   part.AddFace(3, 2, 0);
-  mesh_.reset(new ::internal::CompiledMeshPart(part, program_, 0));
+  mesh_.reset(new ::euphoria::internal::CompiledMeshPart(part, program_, 0));
 }
 
 void Quad::Render() { mesh_->Render(); }

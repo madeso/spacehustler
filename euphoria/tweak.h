@@ -24,6 +24,8 @@ Contains all the Tweakable code.
  */
 typedef struct CTwBar TwBar;
 
+namespace euphoria {
+
 namespace tweaks {
 
 /** basic unit of of something that is tweakable.
@@ -316,6 +318,8 @@ Runs the code only if tweaking is enabled.
 @param x the code to be run
  */
 #define RUNTWEAKCODE(x) x
+
+}  // namespace euphoria
 
 #else
 

@@ -7,6 +7,8 @@ Contains scalar math function.
 #ifndef EUPHORIA_SCALAR_H_
 #define EUPHORIA_SCALAR_H_
 
+namespace euphoria {
+
 /// \defgroup math1 1-D math operations
 /// @{
 
@@ -249,5 +251,7 @@ const float Pi();
 const float HalfPi();
 
 /// @}
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SCALAR_H_

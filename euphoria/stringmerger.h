@@ -11,6 +11,8 @@ Contains the string merger class.
 #include <vector>
 #include <map>
 
+namespace euphoria {
+
 /** Util class for merging strings.
  */
 class StringMerger {
@@ -71,5 +73,7 @@ class StringMerger {
   std::string start_;
   std::string end_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_STRINGMERGER_H_

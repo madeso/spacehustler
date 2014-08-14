@@ -7,6 +7,8 @@ Basic class for handling colors.
 #ifndef EUPHORIA_COLOR_H_
 #define EUPHORIA_COLOR_H_
 
+namespace euphoria {
+
 /** A color.
  */
 struct Color {
@@ -62,5 +64,7 @@ struct Color {
    */
   float a;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_COLOR_H_

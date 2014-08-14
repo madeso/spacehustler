@@ -18,6 +18,8 @@ namespace Json {
 class Value;
 }
 
+namespace euphoria {
+
 namespace input {
 class InputActionMap;
 
@@ -43,5 +45,7 @@ class MouseDef : public UnitDef {
   std::vector<BindDef<MouseButton>> keys_;
 };
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_MOUSEDEF_H_

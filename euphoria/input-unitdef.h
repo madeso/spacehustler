@@ -9,6 +9,8 @@
 
 #include <memory>
 
+namespace euphoria {
+
 namespace input {
 
 class InputDirector;
@@ -33,5 +35,7 @@ class UnitDef {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_UNITDEF_H_

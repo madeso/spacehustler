@@ -10,6 +10,7 @@ FBO related code.
 #include <boost/noncopyable.hpp>
 #include <memory>
 
+namespace euphoria {
 class Texture;
 
 /** A render buffer.
@@ -110,5 +111,7 @@ class TextureUpdator : boost::noncopyable {
   int width_;
   int height_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_FBO_H_

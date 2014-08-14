@@ -10,6 +10,8 @@ Classes for input handling.
 #include <memory>
 #include <vector>
 
+namespace euphoria {
+
 namespace input {
 
 class InputAction;
@@ -37,5 +39,7 @@ class GlobalToggle {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_GLOBALTOGGLE_H_

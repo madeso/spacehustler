@@ -9,6 +9,8 @@ Classes for input definitions.
 
 #include "euphoria/input-axis.h"
 
+namespace euphoria {
+
 namespace input {
 
 class HatAxis {
@@ -26,5 +28,7 @@ class HatAxis {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_HATAXIS_H_

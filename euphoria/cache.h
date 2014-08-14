@@ -11,6 +11,8 @@ Utility code fore the Cache concept.
 #include <map>
 #include <utility>
 
+namespace euphoria {
+
 class Settings;
 
 /** Get utility function for the cache concept.
@@ -40,5 +42,7 @@ std::shared_ptr<TData> CacheGet(std::map<TKey, std::weak_ptr<TData>>* cache,
   cache->insert(std::pair<TKey, std::weak_ptr<TData>>(name, data));
   return data;
 }
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_CACHE_H_

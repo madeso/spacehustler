@@ -9,6 +9,8 @@ Raii elements for opengl.
 
 #include "euphoria/opengl.h"
 
+namespace euphoria {
+
 namespace internal {
 /** A RAII class for a OpenGl Vertex Array Object.
  */
@@ -87,5 +89,7 @@ class ElementArrayBuffer : public BufferObject {
   void Unbind();
 };
 }  // namespace internal
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_OPENGLRAII_H_

@@ -166,7 +166,7 @@ ovrFovPort FovPortMax(const ovrFovPort& a, const ovrFovPort& b) {
 ovrTexture GetOvrTexture(const EyeSetup& eye) {
   ovrTexture tex;
 
-  ovrSizei newRTSize = ::Sizei(eye.fbo().width(), eye.fbo().height());
+  ovrSizei newRTSize = ::euphoria::Sizei(eye.fbo().width(), eye.fbo().height());
 
   ovrGLTextureData* texData = reinterpret_cast<ovrGLTextureData*>(&tex);
   texData->Header.API = ovrRenderAPI_OpenGL;

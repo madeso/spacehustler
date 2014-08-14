@@ -11,8 +11,12 @@ Basic class for logging.
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 void LogInfo(const std::string& info);
 
 #define LOGINFO(x) LogInfo(Str() << x)
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_LOG_H_

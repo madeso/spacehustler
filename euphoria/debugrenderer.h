@@ -16,6 +16,8 @@ Debug rendering.
 #include "euphoria/shadercache.h"
 #include "euphoria/camera.h"
 
+namespace euphoria {
+
 class Settings;
 
 /** The debug renderer.
@@ -66,5 +68,7 @@ class DebugRenderer {
     @param mat the matrix
      */
 void Debug(DebugRenderer* debug, const Mat44& mat);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_DEBUGRENDERER_H_

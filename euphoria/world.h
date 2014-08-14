@@ -18,6 +18,8 @@ World related code.
 #include "euphoria/texturecache.h"
 #include "euphoria/shadercache.h"
 
+namespace euphoria {
+
 /** A mesh placed in a world.
 @see CompiledMesh
 @see World
@@ -91,5 +93,7 @@ class World {
   Mesh collisionmesh_;
   DebugRenderer debug_renderer_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_WORLD_H_

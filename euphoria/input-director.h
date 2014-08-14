@@ -12,6 +12,8 @@ Classes for input handling.
 #include "euphoria/input-key.h"
 #include "euphoria/input-axis.h"
 
+namespace euphoria {
+
 namespace input {
 
 class KeyboardActiveUnit;
@@ -107,5 +109,7 @@ class InputDirector {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_DIRECTOR_H_

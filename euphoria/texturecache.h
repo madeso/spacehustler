@@ -12,6 +12,8 @@ Texture cache related code.
 #include <map>
 #include "euphoria/texture.h"
 
+namespace euphoria {
+
 class Settings;
 
 /** Instructions on how to load a texture.
@@ -63,5 +65,7 @@ class TextureCache {
  private:
   std::map<TextureLoadingInstruction, std::weak_ptr<Texture> > cache_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_TEXTURECACHE_H_

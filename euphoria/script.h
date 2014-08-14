@@ -22,6 +22,8 @@ struct lua_State;
 typedef int (*lua_CFunction)(lua_State* L);  // no-doxygen-namechecks
 };
 
+namespace euphoria {
+
 namespace internal {
 /** Internal class to handle scripting arguments.
  */
@@ -327,5 +329,7 @@ void MyFunc(ScriptParams* params){ ]
                                      Lua_callback_for_##func);               \
     }                                                                        \
   } Lua_static_var_register_##func
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SCRIPT_H_

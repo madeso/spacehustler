@@ -10,6 +10,8 @@ Contains the Str class.
 #include <string>
 #include <sstream>
 
+namespace euphoria {
+
 /** Basic string builder.
  */
 class Str {
@@ -39,5 +41,7 @@ class Str {
  private:
   std::ostringstream stream_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_STR_H_

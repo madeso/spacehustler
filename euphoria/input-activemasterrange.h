@@ -12,6 +12,8 @@ Classes for input handling.
 
 #include "euphoria/input-active.h"
 
+namespace euphoria {
+
 namespace input {
 
 class ActiveRange;
@@ -29,5 +31,7 @@ class ActiveMasterRange : public InputActive {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_ACTIVEMASTERRANGE_H_

@@ -17,6 +17,8 @@ namespace Json {
 class Value;
 }
 
+namespace euphoria {
+
 namespace input {
 
 class InputDirector;
@@ -45,5 +47,7 @@ class JoystickDef : public UnitDef {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_JOYSTICKDEF_H_

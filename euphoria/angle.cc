@@ -24,7 +24,7 @@ const Angle Angle::FromRadians(float rad) { return Angle(rad); }
 
 Angle::Angle(float rad) : radians_(rad) {}
 
-void Angle::Wrap() { radians_ = ::Wrap(0, radians_, Pi() * 2.0f); }
+void Angle::Wrap() { radians_ = ::euphoria::Wrap(0, radians_, Pi() * 2.0f); }
 
 void Angle::operator+=(const Angle& rhs) { radians_ += rhs.radians_; }
 

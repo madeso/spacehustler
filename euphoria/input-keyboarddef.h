@@ -18,6 +18,8 @@ namespace Json {
 class Value;
 }
 
+namespace euphoria {
+
 namespace input {
 class InputActionMap;
 class ActiveUnit;
@@ -45,5 +47,7 @@ class KeyboardDef : public UnitDef {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_KEYBOARDDEF_H_

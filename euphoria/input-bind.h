@@ -9,6 +9,8 @@ Classes for input handling.
 
 #include <string>
 
+namespace euphoria {
+
 namespace input {
 
 class InputAction;
@@ -44,5 +46,7 @@ class Bind {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_BIND_H_

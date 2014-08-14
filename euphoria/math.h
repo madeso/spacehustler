@@ -9,6 +9,8 @@ Math related code.
 
 #include "cml/cml.h"
 
+namespace euphoria {
+
 /** @defgroup math Math functions and types
 @{
  */
@@ -81,5 +83,7 @@ Mat44 CreateMat44(const Vec3& v, const Quat& q);
 Quat CreateIdentityQuat();
 
 /** @} */
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_MATH_H_

@@ -19,6 +19,8 @@ Classes for input handling.
 #include "euphoria/input-activeaxis.h"
 #include "euphoria/input-activerange.h"
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -41,5 +43,7 @@ class BindMap {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_BINDMAP_H_

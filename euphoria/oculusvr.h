@@ -14,6 +14,8 @@ Oculus VR related integration code.
 #include "euphoria/math.h"
 #include "euphoria/fbo.h"
 
+namespace euphoria {
+
 class Settings;
 
 /** Oculus VR data for a eye.
@@ -75,5 +77,7 @@ class OculusVr : boost::noncopyable {
   class OculusVrPimpl;
   std::unique_ptr<OculusVrPimpl> pimpl_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_OCULUSVR_H_

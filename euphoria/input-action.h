@@ -11,6 +11,8 @@ Classes for input handling.
 
 #include "euphoria/input-range.h"
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -56,5 +58,7 @@ class InputAction {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_ACTION_H_

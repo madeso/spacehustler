@@ -9,6 +9,8 @@ Contains the Rng class.
 
 #include "euphoria/ints.h"
 
+namespace euphoria {
+
 /** WEL512 Random Number Generator.
 http://stackoverflow.com/questions/1046714/what-is-a-good-random-number-generator-for-a-game
 http://stackoverflow.com/a/1227137
@@ -40,5 +42,7 @@ class Rng {
   uint32 index_;
   uint32 state_[16];
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_RNG_H_

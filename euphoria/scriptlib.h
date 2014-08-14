@@ -11,6 +11,8 @@ Functions for binding basic types to lua.
 
 extern "C" { struct lua_State; }
 
+namespace euphoria {
+
 /** Add the scriptlib to the state.
 @param state the lua state.
  */
@@ -29,5 +31,7 @@ Quat* ReturnQuat(ScriptParams* params);
 @returns the returned vec3
  */
 Vec3* ReturnVec3(ScriptParams* params);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SCRIPTLIB_H_

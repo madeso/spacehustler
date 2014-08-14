@@ -11,6 +11,8 @@ Enum related code.
 #include <map>
 #include <vector>
 
+namespace euphoria {
+
 class EnumValue;
 
 /** Represents a enum type.
@@ -126,5 +128,7 @@ class EnumValue {
 @returns the stream
  */
 std::ostream& operator<<(std::ostream& s, const EnumValue& v);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_ENUM_H_

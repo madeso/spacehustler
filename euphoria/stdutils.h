@@ -15,6 +15,8 @@ Contains various helper extras for the std library.
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 /** Generate a string representation for each of the elements in a vector.
 @param c the container.
 @returns the string vector.
@@ -73,5 +75,7 @@ class BuildVector {
  private:
   std::vector<T> vector_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_STDUTILS_H_

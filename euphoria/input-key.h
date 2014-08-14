@@ -9,6 +9,8 @@ Key related code
 
 #include <string>
 
+namespace euphoria {
+
 /** The mouse button
  */
 enum class MouseButton {
@@ -528,5 +530,7 @@ std::string ToString(Key k);
 @returns the key or None
  */
 Key ToKey(const std::string& keyname);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_KEY_H_

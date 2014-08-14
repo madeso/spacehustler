@@ -12,6 +12,8 @@ Classes for input handling.
 #include <memory>
 #include <vector>
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -56,5 +58,7 @@ class InputActionMap {
 void Load(InputActionMap* map, const std::string& filename);
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_ACTIONMAP_H_

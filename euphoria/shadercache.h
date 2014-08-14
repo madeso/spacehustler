@@ -12,6 +12,8 @@ Shader cache related code.
 #include <map>
 #include "euphoria/shader.h"
 
+namespace euphoria {
+
 class Settings;
 
 /** The shader cache.
@@ -33,5 +35,7 @@ class ShaderCache {
  private:
   std::map<std::string, std::weak_ptr<Program> > cache_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SHADERCACHE_H_

@@ -11,6 +11,8 @@ Classes for input handling.
 
 #include "euphoria/input-connectedunits.h"
 
+namespace euphoria {
+
 class Table;
 
 namespace input {
@@ -42,5 +44,7 @@ class Player {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_PLAYER_H_

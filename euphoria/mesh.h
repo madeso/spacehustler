@@ -18,6 +18,8 @@ Mesh related code.
 #include "euphoria/shadercache.h"
 #include "euphoria/openglraii.h"
 
+namespace euphoria {
+
 namespace internal {
 
 /** Triangle soup with a single material. Part of a Mesh.
@@ -204,5 +206,7 @@ class CompiledMesh {
  private:
   std::vector<std::shared_ptr<internal::CompiledMeshPart>> parts_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_MESH_H_

@@ -9,6 +9,8 @@ Settings related code.
 
 #include <string>
 
+namespace euphoria {
+
 /** Determines how to detect a oculus vr device.
  */
 enum class OculusVrDetection {
@@ -118,5 +120,7 @@ class Settings {
   bool rendertarget_is_shared_by_both_eyes_;
   float desired_pixel_density_;
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SETTINGS_H_

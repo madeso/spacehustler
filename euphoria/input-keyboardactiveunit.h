@@ -16,6 +16,8 @@ Classes for input handling.
 
 #include "euphoria/input-key.h"
 
+namespace euphoria {
+
 namespace input {
 
 class AxisKey;
@@ -53,5 +55,7 @@ class KeyboardActiveUnit : public ActiveUnit {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_KEYBOARDACTIVEUNIT_H_

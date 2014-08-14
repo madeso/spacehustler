@@ -10,6 +10,8 @@ Classes for input handling.
 #include <vector>
 #include <memory>
 
+namespace euphoria {
+
 namespace input {
 
 class InputAction;
@@ -34,5 +36,7 @@ class ActiveUnit {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_ACTIVEUNIT_H_

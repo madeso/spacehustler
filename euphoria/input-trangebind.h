@@ -12,6 +12,8 @@ Classes for input handling.
 
 #include "euphoria/input-bind.h"
 
+namespace euphoria {
+
 namespace input {
 template <typename T>
 class TRangeBind {
@@ -52,5 +54,7 @@ class TRangeBind {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_TRANGEBIND_H_

@@ -12,6 +12,8 @@ Classes for input handling.
 
 #include "json/json.h"
 
+namespace euphoria {
+
 namespace input {
 
 /** Definition of a bind.
@@ -54,5 +56,7 @@ class BindDef {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_BINDDEF_H_

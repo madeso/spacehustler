@@ -14,6 +14,8 @@ Game related code.
 
 #include "euphoria-config.h"  // NOLINT this is the default way to include cmake files
 
+namespace euphoria {
+
 class OglDebug;
 class TextureCache;
 class ShaderCache;
@@ -137,5 +139,7 @@ class Game {
   std::unique_ptr<TweakerStore> tweakers_;
 #endif
 };
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_GAME_H_

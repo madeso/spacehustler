@@ -17,6 +17,8 @@ namespace Json {
 class Value;
 }  // namespace Json
 
+namespace euphoria {
+
 class SystemContainer;
 class World;
 class TextureCache;
@@ -117,5 +119,7 @@ class SystemCreatorList {
 @param arg the arguments to use.
  */
 void LoadSystems(const std::string& filename, const CreateSystemArg& arg);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SYSTEMS_H_

@@ -12,6 +12,8 @@ Classes for input handling.
 
 #include "euphoria/input-connectedunits.h"
 
+namespace euphoria {
+
 namespace input {
 
 class UnitDef;
@@ -46,5 +48,7 @@ class KeyConfig {
 };
 
 }  // namespace input
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_INPUT_KEYCONFIG_H_

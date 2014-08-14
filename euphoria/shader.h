@@ -16,6 +16,8 @@ Contains the shader logic.
 #include "euphoria/opengl.h"
 #include "euphoria/math.h"
 
+namespace euphoria {
+
 /** A compiled OpenGL vertex or fragment shader.
  */
 class Shader : boost::noncopyable {
@@ -147,5 +149,7 @@ class Program : boost::noncopyable {
 @returns the newly loaded shader.
  */
 std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename);
+
+}  // namespace euphoria
 
 #endif  // EUPHORIA_SHADER_H_
