@@ -5,8 +5,6 @@
 #include <stdexcept>
 #include "euphoria/str.h"
 
-namespace euphoria {
-
 void operator delete(void* pMem, lua_State* state, const char* metatableName) {
   // do nothing as lua is supposed to handle this.
 }
@@ -18,4 +16,3 @@ void* operator new(size_t size, lua_State* state, const char* metatableName) {
   lua_setmetatable(state, -2);
   return ptr;
 }
-}  // namespace euphoria
