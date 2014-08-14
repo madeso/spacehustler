@@ -9,6 +9,8 @@
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 std::string StringMerger::Generate(const std::vector<std::string>& strings)
     const {
   assert(this);
@@ -85,3 +87,4 @@ StringMerger& StringMerger::SetStartEnd(const std::string& start,
   end_ = end;
   return *this;
 }
+}  // namespace euphoria

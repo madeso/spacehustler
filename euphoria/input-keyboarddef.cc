@@ -13,6 +13,8 @@
 #include "euphoria/stringutils.h"
 #include "euphoria/input-commondef.h"
 
+namespace euphoria {
+
 namespace input {
 
 KeyboardDef::KeyboardDef(const Json::Value& data, const InputActionMap& map) {
@@ -55,3 +57,4 @@ std::shared_ptr<ActiveUnit> KeyboardDef::Create(InputDirector* director,
 }
 
 }  // namespace input
+}  // namespace euphoria

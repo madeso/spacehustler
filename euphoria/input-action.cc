@@ -3,6 +3,8 @@
 #include "euphoria/input-action.h"
 #include <cassert>
 
+namespace euphoria {
+
 namespace input {
 
 InputAction::InputAction(const std::string& name,
@@ -61,3 +63,4 @@ void InputAction::ClearToggle(GlobalToggle* toggle) {
 }
 
 }  // namespace input
+}  // namespace euphoria

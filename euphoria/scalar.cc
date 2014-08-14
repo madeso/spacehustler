@@ -6,6 +6,8 @@
 #include <cassert>
 #include "euphoria/angle.h"
 
+namespace euphoria {
+
 bool IsEqual(float lhs, float rhs) { return IsZero(lhs - rhs); }
 
 bool IsZero(float r) {
@@ -197,3 +199,5 @@ const float Round(const float num, const float gran) {
 const float Pi() { return 3.1415926535897932384626433832795f; }
 
 const float HalfPi() { return Pi() / 2.0f; }
+
+}  // namespace euphoria

@@ -6,6 +6,8 @@
 
 #include "euphoria/cache.h"
 
+namespace euphoria {
+
 ShaderCache::ShaderCache() { assert(this); }
 
 namespace {
@@ -23,3 +25,4 @@ std::shared_ptr<Program> ShaderCache::GetOrCreate(const std::string& path,
   static ShaderCreator c;
   return CacheGet(&cache_, c, path, settings);
 }
+}  // namespace euphoria

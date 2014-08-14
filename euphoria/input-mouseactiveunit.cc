@@ -7,6 +7,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-commondef.h"
 
+namespace euphoria {
+
 namespace input {
 
 MouseActiveUnit::MouseActiveUnit(
@@ -44,3 +46,4 @@ MouseActiveUnit::~MouseActiveUnit() { director_->Remove(this); }
 void MouseActiveUnit::Rumble() {}
 
 }  // namespace input
+}  // namespace euphoria

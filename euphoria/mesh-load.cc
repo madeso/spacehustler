@@ -11,6 +11,8 @@
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 namespace {
 const unsigned int kAssimpFlags =
     aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_SortByPType |
@@ -195,3 +197,4 @@ Mesh CreateBox(float width, float height, float depth) {
 
   return LoadFromString(ss.str(), kFormatObj);
 }
+}  // namespace euphoria

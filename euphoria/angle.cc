@@ -7,6 +7,8 @@
 
 #include "euphoria/scalar.h"
 
+namespace euphoria {
+
 namespace {
 const float rad2deg(const float rad) { return (180.0f / Pi()) * rad; }
 const float deg2rad(const float deg) { return Pi() / 180.0f * deg; }
@@ -93,3 +95,4 @@ const Angle FromPercentOf360(const float percent) {
 const Angle Zero() { return Angle::FromRadians(0); }
 
 }  // namespace angle
+}  // namespace euphoria

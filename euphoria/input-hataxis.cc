@@ -3,6 +3,8 @@
 #include "euphoria/input-hataxis.h"
 #include <cassert>
 
+namespace euphoria {
+
 namespace input {
 
 HatAxis::HatAxis(int hat, Axis axis) : hat_(hat), axis_(axis) { assert(this); }
@@ -26,3 +28,4 @@ bool HatAxis::operator<(const HatAxis& rhs) const {
 }
 
 }  // namespace input
+}  // namespace euphoria

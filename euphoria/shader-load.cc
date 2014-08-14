@@ -10,6 +10,8 @@
 
 #include "json/json.h"
 
+namespace euphoria {
+
 void LoadSingleShader(Json::Value data, Shader::Type type, ShaderList* list) {
   const std::string filename = data.get("file", "").asString();
   std::ifstream f(filename.c_str());
@@ -48,3 +50,4 @@ std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename) {
 
   return Program::FromShaderList(shaders);
 }
+}  // namespace euphoria

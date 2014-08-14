@@ -7,6 +7,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-commondef.h"
 
+namespace euphoria {
+
 namespace input {
 
 KeyboardActiveUnit::KeyboardActiveUnit(
@@ -33,3 +35,4 @@ KeyboardActiveUnit::~KeyboardActiveUnit() { director_->Remove(this); }
 void KeyboardActiveUnit::Rumble() {}
 
 }  // namespace input
+}  // namespace euphoria

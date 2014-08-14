@@ -4,6 +4,8 @@
 
 #include <cassert>
 
+namespace euphoria {
+
 Camera::Camera(int width, int height)
     : fov_(45.0f),
       aspect_(static_cast<float>(width) / height),
@@ -53,3 +55,4 @@ void Camera::UpdateProjection() {
   cml::matrix_perspective_xfov_RH(projection_, fov_, aspect_, znear_, zfar_,
                                   cml::z_clip_zero);
 }
+}  // namespace euphoria

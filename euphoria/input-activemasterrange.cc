@@ -6,6 +6,8 @@
 #include "euphoria/input-activerange.h"
 #include "euphoria/input-activeaxistorange.h"
 
+namespace euphoria {
+
 namespace input {
 
 ActiveMasterRange::ActiveMasterRange(InputAction* action, ActiveRange* range,
@@ -26,3 +28,4 @@ void ActiveMasterRange::Update(float dt) {
 }
 
 }  // namespace input
+}  // namespace euphoria

@@ -14,6 +14,8 @@
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 namespace input {
 
 BindMap::BindMap(const InputActionMap& actions, ActiveList* actives) {
@@ -96,3 +98,4 @@ void BindMap::AddAxis(std::shared_ptr<InputAction> action,
 }
 
 }  // namespace input
+}  // namespace euphoria

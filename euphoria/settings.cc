@@ -12,6 +12,8 @@
 #include "euphoria/stdutils.h"
 #include "json/json.h"
 
+namespace euphoria {
+
 OculusVrDetection DetermineOculusVrValue(const std::string& name) {
   std::map<std::string, OculusVrDetection> values;
   values.insert(std::make_pair("auto", OculusVrDetection::AUTO));
@@ -223,3 +225,4 @@ float Settings::desired_pixel_density() const {
   assert(this);
   return desired_pixel_density_;
 }
+}  // namespace euphoria

@@ -19,6 +19,8 @@
 
 #include "json/json.h"
 
+namespace euphoria {
+
 CreateSystemArg::CreateSystemArg(SystemContainer* acontainer, World* aworld,
                                  TextureCache* atexturecache,
                                  ShaderCache* ashadercache, Camera* acamera,
@@ -86,3 +88,4 @@ void LoadSystems(const std::string& filename, const CreateSystemArg& arg) {
     creators.Get(systemname)(arg, data);
   }
 }
+}  // namespace euphoria

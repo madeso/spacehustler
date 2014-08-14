@@ -8,6 +8,8 @@
 #include "euphoria/str.h"
 #include "euphoria/input-action.h"
 
+namespace euphoria {
+
 namespace input {
 
 ActiveRange::ActiveRange(InputAction* action, Bind* range)
@@ -29,3 +31,4 @@ void ActiveRange::Update(float dt) {
 }
 
 }  // namespace input
+}  // namespace euphoria

@@ -12,6 +12,8 @@
 #include "OVR.h"  // NOLINT this is how you should include OVR
 #include "../Src/OVR_CAPI_GL.h"
 
+namespace euphoria {
+
 EyeSetup::EyeSetup(const Mat44& projection, const Mat44& view_adjust, int w,
                    int h, bool mipmap)
     : projection_(projection), view_adjust_(view_adjust), fbo_(w, h, mipmap) {}
@@ -509,3 +511,4 @@ void OculusVr::DismissWarning() {
   assert(pimpl_ && "hmd must be detected");
   pimpl_->DismissWarning();
 }
+}  // namespace euphoria

@@ -10,6 +10,8 @@
 #include "json/json.h"
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 EnumType::EnumType() : is_adding_(true), next_index_(0) {}
 
 EnumType::~EnumType() {
@@ -136,3 +138,4 @@ std::ostream& operator<<(std::ostream& s, const EnumValue& v) {
   s << v.ToString();
   return s;
 }
+}  // namespace euphoria

@@ -3,6 +3,8 @@
 #include "euphoria/openglraii.h"
 #include <cassert>
 
+namespace euphoria {
+
 namespace internal {
 Vao::Vao() : object_(0) {
   assert(this);
@@ -90,3 +92,4 @@ void ElementArrayBuffer::Unbind() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 }  // namespace internal
+}  // namespace euphoria

@@ -8,6 +8,8 @@
 #include "euphoria/str.h"
 #include "euphoria/input-action.h"
 
+namespace euphoria {
+
 namespace input {
 
 ActiveAxisToRange::ActiveAxisToRange(InputAction* action, Bind* axis)
@@ -33,3 +35,4 @@ void ActiveAxisToRange::Update(float dt) {
 }
 
 }  // namespace input
+}  // namespace euphoria

@@ -7,6 +7,8 @@
 
 #include "euphoria/stringutils.h"
 
+namespace euphoria {
+
 namespace {
 class Signname {
  public:
@@ -107,3 +109,4 @@ std::string ToString(Axis k) { return AllAxes().fromAxis(k); }
 Axis ToAxis(const std::string& keyname) {
   return AllAxes().fromString(keyname);
 }
+}  // namespace euphoria

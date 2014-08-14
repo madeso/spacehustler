@@ -11,6 +11,8 @@
 #include "euphoria/input-commondef.h"
 #include "json/json.h"
 
+namespace euphoria {
+
 namespace input {
 
 MouseDef::MouseDef(const Json::Value& data, const InputActionMap& map) {
@@ -62,3 +64,4 @@ std::shared_ptr<ActiveUnit> MouseDef::Create(InputDirector* director,
 }
 
 }  // namespace input
+}  // namespace euphoria

@@ -6,6 +6,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/scalar.h"
 
+namespace euphoria {
+
 namespace input {
 
 InputActive::InputActive(InputAction* action) : action_(action), state_(0.0f) {
@@ -47,3 +49,4 @@ void InputActive::set_state(float state) {
 }
 
 }  // namespace input
+}  // namespace euphoria

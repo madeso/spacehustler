@@ -9,6 +9,8 @@
 #include "euphoria/math.h"
 #include "euphoria/script.h"
 
+namespace euphoria {
+
 namespace {
 namespace cvec3 {
 // -- Module: cvec3
@@ -821,3 +823,4 @@ Quat* ReturnQuat(ScriptParams* params) {
 Vec3* ReturnVec3(ScriptParams* params) {
   return LUA_PUSH_OBJECT(params->ReturnFullUserData(), Vec3)();
 }
+}  // namespace euphoria

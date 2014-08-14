@@ -3,6 +3,8 @@
 #include "euphoria/rng.h"
 #include <limits>
 
+namespace euphoria {
+
 /*
 There are much better choices than Mersenne Twister nowadays. Here is a RNG
 called WELL512, designed by the designers of Mersenne, developed 10 years later,
@@ -45,3 +47,4 @@ uint32 Rng::Next() {
 float Rng::NextFloat() {
   return static_cast<float>(Next()) / std::numeric_limits<uint32>().max();
 }
+}  // namespace euphoria

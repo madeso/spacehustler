@@ -10,6 +10,8 @@
 #include "euphoria/ogldebug.h"
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 Shader::Shader(const Type& type)
     : object_(glCreateShader(type == Shader::Type::VERTEX
                                  ? GL_VERTEX_SHADER
@@ -218,3 +220,4 @@ void Program::Unbind() const {
 
   glUseProgram(0);
 }
+}  // namespace euphoria

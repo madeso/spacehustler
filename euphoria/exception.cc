@@ -5,6 +5,8 @@
 #include <cassert>
 #include <string>
 
+namespace euphoria {
+
 std::string GrabExceptionInformation() {
   try {
     throw;
@@ -23,3 +25,4 @@ std::string GrabExceptionInformation() {
   }
   return "missing exception";
 }
+}  // namespace euphoria

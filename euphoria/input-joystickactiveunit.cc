@@ -7,6 +7,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-commondef.h"
 
+namespace euphoria {
+
 namespace input {
 
 JoystickActiveUnit::JoystickActiveUnit(
@@ -55,3 +57,4 @@ JoystickActiveUnit::~JoystickActiveUnit() { director_->Remove(this); }
 void JoystickActiveUnit::Rumble() {}
 
 }  // namespace input
+}  // namespace euphoria

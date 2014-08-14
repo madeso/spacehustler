@@ -8,6 +8,8 @@
 #include <cstring>
 #include <vector>
 
+namespace euphoria {
+
 std::string TrimRight(const std::string& stringToTrim,
                       const std::string& trimCharacters) {
   return std::string(stringToTrim)
@@ -87,3 +89,4 @@ std::string RemoveFromEnd(const std::string& str, const std::string& end) {
     return str;
   }
 }
+}  // namespace euphoria

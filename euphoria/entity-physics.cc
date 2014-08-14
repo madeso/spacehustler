@@ -14,6 +14,8 @@
 
 #include "btBulletDynamicsCommon.h"  // NOLINT this is the proper way to include bullet
 
+namespace euphoria {
+
 const std::string PhysicsSystemType = "Physics";
 
 struct PhysicsType : public ComponentType {
@@ -504,3 +506,4 @@ void SetOrientation(ScriptParams* params) {
 REGISTER_SCRIPT_FUNCTION("SetOrientation", SetOrientation);
 
 }  // namespace scriptingphysics
+}  // namespace euphoria

@@ -12,6 +12,8 @@
 
 #include "euphoria/mesh.h"
 
+namespace euphoria {
+
 class Settings;
 
 const std::string RenderingSystemType = "Rendering";
@@ -94,3 +96,4 @@ void AddRenderingCallback(const CreateSystemArg& arg, Json::Value data) {
 void EntityAddRendering(SystemCreatorList* sc) {
   sc->Add(RenderingSystemType, AddRenderingCallback);
 }
+}  // namespace euphoria

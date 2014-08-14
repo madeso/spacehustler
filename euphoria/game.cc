@@ -29,6 +29,8 @@
 #include "euphoria/str.h"
 #include "euphoria/log.h"
 
+namespace euphoria {
+
 namespace {
 Game*& GameInstance() {
   static Game* instance = 0;
@@ -275,3 +277,4 @@ void Quit(ScriptParams* params) {
 }
 REGISTER_SCRIPT_FUNCTION("Quit", Quit);
 }  // namespace scriptinggame
+}  // namespace euphoria

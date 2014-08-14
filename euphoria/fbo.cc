@@ -9,6 +9,8 @@
 #include "euphoria/str.h"
 #include "euphoria/texture.h"
 
+namespace euphoria {
+
 RenderBuffer::RenderBuffer(int internalFormat, int width, int height)
     : buffer_(0) {
   assert(this);
@@ -131,3 +133,4 @@ TextureUpdator::~TextureUpdator() {
   glPopAttrib();
   UnbindFbo();
 }
+}  // namespace euphoria

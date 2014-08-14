@@ -4,6 +4,8 @@
 #include <cassert>
 #include <vector>
 
+namespace euphoria {
+
 DebugRenderer::DebugRenderer(ShaderCache* shadercache, const Settings& settings)
     : render_lines_(0),
       linecount_(0),
@@ -93,3 +95,4 @@ void Debug(DebugRenderer* debug, const Mat44& mat) {
   debug->Line(start, start + matrix_get_z_basis_vector(mat) * orthoLen,
               Color(0, 0, 0.7f));
 }
+}  // namespace euphoria

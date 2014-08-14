@@ -16,6 +16,8 @@
 
 #include "json/json.h"
 
+namespace euphoria {
+
 Entity::Entity(Lua* lua) : table(lua) {}
 
 System::System() { assert(this); }
@@ -236,3 +238,4 @@ void SetRotation(ScriptParams* params) {
 }
 REGISTER_SCRIPT_FUNCTION("SetRotation", SetRotation);
 }  // namespace scriptingentity
+}  // namespace euphoria

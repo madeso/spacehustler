@@ -6,6 +6,8 @@
 #include <limits>
 #include "euphoria/shader.h"
 
+namespace euphoria {
+
 namespace {
 bool IsWithinUnsignedShortRange(unsigned int v) {
   /* always false:
@@ -163,3 +165,4 @@ void CompiledMesh::Render(const Camera& camera, const Mat44& model) {
     part->Render(camera, model);
   }
 }
+}  // namespace euphoria

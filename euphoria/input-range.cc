@@ -7,6 +7,8 @@
 
 #include "euphoria/stringutils.h"
 
+namespace euphoria {
+
 namespace {
 class RangeName {
  public:
@@ -62,3 +64,4 @@ std::ostream& operator<<(std::ostream& s, const Range& v) {
 Range ToRange(const std::string& keyname) {
   return AllRanges().fromString(keyname);
 }
+}  // namespace euphoria

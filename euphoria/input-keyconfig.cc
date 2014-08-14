@@ -7,6 +7,8 @@
 #include "euphoria/input-bindmap.h"
 #include "euphoria/input-activelist.h"
 #include "euphoria/input-director.h"
+
+namespace euphoria {
 namespace input {
 
 KeyConfig::KeyConfig() { assert(this); }
@@ -34,3 +36,4 @@ std::shared_ptr<ConnectedUnits> KeyConfig::Connect(
 }
 
 }  // namespace input
+}  // namespace euphoria

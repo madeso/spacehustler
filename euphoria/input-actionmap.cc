@@ -12,6 +12,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-globaltoggle.h"
 
+namespace euphoria {
+
 namespace input {
 
 InputActionMap::InputActionMap() { assert(this); }
@@ -104,3 +106,4 @@ void Load(InputActionMap* map, const std::string& filename) {
 }
 
 }  // namespace input
+}  // namespace euphoria

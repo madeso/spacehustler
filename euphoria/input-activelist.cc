@@ -13,6 +13,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/lua.h"
 
+namespace euphoria {
+
 namespace input {
 
 void ActiveList::Add(std::shared_ptr<ActiveRange> range) {
@@ -80,3 +82,4 @@ void ActiveList::Update(float dt) {
 }
 
 }  // namespace input
+}  // namespace euphoria

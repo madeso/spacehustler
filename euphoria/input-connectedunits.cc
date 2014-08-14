@@ -9,6 +9,8 @@
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 namespace input {
 
 ConnectedUnits::ConnectedUnits(std::shared_ptr<ActiveList> actives)
@@ -51,3 +53,4 @@ bool ConnectedUnits::IsEmpty() const {
 }
 
 }  // namespace input
+}  // namespace euphoria

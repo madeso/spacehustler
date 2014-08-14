@@ -7,6 +7,8 @@
 #include "euphoria/input-mouseactiveunit.h"
 #include "euphoria/input-joystickactiveunit.h"
 
+namespace euphoria {
+
 namespace input {
 
 InputDirector::InputDirector() { assert(this); }
@@ -116,3 +118,4 @@ void InputDirector::OnJoystickAxis(int axis, int joystick, float value) {
 }
 
 }  // namespace input
+}  // namespace euphoria

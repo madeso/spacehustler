@@ -5,6 +5,8 @@
 
 #include "euphoria/lua.h"
 
+namespace euphoria {
+
 namespace input {
 
 Player::Player() { assert(this); }
@@ -28,3 +30,4 @@ void Player::set_units(std::shared_ptr<ConnectedUnits> units) {
 }
 
 }  // namespace input
+}  // namespace euphoria

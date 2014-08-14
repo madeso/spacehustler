@@ -8,6 +8,8 @@
 #include "euphoria/opengl.h"
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 // definitions shamelessly stolen from glew headers
 /* <winnt.h> */
 #ifndef CALLBACK
@@ -105,3 +107,4 @@ OglDebug::~OglDebug() {
     Verify();
   }
 }
+}  // namespace euphoria

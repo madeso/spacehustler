@@ -9,6 +9,8 @@
 #include "euphoria/mesh.h"
 #include "euphoria/tweak.h"
 
+namespace euphoria {
+
 const std::string CameraSystemType = "Camera";
 
 class CameraType : public ComponentType {
@@ -76,3 +78,4 @@ void AddCameraCallback(const CreateSystemArg& arg, Json::Value data) {
 void EntityAddCamera(SystemCreatorList* sc) {
   sc->Add(CameraSystemType, AddCameraCallback);
 }
+}  // namespace euphoria

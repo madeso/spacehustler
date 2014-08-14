@@ -9,6 +9,8 @@
 #include "euphoria/input-system.h"
 #include "euphoria/input-player.h"
 
+namespace euphoria {
+
 const std::string PlayerSystemType = "Player";
 
 struct PlayerType : public ComponentType {
@@ -74,3 +76,4 @@ void AddPlayerCallback(const CreateSystemArg& arg, Json::Value data) {
 void EntityAddPlayer(SystemCreatorList* sc) {
   sc->Add(PlayerSystemType, AddPlayerCallback);
 }
+}  // namespace euphoria

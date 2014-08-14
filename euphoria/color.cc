@@ -3,6 +3,8 @@
 #include "euphoria/color.h"
 #include <cassert>
 
+namespace euphoria {
+
 Color::Color(float gray) : r(gray), g(gray), b(gray), a(1) { assert(this); }
 
 Color::Color(float R, float G, float B) : r(R), g(G), b(B), a(1) {
@@ -28,3 +30,4 @@ Color Color::FromHex(unsigned int hex) {
   const unsigned int blue = (hex & 0x0000FF) >> 0;
   return Color(C(red), C(green), C(blue));
 }
+}  // namespace euphoria

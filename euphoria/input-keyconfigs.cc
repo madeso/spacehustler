@@ -14,6 +14,8 @@
 
 #include "json/json.h"
 
+namespace euphoria {
+
 namespace input {
 
 KeyConfigs::KeyConfigs() { assert(this); }
@@ -113,3 +115,4 @@ void Load(KeyConfigs* configs, const std::string& filename,
 }
 
 }  // namespace input
+}  // namespace euphoria

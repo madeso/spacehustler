@@ -7,6 +7,8 @@
 
 #include "euphoria/stringutils.h"
 
+namespace euphoria {
+
 namespace {
 
 template <typename T>
@@ -174,3 +176,4 @@ std::string ToString(MouseButton k) { return AllMouseButtons().fromKey(k); }
 MouseButton ToMouseButton(const std::string& keyname) {
   return AllMouseButtons().fromString(keyname);
 }
+}  // namespace euphoria

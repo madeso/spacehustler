@@ -13,6 +13,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/stringutils.h"
 
+namespace euphoria {
+
 namespace input {
 
 void TransformAndSetBindValue(const BindData& data, float value) {
@@ -50,3 +52,4 @@ CommonDef GetCommonDef(Json::Value& d, const InputActionMap& map) {
 }
 
 }  // namespace input
+}  // namespace euphoria

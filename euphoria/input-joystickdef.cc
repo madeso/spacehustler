@@ -17,6 +17,8 @@
 
 #include "euphoria/input-joystickactiveunit.h"
 
+namespace euphoria {
+
 namespace input {
 
 JoystickDef::JoystickDef(const Json::Value& data, const InputActionMap& map) {
@@ -90,3 +92,4 @@ std::shared_ptr<ActiveUnit> JoystickDef::Create(InputDirector* director,
 }
 
 }  // namespace input
+}  // namespace euphoria

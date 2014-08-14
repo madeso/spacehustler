@@ -9,6 +9,8 @@
 
 #include "euphoria/str.h"
 
+namespace euphoria {
+
 namespace input {
 
 ActiveAxis::ActiveAxis(InputAction* action, Bind* axis)
@@ -30,3 +32,4 @@ void ActiveAxis::Update(float dt) {
 }
 
 }  // namespace input
+}  // namespace euphoria

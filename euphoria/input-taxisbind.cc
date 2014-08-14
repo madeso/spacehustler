@@ -2,6 +2,7 @@
 
 #include "euphoria/input-taxisbind.h"
 #include "euphoria/input-action.h"
+namespace euphoria {
 namespace input {
 
 namespace {
@@ -13,3 +14,4 @@ void test() {
 }
 
 }  // namespace input
+}  // namespace euphoria

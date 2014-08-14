@@ -16,6 +16,8 @@ extern "C" {
 #include "lua/lauxlib.h"
 }
 
+namespace euphoria {
+
 namespace internal {
 ScriptArgument::~ScriptArgument() {}
 
@@ -351,3 +353,4 @@ ScriptRegister* GetGlobalScriptRegister() {
   static ScriptRegister reg;
   return &reg;
 }
+}  // namespace euphoria

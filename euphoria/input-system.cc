@@ -11,6 +11,8 @@
 #include "euphoria/input-player.h"
 #include "euphoria/input-keyconfig.h"
 
+namespace euphoria {
+
 namespace input {
 
 void Load(InputSystem* sys, const std::string& filename) {
@@ -119,3 +121,4 @@ void InputSystem::AddPlayer(const std::string& name) {
 }
 
 }  // namespace input
+}  // namespace euphoria

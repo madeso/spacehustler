@@ -2,6 +2,8 @@
 
 #include "euphoria/id.h"
 
+namespace euphoria {
+
 IdGenerator::IdGenerator() : current_(1) {}
 
 const IdGenerator::ID IdGenerator::Generate() {
@@ -24,3 +26,4 @@ Id::Id(IdGenerator* generator)
 Id::~Id() { generator_->Release(value_); }
 
 const IdGenerator::ID Id::value() const { return value_; }
+}  // namespace euphoria

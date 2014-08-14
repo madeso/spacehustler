@@ -3,6 +3,8 @@
 #include "euphoria/math.h"
 #include <cassert>
 
+namespace euphoria {
+
 Vec3 CreateZeroedVec3() {
   Vec3 ret;
   ret.zero();
@@ -36,3 +38,4 @@ Quat CreateIdentityQuat() {
   r.identity();
   return r;
 }
+}  // namespace euphoria

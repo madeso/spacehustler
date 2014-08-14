@@ -6,6 +6,8 @@
 #include "euphoria/input-activeaxis.h"
 #include "euphoria/input-activerangetoaxis.h"
 
+namespace euphoria {
+
 namespace input {
 
 ActiveMasterAxis::ActiveMasterAxis(InputAction* action, ActiveAxis* axis,
@@ -26,3 +28,4 @@ void ActiveMasterAxis::Update(float dt) {
 }
 
 }  // namespace input
+}  // namespace euphoria

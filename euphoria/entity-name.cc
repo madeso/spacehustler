@@ -7,6 +7,8 @@
 #include "euphoria/entity.h"
 #include "euphoria/script.h"
 
+namespace euphoria {
+
 const std::string NameSystemType = "Name";
 
 struct NameType : public ComponentType {
@@ -111,3 +113,4 @@ void FromName(ScriptParams* params) {
 }
 REGISTER_SCRIPT_FUNCTION("FromName", FromName);
 }  // namespace name
+}  // namespace euphoria

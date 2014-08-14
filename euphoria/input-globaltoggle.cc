@@ -7,6 +7,8 @@
 #include "euphoria/stdutils.h"
 #include "euphoria/input-bind.h"
 
+namespace euphoria {
+
 namespace input {
 
 const float TRUE_VALUE = 0.8f;
@@ -75,3 +77,4 @@ bool GlobalToggle::state() const {
 }
 
 }  // namespace input
+}  // namespace euphoria

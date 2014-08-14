@@ -11,6 +11,8 @@
 #include "euphoria/lua.h"
 #include "euphoria/script.h"
 
+namespace euphoria {
+
 const std::string ScriptingSystemType = "Script";
 
 struct ScriptType : public ComponentType {
@@ -133,3 +135,4 @@ void GetValue(ScriptParams* params) {
 }
 REGISTER_SCRIPT_FUNCTION("Get", GetValue);
 }  // namespace scriptingjson
+}  // namespace euphoria

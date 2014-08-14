@@ -5,6 +5,8 @@
 #include "euphoria/input-action.h"
 #include "euphoria/input-globaltoggle.h"
 
+namespace euphoria {
+
 namespace input {
 
 std::string ToString(const BindType& bt) {
@@ -69,3 +71,4 @@ InputAction* Bind::action() {
 }
 
 }  // namespace input
+}  // namespace euphoria

@@ -15,6 +15,8 @@ extern "C" {
 #include "lua/lauxlib.h"
 }
 
+namespace euphoria {
+
 namespace internal {
 FunctionReturn::~FunctionReturn() {}
 }  // namespace internal
@@ -244,3 +246,4 @@ lua_State* Lua::state() {
   assert(state_);
   return state_;
 }
+}  // namespace euphoria

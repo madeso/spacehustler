@@ -4,6 +4,7 @@
 
 #include <cassert>
 
+namespace euphoria {
 Quad::Quad(std::shared_ptr<Program> prog, float uscale, float vscale)
     : program_(prog) {
   internal::MeshPart part;
@@ -19,3 +20,4 @@ Quad::Quad(std::shared_ptr<Program> prog, float uscale, float vscale)
 }
 
 void Quad::Render() { mesh_->Render(); }
+}  // namespace euphoria
