@@ -44,6 +44,7 @@ Planned Features and stuff that needs to be done
 * complete oculus rift support
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
+* fps counter
 * debug overlay
 * physics motor support
 * add support for sixense (razer hydra/stem system)
@@ -53,6 +54,7 @@ Planned Features and stuff that needs to be done
 * auto detect input system
 * sdl gamepad into input system
 * force feedback/haptics
+* menu with dynamic reloading of all settings
 * FEEDBACK
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * static_assert
