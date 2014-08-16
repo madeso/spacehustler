@@ -41,7 +41,7 @@ Optional tools
 Planned Features and stuff that needs to be done
 =======
 * update tweak system for oculus support
-* complete oculus rift support
+* complete oculus rift support, use DwmEnableComposition to turn off Aero
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
 * fps counter
