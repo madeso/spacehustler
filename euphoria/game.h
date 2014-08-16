@@ -33,6 +33,7 @@ class Program;
 
 #ifdef USE_TWEAKABLES
 class TweakerStore;
+class TweakRenderer;
 #endif
 
 /** Contains common game data.
@@ -118,6 +119,9 @@ class Game {
   OculusVr& oculusvr();
 
  private:
+  void SubRender(const Camera& camera);
+
+ private:
   int width_;
   int height_;
   bool keep_running_;
@@ -136,6 +140,7 @@ class Game {
   std::unique_ptr<EntityList> entities_;
   std::unique_ptr<OculusVr> oculusvr_;
 #ifdef USE_TWEAKABLES
+  std::unique_ptr<TweakRenderer> tweak_renderer_;
   std::unique_ptr<TweakerStore> tweakers_;
 #endif
 };

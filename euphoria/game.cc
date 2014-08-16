@@ -24,10 +24,13 @@
 #include "euphoria/tweak.h"
 #include "euphoria/oculusvr.h"
 #include "euphoria/fbo.h"
-#include "euphoria/quad.h"
 #include "euphoria/input-globaltoggle.h"
 #include "euphoria/str.h"
 #include "euphoria/log.h"
+
+#ifdef USE_TWEAKABLES
+#include "euphoria/tweakrenderer.h"
+#endif
 
 namespace euphoria {
 
@@ -64,7 +67,6 @@ Game::Game(const Settings& settings)
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
-  TwWindowSize(width_, height_);
 #endif
 
   ogldebug_.reset(new OglDebug(OglDebug::IsSupported()));
@@ -104,17 +106,23 @@ Game::Game(const Settings& settings)
 
   LoadEntities(entities_.get(), "entities.js", script_.get());
 
+  bool ovr = false;
+
   if (settings.oculus_vr_detection() != OculusVrDetection::NORMAL) {
     oculusvr_.reset(new OculusVr());
     const bool allow_debug_device =
         settings.oculus_vr_detection() == OculusVrDetection::OCULUS_VR;
-    oculusvr_->Detect(settings, allow_debug_device);
+    ovr = oculusvr_->Detect(settings, allow_debug_device);
   }
 
   OglDebug::Verify();
   istweaking_ = false;
 
-  RUNTWEAKCODE(tweakers_.reset(new TweakerStore()));
+#ifdef USE_TWEAKABLES
+  tweak_renderer_.reset(
+      new TweakRenderer(shadercache_.get(), settings, ovr, width_, height_));
+  tweakers_.reset(new TweakerStore());
+#endif
 
   assert(GameInstance() == 0);
   GameInstance() = this;
@@ -149,10 +157,10 @@ void ClearScreen() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void SubRender(World* world, const Camera& camera, bool istweaking) {
-  world->Render(camera);
-  if (istweaking) {
-    RUNTWEAKCODE(TwDraw());
+void Game::SubRender(const Camera& camera) {
+  world_->Render(camera);
+  if (istweaking_) {
+    RUNTWEAKCODE(tweak_renderer_->Render(camera));
   }
 }
 
@@ -164,6 +172,8 @@ void Game::Render() {
 
   world_->debug_renderer().Update();
 
+  RUNTWEAKCODE(tweak_renderer_->PreRender());
+
   if (oculusvr_->IsHmdDetected()) {
     oculusvr_->Begin();
     OglDebug::Verify();
@@ -173,14 +183,14 @@ void Game::Render() {
       ModifyCamera(&cam, eye);
       TextureUpdator tex(eye.GetFboPtr());
       ClearScreen();
-      SubRender(world_.get(), cam, istweaking_);
+      SubRender(cam);
     }
     OglDebug::Verify();
     oculusvr_->End();
     OglDebug::Verify();
   } else {
     ClearScreen();
-    SubRender(world_.get(), *camera_, istweaking_);
+    SubRender(*camera_);
   }
 }
 

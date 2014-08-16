@@ -14,24 +14,13 @@ Quad related code.
 namespace euphoria {
 
 /** Utility to render a quad.
- */
-class Quad {
- public:
-  /** Constructor.
   @param prog the program to use
   @param uscale the U scale
   @param vscale the V scale
    */
-  Quad(std::shared_ptr<Program> prog, float uscale, float vscale);
-
-  /** Render the quad.
-   */
-  void Render();
-
- private:
-  std::shared_ptr<Program> program_;
-  std::unique_ptr<internal::CompiledMeshPart> mesh_;
-};
+std::unique_ptr<internal::CompiledMeshPart> MakeQuad(
+    std::shared_ptr<Program> prog, float width, float height, float z,
+    float uscale, float vscale);
 
 }  // namespace euphoria
 
