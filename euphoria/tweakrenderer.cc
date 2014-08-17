@@ -15,6 +15,7 @@
 #include "euphoria/shader.h"
 #include "euphoria/camera.h"
 #include "euphoria/math.h"
+#include "euphoria/ogldebug.h"
 
 namespace euphoria {
 
@@ -23,35 +24,44 @@ const int FBO_WIDTH = 1024;
 const int FBO_HEIGHT = 1024;
 const bool FBO_MIPMAP = false;
 
-const float QUAD_WIDTH = 10;
-const float QUAD_HEIGHT = 10;
+const float QUAD_WIDTH = 30;
+const float QUAD_HEIGHT = 30;
 const float QUAD_Z = -15;
 }
 
 TweakRenderer::TweakRenderer(ShaderCache* shadercache, const Settings& settings,
                              bool use_ovr, int window_width,
                              int window_height) {
+  assert(this);
+  assert(shadercache);
   if (use_ovr == false) {
     TwWindowSize(window_width, window_height);
     return;
   }
 
-  program_ = shadercache->GetOrCreate("tweakshader.json", settings);
+  program_ = shadercache->GetOrCreate("default.js", settings);
 
   fbo_.reset(new Fbo(FBO_WIDTH, FBO_HEIGHT, FBO_MIPMAP));
   quad_ = MakeQuad(program_, QUAD_WIDTH, QUAD_HEIGHT, QUAD_Z, 1.0f, 1.0f);
   TwWindowSize(fbo_->width(), fbo_->height());
 }
 
-TweakRenderer::~TweakRenderer() {}
+TweakRenderer::~TweakRenderer() { assert(this); }
 
 void TweakRenderer::PreRender() {
+  assert(this);
   if (fbo_.get() == nullptr) return;
   TextureUpdator updator(fbo_.get());
+  glClearColor(0, 0, 0, 0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   TwDraw();
+  OglDebug::Verify();
 }
 
 void TweakRenderer::Render(const Camera& cam) {
+  assert(this);
   if (fbo_.get() == nullptr) {
     TwDraw();
     return;
@@ -71,7 +81,10 @@ void TweakRenderer::Render(const Camera& cam) {
   program_->SetUniform("model", CreateIdentityMat44());
   fbo_->BindTexture(0);
 
+  glClear(GL_DEPTH_BUFFER_BIT);
   quad_->Render();
+  program_->Unbind();
+  OglDebug::Verify();
 }
 
 }  // namespace euphoria
