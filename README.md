@@ -74,10 +74,9 @@ Planned Features and stuff that needs to be done
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
 * change from json to yaml/protobuf?
 * fix luadocgen
-* menu support (ce gui?)
 * Investigate constexpr
 * audio and music support, fmod studio
-* sprite + line drawer
+* sprite + line drawer in 3d in preparation for psystems
 * particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/ http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/flexible-particle-system-the-container-r3701 http://www.bfilipek.com/2014/06/flexible-particle-system-updaters.html
 * dynamically replace models/complex physics setup/damage model
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
@@ -100,6 +99,7 @@ Planned Features and stuff that needs to be done
 * adaptive tone mapping
 * enviromental reflection
 * possible support older systems
+* refactor tweak system
 * neurosky mindwave input? - http://store.neurosky.com/products/mindwave-1
 
 
