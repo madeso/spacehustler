@@ -57,7 +57,7 @@ Planned Features and stuff that needs to be done
 * FEEDBACK
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * static_assert
-* change cml to glm
+* change cml to glm - glm lacks documentation & has has design flaws inherited from glsl but works better with intellisense https://www.opengl.org/discussion_boards/showthread.php/180191-glm-length(glm-vec)-and-glm-vec-length
 * fix osx build
 * upgrade assimp
 * integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
