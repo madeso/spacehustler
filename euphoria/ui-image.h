@@ -11,7 +11,10 @@ Camera related code.
 
 namespace euphoria {
 namespace ui {
-class Image : public Widget {};
+class Image : public Widget {
+public:
+  void Draw() override;
+};
 }  // namespace ui
 }  // namespace euphoria
 

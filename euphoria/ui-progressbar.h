@@ -16,6 +16,7 @@ class ProgressBar : public Widget {
   float value() const;
   void set_value(float value);
 
+  void Draw() override;
  private:
   float value_;
 };
