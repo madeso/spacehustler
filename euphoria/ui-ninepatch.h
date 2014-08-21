@@ -9,6 +9,8 @@ Camera related code.
 
 #include <memory>
 
+#include "euphoria/math.h"
+
 namespace euphoria {
 class Texture;
 namespace ui {
@@ -33,6 +35,22 @@ class Ninepatch {
   float minimum_width_;
   float minimum_height_;
 };
+
+class NinepatchInstance {
+public:
+  NinepatchInstance();
+  ~NinepatchInstance();
+  Vec2 position() const;
+  void set_position(Vec2 position);
+
+  Vec2 size() const;
+  void set_size(Vec2 size);
+private:
+  Vec2 position_;
+  Vec2 size_;
+  // DynamicMeshrepresenting the ninepatch
+};
+
 }  // namespace ui
 }  // namespace euphoria
 
