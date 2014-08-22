@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_UI_LAYER_H_
-#define EUPHORIA_UI_LAYER_H_
+#ifndef EUPHORIA_UI_TABLE_H_
+#define EUPHORIA_UI_TABLE_H_
 
 #include <vector>
 #include <memory>
@@ -25,4 +25,4 @@ class Table {
 }  // namespace ui
 }  // namespace euphoria
 
-#endif  // EUPHORIA_UI_LAYER_H_
+#endif  // EUPHORIA_UI_TABLE_H_

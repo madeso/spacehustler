@@ -18,18 +18,18 @@ class Widget;
 class Layout;
 
 class Cell {
-public:
+ public:
   Cell();
   ~Cell();
-  
+
   Vec2 position() const;
   void set_position(Vec2 size);
-  
+
   Vec2 size() const;
   void set_size(Vec2 size);
-  
+
   void set_layout(std::shared_ptr<Layout> layout);
-  
+
   void Add(std::shared_ptr<Widget> widget);
   void Begin();
   void End();
@@ -37,13 +37,13 @@ public:
   void Draw();
 
  private:
-   void PerformLayout();
+  void PerformLayout();
 
-   bool is_layout_paused_;
-   Vec2 position_;
-   Vec2 size_;
-   std::shared_ptr<Layout> layout_;
-   std::vector<std::shared_ptr<Widget>> widgets_;
+  bool is_layout_paused_;
+  Vec2 position_;
+  Vec2 size_;
+  std::shared_ptr<Layout> layout_;
+  std::vector<std::shared_ptr<Widget>> widgets_;
 };
 }  // namespace ui
 }  // namespace euphoria

@@ -11,20 +11,20 @@ Camera related code.
 #include "euphoria/ui-enums.h"
 
 namespace euphoria {
-  class Texture;
-  class TextureCache;
+class Texture;
+class TextureCache;
 
 namespace ui {
 class Image : public Widget {
  public:
-   Image(std::shared_ptr<Texture> texture);
+  explicit Image(std::shared_ptr<Texture> texture);
 
   void Draw() override;
 
   SizeRule sizerule() const;
   void set_sizerule(SizeRule sizerule);
 
-private:
+ private:
   SizeRule sizerule_;
   std::shared_ptr<Texture> texture_;
 
