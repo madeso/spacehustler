@@ -79,10 +79,14 @@ const float Max(const float lhs, const float rhs) {
 }
 
 const float To01(const float L, const float v, const float U) {
+  assert(L < U);
+  assert(IsWithinInclusive(L, v, U));
   return (v - L) / (U - L);
 }
 
 const float From01(const float L, const float v, const float U) {
+  assert(L < U);
+  assert(IsWithinInclusive(0.0f, v, 1.0f));
   return v * (U - L) + L;
 }
 
@@ -98,6 +102,7 @@ const float Get360Angular(const float min, const float value, const float max) {
 }
 
 const float KeepWithin(const float min, const float v, const float max) {
+  assert(min < max);
   if (v > max) {
     return max;
   } else if (v < min) {
@@ -116,6 +121,7 @@ const bool IsWithinInclusive(const float min, const float c, const float max) {
 }
 
 const float Wrap(const float min, const float v, const float max) {
+  assert(min < max);
   const float diff = max - min;
   assert(diff > 0);
   float value = v - min;
@@ -129,6 +135,7 @@ const float Wrap(const float min, const float v, const float max) {
 }
 
 const int Wrapi(const int min, const int v, const int max) {
+  assert(min < max);
   const int diff = max - min + 1;
   int value = v;
   while (value < min) {
@@ -142,6 +149,7 @@ const int Wrapi(const int min, const int v, const int max) {
 
 const int IncrementAndWrap(const float min, float* current, const float change,
                            const float max) {
+  assert(min < max);
   const float diff = max - min;
   float value = *current + change;
   int wraps = 0;
@@ -159,6 +167,7 @@ const int IncrementAndWrap(const float min, float* current, const float change,
 
 const int IncrementAndWrapi(const int min, int* current, const int change,
                             const int max) {
+  assert(min < max);
   const int diff = max - min + 1;
   int value = *current + change;
   int wraps = 0;

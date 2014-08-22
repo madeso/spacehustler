@@ -13,6 +13,7 @@ namespace euphoria {
 namespace ui {
 class Value {
  public:
+  Value();
   Value(float value, Unit unit);
   float value(float parent_value) const;
 

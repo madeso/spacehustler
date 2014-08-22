@@ -22,6 +22,7 @@ class Widget {
 
   Vec2 size() const;
   void set_size(const Vec2& size);
+
  private:
   Vec2 position_;
   Vec2 size_;

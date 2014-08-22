@@ -37,7 +37,7 @@ class Ninepatch {
 };
 
 class NinepatchInstance {
-public:
+ public:
   NinepatchInstance();
   ~NinepatchInstance();
   Vec2 position() const;
@@ -45,10 +45,16 @@ public:
 
   Vec2 size() const;
   void set_size(Vec2 size);
-private:
+
+  float minimum_width() const;
+  float minimum_height() const;
+
+ private:
   Vec2 position_;
   Vec2 size_;
-  // DynamicMeshrepresenting the ninepatch
+  float minimum_width_;
+  float minimum_height_;
+  // DynamicMesh representing the ninepatch
 };
 
 }  // namespace ui
