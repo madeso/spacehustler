@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/ui-layer.h"
+#include "euphoria/ui-table.h"
 
 #include <cassert>
 

@@ -12,12 +12,13 @@ Camera related code.
 
 namespace euphoria {
 namespace ui {
-class Layer;
+class Widget;
+class Layout;
 
 class Cell {
  private:
-  // background?
-  std::vector<std::shared_ptr<Layer>> layers_;
+   std::unique_ptr<Layout> layout_;
+   std::vector<std::shared_ptr<Widget>> widgets_;
 };
 }  // namespace ui
 }  // namespace euphoria
