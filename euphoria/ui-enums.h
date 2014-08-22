@@ -16,7 +16,13 @@ enum class Unit {
 };
 
 enum class SizeRule {
+  /// don't size the widget at all
+  NONE,
+
+  /// size to fit
   FIT,
+
+  // size to aspect
   ASPECT
 };
 

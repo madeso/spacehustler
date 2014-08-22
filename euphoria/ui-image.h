@@ -8,12 +8,27 @@ Camera related code.
 #define EUPHORIA_UI_IMAGE_H_
 
 #include "euphoria/ui-widget.h"
+#include "euphoria/ui-enums.h"
 
 namespace euphoria {
+  class Texture;
+  class TextureCache;
+
 namespace ui {
 class Image : public Widget {
  public:
+   Image(std::shared_ptr<Texture> texture);
+
   void Draw() override;
+
+  SizeRule sizerule() const;
+  void set_sizerule(SizeRule sizerule);
+
+private:
+  SizeRule sizerule_;
+  std::shared_ptr<Texture> texture_;
+
+  // dynamic mesh
 };
 }  // namespace ui
 }  // namespace euphoria
