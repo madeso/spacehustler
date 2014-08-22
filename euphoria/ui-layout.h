@@ -10,6 +10,13 @@ Camera related code.
 #include <vector>
 #include <memory>
 
+#include "euphoria/math.h"
+
+// global defines are horrible, we should use nullptr
+#ifdef NULL
+#undef NULL
+#endif
+
 namespace euphoria {
 namespace ui {
 class Widget;
@@ -19,18 +26,24 @@ class Layout {
   Layout();
   virtual ~Layout();
 
-  virtual void Perform(std::vector<std::shared_ptr<Widget>> widgets) = 0;
+  virtual void Perform(std::vector<std::shared_ptr<Widget>> widgets,
+                       Vec2 position, Vec2 size) = 0;
 };
 
-std::shared_ptr<Layout> CreateNullLayout();
+// http://docs.oracle.com/javase/7/docs/api/javax/swing/BoxLayout.html
 
-// // http://docs.oracle.com/javase/7/docs/api/java/awt/GridLayout.html
-std::shared_ptr<Layout> CreateGridLayout();
+enum class LayoutType {
+  NULL,
+  FILL,
+  BOX
+};
+
+std::shared_ptr<Layout> CreateLayout(LayoutType layout);
 
 // FlowLayout
 // http://docs.oracle.com/javase/7/docs/api/java/awt/FlowLayout.html
-// BoxLayoyt
-// http://docs.oracle.com/javase/7/docs/api/javax/swing/BoxLayout.html
+// GridLayout
+// http://docs.oracle.com/javase/7/docs/api/java/awt/GridLayout.html
 // BorderLayout
 // http://docs.oracle.com/javase/7/docs/api/java/awt/BorderLayout.html
 // GroupLayout

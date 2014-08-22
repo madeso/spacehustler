@@ -15,6 +15,12 @@ namespace ui {
 class Cell;
 
 class Row {
+ public:
+  Row();
+  ~Row();
+
+  void Add(std::shared_ptr<Cell> cell);
+
  private:
   std::vector<std::shared_ptr<Cell>> columns_;
 };
