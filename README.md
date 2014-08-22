@@ -40,10 +40,10 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* complete oculus rift support, use DwmEnableComposition to turn off Aero
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
 * fps counter
+* complete oculus rift support, use DwmEnableComposition to turn off Aero
 * debug overlay
 * physics motor support
 * add support for sixense (razer hydra/stem system)
@@ -53,6 +53,8 @@ Planned Features and stuff that needs to be done
 * auto detect input system
 * sdl gamepad into input system
 * force feedback/haptics
+* replace filehandling with physfs
+* menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale
 * menu with dynamic reloading of all settings
 * FEEDBACK
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
@@ -61,8 +63,7 @@ Planned Features and stuff that needs to be done
 * fix osx build
 * upgrade assimp
 * integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
-* port to android?
-* replace filehandling with physfs (on android: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
+* port to android? (physfs: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/
 * lights and shaddows
