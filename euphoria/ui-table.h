@@ -29,12 +29,10 @@ class Table {
   ~Table();
 
   void AddColoumn(std::shared_ptr<Size> column);
-
   void AddRow(std::shared_ptr<Size> row);
-
   void AddCell(std::shared_ptr<Cell> cell);
 
-  void LayoutCells();
+  void LayoutCells(float width, float height);
 
  private:
   std::vector<std::shared_ptr<Size>> rows_;

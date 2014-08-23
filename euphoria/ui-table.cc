@@ -86,11 +86,11 @@ float CalculateSizeValue(std::shared_ptr<Cell> cell,
 }
 }  // namespace
 
-void Table::LayoutCells() {
+void Table::LayoutCells(float width, float height) {
   assert(this);
 
-  const float width = 100.0f;
-  const float height = 100.0f;
+  assert(width > 0.0f );
+  assert(height > 0.0f );
 
   const std::vector<float> widths = CalculateSizes(columns_, width);
   const std::vector<float> heights = CalculateSizes(rows_, height);
