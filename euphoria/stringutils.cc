@@ -89,4 +89,36 @@ std::string RemoveFromEnd(const std::string& str, const std::string& end) {
     return str;
   }
 }
+
+/* untested
+namespace {
+// source: http://stackoverflow.com/a/9676623
+template <typename T>
+std::vector<T> Split(const T& str, const T& delimiters, bool remove_empties) {
+  std::vector<T> v;
+  T::size_type start = 0;
+  auto pos = str.find_first_of(delimiters, start);
+  while (pos != T::npos) {
+    if (pos == start && remove_empties) {
+      // ignore empty tokens
+    } else {
+      v.emplace_back(str, start, pos - start);
+    }
+    start = pos + 1;
+    pos = str.find_first_of(delimiters, start);
+  }
+  if (start < str.length())  // ignore trailing delimiter
+    v.emplace_back(str, start,
+                   str.length() - start);  // add what's left of the string
+  return v;
+}
+}  // namespace
+
+std::vector<std::string> Tokenize(const std::string& input,
+                                  const std::string& delimiters,
+                                  bool remove_empties) {
+  return Split(input, delimiters, remove_empties);
+}
+*/
+
 }  // namespace euphoria

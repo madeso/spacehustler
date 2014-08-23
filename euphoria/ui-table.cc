@@ -18,15 +18,33 @@ Table::Table() { assert(this); }
 
 Table::~Table() { assert(this); }
 
-void Table::AddColoumn(std::shared_ptr<Size> column) {
+const std::vector<Size>& Table::rows() const {
   assert(this);
-  assert(column);
+  return rows_;
+}
+
+void Table::set_rows(const std::vector<Size>& rows) {
+  assert(this);
+  rows_ = rows;
+}
+
+const std::vector<Size>& Table::columns() const {
+  assert(this);
+  return columns_;
+}
+
+void Table::set_columns(const std::vector<Size>& columns) {
+  assert(this);
+  columns_ = columns;
+}
+
+void Table::AddColoumn(Size column) {
+  assert(this);
   columns_.push_back(column);
 }
 
-void Table::AddRow(std::shared_ptr<Size> row) {
+void Table::AddRow(Size row) {
   assert(this);
-  assert(row);
   rows_.push_back(row);
 }
 
@@ -37,8 +55,7 @@ void Table::AddCell(std::shared_ptr<Cell> cell) {
 }
 
 namespace {
-std::vector<float> CalculateSizes(std::vector<std::shared_ptr<Size>> sizes,
-                                  float total_size) {
+std::vector<float> CalculateSizes(std::vector<Size> sizes, float total_size) {
   std::vector<float> ret(sizes.size());
   float varying = 0;
   std::vector<size_t> varyings;
@@ -46,18 +63,18 @@ std::vector<float> CalculateSizes(std::vector<std::shared_ptr<Size>> sizes,
 
   for (size_t i = 0; i < sizes.size(); ++i) {
     auto s = sizes[i];
-    if (s->size.IsRestPercentage()) {
-      varying += s->size.GetRestPercentage();
+    if (s.size.IsRestPercentage()) {
+      varying += s.size.GetRestPercentage();
       varyings.push_back(i);
     } else {
-      const float calculated_size = s->size.value(total_size);
+      const float calculated_size = s.size.value(total_size);
       remaining_size -= calculated_size;
       ret[i] = calculated_size;
     }
   }
 
   for (auto i : varyings) {
-    const float fraction = sizes[i]->size.GetRestPercentage() / varying;
+    const float fraction = sizes[i].size.GetRestPercentage() / varying;
     const float calculated_size = Max(remaining_size * fraction, 0.0f);
     ret[i] = calculated_size;
   }

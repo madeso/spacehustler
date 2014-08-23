@@ -9,6 +9,7 @@ Camera related code.
 
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "euphoria/ui-value.h"
 
@@ -28,17 +29,26 @@ class Table {
   Table();
   ~Table();
 
-  void AddColoumn(std::shared_ptr<Size> column);
-  void AddRow(std::shared_ptr<Size> row);
+  const std::vector<Size>& rows() const;
+  void set_rows(const std::vector<Size>& rows);
+
+  const std::vector<Size>& columns() const;
+  void set_columns(const std::vector<Size>& columns);
+
+  void AddColoumn(Size column);
+  void AddRow(Size row);
   void AddCell(std::shared_ptr<Cell> cell);
 
   void LayoutCells(float width, float height);
 
  private:
-  std::vector<std::shared_ptr<Size>> rows_;
-  std::vector<std::shared_ptr<Size>> columns_;
+  std::vector<Size> rows_;
+  std::vector<Size> columns_;
   std::vector<std::shared_ptr<Cell>> cells_;
 };
+
+void LoadTable(Table* table, const std::string& file);
+
 }  // namespace ui
 }  // namespace euphoria
 
