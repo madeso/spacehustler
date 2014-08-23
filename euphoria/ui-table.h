@@ -10,17 +10,36 @@ Camera related code.
 #include <vector>
 #include <memory>
 
+#include "euphoria/ui-value.h"
+
 namespace euphoria {
 namespace ui {
-class Row;
+
+class Cell;
+
+struct Size {
+ public:
+  Size();
+  Value size;
+};
 
 class Table {
  public:
   Table();
   ~Table();
 
+  void AddColoumn(std::shared_ptr<Size> column);
+
+  void AddRow(std::shared_ptr<Size> row);
+
+  void AddCell(std::shared_ptr<Cell> cell);
+
+  void LayoutCells();
+
  private:
-  std::vector<std::shared_ptr<Row>> rows_;
+  std::vector<std::shared_ptr<Size>> rows_;
+  std::vector<std::shared_ptr<Size>> columns_;
+  std::vector<std::shared_ptr<Cell>> cells_;
 };
 }  // namespace ui
 }  // namespace euphoria

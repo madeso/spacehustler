@@ -11,8 +11,14 @@ namespace euphoria {
 namespace ui {
 
 enum class Unit {
+  // in pixels
   PIXEL,
-  RELATIVE
+
+  // in percent of size
+  RELATIVE,
+
+  // in percentage of the rest of the available area
+  AVAILABLE
 };
 
 enum class SizeRule {

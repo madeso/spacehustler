@@ -23,14 +23,26 @@ float Value::value(float parent_value) const {
   switch (unit_) {
     case Unit::PIXEL:
       return value_;
-      break;
     case Unit::RELATIVE:
       return value_ * parent_value;
-      break;
+    case Unit::AVAILABLE:
+      assert(false && "unable to determine value, should use other function");
+      return 0.0f;
     default:
       assert(false && "unknown unit");
       return 0.0f;
   }
+}
+
+bool Value::IsRestPercentage() const {
+  assert(this);
+  return unit_ == Unit::AVAILABLE;
+}
+
+float Value::GetRestPercentage() const {
+  assert(this);
+  assert(unit_ == Unit::AVAILABLE);
+  return value_;
 }
 
 }  // namespace ui

@@ -22,6 +22,12 @@ class Cell {
   Cell();
   ~Cell();
 
+  Vec2i tile_position() const;
+  void set_tile_position(Vec2i tile_position);
+
+  Vec2i tile_size() const;
+  void set_tile_size(Vec2i tile_size);
+
   Vec2 position() const;
   void set_position(Vec2 size);
 
@@ -40,6 +46,8 @@ class Cell {
   void PerformLayout();
 
   bool is_layout_paused_;
+  Vec2i tile_position_;
+  Vec2i tile_size_;
   Vec2 position_;
   Vec2 size_;
   std::shared_ptr<Layout> layout_;

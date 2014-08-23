@@ -14,6 +14,26 @@ Cell::Cell() : is_layout_paused_(false) { assert(this); }
 
 Cell::~Cell() { assert(this); }
 
+Vec2i Cell::tile_position() const {
+  assert(this);
+  return tile_position_;
+}
+
+void Cell::set_tile_position(Vec2i tile_position) {
+  assert(this);
+  tile_position_ = tile_position;
+}
+
+Vec2i Cell::tile_size() const {
+  assert(this);
+  return tile_size_;
+}
+
+void Cell::set_tile_size(Vec2i tile_size) {
+  assert(this);
+  tile_size_ = tile_size;
+}
+
 Vec2 Cell::position() const {
   assert(this);
   return position_;

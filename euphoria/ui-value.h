@@ -17,6 +17,9 @@ class Value {
   Value(float value, Unit unit);
   float value(float parent_value) const;
 
+  bool IsRestPercentage() const;
+  float GetRestPercentage() const;
+
  private:
   float value_;
   Unit unit_;
