@@ -41,7 +41,7 @@ Optional tools
 Planned Features and stuff that needs to be done
 =======
 * hud/2d support
-* text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html
+* text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html http://stackoverflow.com/questions/11864365/good-tutorial-on-pango https://github.com/lxnt/ex-sdl-freetype-harfbuzz/ http://www.wildfiregames.com/forum/index.php?showtopic=17365
 * fps counter
 * complete oculus rift support, use DwmEnableComposition to turn off Aero
 * debug overlay
