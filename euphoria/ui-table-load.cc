@@ -8,6 +8,13 @@
 
 #include "euphoria/str.h"
 #include "euphoria/stringutils.h"
+#include "euphoria/ui-cell.h"
+#include "euphoria/ui-layout.h"
+#include "euphoria/texturecache.h"
+
+#include "euphoria/ui-progressbar.h"
+#include "euphoria/ui-image.h"
+
 #include "json/json.h"
 
 namespace euphoria {
@@ -48,9 +55,40 @@ std::vector<Size> ReadSizes(const Json::Value& v) {
   }
   return ret;
 }
+
+LayoutType GetLayoutType(const std::string& layout_name) {
+  const auto name = ToLower(Trim(layout_name));
+  if (name == "null")
+    return LayoutType::NULL;
+  else if (name == "box")
+    return LayoutType::BOX;
+  else if (name == "fill")
+    return LayoutType::FILL;
+  else
+    throw std::logic_error(Str() << "Unable to determine layout name from "
+                                 << name);
+}
+
+std::shared_ptr<Widget> CreateWidget(const Json::Value data,
+                                     TextureCache* tcache,
+                                     const Settings& settings) {
+  const std::string type = ToLower(Trim(data.get("type", "").asCString()));
+  if (type == "image") {
+    const std::string& path = data.get("image", "").asCString();
+    return std::shared_ptr<Widget>(new Image(tcache->GetOrCreate(
+        TextureLoadingInstruction(path, WrapMode::CLAMP_TO_EDGE,
+                                  WrapMode::CLAMP_TO_EDGE),
+        settings)));
+  } else if (type == "progressbar") {
+    return std::shared_ptr<Widget>(new ProgressBar());
+  } else {
+    throw std::logic_error(Str() << "Unknown widget type " << type);
+  }
+}
 }  // namespace
 
-void LoadTable(Table* table, const std::string& filename) {
+void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
+               const Settings& settings) {
   assert(table);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
@@ -71,6 +109,29 @@ void LoadTable(Table* table, const std::string& filename) {
   table->set_columns(cols);
 
   /// @todo load cells
+  Json::Value cells = root["cells"];
+  for (Json::ArrayIndex i = 0; i < cells.size(); ++i) {
+    Json::Value data = cells[i];
+    const int x = data.get("x", 0).asInt();
+    const int y = data.get("y", 0).asInt();
+    const int w = data.get("cols", 0).asInt();
+    const int h = data.get("rows", 0).asInt();
+    const std::string layout_name = data.get("layout", "").asCString();
+
+    std::shared_ptr<Cell> cell(new Cell());
+    cell->Begin();
+    cell->set_tile_position(Vec2i(x, y));
+    cell->set_tile_size(Vec2i(w, h));
+    cell->set_layout(CreateLayout(GetLayoutType(layout_name)));
+
+    Json::Value widgets = data["widgets"];
+    for (Json::ArrayIndex w = 0; w < widgets.size(); ++w) {
+      Json::Value wdata = widgets[w];
+      cell->Add(CreateWidget(wdata, tcache, settings));
+    }
+
+    cell->End();
+  }
 }
 
 }  // namespace ui
