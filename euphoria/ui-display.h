@@ -6,6 +6,7 @@ Camera related code.
 
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "euphoria/ui-table.h"
 
@@ -13,9 +14,14 @@ Camera related code.
 #define EUPHORIA_UI_DISPLAY_H_
 
 namespace euphoria {
+class TextureCache;
+class Settings;
+
 namespace ui {
 class Display {
  public:
+  Display(const std::string& file, float width, float height,
+          TextureCache* tcache, const Settings& settings);
   void Render();
 
  private:

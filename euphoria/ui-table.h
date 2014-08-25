@@ -14,6 +14,10 @@ Camera related code.
 #include "euphoria/ui-value.h"
 
 namespace euphoria {
+
+class TextureCache;
+class Settings;
+
 namespace ui {
 
 class Cell;
@@ -41,13 +45,16 @@ class Table {
 
   void LayoutCells(float width, float height);
 
+  void Render();
+
  private:
   std::vector<Size> rows_;
   std::vector<Size> columns_;
   std::vector<std::shared_ptr<Cell>> cells_;
 };
 
-void LoadTable(Table* table, const std::string& file);
+void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
+               const Settings& settings);
 
 }  // namespace ui
 }  // namespace euphoria

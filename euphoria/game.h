@@ -36,6 +36,10 @@ class TweakerStore;
 class TweakRenderer;
 #endif
 
+namespace ui {
+class Display;
+}  // namespace ui
+
 /** Contains common game data.
  */
 class Game {
@@ -139,6 +143,7 @@ class Game {
   std::unique_ptr<SystemContainer> container_;
   std::unique_ptr<EntityList> entities_;
   std::unique_ptr<OculusVr> oculusvr_;
+  std::unique_ptr<ui::Display> hud_;
 #ifdef USE_TWEAKABLES
   std::unique_ptr<TweakRenderer> tweak_renderer_;
   std::unique_ptr<TweakerStore> tweakers_;

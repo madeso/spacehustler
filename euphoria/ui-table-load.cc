@@ -74,7 +74,7 @@ std::shared_ptr<Widget> CreateWidget(const Json::Value data,
                                      const Settings& settings) {
   const std::string type = ToLower(Trim(data.get("type", "").asCString()));
   if (type == "image") {
-    const std::string& path = data.get("image", "").asCString();
+    const std::string& path = data.get("src", "").asCString();
     return std::shared_ptr<Widget>(new Image(tcache->GetOrCreate(
         TextureLoadingInstruction(path, WrapMode::CLAMP_TO_EDGE,
                                   WrapMode::CLAMP_TO_EDGE),
@@ -122,6 +122,9 @@ void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
     cell->Begin();
     cell->set_tile_position(Vec2i(x, y));
     cell->set_tile_size(Vec2i(w, h));
+    // give the cell some dummy size and dummy position
+    cell->set_position(Vec2(0, 0));
+    cell->set_size(Vec2(10, 10));
     cell->set_layout(CreateLayout(GetLayoutType(layout_name)));
 
     Json::Value widgets = data["widgets"];
@@ -131,6 +134,7 @@ void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
     }
 
     cell->End();
+    table->AddCell(cell);
   }
 }
 

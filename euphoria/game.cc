@@ -27,6 +27,7 @@
 #include "euphoria/input-globaltoggle.h"
 #include "euphoria/str.h"
 #include "euphoria/log.h"
+#include "euphoria/ui-display.h"
 
 #ifdef USE_TWEAKABLES
 #include "euphoria/tweakrenderer.h"
@@ -107,6 +108,9 @@ Game::Game(const Settings& settings)
   LoadEntities(entities_.get(), "entities.js", script_.get());
 
   bool ovr = false;
+
+  hud_.reset(
+      new ui::Display("hud.js", 100.0f, 100.0f, texturecache_.get(), settings));
 
   if (settings.oculus_vr_detection() != OculusVrDetection::NORMAL) {
     oculusvr_.reset(new OculusVr());

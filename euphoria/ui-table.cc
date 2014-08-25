@@ -124,5 +124,12 @@ void Table::LayoutCells(float width, float height) {
   }
 }
 
+void Table::Render() {
+  assert(this);
+  for (auto c : cells_) {
+    c->Draw();
+  }
+}
+
 }  // namespace ui
 }  // namespace euphoria
