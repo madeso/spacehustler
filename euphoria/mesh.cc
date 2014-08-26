@@ -70,10 +70,46 @@ namespace internal {
 
 /////////////////////////
 
+BasicCompiledMeshPart::BasicCompiledMeshPart(const MeshPart& mesh,
+                                             std::shared_ptr<Program> prog,
+                                             std::shared_ptr<Texture> tex)
+    : program_(prog), texture_(tex), element_count_(mesh.faces.size()) {}
+
+BasicCompiledMeshPart::~BasicCompiledMeshPart() {}
+
+void BasicCompiledMeshPart::Render() {
+  assert(program_);
+  program_->SetUniform("tex", 0);
+  vao_.Bind();
+  elements_.Bind();
+  const GLvoid* stride = 0;
+  glDrawElements(GL_TRIANGLES, element_count_, GL_UNSIGNED_SHORT, stride);
+  elements_.Unbind();
+  vao_.Unbind();
+}
+
+void BasicCompiledMeshPart::Render(const Camera& camera, const Mat44& model) {
+  assert(texture_);
+  assert(program_);
+  program_->Bind();
+  /// @todo don't bind everything all the time,
+  /// sort and bind only when necessary
+  program_->SetUniform("camera", camera.view());
+  program_->SetUniform("projection", camera.projection());
+  program_->SetUniform("model", model);
+  texture_->Bind(0);
+
+  Render();
+
+  program_->Unbind();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
                                    std::shared_ptr<Program> prog,
                                    std::shared_ptr<Texture> tex)
-    : program_(prog), texture_(tex), element_count_(mesh.faces.size()) {
+    : BasicCompiledMeshPart(mesh, prog, tex) {
   vao_.Bind();
   vbo_.Bind();
 
@@ -101,33 +137,6 @@ CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
 }
 
 CompiledMeshPart::~CompiledMeshPart() {}
-
-void CompiledMeshPart::Render() {
-  assert(program_);
-  program_->SetUniform("tex", 0);
-  vao_.Bind();
-  elements_.Bind();
-  const GLvoid* stride = 0;
-  glDrawElements(GL_TRIANGLES, element_count_, GL_UNSIGNED_SHORT, stride);
-  elements_.Unbind();
-  vao_.Unbind();
-}
-
-void CompiledMeshPart::Render(const Camera& camera, const Mat44& model) {
-  assert(texture_);
-  assert(program_);
-  program_->Bind();
-  /// @todo don't bind everything all the time,
-  /// sort and bind only when necessary
-  program_->SetUniform("camera", camera.view());
-  program_->SetUniform("projection", camera.projection());
-  program_->SetUniform("model", model);
-  texture_->Bind(0);
-
-  Render();
-
-  program_->Unbind();
-}
 
 ///////////////////////////
 

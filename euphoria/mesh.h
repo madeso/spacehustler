@@ -145,19 +145,19 @@ namespace internal {
 /** Compiled mesh part ready for rendering.
 @see CompiledMesh
  */
-class CompiledMeshPart {
+class BasicCompiledMeshPart {
  public:
   /** Compiles a mesh part.
   @param mesh the MeshPart to compile.
   @param program the shader program to use.
   @param texture the texture to use.
    */
-  CompiledMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
-                   std::shared_ptr<Texture> texture);
+  BasicCompiledMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
+                        std::shared_ptr<Texture> texture);
 
   /** Destructs the compiled mesh part.
    */
-  ~CompiledMeshPart();
+  ~BasicCompiledMeshPart();
 
   /** Render the mesh part as seen through a camera.
   @param camera through the camera.
@@ -170,7 +170,7 @@ class CompiledMeshPart {
    */
   void Render();
 
- private:
+ protected:
   Vao vao_;
   ArrayBuffer vbo_;
   ElementArrayBuffer elements_;
@@ -178,6 +178,21 @@ class CompiledMeshPart {
   const std::shared_ptr<Program> program_;
   std::shared_ptr<Texture> texture_;
   GLsizei element_count_;
+};
+
+class CompiledMeshPart : public BasicCompiledMeshPart {
+ public:
+  /** Compiles a mesh part.
+  @param mesh the MeshPart to compile.
+  @param program the shader program to use.
+  @param texture the texture to use.
+   */
+  CompiledMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
+                   std::shared_ptr<Texture> texture);
+
+  /** Destructs the compiled mesh part.
+   */
+  ~CompiledMeshPart();
 };
 
 }  // namespace internal
