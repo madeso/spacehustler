@@ -7,12 +7,12 @@ Oculus VR related integration code.
 #ifndef EUPHORIA_OCULUSVR_H_
 #define EUPHORIA_OCULUSVR_H_
 
-#include <boost/noncopyable.hpp>
 #include <memory>
 #include <string>
 
 #include "euphoria/math.h"
 #include "euphoria/fbo.h"
+#include "euphoria/noncopyable.h"
 
 namespace euphoria {
 
@@ -55,7 +55,7 @@ class EyeSetup {
 
 /** A util class for integration of the oculus vr kit.
  */
-class OculusVr : boost::noncopyable {
+class OculusVr : NonCopyable {
  public:
   OculusVr();
   ~OculusVr();

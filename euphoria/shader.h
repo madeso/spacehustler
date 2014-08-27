@@ -7,20 +7,19 @@ Contains the shader logic.
 #ifndef EUPHORIA_SHADER_H_
 #define EUPHORIA_SHADER_H_
 
-#include <boost/noncopyable.hpp>
-
 #include <memory>
 #include <vector>
 #include <string>
 
 #include "euphoria/opengl.h"
 #include "euphoria/math.h"
+#include "euphoria/noncopyable.h"
 
 namespace euphoria {
 
 /** A compiled OpenGL vertex or fragment shader.
  */
-class Shader : boost::noncopyable {
+class Shader : NonCopyable {
  public:
   /** The type of the shader.
    */
@@ -78,7 +77,7 @@ class ShaderList {
 /** A OpenGl shader program full of shaders.
 @see Shader
  */
-class Program : boost::noncopyable {
+class Program : NonCopyable {
  public:
   /** Create program from a list of shaders.
   @param shaders the list of shaders.

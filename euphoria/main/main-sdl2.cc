@@ -1,6 +1,5 @@
 // Euphoria - Copyright (c) Gustav
 
-#include <boost/noncopyable.hpp>
 #include <SDL.h>
 #include <AntTweakBar.h>
 
@@ -16,6 +15,7 @@
 #include "euphoria/settings.h"
 #include "euphoria/str.h"
 #include "euphoria/oculusvr.h"
+#include "euphoria/noncopyable.h"
 
 #ifdef WIN32
 // unresolved external symbol _GetFileVersionInfoA@16 referenced in function
@@ -47,7 +47,7 @@ void HandleStatus(int code) {
   }
 }
 
-class Sdl : boost::noncopyable {
+class Sdl : NonCopyable {
  public:
   explicit Sdl(const Settings& settings) {
     assert(this);
@@ -191,7 +191,7 @@ class VideoDisplays {
   std::vector<DisplayInfo> displays_;
 };
 
-class Window : boost::noncopyable {
+class Window : NonCopyable {
  public:
   Window(const std::string& title, int x, int y, int width, int height,
          bool main)
@@ -272,7 +272,7 @@ class Window : boost::noncopyable {
   int height_;
 };
 
-class BlackRenderer : boost::noncopyable {
+class BlackRenderer : NonCopyable {
  public:
   explicit BlackRenderer(Window* window)
       : renderer_(SDL_CreateRenderer(
@@ -398,7 +398,7 @@ class Joystick {
   SDL_Joystick* joystick_;
 };
 
-class Context : boost::noncopyable {
+class Context : NonCopyable {
  public:
   explicit Context(Window* window)
       : window_(window->window()),

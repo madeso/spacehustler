@@ -7,11 +7,11 @@ Contains systems loading code.
 #ifndef EUPHORIA_SYSTEMS_H_
 #define EUPHORIA_SYSTEMS_H_
 
-#include <boost/noncopyable.hpp>
-
 #include <string>
 #include <functional>
 #include <map>
+
+#include "euphoria/noncopyable.h"
 
 namespace Json {
 class Value;
@@ -33,7 +33,7 @@ class InputSystem;
 
 /** Arguments for creating a system.
  */
-struct CreateSystemArg : boost::noncopyable {
+struct CreateSystemArg : NonCopyable {
  public:
   /** Constructor.
   @param acontainer where to put the systems

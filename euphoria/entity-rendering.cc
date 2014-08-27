@@ -36,7 +36,7 @@ struct RenderObject {
   std::shared_ptr<Instance> instance;
 };
 
-class RenderingSystem : public System, boost::noncopyable {
+class RenderingSystem : public System, NonCopyable {
  public:
   RenderingSystem(const Settings& settings, World* world,
                   TextureCache* texture_cache, ShaderCache* shader_cache)

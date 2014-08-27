@@ -7,15 +7,16 @@ FBO related code.
 #ifndef EUPHORIA_FBO_H_
 #define EUPHORIA_FBO_H_
 
-#include <boost/noncopyable.hpp>
 #include <memory>
+
+#include "euphoria/noncopyable.h"
 
 namespace euphoria {
 class Texture;
 
 /** A render buffer.
  */
-class RenderBuffer : boost::noncopyable {
+class RenderBuffer : NonCopyable {
  public:
   /** Constructor.
   @param internalFormat the intern open gl format
@@ -44,7 +45,7 @@ class RenderBuffer : boost::noncopyable {
 /** A frame buffer object.
 This is useful when rendering to a texture.
  */
-class Fbo : boost::noncopyable {
+class Fbo : NonCopyable {
  public:
   /** Constructor.
   @param w the width of the fbo
@@ -88,7 +89,7 @@ class Fbo : boost::noncopyable {
 /** Raii for updating a Fbo.
 @see Fbo
  */
-class TextureUpdator : boost::noncopyable {
+class TextureUpdator : NonCopyable {
  public:
   /** Constructor.
   @param fbo the fbo to update.

@@ -7,14 +7,14 @@ Utility code for debugging OpenGL.
 #ifndef EUPHORIA_OGLDEBUG_H_
 #define EUPHORIA_OGLDEBUG_H_
 
-#include <boost/noncopyable.hpp>
+#include "euphoria/noncopyable.h"
 
 namespace euphoria {
 
 /** Utility class for registration for debugging OpenGL errors  and throwing
  * when such a error occurs.
  */
-class OglDebug : boost::noncopyable {
+class OglDebug : NonCopyable {
  public:
   /** Register for errors.
   @param debug true if we should register, false if not

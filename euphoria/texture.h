@@ -7,18 +7,17 @@ Logic for the textures.
 #ifndef EUPHORIA_TEXTURE_H_
 #define EUPHORIA_TEXTURE_H_
 
-#include <boost/noncopyable.hpp>
-
 #include <string>
 
 #include "euphoria/opengl.h"
+#include "euphoria/noncopyable.h"
 
 namespace euphoria {
 
 namespace internal {
 /** A OpenGL texture object.
  */
-class TextureObject : boost::noncopyable {
+class TextureObject : NonCopyable {
  public:
   /** Constructs a new texture object.
    */
@@ -53,7 +52,7 @@ float GetMaxAnistropy();
 
 /** Represents texture data, not sent to open gl.
  */
-class ImageData : boost::noncopyable {
+class ImageData : NonCopyable {
  public:
   /** Load image from file.
   @param path the path of the image to use

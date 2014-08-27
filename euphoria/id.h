@@ -7,15 +7,15 @@ Id related code.
 #ifndef EUPHORIA_ID_H_
 #define EUPHORIA_ID_H_
 
-#include <boost/noncopyable.hpp>
 #include <vector>
 #include "euphoria/ints.h"
+#include "euphoria/noncopyable.h"
 
 namespace euphoria {
 
 /** A generator for unique identifiers.
  */
-class IdGenerator : boost::noncopyable {
+class IdGenerator : NonCopyable {
  public:
   /** The type containing the id.
    */
@@ -45,7 +45,7 @@ class IdGenerator : boost::noncopyable {
 /** A id container.
 @see IdPool
  */
-class Id : boost::noncopyable {
+class Id : NonCopyable {
  public:
   /** Create a new id.
   @param generator the pool to get the actual id from.

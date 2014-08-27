@@ -11,7 +11,8 @@ Definitions for various integers.
 
 namespace euphoria {
 
-/** @defgroup int Integer typedefs
+/** @todo remove this and use std directly?
+@defgroup int Integer typedefs
 @{
  */
 
