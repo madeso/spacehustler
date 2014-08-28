@@ -73,11 +73,14 @@ namespace internal {
 BasicCompiledMeshPart::BasicCompiledMeshPart(const MeshPart& mesh,
                                              std::shared_ptr<Program> prog,
                                              std::shared_ptr<Texture> tex)
-    : program_(prog), texture_(tex), element_count_(mesh.faces.size()) {}
+    : program_(prog), texture_(tex), element_count_(mesh.faces.size()) {
+  assert(this);
+}
 
-BasicCompiledMeshPart::~BasicCompiledMeshPart() {}
+BasicCompiledMeshPart::~BasicCompiledMeshPart() { assert(this); }
 
 void BasicCompiledMeshPart::Render() {
+  assert(this);
   assert(program_);
   program_->SetUniform("tex", 0);
   vao_.Bind();
@@ -89,6 +92,7 @@ void BasicCompiledMeshPart::Render() {
 }
 
 void BasicCompiledMeshPart::Render(const Camera& camera, const Mat44& model) {
+  assert(this);
   assert(texture_);
   assert(program_);
   program_->Bind();
@@ -104,17 +108,21 @@ void BasicCompiledMeshPart::Render(const Camera& camera, const Mat44& model) {
   program_->Unbind();
 }
 
-//////////////////////////////////////////////////////////////////////////
-
-CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
-                                   std::shared_ptr<Program> prog,
-                                   std::shared_ptr<Texture> tex)
-    : BasicCompiledMeshPart(mesh, prog, tex) {
+void BasicCompiledMeshPart::CreateBegin() {
+  assert(this);
   vao_.Bind();
   vbo_.Bind();
+}
 
-  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh.vertices.size(),
-               &mesh.vertices[0], GL_STATIC_DRAW);
+void BasicCompiledMeshPart::CreateVertexes(const std::vector<GLfloat>& vertices,
+                                           bool reset) {
+  assert(this);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), &vertices[0],
+               GL_STATIC_DRAW);
+}
+
+void BasicCompiledMeshPart::CreateFaces(const std::vector<GLushort>& faces) {
+  assert(this);
 
   const GLsizei stride = 5 * sizeof(GLfloat);
   const GLvoid* uvoffset = reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat));
@@ -128,17 +136,73 @@ CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
                         GL_TRUE, stride, uvoffset);
 
   elements_.Bind();
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort),
-               &mesh.faces[0], GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces.size() * sizeof(GLushort),
+               &faces[0], GL_STATIC_DRAW);
   elements_.Unbind();
+}
 
+void BasicCompiledMeshPart::CreateEnd() {
+  assert(this);
   vbo_.Unbind();
   vao_.Unbind();
 }
 
-CompiledMeshPart::~CompiledMeshPart() {}
+//////////////////////////////////////////////////////////////////////////
 
-///////////////////////////
+CompiledMeshPart::CompiledMeshPart(const MeshPart& mesh,
+                                   std::shared_ptr<Program> program,
+                                   std::shared_ptr<Texture> texture)
+    : BasicCompiledMeshPart(mesh, program, texture) {
+  assert(this);
+  CreateBegin();
+  CreateVertexes(mesh.vertices, false);
+  CreateFaces(mesh.faces);
+  CreateEnd();
+}
+
+CompiledMeshPart::~CompiledMeshPart() { assert(this); }
+
+//////////////////////////////////////////////////////////////////////////
+
+DynamicMeshPart::DynamicMeshPart(const MeshPart& mesh,
+                                 std::shared_ptr<Program> program,
+                                 std::shared_ptr<Texture> texture)
+    : BasicCompiledMeshPart(mesh, program, texture), vertices_(mesh.vertices) {
+  assert(this);
+
+  CreateBegin();
+  CreateVertexes(vertices_, false);
+  CreateFaces(mesh.faces);
+  CreateEnd();
+}
+
+DynamicMeshPart::~DynamicMeshPart() { assert(this); }
+
+void DynamicMeshPart::UpdateMesh() {
+  assert(this);
+  CreateBegin();
+  CreateVertexes(vertices_, true);
+  CreateEnd();
+}
+
+void DynamicMeshPart::SetVertex(unsigned int index, const Vec3 pos, Vec2 uv) {
+  assert(this);
+
+  assert(vertices_.size() % 5 == 0);
+  assert(index < vertices_.size() / 5);
+
+  const int base_index = index * 5;
+
+  for (int i = 0; i < 3; ++i) {
+    vertices_[base_index + i] = pos[i];
+  }
+
+  for (int i = 0; i < 2; ++i) {
+    vertices_[base_index + 3 + i] = uv[i];
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 }  // namespace internal
 

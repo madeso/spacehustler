@@ -171,6 +171,12 @@ class BasicCompiledMeshPart {
   void Render();
 
  protected:
+  void CreateBegin();
+  void CreateVertexes(const std::vector<GLfloat>& vertices, bool reset);
+  void CreateFaces(const std::vector<GLushort>& faces);
+  void CreateEnd();
+
+ protected:
   Vao vao_;
   ArrayBuffer vbo_;
   ElementArrayBuffer elements_;
@@ -193,6 +199,19 @@ class CompiledMeshPart : public BasicCompiledMeshPart {
   /** Destructs the compiled mesh part.
    */
   ~CompiledMeshPart();
+};
+
+class DynamicMeshPart : public BasicCompiledMeshPart {
+ public:
+  DynamicMeshPart(const MeshPart& mesh, std::shared_ptr<Program> program,
+                  std::shared_ptr<Texture> texture);
+  ~DynamicMeshPart();
+
+  void UpdateMesh();
+  void SetVertex(unsigned int index, const Vec3 pos, Vec2 uv);
+
+ private:
+  std::vector<GLfloat> vertices_;
 };
 
 }  // namespace internal
