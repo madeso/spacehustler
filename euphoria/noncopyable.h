@@ -17,7 +17,8 @@ class NonCopyable {
   NonCopyable(const NonCopyable& rhs);
   void operator=(const NonCopyable& rhs);
 };
-// integrate http://stackoverflow.com/questions/2173746/how-do-i-make-this-c-object-non-copyable
+// integrate
+// http://stackoverflow.com/questions/2173746/how-do-i-make-this-c-object-non-copyable
 // move to a custom namespace? http://www.cprogramdevelop.com/3072644/
 
 }  // namespace euphoria
