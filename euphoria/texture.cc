@@ -147,7 +147,8 @@ GLint C(ImageStorage type) {
 
 Texture::Texture(const ImageData& data, ImageStorage textureType,
                  WrapMode wraps, WrapMode wrapt, TextureFilter filter,
-                 float anisotropic) {
+                 float anisotropic)
+    : width_(data.width()), height_(data.height()) {
   assert(this);
   glBindTexture(GL_TEXTURE_2D, texture_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
@@ -187,6 +188,16 @@ void Texture::Bind(unsigned int index) const {
 const internal::TextureObject& Texture::texture() const {
   assert(this);
   return texture_;
+}
+
+const int Texture::width() const {
+  assert(this);
+  return width_;
+}
+
+const int Texture::height() const {
+  assert(this);
+  return height_;
 }
 
 }  // namespace euphoria

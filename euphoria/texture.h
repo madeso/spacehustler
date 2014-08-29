@@ -151,7 +151,7 @@ enum class ImageStorage {
 
 /** A OpenGL texture.
  */
-class Texture {
+class Texture : NonCopyable {
  public:
   /** Construct a new texture object.
   @param data the image data
@@ -178,8 +178,13 @@ class Texture {
    */
   const internal::TextureObject& texture() const;
 
+  const int width() const;
+  const int height() const;
+
  private:
   internal::TextureObject texture_;
+  const int width_;
+  const int height_;
 };
 
 }  // namespace euphoria
