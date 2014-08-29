@@ -25,11 +25,14 @@ enum class SizeRule {
   /// don't size the widget at all
   NONE,
 
-  /// size to fit
+  /// size to fill
   FIT,
 
-  // size to aspect
-  ASPECT
+  // size to aspect, fill
+  ASPECT_FILL,
+
+  // size to aspect, fit
+  ASPECT_FIT
 };
 
 }  // namespace ui
