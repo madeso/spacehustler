@@ -10,6 +10,7 @@ Camera related code.
 #include <memory>
 
 #include "euphoria/math.h"
+#include "euphoria/mesh.h"
 
 namespace euphoria {
 class Texture;
@@ -29,6 +30,10 @@ class Ninepatch {
   float minimum_width() const;
   float minimum_height() const;
 
+  std::shared_ptr<Texture> texture();
+
+  const Patch& GetPatchAt(unsigned int index) const;
+
  private:
   Patch patches_[9];
   std::shared_ptr<Texture> texture_;
@@ -38,7 +43,7 @@ class Ninepatch {
 
 class NinepatchInstance {
  public:
-  NinepatchInstance();
+  NinepatchInstance(Ninepatch* ninepatch, std::shared_ptr<Program> program);
   ~NinepatchInstance();
   Vec2 position() const;
   void set_position(Vec2 position);
@@ -49,12 +54,16 @@ class NinepatchInstance {
   float minimum_width() const;
   float minimum_height() const;
 
+  void Render();
+
  private:
   Vec2 position_;
   Vec2 size_;
-  float minimum_width_;
-  float minimum_height_;
-  // DynamicMesh representing the ninepatch
+  float width_left_;
+  float width_right_;
+  float height_up_;
+  float height_down_;
+  internal::DynamicMeshPart mesh_;
 };
 
 }  // namespace ui
