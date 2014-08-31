@@ -185,7 +185,7 @@ void DynamicMeshPart::UpdateMesh() {
   CreateEnd();
 }
 
-void DynamicMeshPart::SetVertex(unsigned int index, const Vec3 pos, Vec2 uv) {
+void DynamicMeshPart::SetVertex(unsigned int index, const Vec3 pos) {
   assert(this);
 
   assert(vertices_.size() % 5 == 0);
@@ -196,6 +196,15 @@ void DynamicMeshPart::SetVertex(unsigned int index, const Vec3 pos, Vec2 uv) {
   for (int i = 0; i < 3; ++i) {
     vertices_[base_index + i] = pos[i];
   }
+}
+
+void DynamicMeshPart::SetVertex(unsigned int index, Vec2 uv) {
+  assert(this);
+
+  assert(vertices_.size() % 5 == 0);
+  assert(index < vertices_.size() / 5);
+
+  const int base_index = index * 5;
 
   for (int i = 0; i < 2; ++i) {
     vertices_[base_index + 3 + i] = uv[i];

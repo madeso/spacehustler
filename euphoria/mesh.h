@@ -208,7 +208,8 @@ class DynamicMeshPart : public BasicCompiledMeshPart {
   ~DynamicMeshPart();
 
   void UpdateMesh();
-  void SetVertex(unsigned int index, const Vec3 pos, Vec2 uv);
+  void SetVertex(unsigned int index, const Vec3 pos);
+  void SetVertex(unsigned int index, Vec2 uv);
 
  private:
   std::vector<GLfloat> vertices_;

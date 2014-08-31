@@ -51,8 +51,8 @@ class NinepatchInstance {
   Vec2 size() const;
   void set_size(Vec2 size);
 
-  float minimum_width() const;
-  float minimum_height() const;
+  float GetMinimumWidth() const;
+  float GetMinimumHeight() const;
 
   void Render();
 
