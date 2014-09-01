@@ -24,21 +24,17 @@ struct Patch {
 
 class Ninepatch {
  public:
-  Ninepatch();
+  explicit Ninepatch(std::shared_ptr<Texture> texture);
   ~Ninepatch();
-
-  float minimum_width() const;
-  float minimum_height() const;
 
   std::shared_ptr<Texture> texture();
 
+  void SetPatchAt(unsigned int index, const Patch& patch);
   const Patch& GetPatchAt(unsigned int index) const;
 
  private:
   Patch patches_[9];
   std::shared_ptr<Texture> texture_;
-  float minimum_width_;
-  float minimum_height_;
 };
 
 class NinepatchInstance {
@@ -55,6 +51,9 @@ class NinepatchInstance {
   float GetMinimumHeight() const;
 
   void Render();
+
+ private:
+  void UpdateMesh();
 
  private:
   Vec2 position_;

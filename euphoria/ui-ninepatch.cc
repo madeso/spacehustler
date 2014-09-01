@@ -7,25 +7,21 @@
 namespace euphoria {
 namespace ui {
 
-Ninepatch::Ninepatch() : minimum_width_(0.0f), minimum_height_(0.0f) {
+Ninepatch::Ninepatch(std::shared_ptr<Texture> texture) : texture_(texture) {
   assert(this);
+  assert(texture);
 }
 
 Ninepatch::~Ninepatch() { assert(this); }
 
-float Ninepatch::minimum_width() const {
-  assert(this);
-  return minimum_width_;
-}
-
-float Ninepatch::minimum_height() const {
-  assert(this);
-  return minimum_height_;
-}
-
 std::shared_ptr<Texture> Ninepatch::texture() {
   assert(this);
   return texture_;
+}
+
+void Ninepatch::SetPatchAt(unsigned int index, const Patch& patch) {
+  assert(this);
+  patches_[index] = patch;
 }
 
 const Patch& Ninepatch::GetPatchAt(unsigned int index) const {
@@ -51,9 +47,9 @@ void AddPatch(internal::MeshPart* mesh, const Patch& patch,
   const unsigned int base = mesh->vertices.size();
 
   const float le = x;
-  const float ri = x+w;
+  const float ri = x + w;
   const float up = y;
-  const float dn = y+h;
+  const float dn = y + h;
 
   const float z = 0;
 
@@ -61,8 +57,8 @@ void AddPatch(internal::MeshPart* mesh, const Patch& patch,
   mesh->AddPoint(ri, dn, z, ri, dn);
   mesh->AddPoint(ri, up, z, ri, up);
   mesh->AddPoint(le, up, z, le, up);
-  mesh->AddFace(base+2, base+1, base+0);
-  mesh->AddFace(base+3, base+2, base+0);
+  mesh->AddFace(base + 2, base + 1, base + 0);
+  mesh->AddFace(base + 3, base + 2, base + 0);
 }
 
 internal::MeshPart CreateNinePatchMesh(Ninepatch* ninepatch) {
@@ -77,10 +73,14 @@ internal::MeshPart CreateNinePatchMesh(Ninepatch* ninepatch) {
 
 NinepatchInstance::NinepatchInstance(Ninepatch* ninepatch,
                                      std::shared_ptr<Program> program)
-    : width_left_(0.0f),
-      width_right_(0.0f),
-      height_up_(0.0f),
-      height_down_(0.0f),
+    : width_left_(ninepatch->GetPatchAt(0).width /
+                  static_cast<float>(ninepatch->texture()->width())),
+      width_right_(ninepatch->GetPatchAt(2).width /
+                   static_cast<float>(ninepatch->texture()->width())),
+      height_up_(ninepatch->GetPatchAt(0).height /
+                 static_cast<float>(ninepatch->texture()->height())),
+      height_down_(ninepatch->GetPatchAt(6).height /
+                   static_cast<float>(ninepatch->texture()->height())),
       mesh_(CreateNinePatchMesh(ninepatch), program, ninepatch->texture()) {
   assert(this);
 }
@@ -121,29 +121,32 @@ void NinepatchInstance::set_size(Vec2 size) {
   assert(size[0] >= GetMinimumWidth());
   assert(size[1] >= GetMinimumHeight());
   size_ = size;
+
+  UpdateMesh();
 }
 
-void NinepatchInstance::Render() {
+void NinepatchInstance::UpdateMesh() {
   assert(this);
   // update mesh
   const float middle_width = size_[0] - GetMinimumWidth();
   const float middle_height = size_[1] - GetMinimumHeight();
 
-  const float z = 0;
+  assert(middle_width >= 0);
+  assert(middle_height >= 0);
 
   /*
     a        b         c       d
   a 0--------1---------2-------3
     |        |         |       |
-    |   ul   |   um    |   ur  |
+    |  ul/0  |   um/1  |  ur/2 |
     |        |         |       |
   b 4--------5---------6-------7
     |        |         |       |
-    |  ml    |   mm    |   mr  |
+    |  ml/3  |   mm/4  |  mr/5 |
     |        |         |       |
   c 8--------9---------10-----11
     |        |         |       |
-    |   ll   |   lm    |   lr  |
+    |  ll/6  |   lm/7  |  lr/8 |
     |        |         |       |
   d 12-------13--------14-----15
   */
@@ -157,25 +160,27 @@ void NinepatchInstance::Render() {
   const float xd = size_[0];
   const float yd = size_[1];
 
-  const Vec3 v0(xa,ya,z);
-  const Vec3 v1(xb,ya,z);
-  const Vec3 v2(xc,ya,z);
-  const Vec3 v3(xd,ya,z);
+  const float z = 0;
 
-  const Vec3 v4(xa,yb,z);
-  const Vec3 v5(xb,yb,z);
-  const Vec3 v6(xc,yb,z);
-  const Vec3 v7(xd,yb,z);
+  const Vec3 v0(xa, ya, z);
+  const Vec3 v1(xb, ya, z);
+  const Vec3 v2(xc, ya, z);
+  const Vec3 v3(xd, ya, z);
 
-  const Vec3 v8(xa,yc,z);
-  const Vec3 v9(xb,yc,z);
-  const Vec3 v10(xc,yc,z);
-  const Vec3 v11(xd,yc,z);
+  const Vec3 v4(xa, yb, z);
+  const Vec3 v5(xb, yb, z);
+  const Vec3 v6(xc, yb, z);
+  const Vec3 v7(xd, yb, z);
 
-  const Vec3 v12(xa,yd,z);
-  const Vec3 v13(xb,yd,z);
-  const Vec3 v14(xc,yd,z);
-  const Vec3 v15(xd,yd,z);
+  const Vec3 v8(xa, yc, z);
+  const Vec3 v9(xb, yc, z);
+  const Vec3 v10(xc, yc, z);
+  const Vec3 v11(xd, yc, z);
+
+  const Vec3 v12(xa, yd, z);
+  const Vec3 v13(xb, yd, z);
+  const Vec3 v14(xc, yd, z);
+  const Vec3 v15(xd, yd, z);
 
   // vertices are ordered counter clockwise
   // left down -> left right -> up right -> up left
@@ -234,6 +239,12 @@ void NinepatchInstance::Render() {
   mesh_.SetVertex(34, v11);
   mesh_.SetVertex(35, v10);
 
+  // update mesh
+  mesh_.UpdateMesh();
+}
+
+void NinepatchInstance::Render() {
+  assert(this);
   // render mesh
 }
 
