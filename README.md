@@ -50,6 +50,7 @@ Planned Features and stuff that needs to be done
 * add support for sixense (razer hydra/stem system)
 * add support for leapmotion
 * refactor input system with system wide documentation and war thunder input support http://forum.warthunder.com/index.php?/topic/10815-axis-and-sensitivity-settings-for-controllers-explained/
+* change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * state system
 * auto detect input system
 * sdl gamepad into input system
@@ -58,16 +59,18 @@ Planned Features and stuff that needs to be done
 * replace filehandling with physfs
 * menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale
 * menu with dynamic reloading of all settings
-* FEEDBACK
+* FEEDBACK!
+
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
 * static_assert
-* change cml to glm - glm lacks documentation & has has design flaws inherited from glsl but works better with intellisense https://www.opengl.org/discussion_boards/showthread.php/180191-glm-length(glm-vec)-and-glm-vec-length
+* change cml to glm - glm lacks documentation & has has design flaws inherited from glsl but works better with intellisense & seems more popular https://www.opengl.org/discussion_boards/showthread.php/180191-glm-length(glm-vec)-and-glm-vec-length
 * fix osx build
 * upgrade assimp
 * integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
 * port to android? (physfs: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/
+* add loading of shaders from files with preprocessor, shader editor? http://www.acegikmo.com/shaderforge/
 * lights and shaddows
   - depth map shadows?
   - depth shadow maps/volumes?
@@ -76,17 +79,17 @@ Planned Features and stuff that needs to be done
   - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
 * change from json to yaml/protobuf?
+* push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1 http://www.gamedev.net/blog/355/entry-2259495-why-you-should-embed-a-web-server-in-your-game-engine/
+* lighttable integration?
 * fix luadocgen
 * Investigate constexpr
 * audio and music support, fmod studio
+* node scripting, https://www.youtube.com/watch?v=RsoeERfS7Gs
 * sprite + line drawer in 3d in preparation for psystems
 * particle systems http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/ http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/flexible-particle-system-the-container-r3701 http://www.bfilipek.com/2014/06/flexible-particle-system-updaters.html
 * dynamically replace models/complex physics setup/damage model
 * builtin font http://nothings.org/stb/font/ http://code.google.com/p/freetype-gl/
-* push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1 http://www.gamedev.net/blog/355/entry-2259495-why-you-should-embed-a-web-server-in-your-game-engine/
-* change all names to follow google style guide http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#General_Naming_Rules
 * implement all the todos
-* add loading of shaders from files with preprocessor
 * godrays http://fabiensanglard.net/lightScattering/index.php
 * panning materials
 * normal + specular + glow map (diffuse+alpha=transperency, specular+alpha=glow, normal+alpha=height, emissive)
