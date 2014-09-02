@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "euphoria/ui-ninepatch.h"
+#include "euphoria/ogldebug.h"
 
 namespace euphoria {
 namespace ui {
@@ -73,7 +74,8 @@ internal::MeshPart CreateNinePatchMesh(Ninepatch* ninepatch) {
 
 NinepatchInstance::NinepatchInstance(Ninepatch* ninepatch,
                                      std::shared_ptr<Program> program)
-    : width_left_(ninepatch->GetPatchAt(0).width /
+    : texture_(ninepatch->texture()), program_(program),
+     width_left_(ninepatch->GetPatchAt(0).width /
                   static_cast<float>(ninepatch->texture()->width())),
       width_right_(ninepatch->GetPatchAt(2).width /
                    static_cast<float>(ninepatch->texture()->width())),
@@ -245,7 +247,23 @@ void NinepatchInstance::UpdateMesh() {
 
 void NinepatchInstance::Render() {
   assert(this);
-  // render mesh
+  
+  Camera camera(800,600); // @todo improve camera
+  auto nv = camera.view();
+  cml::matrix_set_translation(nv, CreateZeroedVec3());
+  camera.set_view(nv);
+
+  program_->Bind();
+  program_->SetUniform("camera", camera.view());
+  program_->SetUniform("projection", camera.projection());
+  program_->SetUniform("model", CreateIdentityMat44());
+  texture_->Bind(0);
+
+  glClear(GL_DEPTH_BUFFER_BIT);
+  mesh_.Render();
+  program_->Unbind();
+  OglDebug::Verify();
+
 }
 
 }  // namespace ui
