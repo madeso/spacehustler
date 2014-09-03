@@ -56,8 +56,8 @@ class NinepatchInstance {
   void UpdateMesh();
 
  private:
-   std::shared_ptr<Texture> texture_;
-   std::shared_ptr<Program> program_;
+  std::shared_ptr<Texture> texture_;
+  std::shared_ptr<Program> program_;
   Vec2 position_;
   Vec2 size_;
   float width_left_;

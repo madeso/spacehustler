@@ -31,10 +31,10 @@ void ProgressBar::set_value(float value) {
 
 void ProgressBar::Draw() {
   assert(this);
-  float width = From01(ninepatch_->minimum_width(), value_,
-                       Max(ninepatch_->minimum_width(), size()[0]));
-  float height = From01(ninepatch_->minimum_height(), value_,
-                        Max(ninepatch_->minimum_height(), size()[1]));
+  float width = From01(ninepatch_->GetMinimumWidth(), value_,
+                       Max(ninepatch_->GetMinimumWidth(), size()[0]));
+  float height = From01(ninepatch_->GetMinimumHeight(), value_,
+                        Max(ninepatch_->GetMinimumHeight(), size()[1]));
   ninepatch_->set_position(position());
   ninepatch_->set_size(Vec2(width, height));
 }
