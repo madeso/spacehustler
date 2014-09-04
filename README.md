@@ -57,7 +57,7 @@ Planned Features and stuff that needs to be done
 * force feedback/haptics
 * refactor texture loading to support redirection from files to dynamic fbos
 * replace filehandling with physfs
-* menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale
+* menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale http://dukope.tumblr.com/post/83177288060/localizing-papers-please-papers-please-was
 * menu with dynamic reloading of all settings
 * FEEDBACK!
 
