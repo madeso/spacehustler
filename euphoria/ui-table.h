@@ -16,6 +16,7 @@ Camera related code.
 namespace euphoria {
 
 class TextureCache;
+class ShaderCache;
 class Settings;
 
 namespace ui {
@@ -54,7 +55,7 @@ class Table {
 };
 
 void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
-               const Settings& settings);
+               ShaderCache* scache, const Settings& settings);
 
 }  // namespace ui
 }  // namespace euphoria

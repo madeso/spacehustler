@@ -10,10 +10,12 @@
 namespace euphoria {
 namespace ui {
 
-ProgressBar::ProgressBar() : value_(0.0f) {
+ProgressBar::ProgressBar(const Ninepatch& ninepatch, TextureCache* texturecache,
+                         ShaderCache* shadercache, const Settings& settings)
+    : ninepatch_(CreateNinepatchInstance(ninepatch, shadercache, texturecache,
+                                         settings)),
+      value_(0.0f) {
   assert(this);
-  // @todo get this from a np cashe
-  ninepatch_.reset(new NinepatchInstance());
 }
 
 ProgressBar::~ProgressBar() { assert(this); }

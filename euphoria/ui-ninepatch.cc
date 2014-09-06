@@ -7,6 +7,7 @@
 #include "euphoria/str.h"
 #include "euphoria/ui-ninepatch.h"
 #include "euphoria/ogldebug.h"
+#include "euphoria/stringutils.h"
 #include "json/json.h"
 
 namespace euphoria {
@@ -283,7 +284,8 @@ Ninepatch LoadNinepatch(const std::string& filename) {
                                  << reader.getFormattedErrorMessages());
   }
 
-  const std::string texture = root.get("texture", "").asString();
+  const std::string extension = root.get("extension", ".png").asString();
+  const std::string& texture = StringReplace(filename, ".js", extension);
   Ninepatch ret(texture);
   const std::string names[9] = {"rl", "um", "ur", "ml", "mm",
                                 "mr", "ll", "lm", "lr"};

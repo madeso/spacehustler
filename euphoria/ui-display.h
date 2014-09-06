@@ -21,7 +21,7 @@ namespace ui {
 class Display {
  public:
   Display(const std::string& file, float width, float height,
-          TextureCache* tcache, const Settings& settings);
+          TextureCache* tcache, ShaderCache* scache, const Settings& settings);
   void Render();
 
  private:

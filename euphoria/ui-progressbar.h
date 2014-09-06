@@ -12,12 +12,18 @@ Camera related code.
 #include "euphoria/ui-widget.h"
 
 namespace euphoria {
+class ShaderCache;
+class TextureCache;
+class Settings;
 namespace ui {
 class NinepatchInstance;
+class Ninepatch;
 
 class ProgressBar : public Widget {
  public:
-  ProgressBar();
+  ProgressBar(const Ninepatch& ninepatch, TextureCache* texturecache,
+              ShaderCache* shadercache, const Settings& settings);
+
   ~ProgressBar();
   float value() const;
   void set_value(float value);

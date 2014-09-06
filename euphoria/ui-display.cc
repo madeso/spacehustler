@@ -8,8 +8,9 @@ namespace euphoria {
 namespace ui {
 
 Display::Display(const std::string& file, float width, float height,
-                 TextureCache* tcache, const Settings& settings) {
-  LoadTable(&table_, file, tcache, settings);
+                 TextureCache* tcache, ShaderCache* scache,
+                 const Settings& settings) {
+  LoadTable(&table_, file, tcache, scache, settings);
   table_.LayoutCells(width, height);
 }
 

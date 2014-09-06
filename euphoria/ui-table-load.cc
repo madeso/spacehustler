@@ -11,9 +11,10 @@
 #include "euphoria/ui-cell.h"
 #include "euphoria/ui-layout.h"
 #include "euphoria/texturecache.h"
-
+#include "euphoria/shadercache.h"
 #include "euphoria/ui-progressbar.h"
 #include "euphoria/ui-image.h"
+#include "euphoria/ui-ninepatch.h"
 
 #include "json/json.h"
 
@@ -70,7 +71,7 @@ LayoutType GetLayoutType(const std::string& layout_name) {
 }
 
 std::shared_ptr<Widget> CreateWidget(const Json::Value data,
-                                     TextureCache* tcache,
+                                     TextureCache* tcache, ShaderCache* scache,
                                      const Settings& settings) {
   const std::string type = ToLower(Trim(data.get("type", "").asCString()));
   if (type == "image") {
@@ -80,7 +81,10 @@ std::shared_ptr<Widget> CreateWidget(const Json::Value data,
                                   WrapMode::CLAMP_TO_EDGE),
         settings)));
   } else if (type == "progressbar") {
-    return std::shared_ptr<Widget>(new ProgressBar());
+    const std::string ninepatch_path = data.get("ninepatch", "").asString();
+    const Ninepatch ninepatch = LoadNinepatch(ninepatch_path);
+    return std::shared_ptr<Widget>(
+        new ProgressBar(ninepatch, tcache, scache, settings));
   } else {
     throw std::logic_error(Str() << "Unknown widget type " << type);
   }
@@ -88,7 +92,7 @@ std::shared_ptr<Widget> CreateWidget(const Json::Value data,
 }  // namespace
 
 void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
-               const Settings& settings) {
+               ShaderCache* scache, const Settings& settings) {
   assert(table);
   std::ifstream in(filename.c_str());
   if (!in.good()) {
@@ -130,7 +134,7 @@ void LoadTable(Table* table, const std::string& filename, TextureCache* tcache,
     Json::Value widgets = data["widgets"];
     for (Json::ArrayIndex w = 0; w < widgets.size(); ++w) {
       Json::Value wdata = widgets[w];
-      cell->Add(CreateWidget(wdata, tcache, settings));
+      cell->Add(CreateWidget(wdata, tcache, scache, settings));
     }
 
     cell->End();
