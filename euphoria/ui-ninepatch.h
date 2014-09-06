@@ -8,6 +8,7 @@ Camera related code.
 #define EUPHORIA_UI_NINEPATCH_H_
 
 #include <memory>
+#include <string>
 
 #include "euphoria/math.h"
 #include "euphoria/mesh.h"
@@ -24,22 +25,23 @@ struct Patch {
 
 class Ninepatch {
  public:
-  explicit Ninepatch(std::shared_ptr<Texture> texture);
+  explicit Ninepatch(const std::string& texture);
   ~Ninepatch();
 
-  std::shared_ptr<Texture> texture();
+  const std::string& texture() const;
 
   void SetPatchAt(unsigned int index, const Patch& patch);
   const Patch& GetPatchAt(unsigned int index) const;
 
  private:
   Patch patches_[9];
-  std::shared_ptr<Texture> texture_;
+  const std::string texture_;
 };
 
 class NinepatchInstance {
  public:
-  NinepatchInstance(Ninepatch* ninepatch, std::shared_ptr<Program> program);
+  NinepatchInstance(Ninepatch* ninepatch, std::shared_ptr<Program> program,
+                    std::shared_ptr<Texture> texture);
   ~NinepatchInstance();
   Vec2 position() const;
   void set_position(Vec2 position);

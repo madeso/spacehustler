@@ -8,14 +8,13 @@
 namespace euphoria {
 namespace ui {
 
-Ninepatch::Ninepatch(std::shared_ptr<Texture> texture) : texture_(texture) {
+Ninepatch::Ninepatch(const std::string& texture) : texture_(texture) {
   assert(this);
-  assert(texture);
 }
 
 Ninepatch::~Ninepatch() { assert(this); }
 
-std::shared_ptr<Texture> Ninepatch::texture() {
+const std::string& Ninepatch::texture() const {
   assert(this);
   return texture_;
 }
@@ -62,29 +61,31 @@ void AddPatch(internal::MeshPart* mesh, const Patch& patch,
   mesh->AddFace(base + 3, base + 2, base + 0);
 }
 
-internal::MeshPart CreateNinePatchMesh(Ninepatch* ninepatch) {
+internal::MeshPart CreateNinePatchMesh(Ninepatch* ninepatch,
+                                       std::shared_ptr<Texture> texture) {
   assert(ninepatch);
   internal::MeshPart ret;
   for (unsigned int i = 0; i < 9; ++i) {
-    AddPatch(&ret, ninepatch->GetPatchAt(i), ninepatch->texture());
+    AddPatch(&ret, ninepatch->GetPatchAt(i), texture);
   }
   return ret;
 }
 }  // namespace
 
 NinepatchInstance::NinepatchInstance(Ninepatch* ninepatch,
-                                     std::shared_ptr<Program> program)
-    : texture_(ninepatch->texture()),
+                                     std::shared_ptr<Program> program,
+                                     std::shared_ptr<Texture> texture)
+    : texture_(texture),
       program_(program),
       width_left_(ninepatch->GetPatchAt(0).width /
-                  static_cast<float>(ninepatch->texture()->width())),
+                  static_cast<float>(texture->width())),
       width_right_(ninepatch->GetPatchAt(2).width /
-                   static_cast<float>(ninepatch->texture()->width())),
+                   static_cast<float>(texture->width())),
       height_up_(ninepatch->GetPatchAt(0).height /
-                 static_cast<float>(ninepatch->texture()->height())),
+                 static_cast<float>(texture->height())),
       height_down_(ninepatch->GetPatchAt(6).height /
-                   static_cast<float>(ninepatch->texture()->height())),
-      mesh_(CreateNinePatchMesh(ninepatch), program, ninepatch->texture()) {
+                   static_cast<float>(texture->height())),
+      mesh_(CreateNinePatchMesh(ninepatch, texture), program, texture) {
   assert(this);
 }
 
