@@ -40,7 +40,8 @@ class Ninepatch {
 
 class NinepatchInstance {
  public:
-  NinepatchInstance(Ninepatch* ninepatch, std::shared_ptr<Program> program,
+  NinepatchInstance(const Ninepatch& ninepatch,
+                    std::shared_ptr<Program> program,
                     std::shared_ptr<Texture> texture);
   ~NinepatchInstance();
   Vec2 position() const;
@@ -68,6 +69,11 @@ class NinepatchInstance {
   float height_down_;
   internal::DynamicMeshPart mesh_;
 };
+
+Ninepatch LoadNinepatch(const std::string& filename);
+std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
+    const Ninepatch& ninepatch, ShaderCache* shadercache,
+    TextureCache* texturecache, const Settings& settings);
 
 }  // namespace ui
 }  // namespace euphoria

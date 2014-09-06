@@ -1,9 +1,13 @@
 // Euphoria - Copyright (c) Gustav
 
 #include <cassert>
+#include <stdexcept>
+#include <fstream>  // NOLINT for loading data
 
+#include "euphoria/str.h"
 #include "euphoria/ui-ninepatch.h"
 #include "euphoria/ogldebug.h"
+#include "json/json.h"
 
 namespace euphoria {
 namespace ui {
@@ -61,29 +65,28 @@ void AddPatch(internal::MeshPart* mesh, const Patch& patch,
   mesh->AddFace(base + 3, base + 2, base + 0);
 }
 
-internal::MeshPart CreateNinePatchMesh(Ninepatch* ninepatch,
+internal::MeshPart CreateNinePatchMesh(const Ninepatch& ninepatch,
                                        std::shared_ptr<Texture> texture) {
-  assert(ninepatch);
   internal::MeshPart ret;
   for (unsigned int i = 0; i < 9; ++i) {
-    AddPatch(&ret, ninepatch->GetPatchAt(i), texture);
+    AddPatch(&ret, ninepatch.GetPatchAt(i), texture);
   }
   return ret;
 }
 }  // namespace
 
-NinepatchInstance::NinepatchInstance(Ninepatch* ninepatch,
+NinepatchInstance::NinepatchInstance(const Ninepatch& ninepatch,
                                      std::shared_ptr<Program> program,
                                      std::shared_ptr<Texture> texture)
     : texture_(texture),
       program_(program),
-      width_left_(ninepatch->GetPatchAt(0).width /
+      width_left_(ninepatch.GetPatchAt(0).width /
                   static_cast<float>(texture->width())),
-      width_right_(ninepatch->GetPatchAt(2).width /
+      width_right_(ninepatch.GetPatchAt(2).width /
                    static_cast<float>(texture->width())),
-      height_up_(ninepatch->GetPatchAt(0).height /
+      height_up_(ninepatch.GetPatchAt(0).height /
                  static_cast<float>(texture->height())),
-      height_down_(ninepatch->GetPatchAt(6).height /
+      height_down_(ninepatch.GetPatchAt(6).height /
                    static_cast<float>(texture->height())),
       mesh_(CreateNinePatchMesh(ninepatch, texture), program, texture) {
   assert(this);
@@ -265,6 +268,48 @@ void NinepatchInstance::Render() {
   mesh_.Render();
   program_->Unbind();
   OglDebug::Verify();
+}
+
+Ninepatch LoadNinepatch(const std::string& filename) {
+  std::ifstream in(filename.c_str());
+  if (!in.good()) {
+    throw std::logic_error(Str() << "Unable to load ui table from  "
+                                 << filename);
+  }
+  Json::Value root;
+  Json::Reader reader;
+  if (false == reader.parse(in, root)) {
+    throw std::logic_error(Str() << "Unable to parse " << filename << ": "
+                                 << reader.getFormattedErrorMessages());
+  }
+
+  const std::string texture = root.get("texture", "").asString();
+  Ninepatch ret(texture);
+  const std::string names[9] = {"rl", "um", "ur", "ml", "mm",
+                                "mr", "ll", "lm", "lr"};
+  for (int i = 0; i < 9; ++i) {
+    Patch p;
+    Json::Value v = root[names[i]];
+    p.x = v.get("x", 0).asInt();
+    p.y = v.get("y", 0).asInt();
+    p.width = v.get("w", 0).asInt();
+    p.height = v.get("h", 0).asInt();
+    ret.SetPatchAt(i, p);
+  }
+  return ret;
+}
+
+std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
+    const Ninepatch& ninepatch, ShaderCache* shadercache,
+    TextureCache* texturecache, const Settings& settings) {
+  auto shader = shadercache->GetOrCreate("ninepatch-shader.js", settings);
+  auto texture = texturecache->GetOrCreate(
+      TextureLoadingInstruction(ninepatch.texture(), WrapMode::CLAMP_TO_EDGE,
+                                WrapMode::CLAMP_TO_EDGE),
+      settings);
+  std::shared_ptr<NinepatchInstance> ret(
+      new NinepatchInstance(ninepatch, shader, texture));
+  return ret;
 }
 
 }  // namespace ui
