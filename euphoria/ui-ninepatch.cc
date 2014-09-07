@@ -168,7 +168,7 @@ void NinepatchInstance::UpdateMesh() {
   const float xd = size_[0];
   const float yd = size_[1];
 
-  const float z = 0;
+  const float z = 1;
 
   const Vec3 v0(xa, ya, z);
   const Vec3 v1(xb, ya, z);
@@ -251,13 +251,8 @@ void NinepatchInstance::UpdateMesh() {
   mesh_.UpdateMesh();
 }
 
-void NinepatchInstance::Render() {
+void NinepatchInstance::Render(const Camera& camera) {
   assert(this);
-
-  Camera camera(800, 600);  // @todo improve camera
-  auto nv = camera.view();
-  cml::matrix_set_translation(nv, CreateZeroedVec3());
-  camera.set_view(nv);
 
   program_->Bind();
   program_->SetUniform("camera", camera.view());

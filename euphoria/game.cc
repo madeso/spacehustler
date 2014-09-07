@@ -51,7 +51,8 @@ Game::Game(const Settings& settings)
       tweakaction_(0),
       last_tweak_action_(false),
       lock_mouse_(true),
-      istweaking_(false) {
+      istweaking_(false),
+      camera_(CreateCameraPerspective(45, 10, 10, NearFar(0.1f, 10.0f))) {
   assert(this);
 
   // @todo move this to a press enter to play screen
@@ -91,16 +92,13 @@ Game::Game(const Settings& settings)
 
   tweakaction_ = inputsystem_.GetAction("enable_tweak");
 
-  camera_.reset(new Camera(width_, height_));
-  camera_->set_fov(45);
-  camera_->SetNearFar(0.1f, 800.0f);
+  camera_ = CreateCameraPerspective(45, width_, height_, NearFar(0.1f, 800.0f));
 
   container_.reset(new SystemContainer());
-  LoadSystems(
-      "systemdefs.js",
-      CreateSystemArg(container_.get(), world_.get(), texturecache_.get(),
-                      shadercache_.get(), camera_.get(), script_.get(),
-                      settings, &inputsystem_));
+  LoadSystems("systemdefs.js",
+              CreateSystemArg(container_.get(), world_.get(),
+                              texturecache_.get(), shadercache_.get(), &camera_,
+                              script_.get(), settings, &inputsystem_));
 
   entities_.reset(new EntityList());
   entities_->AddDefs(container_.get(), "entity.js");
@@ -183,7 +181,7 @@ void Game::Render() {
     OglDebug::Verify();
     for (int i = 0; i < oculusvr_->GetNumberOfEyes(); ++i) {
       EyeSetup& eye = oculusvr_->GetEyeIndex(i);
-      Camera cam(*camera_);
+      Camera cam = camera_;
       ModifyCamera(&cam, eye);
       TextureUpdator tex(eye.GetFboPtr());
       ClearScreen();
@@ -194,7 +192,7 @@ void Game::Render() {
     OglDebug::Verify();
   } else {
     ClearScreen();
-    SubRender(*camera_);
+    SubRender(camera_);
   }
 }
 

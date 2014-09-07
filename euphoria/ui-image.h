@@ -19,7 +19,7 @@ class Image : public Widget {
  public:
   explicit Image(std::shared_ptr<Texture> texture);
 
-  void Draw() override;
+  void Draw(const Camera& camera) override;
 
   SizeRule sizerule() const;
   void set_sizerule(SizeRule sizerule);

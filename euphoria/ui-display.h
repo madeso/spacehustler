@@ -20,11 +20,13 @@ class Settings;
 namespace ui {
 class Display {
  public:
-  Display(const std::string& file, float width, float height,
-          TextureCache* tcache, ShaderCache* scache, const Settings& settings);
+  Display(const std::string& file, int width, int height, TextureCache* tcache,
+          ShaderCache* scache, const Settings& settings);
   void Render();
 
  private:
+  int width_;
+  int height_;
   Table table_;
 };
 }  // namespace ui

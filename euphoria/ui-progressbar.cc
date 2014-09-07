@@ -31,7 +31,7 @@ void ProgressBar::set_value(float value) {
   value_ = value;
 }
 
-void ProgressBar::Draw() {
+void ProgressBar::Draw(const Camera& camera) {
   assert(this);
   float width = From01(ninepatch_->GetMinimumWidth(), value_,
                        Max(ninepatch_->GetMinimumWidth(), size()[0]));
@@ -39,6 +39,8 @@ void ProgressBar::Draw() {
                         Max(ninepatch_->GetMinimumHeight(), size()[1]));
   ninepatch_->set_position(position());
   ninepatch_->set_size(Vec2(width, height));
+
+  ninepatch_->Render(camera);
 }
 
 }  // namespace ui

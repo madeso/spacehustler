@@ -11,16 +11,25 @@ Camera related code.
 
 namespace euphoria {
 
+class NearFar {
+ public:
+  NearFar(float near, float far);
+  float near() const;
+  float far() const;
+
+ private:
+  const float near_;
+  const float far_;
+};
+
 /** A camera in a world.
 @see World
  */
 class Camera {
  public:
   /** Constructs a new camera.
-  @param width the width of the rendering area
-  @param height the height of the rendering area
    */
-  Camera(int width, int height);
+  Camera(const Mat44& view, const Mat44& projection);
 
   /** Gets the view matrix.
   @returns the view matrix.
@@ -47,24 +56,14 @@ class Camera {
    */
   void set_fov(float fov);
 
-  /** Changes the new/far planes.
-  @param near the new near plane position.
-  @param far the new far plane position.
-   */
-  void SetNearFar(float near, float far);
-
  private:
   Mat44 view_;
-  float fov_;
-  float aspect_;
-  float znear_;
-  float zfar_;
-
   Mat44 projection_;
-
- private:
-  void UpdateProjection();
 };
+
+Camera CreateCameraPerspective(float fov, int width, int height,
+                               const NearFar& nearfar);
+Camera CreateCameraOrtho(int width, int height, const NearFar& nearfar);
 
 }  // namespace euphoria
 

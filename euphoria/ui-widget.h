@@ -10,12 +10,15 @@ Camera related code.
 #include "euphoria/math.h"
 
 namespace euphoria {
+
+class Camera;
+
 namespace ui {
 class Widget {
  public:
   Widget();
   virtual ~Widget();
-  virtual void Draw() = 0;
+  virtual void Draw(const Camera& camera) = 0;
 
   Vec2 position() const;
   void set_position(const Vec2& position);

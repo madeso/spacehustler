@@ -28,7 +28,7 @@ class ProgressBar : public Widget {
   float value() const;
   void set_value(float value);
 
-  void Draw() override;
+  void Draw(const Camera& camera) override;
 
  private:
   std::shared_ptr<NinepatchInstance> ninepatch_;

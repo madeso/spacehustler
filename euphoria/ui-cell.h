@@ -13,6 +13,9 @@ Camera related code.
 #include "euphoria/math.h"
 
 namespace euphoria {
+
+class Camera;
+
 namespace ui {
 class Widget;
 class Layout;
@@ -40,7 +43,7 @@ class Cell {
   void Begin();
   void End();
 
-  void Draw();
+  void Draw(const Camera& camera);
 
  private:
   void PerformLayout();

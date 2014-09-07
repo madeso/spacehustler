@@ -6,14 +6,23 @@
 
 namespace euphoria {
 
-Camera::Camera(int width, int height)
-    : fov_(45.0f),
-      aspect_(static_cast<float>(width) / height),
-      znear_(0.1f),
-      zfar_(100.0f) {
-  view_ = CreateMat44(CreateZeroedVec3(), CreateIdentityQuat());
-  UpdateProjection();
+NearFar::NearFar(float near, float far) : near_(near), far_(far) {
+  assert(this);
 }
+
+float NearFar::near() const {
+  assert(this);
+  return near_;
+}
+
+float NearFar::far() const {
+  assert(this);
+  return far_;
+}
+
+//////////////////////////////////////////////////////////////////////////
+Camera::Camera(const Mat44& view, const Mat44& projection)
+    : view_(view), projection_(projection) {}
 
 const Mat44 Camera::projection() const {
   assert(this);
@@ -23,13 +32,6 @@ const Mat44 Camera::projection() const {
 void Camera::set_projection(const Mat44& projection) {
   assert(this);
   projection_ = projection;
-}
-
-void Camera::set_fov(float fov) {
-  assert(this);
-
-  fov_ = fov;
-  UpdateProjection();
 }
 
 const Mat44& Camera::view() const {
@@ -42,17 +44,25 @@ void Camera::set_view(const Mat44& view) {
   view_ = view;
 }
 
-void Camera::SetNearFar(float near, float far) {
-  assert(this);
-
-  znear_ = near;
-  zfar_ = far;
-  UpdateProjection();
+float CreateAspect(int width, int height) {
+  return static_cast<float>(width) / height;
 }
 
-void Camera::UpdateProjection() {
-  assert(this);
-  cml::matrix_perspective_xfov_RH(projection_, fov_, aspect_, znear_, zfar_,
+Camera CreateCameraPerspective(float fov, int width, int height,
+                               const NearFar& nearfar) {
+  Mat44 projection;
+  cml::matrix_perspective_xfov_RH(projection, fov, CreateAspect(width, height),
+                                  nearfar.near(), nearfar.far(),
                                   cml::z_clip_zero);
+  return Camera(CreateIdentityMat44(), projection);
 }
+
+Camera CreateCameraOrtho(int width, int height, const NearFar& nearfar) {
+  Mat44 projection;
+  cml::matrix_orthographic_RH(projection, static_cast<float>(width),
+                              static_cast<float>(height), nearfar.near(),
+                              nearfar.far(), cml::z_clip_zero);
+  return Camera(CreateIdentityMat44(), projection);
+}
+
 }  // namespace euphoria

@@ -18,6 +18,7 @@ namespace euphoria {
 class TextureCache;
 class ShaderCache;
 class Settings;
+class Camera;
 
 namespace ui {
 
@@ -46,7 +47,7 @@ class Table {
 
   void LayoutCells(float width, float height);
 
-  void Render();
+  void Render(const Camera& camera);
 
  private:
   std::vector<Size> rows_;

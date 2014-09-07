@@ -13,6 +13,7 @@ Game related code.
 #include "euphoria/input-system.h"
 
 #include "euphoria-config.h"  // NOLINT this is the default way to include cmake files
+#include "euphoria/camera.h"
 
 namespace euphoria {
 
@@ -22,7 +23,6 @@ class ShaderCache;
 class World;
 class Lua;
 class InputAction;
-class Camera;
 class SystemContainer;
 class EntityList;
 class Settings;
@@ -139,7 +139,7 @@ class Game {
   std::unique_ptr<ShaderCache> shadercache_;
   std::unique_ptr<World> world_;
   std::unique_ptr<Lua> script_;
-  std::unique_ptr<Camera> camera_;
+  Camera camera_;
   std::unique_ptr<SystemContainer> container_;
   std::unique_ptr<EntityList> entities_;
   std::unique_ptr<OculusVr> oculusvr_;

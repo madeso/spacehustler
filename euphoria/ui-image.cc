@@ -9,7 +9,7 @@ namespace ui {
 
 Image::Image(std::shared_ptr<Texture> texture) { assert(this); }
 
-void Image::Draw() { assert(this); }
+void Image::Draw(const Camera& camera) { assert(this); }
 
 SizeRule Image::sizerule() const {
   assert(this);

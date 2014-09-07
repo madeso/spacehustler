@@ -81,10 +81,10 @@ void Cell::End() {
   PerformLayout();
 }
 
-void Cell::Draw() {
+void Cell::Draw(const Camera& camera) {
   assert(is_layout_paused_ == false);
   for (auto w : widgets_) {
-    w->Draw();
+    w->Draw(camera);
   }
 }
 

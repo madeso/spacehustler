@@ -124,10 +124,10 @@ void Table::LayoutCells(float width, float height) {
   }
 }
 
-void Table::Render() {
+void Table::Render(const Camera& camera) {
   assert(this);
   for (auto c : cells_) {
-    c->Draw();
+    c->Draw(camera);
   }
 }
 

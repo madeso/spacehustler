@@ -15,6 +15,8 @@ Camera related code.
 
 namespace euphoria {
 class Texture;
+class Camera;
+
 namespace ui {
 struct Patch {
   int x;
@@ -53,7 +55,7 @@ class NinepatchInstance {
   float GetMinimumWidth() const;
   float GetMinimumHeight() const;
 
-  void Render();
+  void Render(const Camera& camera);
 
  private:
   void UpdateMesh();
