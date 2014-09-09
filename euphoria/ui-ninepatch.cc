@@ -91,6 +91,10 @@ NinepatchInstance::NinepatchInstance(const Ninepatch& ninepatch,
                    static_cast<float>(texture->height())),
       mesh_(CreateNinePatchMesh(ninepatch, texture), program, texture) {
   assert(this);
+  assert(height_up_ > 0);
+  assert(height_down_ > 0);
+  assert(width_left_ > 0);
+  assert(width_right_ > 0);
 }
 
 NinepatchInstance::~NinepatchInstance() { assert(this); }
@@ -282,7 +286,7 @@ Ninepatch LoadNinepatch(const std::string& filename) {
   const std::string extension = root.get("extension", ".png").asString();
   const std::string& texture = StringReplace(filename, ".js", extension);
   Ninepatch ret(texture);
-  const std::string names[9] = {"rl", "um", "ur", "ml", "mm",
+  const std::string names[9] = {"ul", "um", "ur", "ml", "mm",
                                 "mr", "ll", "lm", "lr"};
   for (int i = 0; i < 9; ++i) {
     Patch p;
@@ -299,7 +303,7 @@ Ninepatch LoadNinepatch(const std::string& filename) {
 std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
     const Ninepatch& ninepatch, ShaderCache* shadercache,
     TextureCache* texturecache, const Settings& settings) {
-  auto shader = shadercache->GetOrCreate("ninepatch-shader.js", settings);
+  auto shader = shadercache->GetOrCreate("default.js", settings);
   auto texture = texturecache->GetOrCreate(
       TextureLoadingInstruction(ninepatch.texture(), WrapMode::CLAMP_TO_EDGE,
                                 WrapMode::CLAMP_TO_EDGE),

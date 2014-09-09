@@ -161,6 +161,7 @@ void ClearScreen() {
 
 void Game::SubRender(const Camera& camera) {
   world_->Render(camera);
+  hud_->Render();
   if (istweaking_) {
     RUNTWEAKCODE(tweak_renderer_->Render(camera));
   }
