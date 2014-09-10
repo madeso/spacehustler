@@ -40,6 +40,7 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
+* refactor texture loading to support redirection from files to dynamic fbos
 * hud/2d support
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html http://stackoverflow.com/questions/11864365/good-tutorial-on-pango https://github.com/lxnt/ex-sdl-freetype-harfbuzz/ http://www.wildfiregames.com/forum/index.php?showtopic=17365 http://www.reddit.com/r/gamedev/comments/2e8q5o/2d_game_c_gui_framework_with_manually/cjyyjv6 http://www.gamedev.net/topic/609842-freetypeglvboshaders/
 * fps counter
@@ -56,7 +57,6 @@ Planned Features and stuff that needs to be done
 * auto detect input system
 * sdl gamepad into input system
 * force feedback/haptics
-* refactor texture loading to support redirection from files to dynamic fbos
 * replace filehandling with physfs
 * menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale http://dukope.tumblr.com/post/83177288060/localizing-papers-please-papers-please-was
 * menu with dynamic reloading of all settings
