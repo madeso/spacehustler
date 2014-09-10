@@ -62,8 +62,11 @@ class TextureCache {
   std::shared_ptr<Texture> GetOrCreate(
       const TextureLoadingInstruction& instructions, const Settings& settings);
 
+  void Register(const std::string& file, std::shared_ptr<Texture> texture);
+
  private:
-  std::map<TextureLoadingInstruction, std::weak_ptr<Texture> > cache_;
+  std::map<std::string, std::shared_ptr<Texture>> overrides_;
+  std::map<TextureLoadingInstruction, std::weak_ptr<Texture>> cache_;
 };
 
 }  // namespace euphoria

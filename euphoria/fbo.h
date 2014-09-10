@@ -83,7 +83,7 @@ class Fbo : NonCopyable {
   int width_;
   int height_;
   std::unique_ptr<RenderBuffer> depth_buffer_;
-  std::unique_ptr<Texture> texture_;
+  std::shared_ptr<Texture> texture_;
 };
 
 /** Raii for updating a Fbo.
