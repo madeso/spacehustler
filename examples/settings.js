@@ -2,7 +2,7 @@
 	"controlscheme":"joystick"
 	, "width": 1280
 	, "height": 800
-	, "oculusvr": "oculusvr"
+	, "oculusvr": "auto"
 	, "anistropy": 1.0
 	, "joystick": true
 }
