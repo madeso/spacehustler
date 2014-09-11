@@ -4,6 +4,9 @@
 
 #include <cassert>
 
+#include "euphoria/opengl.h"
+#include "euphoria/ogldebug.h"
+
 #include "euphoria/camera.h"
 
 namespace euphoria {
@@ -19,7 +22,9 @@ Display::Display(const std::string& file, int width, int height,
 
 void Display::Render() {
   Camera camera = CreateCameraOrtho(width_, height_, NearFar(0.1f, 10.0f));
+  glDisable(GL_DEPTH_TEST);
   table_.Render(camera);
+  glEnable(GL_DEPTH_TEST);
 }
 
 }  // namespace ui

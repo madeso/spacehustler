@@ -13,7 +13,8 @@
 namespace euphoria {
 namespace ui {
 
-Ninepatch::Ninepatch(const std::string& texture) : texture_(texture) {
+Ninepatch::Ninepatch(const std::string& texture, float scale)
+    : texture_(texture), scale_(scale) {
   assert(this);
 }
 
@@ -22,6 +23,11 @@ Ninepatch::~Ninepatch() { assert(this); }
 const std::string& Ninepatch::texture() const {
   assert(this);
   return texture_;
+}
+
+float Ninepatch::scale() const {
+  assert(this);
+  return scale_;
 }
 
 void Ninepatch::SetPatchAt(unsigned int index, const Patch& patch) {
@@ -81,14 +87,10 @@ NinepatchInstance::NinepatchInstance(const Ninepatch& ninepatch,
                                      std::shared_ptr<Texture> texture)
     : texture_(texture),
       program_(program),
-      width_left_(ninepatch.GetPatchAt(0).width /
-                  static_cast<float>(texture->width())),
-      width_right_(ninepatch.GetPatchAt(2).width /
-                   static_cast<float>(texture->width())),
-      height_up_(ninepatch.GetPatchAt(0).height /
-                 static_cast<float>(texture->height())),
-      height_down_(ninepatch.GetPatchAt(6).height /
-                   static_cast<float>(texture->height())),
+      width_left_(ninepatch.GetPatchAt(0).width * ninepatch.scale()),
+      width_right_(ninepatch.GetPatchAt(2).width * ninepatch.scale()),
+      height_up_(ninepatch.GetPatchAt(0).height * ninepatch.scale()),
+      height_down_(ninepatch.GetPatchAt(6).height * ninepatch.scale()),
       mesh_(CreateNinePatchMesh(ninepatch, texture), program, texture) {
   assert(this);
   assert(height_up_ > 0);
@@ -285,7 +287,8 @@ Ninepatch LoadNinepatch(const std::string& filename) {
 
   const std::string extension = root.get("extension", ".png").asString();
   const std::string& texture = StringReplace(filename, ".js", extension);
-  Ninepatch ret(texture);
+  const float scale = root.get("scale", 1.0f).asFloat();
+  Ninepatch ret(texture, scale);
   const std::string names[9] = {"ul", "um", "ur", "ml", "mm",
                                 "mr", "ll", "lm", "lr"};
   for (int i = 0; i < 9; ++i) {

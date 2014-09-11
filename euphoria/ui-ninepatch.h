@@ -27,10 +27,12 @@ struct Patch {
 
 class Ninepatch {
  public:
-  explicit Ninepatch(const std::string& texture);
+  Ninepatch(const std::string& texture, float scale);
   ~Ninepatch();
 
   const std::string& texture() const;
+
+  float scale() const;
 
   void SetPatchAt(unsigned int index, const Patch& patch);
   const Patch& GetPatchAt(unsigned int index) const;
@@ -38,6 +40,7 @@ class Ninepatch {
  private:
   Patch patches_[9];
   const std::string texture_;
+  const float scale_;
 };
 
 class NinepatchInstance {
