@@ -45,7 +45,7 @@ const Patch& Ninepatch::GetPatchAt(unsigned int index) const {
 namespace {
 
 void AddPatch(internal::MeshPart* mesh, const Patch& patch,
-              std::shared_ptr<Texture> texture) {
+              std::shared_ptr<Texture> texture, unsigned int face) {
   assert(mesh);
   assert(texture);
   const float iw = texture->width();
@@ -55,7 +55,7 @@ void AddPatch(internal::MeshPart* mesh, const Patch& patch,
   const float w = patch.width / iw;
   const float h = patch.height / ih;
 
-  const unsigned int base = mesh->vertices.size();
+  const unsigned int base = face * 4;
 
   const float le = x;
   const float ri = x + w;
@@ -76,7 +76,7 @@ internal::MeshPart CreateNinePatchMesh(const Ninepatch& ninepatch,
                                        std::shared_ptr<Texture> texture) {
   internal::MeshPart ret;
   for (unsigned int i = 0; i < 9; ++i) {
-    AddPatch(&ret, ninepatch.GetPatchAt(i), texture);
+    AddPatch(&ret, ninepatch.GetPatchAt(i), texture, i);
   }
   return ret;
 }
@@ -209,7 +209,7 @@ void NinepatchInstance::UpdateMesh() {
   mesh_.SetVertex(4, v5);
   mesh_.SetVertex(5, v6);
   mesh_.SetVertex(6, v2);
-  mesh_.SetVertex(7, v3);
+  mesh_.SetVertex(7, v1);
 
   // upper right
   mesh_.SetVertex(8, v6);
@@ -263,7 +263,7 @@ void NinepatchInstance::Render(const Camera& camera) {
   program_->Bind();
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
-  program_->SetUniform("model", CreateIdentityMat44());
+  program_->SetUniform("model", CreateIdentityMat44());  // use position
   texture_->Bind(0);
 
   glClear(GL_DEPTH_BUFFER_BIT);
