@@ -176,82 +176,82 @@ void NinepatchInstance::UpdateMesh() {
 
   const float z = 1;
 
-  const Vec3 v0(xa, ya, z);
-  const Vec3 v1(xb, ya, z);
-  const Vec3 v2(xc, ya, z);
-  const Vec3 v3(xd, ya, z);
+  const Vec3 v0(xa, -ya, z);
+  const Vec3 v1(xb, -ya, z);
+  const Vec3 v2(xc, -ya, z);
+  const Vec3 v3(xd, -ya, z);
 
-  const Vec3 v4(xa, yb, z);
-  const Vec3 v5(xb, yb, z);
-  const Vec3 v6(xc, yb, z);
-  const Vec3 v7(xd, yb, z);
+  const Vec3 v4(xa, -yb, z);
+  const Vec3 v5(xb, -yb, z);
+  const Vec3 v6(xc, -yb, z);
+  const Vec3 v7(xd, -yb, z);
 
-  const Vec3 v8(xa, yc, z);
-  const Vec3 v9(xb, yc, z);
-  const Vec3 v10(xc, yc, z);
-  const Vec3 v11(xd, yc, z);
+  const Vec3 v8(xa, -yc, z);
+  const Vec3 v9(xb, -yc, z);
+  const Vec3 v10(xc, -yc, z);
+  const Vec3 v11(xd, -yc, z);
 
-  const Vec3 v12(xa, yd, z);
-  const Vec3 v13(xb, yd, z);
-  const Vec3 v14(xc, yd, z);
-  const Vec3 v15(xd, yd, z);
+  const Vec3 v12(xa, -yd, z);
+  const Vec3 v13(xb, -yd, z);
+  const Vec3 v14(xc, -yd, z);
+  const Vec3 v15(xd, -yd, z);
 
   // vertices are ordered counter clockwise
   // left down -> left right -> up right -> up left
 
   // upper left
-  mesh_.SetVertex(0, v4);
-  mesh_.SetVertex(1, v5);
-  mesh_.SetVertex(2, v1);
-  mesh_.SetVertex(3, v0);
+  mesh_.SetVertex(0, v0);
+  mesh_.SetVertex(1, v1);
+  mesh_.SetVertex(2, v5);
+  mesh_.SetVertex(3, v4);
 
   // upper middle
-  mesh_.SetVertex(4, v5);
-  mesh_.SetVertex(5, v6);
-  mesh_.SetVertex(6, v2);
-  mesh_.SetVertex(7, v1);
+  mesh_.SetVertex(4, v1);
+  mesh_.SetVertex(5, v2);
+  mesh_.SetVertex(6, v6);
+  mesh_.SetVertex(7, v5);
 
   // upper right
-  mesh_.SetVertex(8, v6);
-  mesh_.SetVertex(9, v7);
-  mesh_.SetVertex(10, v3);
-  mesh_.SetVertex(11, v2);
+  mesh_.SetVertex(8, v2);
+  mesh_.SetVertex(9, v3);
+  mesh_.SetVertex(10, v7);
+  mesh_.SetVertex(11, v6);
 
   // middle left
-  mesh_.SetVertex(12, v8);
-  mesh_.SetVertex(13, v9);
-  mesh_.SetVertex(14, v5);
-  mesh_.SetVertex(15, v4);
+  mesh_.SetVertex(12, v4);
+  mesh_.SetVertex(13, v5);
+  mesh_.SetVertex(14, v9);
+  mesh_.SetVertex(15, v8);
 
   // middle middle
-  mesh_.SetVertex(16, v9);
-  mesh_.SetVertex(17, v10);
-  mesh_.SetVertex(18, v6);
-  mesh_.SetVertex(19, v5);
+  mesh_.SetVertex(16, v5);
+  mesh_.SetVertex(17, v6);
+  mesh_.SetVertex(18, v10);
+  mesh_.SetVertex(19, v9);
 
   // middle right
-  mesh_.SetVertex(20, v10);
-  mesh_.SetVertex(21, v11);
-  mesh_.SetVertex(22, v7);
-  mesh_.SetVertex(23, v6);
+  mesh_.SetVertex(20, v6);
+  mesh_.SetVertex(21, v7);
+  mesh_.SetVertex(22, v11);
+  mesh_.SetVertex(23, v10);
 
   // lower left
-  mesh_.SetVertex(24, v12);
-  mesh_.SetVertex(25, v13);
-  mesh_.SetVertex(26, v9);
-  mesh_.SetVertex(27, v8);
+  mesh_.SetVertex(24, v8);
+  mesh_.SetVertex(25, v9);
+  mesh_.SetVertex(26, v13);
+  mesh_.SetVertex(27, v12);
 
   // lower middle
-  mesh_.SetVertex(28, v13);
-  mesh_.SetVertex(29, v14);
-  mesh_.SetVertex(30, v10);
-  mesh_.SetVertex(31, v9);
+  mesh_.SetVertex(28, v9);
+  mesh_.SetVertex(29, v10);
+  mesh_.SetVertex(30, v14);
+  mesh_.SetVertex(31, v13);
 
   // lower right
-  mesh_.SetVertex(32, v14);
-  mesh_.SetVertex(33, v15);
-  mesh_.SetVertex(34, v11);
-  mesh_.SetVertex(35, v10);
+  mesh_.SetVertex(32, v10);
+  mesh_.SetVertex(33, v11);
+  mesh_.SetVertex(34, v15);
+  mesh_.SetVertex(35, v14);
 
   // update mesh
   mesh_.UpdateMesh();
