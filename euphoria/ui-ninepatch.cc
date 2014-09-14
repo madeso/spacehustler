@@ -64,10 +64,10 @@ void AddPatch(internal::MeshPart* mesh, const Patch& patch,
 
   const float z = 0;
 
-  mesh->AddPoint(le, dn, z, le, dn);
-  mesh->AddPoint(ri, dn, z, ri, dn);
-  mesh->AddPoint(ri, up, z, ri, up);
-  mesh->AddPoint(le, up, z, le, up);
+  mesh->AddPoint(le, dn, z, le, up);
+  mesh->AddPoint(ri, dn, z, ri, up);
+  mesh->AddPoint(ri, up, z, ri, dn);
+  mesh->AddPoint(le, up, z, le, dn);
   mesh->AddFace(base + 2, base + 1, base + 0);
   mesh->AddFace(base + 3, base + 2, base + 0);
 }
