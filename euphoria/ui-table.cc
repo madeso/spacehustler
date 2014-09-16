@@ -109,6 +109,10 @@ void Table::LayoutCells(float width, float height) {
   assert(width > 0.0f);
   assert(height > 0.0f);
 
+  // either this layout wrong or it renders wrong
+  // render start at center screen and goes - 0 +, but this expects
+  // that it starts at top and goes down
+
   const std::vector<float> widths = CalculateSizes(columns_, width);
   const std::vector<float> heights = CalculateSizes(rows_, height);
 

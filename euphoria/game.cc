@@ -107,8 +107,9 @@ Game::Game(const Settings& settings)
 
   bool ovr = false;
 
-  hud_.reset(new ui::Display("hud.js", 100.0f, 100.0f, texturecache_.get(),
-                             shadercache_.get(), settings));
+  hud_.reset(new ui::Display("hud.js", settings.width(), settings.height(),
+                             texturecache_.get(), shadercache_.get(),
+                             settings));
 
   if (settings.oculus_vr_detection() != OculusVrDetection::NORMAL) {
     oculusvr_.reset(new OculusVr());

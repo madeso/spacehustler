@@ -10,6 +10,8 @@
 #include "euphoria/stringutils.h"
 #include "json/json.h"
 
+#include "euphoria/tweak.h"
+
 namespace euphoria {
 namespace ui {
 
@@ -263,7 +265,9 @@ void NinepatchInstance::Render(const Camera& camera) {
   program_->Bind();
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
-  program_->SetUniform("model", CreateIdentityMat44());  // use position
+  Vec3 p3(position_, 0);
+  TWEAK(p3);
+  program_->SetUniform("model", CreateMat44(p3));
   texture_->Bind(0);
 
   glClear(GL_DEPTH_BUFFER_BIT);
