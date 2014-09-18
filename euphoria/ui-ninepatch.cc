@@ -168,14 +168,15 @@ void NinepatchInstance::UpdateMesh() {
   d 12-------13--------14-----15
   */
 
+  // 0,0 is in lower left, positive direction right and down
   const float xa = 0;
-  const float ya = 0;
+  const float ya = -size_[1];
   const float xb = width_left_;
-  const float yb = height_up_;
+  const float yb = -(height_down_ + middle_height);
   const float xc = width_left_ + middle_width;
-  const float yc = height_up_ + middle_height;
+  const float yc = -height_down_;
   const float xd = size_[0];
-  const float yd = size_[1];
+  const float yd = 0;
 
   const float z = 1;
 
