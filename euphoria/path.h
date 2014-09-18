@@ -20,16 +20,26 @@ class Path {
   bool IsDirectory() const;
 
   const std::string GetFileName() const;
-  const std::string GetExtension();
+  const std::string GetExtension() const;
+  const std::string GetFile() const;
 
   const Path GetDirectory() const;
+
+  const Path ChangeDirectory(const std::string& cd) const;
+  const Path File(const std::string& cd) const;
+
+  /** Change the extension of the filename.
+  @param ext the extension, should start with a dot
+  @returns the path with the new extension
+   */
+  const Path ChangeExtension(const std::string& ext) const;
 
   const std::string GetOsPath() const;
 
   static const Path ROOT;
 
  private:
-  std::string path_;
+  const std::string path_;
 };
 
 }  // namespace euphoria

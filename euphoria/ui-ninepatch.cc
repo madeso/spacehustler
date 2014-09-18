@@ -8,6 +8,7 @@
 #include "euphoria/ui-ninepatch.h"
 #include "euphoria/ogldebug.h"
 #include "euphoria/stringutils.h"
+#include "euphoria/path.h"
 #include "json/json.h"
 
 #include "euphoria/tweak.h"
@@ -289,8 +290,13 @@ Ninepatch LoadNinepatch(const std::string& filename) {
                                  << reader.getFormattedErrorMessages());
   }
 
-  const std::string extension = root.get("extension", ".png").asString();
-  const std::string& texture = StringReplace(filename, ".js", extension);
+  Path pfilename(filename);
+
+  const std::string texturefile =
+      root.get("texture", pfilename.ChangeExtension(".png").GetFile())
+          .asString();
+  const std::string& texture =
+      pfilename.GetDirectory().File(texturefile).GetOsPath();
   const float scale = root.get("scale", 1.0f).asFloat();
   Ninepatch ret(texture, scale);
   const std::string names[9] = {"ul", "um", "ur", "ml", "mm",

@@ -8,7 +8,7 @@
 #include "euphoria/stringutils.h"
 
 namespace euphoria {
-const Path Path::ROOT = Path("/");
+const Path Path::ROOT = Path("");
 
 Path::Path(const std::string& path) : path_(path) {
   assert(this);
@@ -22,7 +22,7 @@ bool Path::IsFile() const {
 
 bool Path::IsDirectory() const {
   assert(this);
-  return EndsWith(path_, "/");
+  return path_.empty() || EndsWith(path_, "/");
 }
 
 namespace {
@@ -60,17 +60,55 @@ std::pair<std::string, std::string> SplitFileExtension(
 
 const std::string Path::GetFileName() const {
   assert(this);
-  return SplitFileExtension(SplitFolderFile(path_).second).first;
+  assert(IsFile());
+  return SplitFileExtension(GetFile()).first;
 }
 
-const std::string Path::GetExtension() {
+const std::string Path::GetExtension() const {
   assert(this);
-  return SplitFileExtension(SplitFolderFile(path_).second).second;
+  assert(IsFile());
+  return SplitFileExtension(GetFile()).second;
+}
+
+const std::string Path::GetFile() const {
+  assert(this);
+  assert(IsFile());
+  return SplitFolderFile(path_).second;
 }
 
 const Path Path::GetDirectory() const {
   assert(this);
   return SplitFolderFile(path_).first;
+}
+
+const Path Path::ChangeDirectory(const std::string& cd) const {
+  assert(this);
+  assert(IsDirectory());
+
+  if (Path(cd).IsDirectory()) {
+    return Path(path_ + cd);
+  } else {
+    return Path(path_ + cd + "/");
+  }
+}
+
+const Path Path::File(const std::string& file) const {
+  assert(this);
+  assert(IsDirectory());
+  assert(Path(file).IsFile());
+  const Path ret(path_ + file);
+  assert(ret.IsFile());
+  return ret;
+}
+
+const Path Path::ChangeExtension(const std::string& ext) const {
+  assert(this);
+  assert(StartsWith(ext, "."));
+  const auto folderfile = SplitFolderFile(path_);
+  const auto filext = SplitFileExtension(folderfile.second);
+  const Path ret = folderfile.first.File(filext.first + ext);
+  assert(ret.IsFile());
+  return ret;
 }
 
 const std::string Path::GetOsPath() const {
