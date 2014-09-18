@@ -117,8 +117,9 @@ void Table::LayoutCells(float width, float height) {
   const std::vector<float> heights = CalculateSizes(rows_, height);
 
   for (auto c : cells_) {
-    const Vec2 p = Vec2(CalculatePositionValue(c, widths, 0),
-                        CalculatePositionValue(c, heights, 1));
+    // subtract width/height divided by half b/c 0,0 is in the middle
+    const Vec2 p = Vec2(CalculatePositionValue(c, widths, 0) - width / 2,
+                        CalculatePositionValue(c, heights, 1) - height / 2);
     const Vec2 s = Vec2(CalculateSizeValue(c, widths, 0),
                         CalculateSizeValue(c, heights, 1));
     c->Begin();
