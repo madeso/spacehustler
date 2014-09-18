@@ -2,8 +2,8 @@
 
 #include "euphoria/path.h"
 
-#include <cassert>
 #include <utility>
+#include <cassert>
 
 #include "euphoria/stringutils.h"
 
