@@ -21,6 +21,8 @@ Display::Display(const std::string& file, int width, int height,
 }
 
 void Display::Render() {
+  /// @todo introduce curved quad rendering, like
+  /// https://www.assetstore.unity3d.com/en/#!/content/19956
   Camera camera = CreateCameraOrtho(width_, height_, NearFar(0.1f, 10.0f));
   glDisable(GL_DEPTH_TEST);
   table_.Render(camera);
