@@ -12,12 +12,15 @@ Camera related code.
 
 namespace euphoria {
 class Texture;
-class TextureCache;
+class DynamicQuad;
+class ShaderCache;
+class Settings;
 
 namespace ui {
 class Image : public Widget {
  public:
-  explicit Image(std::shared_ptr<Texture> texture);
+  Image(const Settings& settings, ShaderCache* cache,
+        std::shared_ptr<Texture> texture);
 
   void Draw(const Camera& camera) override;
 
@@ -26,8 +29,7 @@ class Image : public Widget {
 
  private:
   SizeRule sizerule_;
-  std::shared_ptr<Texture> texture_;
-
+  std::shared_ptr<DynamicQuad> quad_;
   // dynamic mesh
 };
 }  // namespace ui

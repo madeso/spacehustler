@@ -76,10 +76,11 @@ std::shared_ptr<Widget> CreateWidget(const Json::Value data,
   const std::string type = ToLower(Trim(data.get("type", "").asCString()));
   if (type == "image") {
     const std::string& path = data.get("src", "").asCString();
-    return std::shared_ptr<Widget>(new Image(tcache->GetOrCreate(
-        TextureLoadingInstruction(path, WrapMode::CLAMP_TO_EDGE,
-                                  WrapMode::CLAMP_TO_EDGE),
-        settings)));
+    return std::shared_ptr<Widget>(new Image(
+        settings, scache, tcache->GetOrCreate(TextureLoadingInstruction(
+                                                  path, WrapMode::CLAMP_TO_EDGE,
+                                                  WrapMode::CLAMP_TO_EDGE),
+                                              settings)));
   } else if (type == "progressbar") {
     const std::string ninepatch_path = data.get("ninepatch", "").asString();
     const Ninepatch ninepatch = LoadNinepatch(ninepatch_path);

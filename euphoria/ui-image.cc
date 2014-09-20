@@ -4,12 +4,25 @@
 
 #include "euphoria/ui-image.h"
 
+#include "euphoria/dynamicquad.h"
+#include "euphoria/shadercache.h"
+
 namespace euphoria {
 namespace ui {
 
-Image::Image(std::shared_ptr<Texture> texture) { assert(this); }
+Image::Image(const Settings& settings, ShaderCache* scache,
+             std::shared_ptr<Texture> texture)
+    : quad_(new DynamicQuad(scache->GetOrCreate("default.js", settings),
+                            texture)) {
+  assert(this);
+}
 
-void Image::Draw(const Camera& camera) { assert(this); }
+void Image::Draw(const Camera& camera) {
+  assert(this);
+  quad_->set_position(position());
+  quad_->set_size(size());
+  quad_->Render(camera);
+}
 
 SizeRule Image::sizerule() const {
   assert(this);
