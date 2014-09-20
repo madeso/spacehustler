@@ -15,9 +15,9 @@ namespace euphoria {
 class ShaderCache;
 class TextureCache;
 class Settings;
-namespace ui {
 class NinepatchInstance;
 class Ninepatch;
+namespace ui {
 
 class ProgressBar : public Widget {
  public:

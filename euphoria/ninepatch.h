@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_UI_NINEPATCH_H_
-#define EUPHORIA_UI_NINEPATCH_H_
+#ifndef EUPHORIA_NINEPATCH_H_
+#define EUPHORIA_NINEPATCH_H_
 
 #include <memory>
 #include <string>
@@ -17,7 +17,6 @@ namespace euphoria {
 class Texture;
 class Camera;
 
-namespace ui {
 struct Patch {
   int x;
   int y;
@@ -80,7 +79,6 @@ std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
     const Ninepatch& ninepatch, ShaderCache* shadercache,
     TextureCache* texturecache, const Settings& settings);
 
-}  // namespace ui
 }  // namespace euphoria
 
-#endif  // EUPHORIA_UI_NINEPATCH_H_
+#endif  // EUPHORIA_NINEPATCH_H_

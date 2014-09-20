@@ -5,7 +5,7 @@
 #include <fstream>  // NOLINT for loading data
 
 #include "euphoria/str.h"
-#include "euphoria/ui-ninepatch.h"
+#include "euphoria/ninepatch.h"
 #include "euphoria/ogldebug.h"
 #include "euphoria/stringutils.h"
 #include "euphoria/path.h"
@@ -14,7 +14,6 @@
 #include "euphoria/tweak.h"
 
 namespace euphoria {
-namespace ui {
 
 Ninepatch::Ninepatch(const std::string& texture, float scale)
     : texture_(texture), scale_(scale) {
@@ -327,5 +326,4 @@ std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
   return ret;
 }
 
-}  // namespace ui
 }  // namespace euphoria

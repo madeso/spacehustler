@@ -14,7 +14,7 @@
 #include "euphoria/shadercache.h"
 #include "euphoria/ui-progressbar.h"
 #include "euphoria/ui-image.h"
-#include "euphoria/ui-ninepatch.h"
+#include "euphoria/ninepatch.h"
 
 #include "json/json.h"
 
