@@ -167,37 +167,37 @@ void NinepatchInstance::UpdateMesh() {
   d 12-------13--------14-----15
   */
 
-  // 0,0 is in lower left, positive direction right and down
+  // 0,0 is in upper left, positive direction right and up
   const float xa = 0;
-  const float ya = -size_[1];
+  const float ya = 0;
   const float xb = width_left_;
-  const float yb = -(height_down_ + middle_height);
+  const float yb = -height_up_;
   const float xc = width_left_ + middle_width;
-  const float yc = -height_down_;
+  const float yc = -(height_up_ + middle_height);
   const float xd = size_[0];
-  const float yd = 0;
+  const float yd = -size_[1];
 
   const float z = 1;
 
-  const Vec3 v0(xa, -ya, z);
-  const Vec3 v1(xb, -ya, z);
-  const Vec3 v2(xc, -ya, z);
-  const Vec3 v3(xd, -ya, z);
+  const Vec3 v0(xa, ya, z);
+  const Vec3 v1(xb, ya, z);
+  const Vec3 v2(xc, ya, z);
+  const Vec3 v3(xd, ya, z);
 
-  const Vec3 v4(xa, -yb, z);
-  const Vec3 v5(xb, -yb, z);
-  const Vec3 v6(xc, -yb, z);
-  const Vec3 v7(xd, -yb, z);
+  const Vec3 v4(xa, yb, z);
+  const Vec3 v5(xb, yb, z);
+  const Vec3 v6(xc, yb, z);
+  const Vec3 v7(xd, yb, z);
 
-  const Vec3 v8(xa, -yc, z);
-  const Vec3 v9(xb, -yc, z);
-  const Vec3 v10(xc, -yc, z);
-  const Vec3 v11(xd, -yc, z);
+  const Vec3 v8(xa, yc, z);
+  const Vec3 v9(xb, yc, z);
+  const Vec3 v10(xc, yc, z);
+  const Vec3 v11(xd, yc, z);
 
-  const Vec3 v12(xa, -yd, z);
-  const Vec3 v13(xb, -yd, z);
-  const Vec3 v14(xc, -yd, z);
-  const Vec3 v15(xd, -yd, z);
+  const Vec3 v12(xa, yd, z);
+  const Vec3 v13(xb, yd, z);
+  const Vec3 v14(xc, yd, z);
+  const Vec3 v15(xd, yd, z);
 
   // vertices are ordered counter clockwise
   // left down -> left right -> up right -> up left

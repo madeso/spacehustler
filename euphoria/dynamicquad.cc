@@ -77,7 +77,7 @@ void DynamicQuad::UpdateMesh() {
   b 2--------3
   */
 
-  // 0,0 is in lower left, positive direction right and down
+  // 0,0 is in upper left, positive direction right and up
   const float xa = 0;
   const float ya = 0;
   const float xb = size_[0];
