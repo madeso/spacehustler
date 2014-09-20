@@ -70,17 +70,33 @@ LayoutType GetLayoutType(const std::string& layout_name) {
                                  << name);
 }
 
+SizeRule GetSizeRuleType(const std::string& sizerule_name) {
+  const auto name = ToLower(Trim(sizerule_name));
+  if (name == "aspectfill")
+    return SizeRule::ASPECT_FILL;
+  else if (name == "aspectfit")
+    return SizeRule::ASPECT_FIT;
+  else if (name == "fill")
+    return SizeRule::FILL;
+  else
+    throw std::logic_error(
+        Str() << "Unable to determine sizerule name name from " << name);
+}
+
 std::shared_ptr<Widget> CreateWidget(const Json::Value data,
                                      TextureCache* tcache, ShaderCache* scache,
                                      const Settings& settings) {
   const std::string type = ToLower(Trim(data.get("type", "").asCString()));
   if (type == "image") {
     const std::string& path = data.get("src", "").asCString();
-    return std::shared_ptr<Widget>(new Image(
-        settings, scache, tcache->GetOrCreate(TextureLoadingInstruction(
-                                                  path, WrapMode::CLAMP_TO_EDGE,
-                                                  WrapMode::CLAMP_TO_EDGE),
-                                              settings)));
+    const SizeRule rule =
+        GetSizeRuleType(data.get("sizerule", "none-entered").asCString());
+    return std::shared_ptr<Widget>(
+        new Image(rule, settings, scache,
+                  tcache->GetOrCreate(
+                      TextureLoadingInstruction(path, WrapMode::CLAMP_TO_EDGE,
+                                                WrapMode::CLAMP_TO_EDGE),
+                      settings)));
   } else if (type == "progressbar") {
     const std::string ninepatch_path = data.get("ninepatch", "").asString();
     const Ninepatch ninepatch = LoadNinepatch(ninepatch_path);

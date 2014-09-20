@@ -19,7 +19,7 @@ class Settings;
 namespace ui {
 class Image : public Widget {
  public:
-  Image(const Settings& settings, ShaderCache* cache,
+  Image(SizeRule sizerule, const Settings& settings, ShaderCache* cache,
         std::shared_ptr<Texture> texture);
 
   void Draw(const Camera& camera) override;

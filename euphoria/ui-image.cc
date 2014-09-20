@@ -10,9 +10,10 @@
 namespace euphoria {
 namespace ui {
 
-Image::Image(const Settings& settings, ShaderCache* scache,
+Image::Image(SizeRule sizerule, const Settings& settings, ShaderCache* scache,
              std::shared_ptr<Texture> texture)
-    : quad_(new DynamicQuad(scache->GetOrCreate("default.js", settings),
+    : sizerule_(sizerule),
+      quad_(new DynamicQuad(scache->GetOrCreate("default.js", settings),
                             texture)) {
   assert(this);
 }
@@ -20,7 +21,7 @@ Image::Image(const Settings& settings, ShaderCache* scache,
 void Image::Draw(const Camera& camera) {
   assert(this);
   quad_->set_position(position());
-  quad_->set_size(size());
+  quad_->set_size(GetSize(sizerule(), Vec2(1, 1), size()));
   quad_->Render(camera);
 }
 

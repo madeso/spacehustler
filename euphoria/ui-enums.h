@@ -7,6 +7,8 @@ Camera related code.
 #ifndef EUPHORIA_UI_ENUMS_H_
 #define EUPHORIA_UI_ENUMS_H_
 
+#include "euphoria/math.h"
+
 namespace euphoria {
 namespace ui {
 
@@ -26,7 +28,7 @@ enum class SizeRule {
   NONE,
 
   /// size to fill
-  FIT,
+  FILL,
 
   // size to aspect, fill
   ASPECT_FILL,
@@ -34,6 +36,8 @@ enum class SizeRule {
   // size to aspect, fit
   ASPECT_FIT
 };
+
+const Vec2 GetSize(SizeRule rule, Vec2 size, Vec2 available);
 
 }  // namespace ui
 }  // namespace euphoria
