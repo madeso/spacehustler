@@ -14,6 +14,18 @@ namespace euphoria {
 class Camera;
 
 namespace ui {
+
+/** A Widget to be placed in 2d.
+  */
+
+/*
+ (0,0)   w
+   +-----------+
+   |           |
+ h |           |
+   |           |
+   +-----------+
+*/
 class Widget {
  public:
   Widget();
