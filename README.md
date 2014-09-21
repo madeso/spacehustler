@@ -61,22 +61,25 @@ Planned Features and stuff that needs to be done
 * sdl gamepad into input system
 * force feedback/haptics
 * improve camera system http://www.gamedev.net/topic/427197-third-person-camera-system/#entry3842719 http://www.gamasutra.com/view/feature/132456/realtime_cameras__navigation_and_.php?print=1 http://www.gamasutra.com/blogs/EricUndersander/20131001/201382/Accurate_Collision_Zoom_for_Cameras.php http://www.gamedev.net/page/resources/_/technical/game-programming/a-simple-third-person-camera-r1591
-* replace filehandling with physfs
+* replace filehandling with physfs http://blog.wolfire.com/2012/05/Game-File-Systems-File-Paths http://gamedev.stackexchange.com/questions/33126/unicode-usage-in-video-games
 * menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale http://dukope.tumblr.com/post/83177288060/localizing-papers-please-papers-please-was
 * menu with dynamic reloading of all settings
 * FEEDBACK!
 
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
+* fix linux + osx build, http://kcachegrind.sourceforge.net/ http://valgrind.org/
+* improve rendering http://www.gamedev.net/topic/660665-sortingstructuring-renderables-and-cache-locality/ http://www.gamedev.net/topic/660883-best-way-to-make-game-render-most-efficient/
 * static_assert
 - rewrite to use/support fixed point arithmetic but let rendering be float/doubles - http://gameprogrammer.com/4-fixed.html http://trac.bookofhook.com/bookofhook/trac.cgi/wiki/IntroductionToFixedPointMath http://en.wikipedia.org/wiki/Libfixmath https://github.com/PetteriAimonen/libfixmatrix
 * change cml to glm - glm lacks documentation & has has design flaws inherited from glsl but works better with intellisense & seems more popular https://www.opengl.org/discussion_boards/showthread.php/180191-glm-length(glm-vec)-and-glm-vec-length
-* fix osx build
 * upgrade assimp
 * integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
 * port to android? (physfs: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/
 * add loading of shaders from files with preprocessor, shader editor? http://www.acegikmo.com/shaderforge/ https://code.google.com/p/wxworkspaceview/ http://sourceforge.net/projects/wxsf/ https://code.google.com/p/junkyardcode/source/browse/#svn/trunk/connex
+* splines for cloth and camera movements? http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/real-time-cloth-simulation-with-b-spline-surfaces-r3814
+* benchmark system
 * lights and shaddows
   - depth map shadows?
   - depth shadow maps/volumes?
@@ -85,7 +88,8 @@ Planned Features and stuff that needs to be done
   - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
 * change from json to yaml/protobuf?
-* push new code/files + lua debugger/console via http/ighttpd http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1 http://www.gamedev.net/blog/355/entry-2259495-why-you-should-embed-a-web-server-in-your-game-engine/
+* push new code/files + lua debugger/console via http/ighttpd or gideros http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1 http://www.gamedev.net/blog/355/entry-2259495-why-you-should-embed-a-web-server-in-your-game-engine/ http://giderosmobile.com/forum/discussion/5243/gideros-source-released
+* add features from this http://vimeo.com/36579366
 * lighttable integration?
 * fix luadocgen
 * Investigate constexpr
