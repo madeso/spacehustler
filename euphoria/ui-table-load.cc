@@ -83,6 +83,33 @@ SizeRule GetSizeRuleType(const std::string& sizerule_name) {
         Str() << "Unable to determine sizerule name name from " << name);
 }
 
+Alignment GetAlignment(const std::string& alignment_name) {
+  const auto name = ToLower(Trim(alignment_name));
+
+  if (name == "upperleft") {
+    return Alignment::UPPER_LEFT;
+  } else if (name == "left") {
+    return Alignment::LEFT;
+  } else if (name == "lowerleft") {
+    return Alignment::LOWER_LEFT;
+  } else if (name == "top") {
+    return Alignment::TOP;
+  } else if (name == "center") {
+    return Alignment::CENTER;
+  } else if (name == "down") {
+    return Alignment::DOWN;
+  } else if (name == "upperright") {
+    return Alignment::UPPER_RIGHT;
+  } else if (name == "right") {
+    return Alignment::RIGHT;
+  } else if (name == "lowerright") {
+    return Alignment::LOWER_RIGHT;
+  } else {
+    throw std::logic_error(
+        Str() << "Unable to determine alignment name name from " << name);
+  }
+}
+
 std::shared_ptr<Widget> CreateWidget(const Json::Value data,
                                      TextureCache* tcache, ShaderCache* scache,
                                      const Settings& settings) {
@@ -91,8 +118,10 @@ std::shared_ptr<Widget> CreateWidget(const Json::Value data,
     const std::string& path = data.get("src", "").asCString();
     const SizeRule rule =
         GetSizeRuleType(data.get("sizerule", "none-entered").asCString());
+    const Alignment alignment =
+        GetAlignment(data.get("align", "none").asCString());
     return std::shared_ptr<Widget>(
-        new Image(rule, settings, scache,
+        new Image(rule, alignment, settings, scache,
                   tcache->GetOrCreate(
                       TextureLoadingInstruction(path, WrapMode::CLAMP_TO_EDGE,
                                                 WrapMode::CLAMP_TO_EDGE),

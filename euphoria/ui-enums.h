@@ -13,13 +13,13 @@ namespace euphoria {
 namespace ui {
 
 enum class Unit {
-  // in pixels
+  /// in pixels
   PIXEL,
 
-  // in percent of size
+  /// in percent of size
   RELATIVE,
 
-  // in percentage of the rest of the available area
+  /// in percentage of the rest of the available area
   AVAILABLE
 };
 
@@ -37,7 +37,22 @@ enum class SizeRule {
   ASPECT_FIT
 };
 
+enum class Alignment {
+  UPPER_LEFT,
+  LEFT,
+  LOWER_LEFT,
+  TOP,
+  CENTER,
+  DOWN,
+  UPPER_RIGHT,
+  RIGHT,
+  LOWER_RIGHT
+};
+
 const Vec2 GetSize(SizeRule rule, Vec2 size, Vec2 available);
+
+// returns offset from top left, positive is right & up
+const Vec2 GetPosition(Alignment alignment, Vec2 size, Vec2 available);
 
 }  // namespace ui
 }  // namespace euphoria

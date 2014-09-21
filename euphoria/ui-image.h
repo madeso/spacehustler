@@ -19,16 +19,14 @@ class Settings;
 namespace ui {
 class Image : public Widget {
  public:
-  Image(SizeRule sizerule, const Settings& settings, ShaderCache* cache,
-        std::shared_ptr<Texture> texture);
+  Image(SizeRule sizerule, Alignment alignment, const Settings& settings,
+        ShaderCache* cache, std::shared_ptr<Texture> texture);
 
   void Draw(const Camera& camera) override;
 
-  SizeRule sizerule() const;
-  void set_sizerule(SizeRule sizerule);
-
  private:
   SizeRule sizerule_;
+  Alignment alignment_;
   std::shared_ptr<DynamicQuad> quad_;
   // dynamic mesh
 };
