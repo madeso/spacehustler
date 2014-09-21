@@ -64,6 +64,7 @@ Planned Features and stuff that needs to be done
 * force feedback/haptics
 * improve camera system http://www.gamedev.net/topic/427197-third-person-camera-system/#entry3842719 http://www.gamasutra.com/view/feature/132456/realtime_cameras__navigation_and_.php?print=1 http://www.gamasutra.com/blogs/EricUndersander/20131001/201382/Accurate_Collision_Zoom_for_Cameras.php http://www.gamedev.net/page/resources/_/technical/game-programming/a-simple-third-person-camera-r1591
 * menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale http://dukope.tumblr.com/post/83177288060/localizing-papers-please-papers-please-was
+http://www.fontspace.com/sil-international/scheherazade http://www.fontspace.com/arabeyes/ae-cortoba http://www.fontspace.com/total-fontgeek-dtf-ltd/grishenko-opiyat-nbp http://www.fontspace.com/sil-international/galatia-sil http://www.fontspace.com/sil-international
 * menu with dynamic reloading of all settings
 * FEEDBACK!
 
