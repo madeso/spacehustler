@@ -40,7 +40,6 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* dynamic quad
 * padding
 * mutiple tables per display
 * curved ui
