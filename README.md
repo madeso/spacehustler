@@ -52,6 +52,8 @@ Planned Features and stuff that needs to be done
 * disable oculus hsw in debug builds? https://developer.oculusvr.com/forums/viewtopic.php?f=20&t=11057&start=160#p182737
 * transition from uniforms to uniform interface blocks in glsl: http://www.opengl.org/wiki/Interface_Block_(GLSL) http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/3490-2/
 * debug overlay
+* refactor and link to http://gameprogrammingpatterns.com/ for the patterns used, and consider using more?
+* rework entity/component layout to a more efficient version http://bitsquid.blogspot.se/2014/08/building-data-oriented-entity-system.html
 * 3d rendering to hud
 * physics motor support
 * add support for sixense (razer hydra/stem system)
