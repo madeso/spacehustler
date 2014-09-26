@@ -52,7 +52,7 @@ Planned Features and stuff that needs to be done
 * complete oculus rift support, use DwmEnableComposition to turn off Aero https://gist.github.com/dghost/8ea97e3d4f55590d75e0 https://developer.oculusvr.com/forums/viewtopic.php?f=34&t=13682&p=182396#p182396
 * disable oculus hsw in debug builds? https://developer.oculusvr.com/forums/viewtopic.php?f=20&t=11057&start=160#p182737
 * transition from uniforms to uniform interface blocks in glsl: http://www.opengl.org/wiki/Interface_Block_(GLSL) http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/3490-2/
-* replace lua with angelscript, easier api, static typed, like c++ so could easily write a converter, https://github.com/BlindMindStudios/AngelScript-JIT-Compiler http://accu.org/index.php/journals/1608 http://damianpaz.wordpress.com/2012/04/30/adding-angelscript-scripting-to-your-c-application/ http://www.gamedev.net/topic/627784-overrid-c-methods-from-angelscript-possible-alternatives/
+* replace lua with angelscript, easier api, static typed, like c++ so could easily write a converter, https://github.com/BlindMindStudios/AngelScript-JIT-Compiler http://accu.org/index.php/journals/1608 http://damianpaz.wordpress.com/2012/04/30/adding-angelscript-scripting-to-your-c-application/ http://www.gamedev.net/topic/627784-overrid-c-methods-from-angelscript-possible-alternatives/ or typescrip/javascript
 * debug overlay
 * refactor and link to http://gameprogrammingpatterns.com/ for the patterns used, and consider using more?
 * rework entity/component layout to a more efficient version http://bitsquid.blogspot.se/2014/08/building-data-oriented-entity-system.html
