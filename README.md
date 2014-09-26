@@ -47,6 +47,7 @@ Planned Features and stuff that needs to be done
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html http://stackoverflow.com/questions/11864365/good-tutorial-on-pango https://github.com/lxnt/ex-sdl-freetype-harfbuzz/ http://www.wildfiregames.com/forum/index.php?showtopic=17365 http://www.reddit.com/r/gamedev/comments/2e8q5o/2d_game_c_gui_framework_with_manually/cjyyjv6 http://www.gamedev.net/topic/609842-freetypeglvboshaders/
 * fps counter
 * change from json to yaml/protobuf?
+* super tool that edit all files, with dependency checker http://bitsquid.blogspot.se/2010/10/dependency-checker.html and later dropbox like push funtionality
 * replace filehandling with physfs http://blog.wolfire.com/2012/05/Game-File-Systems-File-Paths http://gamedev.stackexchange.com/questions/33126/unicode-usage-in-video-games
 * complete oculus rift support, use DwmEnableComposition to turn off Aero https://gist.github.com/dghost/8ea97e3d4f55590d75e0 https://developer.oculusvr.com/forums/viewtopic.php?f=34&t=13682&p=182396#p182396
 * disable oculus hsw in debug builds? https://developer.oculusvr.com/forums/viewtopic.php?f=20&t=11057&start=160#p182737
