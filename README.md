@@ -45,7 +45,8 @@ Planned Features and stuff that needs to be done
 * curved ui
 * hud<->game script access
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html http://stackoverflow.com/questions/11864365/good-tutorial-on-pango https://github.com/lxnt/ex-sdl-freetype-harfbuzz/ http://www.wildfiregames.com/forum/index.php?showtopic=17365 http://www.reddit.com/r/gamedev/comments/2e8q5o/2d_game_c_gui_framework_with_manually/cjyyjv6 http://www.gamedev.net/topic/609842-freetypeglvboshaders/
-* fps counter
+* integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
+* fps counter, through viewback?
 * change from json to yaml/protobuf?
 * super tool that edit all files, with dependency checker http://bitsquid.blogspot.se/2010/10/dependency-checker.html and later dropbox like push funtionality
 * replace filehandling with physfs http://blog.wolfire.com/2012/05/Game-File-Systems-File-Paths http://gamedev.stackexchange.com/questions/33126/unicode-usage-in-video-games
@@ -67,8 +68,8 @@ Planned Features and stuff that needs to be done
 * sdl gamepad into input system
 * force feedback/haptics
 * improve camera system http://www.gamedev.net/topic/427197-third-person-camera-system/#entry3842719 http://www.gamasutra.com/view/feature/132456/realtime_cameras__navigation_and_.php?print=1 http://www.gamasutra.com/blogs/EricUndersander/20131001/201382/Accurate_Collision_Zoom_for_Cameras.php http://www.gamedev.net/page/resources/_/technical/game-programming/a-simple-third-person-camera-r1591
-* menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale http://dukope.tumblr.com/post/83177288060/localizing-papers-please-papers-please-was
-http://www.fontspace.com/sil-international/scheherazade http://www.fontspace.com/arabeyes/ae-cortoba http://www.fontspace.com/total-fontgeek-dtf-ltd/grishenko-opiyat-nbp http://www.fontspace.com/sil-international/galatia-sil http://www.fontspace.com/sil-international
+* menu system with localization support, polyglot support? http://www.reddit.com/r/gamedev/comments/20ketu/introducing_polyglot_an_open_google_doc_with http://msdn.microsoft.com/en-us/library/dd318136%28VS.85%29.aspx http://en.cppreference.com/w/cpp/locale/locale/locale http://dukope.tumblr.com/post/83177288060/localizing-papers-please-papers-please-was http://kotaku.com/5955855/the-ten-commandments-of-video-game-menus/+kirkhamilton
+Fonts: http://www.fontspace.com/sil-international/scheherazade http://www.fontspace.com/arabeyes/ae-cortoba http://www.fontspace.com/total-fontgeek-dtf-ltd/grishenko-opiyat-nbp http://www.fontspace.com/sil-international/galatia-sil http://www.fontspace.com/sil-international
 * menu with dynamic reloading of all settings
 * FEEDBACK!
 
@@ -80,7 +81,6 @@ http://www.fontspace.com/sil-international/scheherazade http://www.fontspace.com
 - rewrite to use/support fixed point arithmetic but let rendering be float/doubles - http://gameprogrammer.com/4-fixed.html http://trac.bookofhook.com/bookofhook/trac.cgi/wiki/IntroductionToFixedPointMath http://en.wikipedia.org/wiki/Libfixmath https://github.com/PetteriAimonen/libfixmatrix
 * change cml to glm - glm lacks documentation & has has design flaws inherited from glsl but works better with intellisense & seems more popular https://www.opengl.org/discussion_boards/showthread.php/180191-glm-length(glm-vec)-and-glm-vec-length
 * upgrade assimp
-* integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
 * port to android? (physfs: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/
@@ -94,7 +94,7 @@ http://www.fontspace.com/sil-international/scheherazade http://www.fontspace.com
   - http://tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
   - http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/
   - http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
-* push new code/files + lua debugger/console via http/ighttpd or gideros http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1 http://www.gamedev.net/blog/355/entry-2259495-why-you-should-embed-a-web-server-in-your-game-engine/ http://giderosmobile.com/forum/discussion/5243/gideros-source-released
+* push new code/files + lua debugger/console via http/ighttpd/webby or gideros http://www.lighttpd.net/ support ldoc?  http://stevedonovan.github.io/ldoc/topics/doc.md.html boost asio  http://stackoverflow.com/questions/738273/open-source-c-c-embedded-web-server or https://github.com/bel2125/civetweb http://stackoverflow.com/questions/8866809/simple-http-server-lib?lq=1 http://www.gamedev.net/blog/355/entry-2259495-why-you-should-embed-a-web-server-in-your-game-engine/ http://giderosmobile.com/forum/discussion/5243/gideros-source-released https://github.com/deplinenoise/webby/
 * add features from this http://vimeo.com/36579366
 * lighttable integration?
 * fix luadocgen
