@@ -18,13 +18,21 @@ namespace ui {
 /** A Widget to be placed in 2d.
   */
 
-/*
+/**
+Positive Y is up and, positive X is right. Relative (0,0) is upper left.
+<pre>
  (0,0)   w
    +-----------+
    |           |
  h |           |
    |           |
    +-----------+
+
+   +
+   ^
+   |
+   y / x ---> +
+</pre>
 */
 class Widget {
  public:
