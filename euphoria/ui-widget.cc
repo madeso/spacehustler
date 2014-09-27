@@ -30,5 +30,46 @@ void Widget::set_size(const Vec2& size) {
   size_ = size;
 }
 
+Padding Widget::padding() const {
+  assert(this);
+  return padding_;
+}
+void Widget::set_padding(const Padding& padding) {
+  assert(this);
+  padding_ = padding;
+}
+
+SizeRule Widget::sizerule() const {
+  assert(this);
+  return sizerule_;
+}
+
+void Widget::set_sizerule(SizeRule sizerule){
+  assert(this);
+  sizerule_ = sizerule;
+}
+
+Alignment Widget::alignment() const{
+  assert(this);
+  return alignment_;
+}
+
+void Widget::set_alignment(Alignment alignment){
+  assert(this);
+  alignment_ = alignment;
+}
+
+std::pair<Vec2,Vec2> GetPositionAndSize(const Vec2 position, const Vec2 size, const Padding& padding, SizeRule sizerule, Alignment alignment, const Vec2& minimumSize)
+{
+  Vec2 modified_position = position;
+  Vec2 modified_size = size;
+  padding.ModifyWidgetLayout(&modified_position, &modified_size);
+
+  const Vec2 new_size = GetSize(sizerule, Vec2(1, 1), modified_size);
+  const Vec2 realtive_position = GetPosition(alignment, new_size, modified_size);
+
+  return std::make_pair(modified_position+realtive_position, new_size);
+}
+
 }  // namespace ui
 }  // namespace euphoria

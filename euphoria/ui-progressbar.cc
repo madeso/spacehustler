@@ -34,11 +34,15 @@ void ProgressBar::set_value(float value) {
 void ProgressBar::Draw(const Camera& camera) {
   assert(this);
 
-  const float w = size()[0];
-  const float h = size()[1];
-
   const float mw = ninepatch_->GetMinimumWidth();
   const float mh = ninepatch_->GetMinimumHeight();
+
+  const auto ps = GetPositionAndSize(Vec2(mw,mh));
+  const Vec2 pos = ps.first;
+  const Vec2 size = ps.second;
+
+  const float w = size[0];
+  const float h = size[1];
 
   const float tiny = 0.1f;
 
