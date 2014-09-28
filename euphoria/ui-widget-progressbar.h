@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_UI_PROGRESSBAR_H_
-#define EUPHORIA_UI_PROGRESSBAR_H_
+#ifndef EUPHORIA_UI_WIDGET_PROGRESSBAR_H_
+#define EUPHORIA_UI_WIDGET_PROGRESSBAR_H_
 
 #include <memory>
 
@@ -19,14 +19,17 @@ class NinepatchInstance;
 class Ninepatch;
 namespace ui {
 
-class ProgressBar : public Widget {
+class ProgressbarWidget : public Widget {
  public:
-  ProgressBar(const Ninepatch& ninepatch, TextureCache* texturecache,
-              ShaderCache* shadercache, const Settings& settings);
+  ProgressbarWidget(const Ninepatch& ninepatch, TextureCache* texturecache,
+                    ShaderCache* shadercache, const Settings& settings);
 
-  ~ProgressBar();
+  ~ProgressbarWidget();
+
   float value() const;
   void set_value(float value);
+
+  void Layout() override;
 
   void Draw(const Camera& camera) override;
 
@@ -37,4 +40,4 @@ class ProgressBar : public Widget {
 }  // namespace ui
 }  // namespace euphoria
 
-#endif  // EUPHORIA_UI_PROGRESSBAR_H_
+#endif  // EUPHORIA_UI_WIDGET_PROGRESSBAR_H_

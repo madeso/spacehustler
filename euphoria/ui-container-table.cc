@@ -1,56 +1,88 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/ui-table.h"
+#include "euphoria/ui-container-table.h"
 
 #include <cassert>
 
 #include "euphoria/ui-value.h"
 #include "euphoria/scalar.h"
-#include "euphoria/ui-cell.h"
+#include "euphoria/ui-widget.h"
 
 namespace euphoria {
 namespace ui {
+
+//////////////////////////////////////////////////////////////////////////
+
+Cell::Cell(std::shared_ptr<Container> container, const Vec2i& position,
+           const Vec2i& size)
+    : container_(container), position_(position), size_(size) {
+  assert(this);
+}
+
+Vec2i Cell::tile_position() const {
+  assert(this);
+  return position_;
+}
+
+Vec2i Cell::tile_size() const {
+  assert(this);
+  return size_;
+}
+
+void Cell::SetPositionAndSize(Vec2 position, Vec2 size) const {
+  assert(this);
+  assert(container_);
+  container_->set_position(position);
+  container_->set_size(size);
+  container_->Layout();
+}
+
+void Cell::Draw(const Camera& camera) const {
+  assert(this);
+  assert(container_);
+  container_->Draw(camera);
+}
+
 Size::Size() { assert(this); }
 
 //////////////////////////////////////////////////////////////////////////
 
-Table::Table() { assert(this); }
+TableContainer::TableContainer() { assert(this); }
 
-Table::~Table() { assert(this); }
+TableContainer::~TableContainer() { assert(this); }
 
-const std::vector<Size>& Table::rows() const {
+const std::vector<Size>& TableContainer::rows() const {
   assert(this);
   return rows_;
 }
 
-void Table::set_rows(const std::vector<Size>& rows) {
+void TableContainer::set_rows(const std::vector<Size>& rows) {
   assert(this);
   rows_ = rows;
 }
 
-const std::vector<Size>& Table::columns() const {
+const std::vector<Size>& TableContainer::columns() const {
   assert(this);
   return columns_;
 }
 
-void Table::set_columns(const std::vector<Size>& columns) {
+void TableContainer::set_columns(const std::vector<Size>& columns) {
   assert(this);
   columns_ = columns;
 }
 
-void Table::AddColoumn(Size column) {
+void TableContainer::AddColoumn(Size column) {
   assert(this);
   columns_.push_back(column);
 }
 
-void Table::AddRow(Size row) {
+void TableContainer::AddRow(Size row) {
   assert(this);
   rows_.push_back(row);
 }
 
-void Table::AddCell(std::shared_ptr<Cell> cell) {
+void TableContainer::AddCell(Cell cell) {
   assert(this);
-  assert(cell);
   cells_.push_back(cell);
 }
 
@@ -82,20 +114,20 @@ std::vector<float> CalculateSizes(std::vector<Size> sizes, float total_size) {
   return ret;
 }
 
-float CalculatePositionValue(std::shared_ptr<Cell> cell,
-                             const std::vector<float>& sizes, int index) {
+float CalculatePositionValue(Cell cell, const std::vector<float>& sizes,
+                             int index) {
   float ret = 0;
-  for (int i = 0; i < cell->tile_position()[index]; ++i) {
+  for (int i = 0; i < cell.tile_position()[index]; ++i) {
     ret += sizes[i];
   }
   return ret;
 }
 
-float CalculateSizeValue(std::shared_ptr<Cell> cell,
-                         const std::vector<float>& sizes, int index) {
+float CalculateSizeValue(Cell cell, const std::vector<float>& sizes,
+                         int index) {
   float ret = 0;
-  int p = cell->tile_position()[index];
-  for (int i = 0; i < cell->tile_size()[index]; ++i) {
+  int p = cell.tile_position()[index];
+  for (int i = 0; i < cell.tile_size()[index]; ++i) {
     ret += sizes[p];
     ++p;
   }
@@ -103,8 +135,11 @@ float CalculateSizeValue(std::shared_ptr<Cell> cell,
 }
 }  // namespace
 
-void Table::LayoutCells(float width, float height) {
+void TableContainer::Layout() {
   assert(this);
+
+  const float width = size()[0];
+  const float height = size()[1];
 
   assert(width > 0.0f);
   assert(height > 0.0f);
@@ -112,23 +147,20 @@ void Table::LayoutCells(float width, float height) {
   const std::vector<float> widths = CalculateSizes(columns_, width);
   const std::vector<float> heights = CalculateSizes(rows_, height);
 
-  for (auto c : cells_) {
+  for (const auto& c : cells_) {
     // subtract width/height divided by half b/c 0,0 is in the middle
     const Vec2 p = Vec2(CalculatePositionValue(c, widths, 0) - width / 2,
                         height / 2 - CalculatePositionValue(c, heights, 1));
     const Vec2 s = Vec2(CalculateSizeValue(c, widths, 0),
                         CalculateSizeValue(c, heights, 1));
-    c->Begin();
-    c->set_position(p);
-    c->set_size(s);
-    c->End();
+    c.SetPositionAndSize(position() + p, s);
   }
 }
 
-void Table::Render(const Camera& camera) {
+void TableContainer::Draw(const Camera& camera) {
   assert(this);
-  for (auto c : cells_) {
-    c->Draw(camera);
+  for (const auto& c : cells_) {
+    c.Draw(camera);
   }
 }
 

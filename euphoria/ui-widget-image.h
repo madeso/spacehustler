@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_UI_IMAGE_H_
-#define EUPHORIA_UI_IMAGE_H_
+#ifndef EUPHORIA_UI_WIDGET_IMAGE_H_
+#define EUPHORIA_UI_WIDGET_IMAGE_H_
 
 #include "euphoria/ui-widget.h"
 #include "euphoria/ui-enums.h"
@@ -17,10 +17,12 @@ class ShaderCache;
 class Settings;
 
 namespace ui {
-class Image : public Widget {
+class ImageWidget : public Widget {
  public:
-  Image(const Settings& settings, ShaderCache* cache,
-    std::shared_ptr<Texture> texture);
+  ImageWidget(const Settings& settings, ShaderCache* cache,
+              std::shared_ptr<Texture> texture);
+
+  void Layout() override;
 
   void Draw(const Camera& camera) override;
 
@@ -31,4 +33,4 @@ class Image : public Widget {
 }  // namespace ui
 }  // namespace euphoria
 
-#endif  // EUPHORIA_UI_IMAGE_H_
+#endif  // EUPHORIA_UI_WIDGET_IMAGE_H_

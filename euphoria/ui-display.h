@@ -8,26 +8,29 @@ Camera related code.
 #include <memory>
 #include <string>
 
-#include "euphoria/ui-table.h"
-
 #ifndef EUPHORIA_UI_DISPLAY_H_
 #define EUPHORIA_UI_DISPLAY_H_
 
 namespace euphoria {
 class TextureCache;
+class ShaderCache;
 class Settings;
 
 namespace ui {
+
+class Container;
+
 class Display {
  public:
   Display(const std::string& file, int width, int height, TextureCache* tcache,
           ShaderCache* scache, const Settings& settings);
+  void SetSize(int width, int height);
   void Render();
 
  private:
   int width_;
   int height_;
-  Table table_;
+  std::shared_ptr<Container> container_;
 };
 }  // namespace ui
 }  // namespace euphoria
