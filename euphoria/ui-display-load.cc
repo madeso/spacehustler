@@ -121,11 +121,8 @@ std::shared_ptr<Widget> ReadImageWidget(const Json::Value data,
                                         TextureCache* tcache,
                                         ShaderCache* scache,
                                         const Settings& settings) {
-  const std::string& path = data.get("src", "").asCString();
-  const SizeRule rule =
-      ParseSizeRule(data.get("sizerule", "none-entered").asCString());
-  const Alignment alignment =
-      ParseAlignment(data.get("align", "none").asCString());
+  const std::string& path =
+      data.get("src", "no-texture-in-ui-script").asCString();
   const TextureLoadingInstruction texture(path, WrapMode::CLAMP_TO_EDGE,
                                           WrapMode::CLAMP_TO_EDGE);
   std::shared_ptr<Widget> widget(new ImageWidget(
@@ -195,7 +192,8 @@ std::shared_ptr<Container> ReadContainer(const Json::Value data,
                                          TextureCache* tcache,
                                          ShaderCache* scache,
                                          const Settings& settings) {
-  const std::string type = ToLower(Trim(data.get("type", "").asCString()));
+  const std::string type =
+      ToLower(Trim(data.get("type", "no-type-specified").asCString()));
   if (type == "image") {
     return ReadImageWidget(data, tcache, scache, settings);
   } else if (type == "progressbar") {
