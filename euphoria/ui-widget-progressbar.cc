@@ -48,11 +48,13 @@ void ProgressbarWidget::Draw(const Camera& camera) {
   const float width = From01(mw, value_, Max(mw + tiny, w));
   const float height = From01(mh, value_, Max(mh + tiny, h));
 
-  const auto ps = GetPositionAndSize(position(), Vec2(width, height),
-                                     sizerule(), alignment(), Vec2(mw, mh));
+  const Vec2 calculated_size(width, height);
 
-  ninepatch_->set_position(ps.first);
-  ninepatch_->set_size(ps.second);
+  const auto relative_position =
+      GetPosition(alignment(), calculated_size, size());
+
+  ninepatch_->set_position(position() + relative_position);
+  ninepatch_->set_size(calculated_size);
 
   ninepatch_->Render(camera);
 }

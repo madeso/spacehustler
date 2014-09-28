@@ -1,9 +1,9 @@
 {
 	"type": "table",
-	"rows" : ["10px", "1*", "10px"],
-	"cols" : ["10px", "1*", "10px"],
+	"rows" : ["25px", "1*", "25px"],
+	"cols" : ["25px", "1*", "25px"],
 	"cells" : [
 		{"x":1, "y":1, "cols":1, "rows":1, "type":"image", "sizerule":"aspectfit", "align":"center", "src":"hud.png"},
-		{"x":1, "y":2, "cols":1, "rows":1, "type":"progressbar", "ninepatch":"progressbar.js"}
+		{"x":1, "y":2, "cols":1, "rows":1, "type":"progressbar", "ninepatch":"progressbar.js", "progress":0.5}
 	]
 }
