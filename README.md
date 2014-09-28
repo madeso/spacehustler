@@ -40,8 +40,6 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* padding
-* mutiple tables per display
 * curved ui
 * hud<->game script access
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html http://stackoverflow.com/questions/11864365/good-tutorial-on-pango https://github.com/lxnt/ex-sdl-freetype-harfbuzz/ http://www.wildfiregames.com/forum/index.php?showtopic=17365 http://www.reddit.com/r/gamedev/comments/2e8q5o/2d_game_c_gui_framework_with_manually/cjyyjv6 http://www.gamedev.net/topic/609842-freetypeglvboshaders/
