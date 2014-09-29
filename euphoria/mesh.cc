@@ -229,7 +229,9 @@ CompiledMesh::CompiledMesh(const Mesh& mesh, TextureCache* texturecache,
   for (auto src : mesh.materials) {
     Material m;
     m.texture = texturecache->GetOrCreate(
-        TextureLoadingInstruction(src.texture, src.wraps, src.wrapt), settings);
+        TextureLoadingInstruction(src.texture, src.wraps, src.wrapt,
+                                  ImageStorage::COMPRESSED_RGB),
+        settings);
     m.program = shadercache->GetOrCreate("default.js", settings);
     materials.push_back(m);
   }

@@ -319,7 +319,8 @@ std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
   auto shader = shadercache->GetOrCreate("default.js", settings);
   auto texture = texturecache->GetOrCreate(
       TextureLoadingInstruction(ninepatch.texture(), WrapMode::CLAMP_TO_EDGE,
-                                WrapMode::CLAMP_TO_EDGE),
+                                WrapMode::CLAMP_TO_EDGE,
+                                ImageStorage::COMPRESSED_RGBA),
       settings);
   std::shared_ptr<NinepatchInstance> ret(
       new NinepatchInstance(ninepatch, shader, texture));

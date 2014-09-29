@@ -57,6 +57,11 @@ void Display::Render() {
   /// https://www.assetstore.unity3d.com/en/#!/content/19956
   Camera camera = CreateCameraOrtho(width_, height_, NearFar(0.1f, 10.0f));
   glDisable(GL_DEPTH_TEST);
+
+  // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   container_->Draw(camera);
   glEnable(GL_DEPTH_TEST);
 }

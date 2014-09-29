@@ -142,7 +142,7 @@ enum class ImageStorage {
 
   /** Store it as compressed RGB without alpha.
     */
-  COMPRESED_RGB,
+  COMPRESSED_RGB,
 
   /** Store it as compressed RGB with alpha.
     */

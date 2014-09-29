@@ -124,7 +124,8 @@ std::shared_ptr<Widget> ReadImageWidget(const Json::Value data,
   const std::string& path =
       data.get("src", "no-texture-in-ui-script").asCString();
   const TextureLoadingInstruction texture(path, WrapMode::CLAMP_TO_EDGE,
-                                          WrapMode::CLAMP_TO_EDGE);
+                                          WrapMode::CLAMP_TO_EDGE,
+                                          ImageStorage::COMPRESSED_RGBA);
   std::shared_ptr<Widget> widget(new ImageWidget(
       settings, scache, tcache->GetOrCreate(texture, settings)));
   ReadWidgetCommonData(widget, data);

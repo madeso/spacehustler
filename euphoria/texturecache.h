@@ -25,7 +25,7 @@ struct TextureLoadingInstruction {
   @param wrapt how to wrap the texture in the T axis.
    */
   TextureLoadingInstruction(const std::string& file, WrapMode wraps,
-                            WrapMode wrapt);
+                            WrapMode wrapt, ImageStorage storage);
 
   /** Comparison operator.
   @param rhs the right hand value.
@@ -44,6 +44,10 @@ struct TextureLoadingInstruction {
   /** How to wrap the texture in the T axis.
    */
   WrapMode wrapt;
+
+  /** How to store the texture.
+   */
+  ImageStorage storage;
 };
 
 /** The texture cache.

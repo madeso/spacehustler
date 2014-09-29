@@ -13,15 +13,21 @@ namespace euphoria {
 
 TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
                                                      WrapMode wraps,
-                                                     WrapMode wrapt)
-    : file(file), wraps(wraps), wrapt(wrapt) {}
+                                                     WrapMode wrapt,
+                                                     ImageStorage storage)
+    : file(file), wraps(wraps), wrapt(wrapt), storage(storage) {
+  assert(this);
+}
 
 bool TextureLoadingInstruction::operator<(const TextureLoadingInstruction& rhs)
     const {
+  assert(this);
   if (wraps != rhs.wraps) {
     return wraps < rhs.wraps;
   } else if (wrapt != rhs.wrapt) {
     return wrapt < rhs.wrapt;
+  } else if (storage != rhs.storage) {
+    return storage < rhs.storage;
   } else {
     return file < rhs.file;
   }
@@ -37,8 +43,8 @@ struct TextureCreator {
 
     /// @todo include anisotropic in instructions.
     std::shared_ptr<Texture> ret(new Texture(
-        data, ImageStorage::COMPRESED_RGB, instructions.wraps,
-        instructions.wrapt, TextureFilter::LINEAR, settings.anisotropic()));
+        data, instructions.storage, instructions.wraps, instructions.wrapt,
+        TextureFilter::LINEAR, settings.anisotropic()));
     return ret;
   }
 };

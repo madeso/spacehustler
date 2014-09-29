@@ -134,7 +134,7 @@ GLint C(ImageStorage type) {
       return GL_RGB;
     case ImageStorage::RGBA:
       return GL_RGBA;
-    case ImageStorage::COMPRESED_RGB:
+    case ImageStorage::COMPRESSED_RGB:
       return GL_COMPRESSED_RGB;
     case ImageStorage::COMPRESSED_RGBA:
       return GL_COMPRESSED_RGBA;
@@ -163,7 +163,7 @@ Texture::Texture(const ImageData& data, ImageStorage textureType,
                (GLsizei)data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
                data.pixels());
 
-  if (textureType == ImageStorage::COMPRESED_RGB ||
+  if (textureType == ImageStorage::COMPRESSED_RGB ||
       textureType == ImageStorage::COMPRESSED_RGBA) {
     GLint result = GL_FALSE;
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_COMPRESSED, &result);
