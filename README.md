@@ -40,7 +40,6 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* fix transparency 2d 
 * add padding command/table alias
 * add background to progressbar
 * curved ui + safe area in 2d display
