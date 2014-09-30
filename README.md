@@ -40,7 +40,6 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
-* add padding command/table alias
 * add background to progressbar
 * curved ui + safe area in 2d display
 * replace lua with angelscript, easier api, static typed, like c++ so could easily write a converter, https://github.com/BlindMindStudios/AngelScript-JIT-Compiler http://accu.org/index.php/journals/1608 http://damianpaz.wordpress.com/2012/04/30/adding-angelscript-scripting-to-your-c-application/ http://www.gamedev.net/topic/627784-overrid-c-methods-from-angelscript-possible-alternatives/ or typescrip/javascript
