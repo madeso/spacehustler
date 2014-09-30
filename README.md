@@ -85,7 +85,7 @@ Fonts: http://www.fontspace.com/sil-international/scheherazade http://www.fontsp
 * upgrade assimp
 * port to android? (physfs: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
-* culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/
+* culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/ http://opengameart.org/content/alien-buildingbase-set
 * add loading of shaders from files with preprocessor, shader editor? http://www.acegikmo.com/shaderforge/ https://code.google.com/p/wxworkspaceview/ http://sourceforge.net/projects/wxsf/ https://code.google.com/p/junkyardcode/source/browse/#svn/trunk/connex
 * splines for cloth and camera movements? http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/real-time-cloth-simulation-with-b-spline-surfaces-r3814
 * benchmark system
