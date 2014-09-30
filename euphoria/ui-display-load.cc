@@ -31,7 +31,7 @@ bool EndsWithThenStore(std::string* ret, const std::string& to_test,
   return ew;
 }
 
-Value ParseSize(const std::string& data) {
+Value ParseValue(const std::string& data) {
   std::string value_string;
   if (EndsWithThenStore(&value_string, data, "px")) {
     return Value(std::stof(value_string), Unit::PIXEL);
@@ -44,13 +44,21 @@ Value ParseSize(const std::string& data) {
   }
 }
 
-std::vector<Size> ReadSizeVector(const Json::Value& v) {
-  std::vector<Size> ret;
-  for (Json::ArrayIndex i = 0; i < v.size(); ++i) {
-    const std::string size_string = v.get(i, "").asString();
-    Size size;
-    size.size = ParseSize(size_string);
+std::vector<Value> ParseValueVector(const Json::Value& v) {
+  std::vector<Value> ret;
+
+  if (v.isConvertibleTo(Json::stringValue)) {
+    const std::string size_string = v.asString();
+    Value size;
+    size = ParseValue(size_string);
     ret.push_back(size);
+  } else {
+    for (Json::ArrayIndex i = 0; i < v.size(); ++i) {
+      const std::string size_string = v.get(i, "").asString();
+      Value size;
+      size = ParseValue(size_string);
+      ret.push_back(size);
+    }
   }
   return ret;
 }
@@ -152,8 +160,8 @@ std::shared_ptr<Container> ReadTableContainer(const Json::Value root,
                                               const Settings& settings) {
   std::shared_ptr<TableContainer> table(new TableContainer());
 
-  std::vector<Size> rows = ReadSizeVector(root["rows"]);
-  std::vector<Size> cols = ReadSizeVector(root["cols"]);
+  std::vector<Value> rows = ParseValueVector(root["rows"]);
+  std::vector<Value> cols = ParseValueVector(root["cols"]);
 
   table->set_rows(rows);
   table->set_columns(cols);
@@ -191,10 +199,57 @@ std::shared_ptr<Container> ReadFillContainer(const Json::Value root,
   return fill;
 }
 
-std::shared_ptr<Container> ReadContainer(const Json::Value data,
-                                         TextureCache* tcache,
-                                         ShaderCache* scache,
-                                         const Settings& settings) {
+struct Padding {
+  Value left;
+  Value right;
+  Value top;
+  Value bottom;
+};
+
+Padding ParsePaddingParseFloatArray(const Json::Value data) {
+  const auto f = ParseValueVector(data);
+
+  Padding ret;
+
+  if (f.size() == 1) {
+    const auto all = f[0];
+    ret.left = all;
+    ret.right = all;
+    ret.top = all;
+    ret.bottom = all;
+    return ret;
+  } else if (f.size() == 2) {
+    const auto topbottom = f[0];
+    const auto leftright = f[1];
+    ret.left = leftright;
+    ret.right = leftright;
+    ret.top = topbottom;
+    ret.bottom = topbottom;
+    return ret;
+  } else if (f.size() == 3) {
+    const auto top = f[0];
+    const auto leftright = f[1];
+    const auto bottom = f[2];
+    ret.left = leftright;
+    ret.right = leftright;
+    ret.top = top;
+    ret.bottom = bottom;
+    return ret;
+  } else if (f.size() == 4) {
+    ret.top = f[0];
+    ret.right = f[1];
+    ret.bottom = f[2];
+    ret.left = f[3];
+    return ret;
+  } else {
+    throw "Invalid size of padding";
+  }
+}
+
+std::shared_ptr<Container> SubReadContainer(const Json::Value data,
+                                            TextureCache* tcache,
+                                            ShaderCache* scache,
+                                            const Settings& settings) {
   const std::string type =
       ToLower(Trim(data.get("type", "no-type-specified").asCString()));
   if (type == "image") {
@@ -209,6 +264,35 @@ std::shared_ptr<Container> ReadContainer(const Json::Value data,
     throw std::logic_error(Str() << "Unknown widget/container type " << type);
   }
 }
+
+std::shared_ptr<Container> ReadContainer(const Json::Value data,
+                                         TextureCache* tcache,
+                                         ShaderCache* scache,
+                                         const Settings& settings) {
+  std::shared_ptr<Container> widget =
+      SubReadContainer(data, tcache, scache, settings);
+  const auto paddingElement = data["padding"];
+  if (paddingElement.isNull()) {
+    return widget;
+  }
+
+  // padding is just a shorthand for creating a really simple table :)
+
+  const auto padding = ParsePaddingParseFloatArray(paddingElement);
+  std::shared_ptr<TableContainer> table(new TableContainer());
+  table->AddColoumn(padding.left);
+  table->AddColoumn(Value(1, Unit::AVAILABLE));
+  table->AddColoumn(padding.right);
+  table->AddRow(padding.top);
+  table->AddRow(Value(1, Unit::AVAILABLE));
+  table->AddRow(padding.bottom);
+
+  // place widget at the center spanning 1 column and 1 row.
+  table->AddCell(Cell(widget, Vec2i(1, 1), Vec2i(1, 1)));
+
+  return table;
+}
+
 }  // namespace
 
 std::shared_ptr<Container> LoadContainer(const std::string& filename,

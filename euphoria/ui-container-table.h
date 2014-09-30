@@ -30,7 +30,7 @@ class Cell {
   Vec2i tile_position() const;
   Vec2i tile_size() const;
 
-  void SetPositionAndSize(Vec2 position, Vec2 size) const;
+  void SetPositionAndValue(Vec2 position, Vec2 size) const;
   void Draw(const Camera& camera) const;
 
  private:
@@ -39,25 +39,19 @@ class Cell {
   Vec2i size_;
 };
 
-class Size {
- public:
-  Size();
-  Value size;
-};
-
 class TableContainer : public Container {
  public:
   TableContainer();
   ~TableContainer();
 
-  const std::vector<Size>& rows() const;
-  void set_rows(const std::vector<Size>& rows);
+  const std::vector<Value>& rows() const;
+  void set_rows(const std::vector<Value>& rows);
 
-  const std::vector<Size>& columns() const;
-  void set_columns(const std::vector<Size>& columns);
+  const std::vector<Value>& columns() const;
+  void set_columns(const std::vector<Value>& columns);
 
-  void AddColoumn(Size column);
-  void AddRow(Size row);
+  void AddColoumn(Value column);
+  void AddRow(Value row);
   void AddCell(Cell cell);
 
   void Layout() override;
@@ -65,8 +59,8 @@ class TableContainer : public Container {
   void Draw(const Camera& camera) override;
 
  private:
-  std::vector<Size> rows_;
-  std::vector<Size> columns_;
+  std::vector<Value> rows_;
+  std::vector<Value> columns_;
   std::vector<Cell> cells_;
 };
 
