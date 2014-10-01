@@ -289,7 +289,7 @@ void NinepatchInstance::Render(const Camera& camera) {
 Ninepatch LoadNinepatch(const std::string& filename) {
   std::ifstream in(filename.c_str());
   if (!in.good()) {
-    throw std::logic_error(Str() << "Unable to load ui table from  "
+    throw std::logic_error(Str() << "Unable to load ninepatch from  "
                                  << filename);
   }
   Json::Value root;
@@ -352,6 +352,10 @@ Ninepatch LoadNinepatch(const std::string& filename) {
     for (int i = 0; i < 9; ++i) {
       Patch p;
       Json::Value v = root[names[i]];
+      if (v.isNull()) {
+        throw std::logic_error(Str() << "Unable to load ninepatch patch "
+                                     << names[i] << " in " << filename);
+      }
       p.x = v.get("x", 0).asInt();
       p.y = v.get("y", 0).asInt();
       p.width = v.get("w", 0).asInt();
