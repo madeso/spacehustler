@@ -334,16 +334,17 @@ Ninepatch LoadNinepatch(const std::string& filename) {
     }
 
     ret.SetPatchAt(Patch::UL, Patch(x + 0 + 0, y + 0 + 0, l, u));
-    ret.SetPatchAt(Patch::UM, Patch(x + 0 + 0, y + u + 0, l, c));
-    ret.SetPatchAt(Patch::UR, Patch(x + 0 + 0, y + u + c, l, b));
+    ret.SetPatchAt(Patch::ML, Patch(x + 0 + 0, y + u + 0, l, c));
+    ret.SetPatchAt(Patch::LL, Patch(x + 0 + 0, y + u + c, l, b));
 
-    ret.SetPatchAt(Patch::ML, Patch(x + l + 0, y + 0 + 0, m, u));
+    ret.SetPatchAt(Patch::UM, Patch(x + l + 0, y + 0 + 0, m, u));
     ret.SetPatchAt(Patch::MM, Patch(x + l + 0, y + u + 0, m, c));
-    ret.SetPatchAt(Patch::MR, Patch(x + l + 0, y + u + c, m, b));
+    ret.SetPatchAt(Patch::LM, Patch(x + l + 0, y + u + c, m, b));
 
-    ret.SetPatchAt(Patch::LL, Patch(x + l + m, y + 0 + 0, r, u));
-    ret.SetPatchAt(Patch::LM, Patch(x + l + m, y + u + 0, r, c));
+    ret.SetPatchAt(Patch::UR, Patch(x + l + m, y + 0 + 0, r, u));
+    ret.SetPatchAt(Patch::MR, Patch(x + l + m, y + u + 0, r, c));
     ret.SetPatchAt(Patch::LR, Patch(x + l + m, y + u + c, r, b));
+
     return ret;
   } else {
     const std::string names[9] = {"ul", "um", "ur", "ml", "mm",
