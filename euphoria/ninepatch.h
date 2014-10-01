@@ -73,6 +73,9 @@ class NinepatchInstance {
   float GetMinimumWidth() const;
   float GetMinimumHeight() const;
 
+  float GetRecomendedWidth() const;
+  float GetRecomendedHeight() const;
+
   void Render(const Camera& camera);
 
  private:
@@ -84,8 +87,10 @@ class NinepatchInstance {
   Vec2 position_;
   Vec2 size_;
   float width_left_;
+  float width_center_;
   float width_right_;
   float height_up_;
+  float height_center_;
   float height_down_;
   internal::DynamicMeshPart mesh_;
 };

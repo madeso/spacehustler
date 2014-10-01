@@ -19,6 +19,11 @@ class NinepatchInstance;
 class Ninepatch;
 namespace ui {
 
+enum class ProgressbarLayout {
+  HORIZONTAL,
+  VERTICAL
+};
+
 class ProgressbarWidget : public Widget {
  public:
   ProgressbarWidget(const Ninepatch& ninepatch, TextureCache* texturecache,
@@ -29,6 +34,9 @@ class ProgressbarWidget : public Widget {
   float value() const;
   void set_value(float value);
 
+  ProgressbarLayout layout() const;
+  void set_layout(ProgressbarLayout layout);
+
   void Layout() override;
 
   void Draw(const Camera& camera) override;
@@ -36,6 +44,7 @@ class ProgressbarWidget : public Widget {
  private:
   std::shared_ptr<NinepatchInstance> ninepatch_;
   float value_;
+  ProgressbarLayout layout_;
 };
 }  // namespace ui
 }  // namespace euphoria

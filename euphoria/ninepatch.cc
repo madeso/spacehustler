@@ -99,8 +99,11 @@ NinepatchInstance::NinepatchInstance(const Ninepatch& ninepatch,
     : texture_(texture),
       program_(program),
       width_left_(ninepatch.GetPatchAt(0).width * ninepatch.scale()),
+      width_center_(ninepatch.GetPatchAt(Patch::MM).width * ninepatch.scale()),
       width_right_(ninepatch.GetPatchAt(2).width * ninepatch.scale()),
       height_up_(ninepatch.GetPatchAt(0).height * ninepatch.scale()),
+      height_center_(ninepatch.GetPatchAt(Patch::MM).height *
+                     ninepatch.scale()),
       height_down_(ninepatch.GetPatchAt(6).height * ninepatch.scale()),
       mesh_(CreateNinePatchMesh(ninepatch, texture), program, texture) {
   assert(this);
@@ -139,6 +142,22 @@ float NinepatchInstance::GetMinimumHeight() const {
   assert(height_up_ > 0);
   assert(height_down_ > 0);
   return height_up_ + height_down_;
+}
+
+float NinepatchInstance::GetRecomendedWidth() const {
+  assert(this);
+  assert(width_left_ > 0);
+  assert(width_center_ > 0);
+  assert(width_right_ > 0);
+  return width_left_ + width_center_ + width_right_;
+}
+
+float NinepatchInstance::GetRecomendedHeight() const {
+  assert(this);
+  assert(height_up_ > 0);
+  assert(height_center_ > 0);
+  assert(height_down_ > 0);
+  return height_up_ + height_center_ + height_down_;
 }
 
 void NinepatchInstance::set_size(Vec2 size) {

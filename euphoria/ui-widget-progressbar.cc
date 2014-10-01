@@ -16,7 +16,8 @@ ProgressbarWidget::ProgressbarWidget(const Ninepatch& ninepatch,
                                      const Settings& settings)
     : ninepatch_(CreateNinepatchInstance(ninepatch, shadercache, texturecache,
                                          settings)),
-      value_(0.5f) {
+      value_(0.5f),
+      layout_(ProgressbarLayout::HORIZONTAL) {
   assert(this);
 }
 
@@ -33,6 +34,16 @@ void ProgressbarWidget::set_value(float value) {
   value_ = value;
 }
 
+ProgressbarLayout ProgressbarWidget::layout() const {
+  assert(this);
+  return layout_;
+}
+
+void ProgressbarWidget::set_layout(ProgressbarLayout layout) {
+  assert(this);
+  layout_ = layout;
+}
+
 void ProgressbarWidget::Layout() { assert(this); }
 
 void ProgressbarWidget::Draw(const Camera& camera) {
@@ -45,8 +56,12 @@ void ProgressbarWidget::Draw(const Camera& camera) {
   const float h = size()[1];
 
   const float tiny = 0.1f;
-  const float width = From01(mw, value_, Max(mw + tiny, w));
-  const float height = From01(mh, value_, Max(mh + tiny, h));
+  const float width = layout_ == ProgressbarLayout::VERTICAL
+                          ? ninepatch_->GetRecomendedWidth()
+                          : From01(mw, value_, Max(mw + tiny, w));
+  const float height = layout_ == ProgressbarLayout::HORIZONTAL
+                           ? ninepatch_->GetRecomendedHeight()
+                           : From01(mh, value_, Max(mh + tiny, h));
 
   const Vec2 calculated_size(width, height);
 
