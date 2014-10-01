@@ -15,6 +15,15 @@
 
 namespace euphoria {
 
+Patch::Patch() : x(0), y(0), width(0), height(0) { assert(this); }
+
+Patch::Patch(int x, int y, int width, int height)
+    : x(x), y(y), width(width), height(height) {
+  assert(this);
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 Ninepatch::Ninepatch(const std::string& texture, float scale)
     : texture_(texture), scale_(scale) {
   assert(this);
@@ -299,18 +308,57 @@ Ninepatch LoadNinepatch(const std::string& filename) {
       pfilename.GetDirectory().File(texturefile).GetOsPath();
   const float scale = root.get("scale", 1.0f).asFloat();
   Ninepatch ret(texture, scale);
-  const std::string names[9] = {"ul", "um", "ur", "ml", "mm",
-                                "mr", "ll", "lm", "lr"};
-  for (int i = 0; i < 9; ++i) {
-    Patch p;
-    Json::Value v = root[names[i]];
-    p.x = v.get("x", 0).asInt();
-    p.y = v.get("y", 0).asInt();
-    p.width = v.get("w", 0).asInt();
-    p.height = v.get("h", 0).asInt();
-    ret.SetPatchAt(i, p);
+
+  Json::Value horizontal = root["simple"];
+
+  if (horizontal.isNull() == false) {
+    const int x = horizontal.get("x", 0).asInt();
+    const int y = horizontal.get("y", 0).asInt();
+    const int w = horizontal.get("w", 0).asInt();
+    const int h = horizontal.get("h", 0).asInt();
+    const int l = horizontal.get("left", 0).asInt();
+    const int m = horizontal.get("middle", 0).asInt();
+    const int r = horizontal.get("right", 0).asInt();
+    const int u = horizontal.get("upper", 0).asInt();
+    const int c = horizontal.get("center", 0).asInt();
+    const int b = horizontal.get("bottom", 0).asInt();
+
+    const int cw = l + m + r;
+    if (cw != w) {
+      throw "calculated width differs from width";
+    }
+
+    const int ch = u + c + b;
+    if (ch != h) {
+      throw "calculated height differs from height";
+    }
+
+    ret.SetPatchAt(Patch::UL, Patch(x + 0 + 0, y + 0 + 0, l, u));
+    ret.SetPatchAt(Patch::UM, Patch(x + 0 + 0, y + u + 0, l, c));
+    ret.SetPatchAt(Patch::UR, Patch(x + 0 + 0, y + u + c, l, b));
+
+    ret.SetPatchAt(Patch::ML, Patch(x + l + 0, y + 0 + 0, m, u));
+    ret.SetPatchAt(Patch::MM, Patch(x + l + 0, y + u + 0, m, c));
+    ret.SetPatchAt(Patch::MR, Patch(x + l + 0, y + u + c, m, b));
+
+    ret.SetPatchAt(Patch::LL, Patch(x + l + m, y + 0 + 0, r, u));
+    ret.SetPatchAt(Patch::LM, Patch(x + l + m, y + u + 0, r, c));
+    ret.SetPatchAt(Patch::LR, Patch(x + l + m, y + u + c, r, b));
+    return ret;
+  } else {
+    const std::string names[9] = {"ul", "um", "ur", "ml", "mm",
+                                  "mr", "ll", "lm", "lr"};
+    for (int i = 0; i < 9; ++i) {
+      Patch p;
+      Json::Value v = root[names[i]];
+      p.x = v.get("x", 0).asInt();
+      p.y = v.get("y", 0).asInt();
+      p.width = v.get("w", 0).asInt();
+      p.height = v.get("h", 0).asInt();
+      ret.SetPatchAt(i, p);
+    }
+    return ret;
   }
-  return ret;
 }
 
 std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(

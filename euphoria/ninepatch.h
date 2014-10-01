@@ -17,11 +17,27 @@ namespace euphoria {
 class Texture;
 class Camera;
 
-struct Patch {
+class Patch {
+ public:
+  Patch();
+  Patch(int x, int y, int width, int height);
+
   int x;
   int y;
   int width;
   int height;
+
+  enum {
+    UL,
+    UM,
+    UR,
+    ML,
+    MM,
+    MR,
+    LL,
+    LM,
+    LR
+  };
 };
 
 class Ninepatch {
