@@ -144,11 +144,13 @@ std::shared_ptr<Widget> ReadProgressbarWidget(const Json::Value data,
                                               TextureCache* tcache,
                                               ShaderCache* scache,
                                               const Settings& settings) {
-  const std::string ninepatch_path = data.get("ninepatch", "").asString();
   const float value = data.get("progress", 0.5).asFloat();
-  const Ninepatch ninepatch = LoadNinepatch(ninepatch_path);
+  const Ninepatch foreground =
+      LoadNinepatch(data.get("foreground", "").asString());
+  const Ninepatch background =
+      LoadNinepatch(data.get("background", "").asString());
   std::shared_ptr<ProgressbarWidget> widget(
-      new ProgressbarWidget(ninepatch, tcache, scache, settings));
+      new ProgressbarWidget(foreground, background, tcache, scache, settings));
   widget->set_value(value);
   ReadWidgetCommonData(widget, data);
   return widget;

@@ -26,8 +26,9 @@ enum class ProgressbarLayout {
 
 class ProgressbarWidget : public Widget {
  public:
-  ProgressbarWidget(const Ninepatch& ninepatch, TextureCache* texturecache,
-                    ShaderCache* shadercache, const Settings& settings);
+  ProgressbarWidget(const Ninepatch& foreground, const Ninepatch& background,
+                    TextureCache* texturecache, ShaderCache* shadercache,
+                    const Settings& settings);
 
   ~ProgressbarWidget();
 
@@ -42,7 +43,8 @@ class ProgressbarWidget : public Widget {
   void Draw(const Camera& camera) override;
 
  private:
-  std::shared_ptr<NinepatchInstance> ninepatch_;
+  std::shared_ptr<NinepatchInstance> foreground_;
+  std::shared_ptr<NinepatchInstance> background_;
   float value_;
   ProgressbarLayout layout_;
 };
