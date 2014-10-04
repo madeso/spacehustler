@@ -25,10 +25,11 @@ Tip: use a function object as CreateFunction, the compiler will inline this.
 @param settings the settings to use
 @returns the object
  */
-template <typename TKey, typename TData, typename TCreateFunction>
+template <typename TKey, typename TData,
+          typename std::shared_ptr<TData>(*TCreateFunction)(const TKey&,
+                                                            const Settings&)>
 std::shared_ptr<TData> CacheGet(std::map<TKey, std::weak_ptr<TData>>* cache,
-                                TCreateFunction create, const TKey& name,
-                                const Settings& settings) {
+                                const TKey& name, const Settings& settings) {
   assert(cache);
   auto found = cache->find(name);
   if (found != cache->end()) {
@@ -39,7 +40,7 @@ std::shared_ptr<TData> CacheGet(std::map<TKey, std::weak_ptr<TData>>* cache,
       cache->erase(found);
     }
   }
-  std::shared_ptr<TData> data = create(name, settings);
+  std::shared_ptr<TData> data = TCreateFunction(name, settings);
   cache->insert(std::pair<TKey, std::weak_ptr<TData>>(name, data));
   return data;
 }

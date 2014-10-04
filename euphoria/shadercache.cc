@@ -11,18 +11,16 @@ namespace euphoria {
 ShaderCache::ShaderCache() { assert(this); }
 
 namespace {
-struct ShaderCreator {
-  std::shared_ptr<Program> operator()(const std::string& path,
-                                      const Settings&) {
-    return LoadShaderFromFile(path);
-  }
-};
+
+std::shared_ptr<Program> ShaderCreator(const std::string& path,
+                                       const Settings&) {
+  return LoadShaderFromFile(path);
+}
 }  // namespace
 
 std::shared_ptr<Program> ShaderCache::GetOrCreate(const std::string& path,
                                                   const Settings& settings) {
   assert(this);
-  static ShaderCreator c;
-  return CacheGet(&cache_, c, path, settings);
+  return CacheGet<std::string, Program, ShaderCreator>(&cache_, path, settings);
 }
 }  // namespace euphoria

@@ -36,18 +36,16 @@ bool TextureLoadingInstruction::operator<(const TextureLoadingInstruction& rhs)
 TextureCache::TextureCache() { assert(this); }
 
 namespace {
-struct TextureCreator {
-  std::shared_ptr<Texture> operator()(
-      const TextureLoadingInstruction& instructions, const Settings& settings) {
-    ImageData data(instructions.file);
+std::shared_ptr<Texture> TextureCreator(
+    const TextureLoadingInstruction& instructions, const Settings& settings) {
+  ImageData data(instructions.file);
 
-    /// @todo include anisotropic in instructions.
-    std::shared_ptr<Texture> ret(new Texture(
-        data, instructions.storage, instructions.wraps, instructions.wrapt,
-        TextureFilter::LINEAR, settings.anisotropic()));
-    return ret;
-  }
-};
+  /// @todo include anisotropic in instructions.
+  std::shared_ptr<Texture> ret(new Texture(
+      data, instructions.storage, instructions.wraps, instructions.wrapt,
+      TextureFilter::LINEAR, settings.anisotropic()));
+  return ret;
+}
 }  // namespace
 
 std::shared_ptr<Texture> TextureCache::GetOrCreate(
@@ -59,9 +57,8 @@ std::shared_ptr<Texture> TextureCache::GetOrCreate(
     return ret->second;
   }
 
-  static TextureCreator c;
   return CacheGet<TextureLoadingInstruction, Texture, TextureCreator>(
-      &cache_, c, instructions, settings);
+      &cache_, instructions, settings);
 }
 
 void TextureCache::Register(const std::string& file,
