@@ -75,7 +75,7 @@ Fonts: http://www.fontspace.com/sil-international/scheherazade http://www.fontsp
 * FEEDBACK!
 
 * write python script to also run all the postbuilds outside of the IDE http://www.cmake.org/pipermail/cmake/2010-February/034965.html
-* fix linux + osx build, http://kcachegrind.sourceforge.net/ http://valgrind.org/
+* fix linux + osx build, http://kcachegrind.sourceforge.net/ http://valgrind.org/ https://github.com/ValveSoftware/steam-runtime
 * add raknet networking
 * improve rendering http://www.gamedev.net/topic/660665-sortingstructuring-renderables-and-cache-locality/ http://www.gamedev.net/topic/660883-best-way-to-make-game-render-most-efficient/
 * static_assert
