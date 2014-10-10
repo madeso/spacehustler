@@ -85,6 +85,7 @@ Fonts: http://www.fontspace.com/sil-international/scheherazade http://www.fontsp
 - rewrite to use/support fixed point arithmetic but let rendering be float/doubles - http://gameprogrammer.com/4-fixed.html http://trac.bookofhook.com/bookofhook/trac.cgi/wiki/IntroductionToFixedPointMath http://en.wikipedia.org/wiki/Libfixmath https://github.com/PetteriAimonen/libfixmatrix
 * change cml to glm - glm lacks documentation & has has design flaws inherited from glsl but works better with intellisense & seems more popular https://www.opengl.org/discussion_boards/showthread.php/180191-glm-length(glm-vec)-and-glm-vec-length
 * upgrade assimp
+* webgl port? http://isocpp.org/blog/2013/03/cpp-to-javascript
 * port to android? (physfs: http://forums.libsdl.org/viewtopic.php?p=37206&sid=3374c819e18df779e17b4ce5a49fdd15)
 * check how transperency is handled https://twitter.com/ID_AA_Carmack/status/469139026708938753 http://www.openglsuperbible.com/2013/08/20/is-order-independent-transparency-really-necessary/ http://gamedev.stackexchange.com/questions/43635/what-is-the-order-less-rendering-technique-that-allows-partial-transparency
 * culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/ http://opengameart.org/content/alien-buildingbase-set
