@@ -18,7 +18,6 @@ class Settings;
 /** Get utility function for the cache concept.
 Gets the cached object or create a new and caches it if can't be found or the
 cached object has been unloaded.
-Tip: use a function object as CreateFunction, the compiler will inline this.
 @param cache the cache
 @param create the create function if a object should be created.
 @param name the key the object is cached under
