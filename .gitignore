@@ -20,3 +20,6 @@ examples/*.dll
 #various files
 .DS_Store
 *.wings~
+
+design.dot
+design.dot.png
