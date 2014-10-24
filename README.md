@@ -80,6 +80,7 @@ Fonts: http://www.fontspace.com/sil-international/scheherazade http://www.fontsp
 * fix linux + osx build, http://kcachegrind.sourceforge.net/ http://valgrind.org/ https://github.com/ValveSoftware/steam-runtime
 * add build server
 * add raknet networking
+* optimize rendering https://www.youtube.com/watch?v=-bCeNzgiJ8I
 * improve rendering http://www.gamedev.net/topic/660665-sortingstructuring-renderables-and-cache-locality/ http://www.gamedev.net/topic/660883-best-way-to-make-game-render-most-efficient/
 * static_assert
 - rewrite to use/support fixed point arithmetic but let rendering be float/doubles - http://gameprogrammer.com/4-fixed.html http://trac.bookofhook.com/bookofhook/trac.cgi/wiki/IntroductionToFixedPointMath http://en.wikipedia.org/wiki/Libfixmath https://github.com/PetteriAimonen/libfixmatrix
