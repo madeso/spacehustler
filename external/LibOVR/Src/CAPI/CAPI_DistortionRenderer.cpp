@@ -26,7 +26,7 @@ limitations under the License.
 
 #include "CAPI_DistortionRenderer.h"
 
-#if defined (OVR_OS_WIN32)
+#if defined (OVR_D3D)
 
 // TBD: Move to separate config file that handles back-ends.
 #define OVR_D3D_VERSION 11
@@ -57,7 +57,7 @@ DistortionRenderer::CreateFunc DistortionRenderer::APICreateRegistry[ovrRenderAP
     0, // None
     &GL::DistortionRenderer::Create,
     0, // Android_GLES
-#if defined (OVR_OS_WIN32)
+#if defined (OVR_D3D)
     &D3D9::DistortionRenderer::Create,
     &D3D10::DistortionRenderer::Create,
     &D3D11::DistortionRenderer::Create
