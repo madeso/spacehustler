@@ -7,8 +7,8 @@ set(libovr_include
 set(libovr_src
 	../external/LibOVR/Src/OVR_CAPI.cpp
 	../external/LibOVR/Src/OVR_CAPI.h
-	../external/LibOVR/Src/OVR_CAPI_D3D.h
 	../external/LibOVR/Src/OVR_CAPI_GL.h
+	../external/LibOVR/Src/OVR_CAPI_Keys.h
 	../external/LibOVR/Src/OVR_JSON.cpp
 	../external/LibOVR/Src/OVR_JSON.h
 	../external/LibOVR/Src/OVR_Profile.cpp
@@ -30,31 +30,9 @@ set(libovr_capi
 	../external/LibOVR/Src/CAPI/CAPI_HMDState.h
 	../external/LibOVR/Src/CAPI/CAPI_HSWDisplay.cpp
 	../external/LibOVR/Src/CAPI/CAPI_HSWDisplay.h
+	../external/LibOVR/Src/CAPI/CAPI_LatencyStatistics.cpp
+	../external/LibOVR/Src/CAPI/CAPI_LatencyStatistics.h
 )
-
-IF(WIN32)
-set(libovr_d3d
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D10_DistortionRenderer.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D10_DistortionRenderer.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D10_HSWDisplay.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D10_HSWDisplay.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D11_DistortionRenderer.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D11_DistortionRenderer.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D11_HSWDisplay.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D11_HSWDisplay.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D1X_DistortionRenderer.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D1X_DistortionRenderer.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D1X_HSWDisplay.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D1X_HSWDisplay.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D1X_Util.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D1X_Util.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_DistortionRenderer.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_DistortionRenderer.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_HSWDisplay.cpp
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_HSWDisplay.h
-	../external/LibOVR/Src/CAPI/D3D1X/CAPI_D3D9_Util.cpp
-)
-ENDIF(WIN32)
 
 set(libovr_gl
 	../external/LibOVR/Src/CAPI/GL/CAPI_GL_DistortionRenderer.cpp
@@ -64,46 +42,10 @@ set(libovr_gl
 	../external/LibOVR/Src/CAPI/GL/CAPI_GL_HSWDisplay.h
 	../external/LibOVR/Src/CAPI/GL/CAPI_GL_Util.cpp
 	../external/LibOVR/Src/CAPI/GL/CAPI_GL_Util.h
+	../external/LibOVR/Src/CAPI/GL/CAPI_GLE.cpp
+	../external/LibOVR/Src/CAPI/GL/CAPI_GLE.h
+	../external/LibOVR/Src/CAPI/GL/CAPI_GLE_GL.h
 )
-
-IF(WIN32)
-set(libovr_shaders
-	../external/LibOVR/Src/CAPI/Shaders/bin2header.exe
-	../external/LibOVR/Src/CAPI/Shaders/Distortion_ps.h
-	../external/LibOVR/Src/CAPI/Shaders/Distortion_ps.psh
-	../external/LibOVR/Src/CAPI/Shaders/Distortion_ps_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/Distortion_vs.h
-	../external/LibOVR/Src/CAPI/Shaders/Distortion_vs.vsh
-	../external/LibOVR/Src/CAPI/Shaders/Distortion_vs_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionChroma_ps.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionChroma_ps.psh
-	../external/LibOVR/Src/CAPI/Shaders/DistortionChroma_ps_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionChroma_vs.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionChroma_vs.vsh
-	../external/LibOVR/Src/CAPI/Shaders/DistortionChroma_vs_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionTimewarp_vs.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionTimewarp_vs.vsh
-	../external/LibOVR/Src/CAPI/Shaders/DistortionTimewarp_vs_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionTimewarpChroma_vs.h
-	../external/LibOVR/Src/CAPI/Shaders/DistortionTimewarpChroma_vs.vsh
-	../external/LibOVR/Src/CAPI/Shaders/DistortionTimewarpChroma_vs_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/genPixelShaderHeader.bat
-	../external/LibOVR/Src/CAPI/Shaders/genVertexShaderHeader.bat
-	../external/LibOVR/Src/CAPI/Shaders/ShaderReflector.exe
-	../external/LibOVR/Src/CAPI/Shaders/SimpleQuad_ps.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleQuad_ps.psh
-	../external/LibOVR/Src/CAPI/Shaders/SimpleQuad_ps_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleQuad_vs.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleQuad_vs.vsh
-	../external/LibOVR/Src/CAPI/Shaders/SimpleQuad_vs_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_ps.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_ps.psh
-	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_ps_refl.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_vs.h
-	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_vs.vsh
-	../external/LibOVR/Src/CAPI/Shaders/SimpleTexturedQuad_vs_refl.h
-)
-ENDIF(WIN32)
 
 set(libovr_textures
 	../external/LibOVR/Src/CAPI/Textures/healthAndSafety.tga.h
@@ -129,6 +71,10 @@ else(WIN32)
 	set(libovr_displays ${libovr_displays}
 		../external/LibOVR/Src/Displays/OVR_OSX_Display.cpp
 		../external/LibOVR/Src/Displays/OVR_OSX_Display.h
+		../external/LibOVR/Src/Displays/OVR_OSX_FocusObserver.h
+		../external/LibOVR/Src/Displays/OVR_OSX_FocusObserver.mm
+		../external/LibOVR/Src/Displays/OVR_OSX_FocusReader.h
+		../external/LibOVR/Src/Displays/OVR_OSX_FocusReader.mm
 	)
 endif(WIN32)
 
@@ -252,7 +198,15 @@ set(libovr_util
 	../external/LibOVR/Src/Util/Util_LatencyTest2State.h
 	../external/LibOVR/Src/Util/Util_Render_Stereo.cpp
 	../external/LibOVR/Src/Util/Util_Render_Stereo.h
+	../external/LibOVR/Src/Util/Util_SystemInfo.cpp
+	../external/LibOVR/Src/Util/Util_SystemInfo.h
 )
+if(WIN32)
+else(WIN32)
+	set(libovr_util ${libovr_util}
+		../external/LibOVR/Src/Util/Util_SystemInfo_OSX.mm
+	)
+endif(WIN32)
 
 source_group(LibOVR\\Include FILES ${libovr_include})
 source_group(LibOVR\\Src FILES ${libovr_src})
