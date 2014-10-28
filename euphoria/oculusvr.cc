@@ -194,6 +194,7 @@ class OculusVr::OculusVrPimpl {
   ovrTexture textures_[2];
   std::unique_ptr<EyeSetup> left_eye_;
   std::unique_ptr<EyeSetup> right_eye_;
+  int frameindex_;
 
  private:
   EyeSetup& GetEyeReferenceFromIndex(ovrEyeType eyeIndex) {
@@ -208,7 +209,8 @@ class OculusVr::OculusVrPimpl {
   }
 
  public:
-  OculusVrPimpl(const Settings& settings, ovrHmd hmd) : hmd_(hmd) {
+  OculusVrPimpl(const Settings& settings, ovrHmd hmd)
+      : hmd_(hmd), frameindex_(0) {
     assert(this);
     assert(hmd);
 
@@ -388,17 +390,19 @@ class OculusVr::OculusVrPimpl {
   void Begin() {
     assert(this);
     ovrHmd_BeginFrame(hmd_, 0);
+
+    ovrVector3f viewOffset[2] = {eye_render_desc_[0].HmdToEyeViewOffset,
+                                 eye_render_desc_[1].HmdToEyeViewOffset};
+    ovrHmd_GetEyePoses(hmd_, frameindex_, viewOffset, poses_, nullptr);
   }
 
-  // for (int eyeIndex = 0; eyeIndex < ovrEye_Count; eyeIndex++)
   EyeSetup& GetEyeIndex(int eyeIndex) {
     assert(this);
     assert(eyeIndex >= 0 && eyeIndex < ovrEye_Count);
     ovrEyeType eye = hmd_->EyeRenderOrder[eyeIndex];
-    ovrPosef pose = ovrHmd_GetEyePose(hmd_, eye);
-    poses_[eye] = pose;
+
     EyeSetup& setup = GetEyeReferenceFromIndex(eye);
-    setup.set_view_adjust(PoseToMatrix(pose));
+    setup.set_view_adjust(PoseToMatrix(poses_[eyeIndex]));
     // view = CalculateViewFromPose(pose);
     return setup;
   }
@@ -406,6 +410,7 @@ class OculusVr::OculusVrPimpl {
   void End() {
     assert(this);
     ovrHmd_EndFrame(hmd_, poses_, textures_);
+    ++frameindex_;
   }
 
   const Vec2i window_size() const {
