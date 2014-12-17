@@ -40,6 +40,8 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
+* add a no-exception build
+* change from json to yaml/protobuf?
 * curved ui + safe area in 2d display
 * replace lua with angelscript, easier api, static typed, like c++ so could easily write a converter, https://github.com/BlindMindStudios/AngelScript-JIT-Compiler http://accu.org/index.php/journals/1608 http://damianpaz.wordpress.com/2012/04/30/adding-angelscript-scripting-to-your-c-application/ http://www.gamedev.net/topic/627784-overrid-c-methods-from-angelscript-possible-alternatives/ or typescrip/javascript
 * hud<->game script access
@@ -48,7 +50,6 @@ Planned Features and stuff that needs to be done
 * integrate viewback http://www.gamedev.net/blog/796/entry-2259935-viewback-a-video-game-design-tool/
 * text rendering, distance field fonts: http://code.google.com/p/freetype-gl/ http://code.google.com/p/libgdx/wiki/DistanceFieldFonts http://bitsquid.blogspot.se/2010/04/distance-field-based-rendering-of.html http://stackoverflow.com/questions/11864365/good-tutorial-on-pango https://github.com/lxnt/ex-sdl-freetype-harfbuzz/ http://www.wildfiregames.com/forum/index.php?showtopic=17365 http://www.reddit.com/r/gamedev/comments/2e8q5o/2d_game_c_gui_framework_with_manually/cjyyjv6 http://www.gamedev.net/topic/609842-freetypeglvboshaders/
 * fps counter, through viewback?
-* change from json to yaml/protobuf?
 * super tool that edit all files, with dependency checker http://bitsquid.blogspot.se/2010/10/dependency-checker.html and later dropbox like push funtionality
 * replace filehandling with physfs http://blog.wolfire.com/2012/05/Game-File-Systems-File-Paths http://gamedev.stackexchange.com/questions/33126/unicode-usage-in-video-games
 * complete oculus rift support, use DwmEnableComposition to turn off Aero https://gist.github.com/dghost/8ea97e3d4f55590d75e0 https://developer.oculusvr.com/forums/viewtopic.php?f=34&t=13682&p=182396#p182396
