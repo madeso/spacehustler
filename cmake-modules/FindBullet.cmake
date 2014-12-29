@@ -27,6 +27,7 @@ FIND_PATH( BULLET_INCLUDE_DIR btBulletCollisionCommon.h
     PATHS
         ${BULLET_ROOT}
         $ENV{BULLET_ROOT}
+        $ENV{BULLET_ROOT}/${CMAKE_CXX_COMPILER_ID}
         ${BULLET_SOURCE_DIR}
         $ENV{BULLET_SOURCE_DIR}
         "C:/Program Files/BULLET_PHYSICS"
@@ -38,6 +39,7 @@ FIND_PATH( BULLET_INCLUDE_DIR btBulletCollisionCommon.h
     PATH_SUFFIXES
         /src
         /include
+		/include/bullet
     )
 IF( BULLET_INCLUDE_DIR )
     SET( BULLET_EXTRAS_INCLUDE_DIR ${BULLET_INCLUDE_DIR}/../Extras )
@@ -55,6 +57,7 @@ MACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME DIRNAME )
         PATHS
             ${BULLET_ROOT}
             $ENV{BULLET_ROOT}
+			$ENV{BULLET_ROOT}/${CMAKE_CXX_COMPILER_ID}
             ${BULLET_BUILD_DIR}
             $ENV{BULLET_BUILD_DIR}
             "C:/Program Files/BULLET_PHYSICS"

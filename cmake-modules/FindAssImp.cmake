@@ -23,9 +23,9 @@ set(_assimp_LIB_SEARCH_DIRS_SYSTEM
   )
 
 FIND_PATH(ASSIMP_INCLUDE_DIR assimp/ai_assert.h
-	$ENV{ASSIMPSDIR}/include
-	$ENV{ASSIMPSDIR}
-	$ENV{ASSIMPSDIR}/..
+	$ENV{ASSIMP_ROOT}/include
+	$ENV{ASSIMP_ROOT}
+	$ENV{ASSIMP_ROOT}/..
 	~/Library/Frameworks/AssImp.framework/Headers
 	/Library/Frameworks/AssImp.framework/Headers
 	/usr/local/include/assimp
@@ -46,7 +46,8 @@ FIND_PATH(ASSIMP_INCLUDE_DIR assimp/ai_assert.h
 FIND_LIBRARY(ASSIMP_LIBRARY_DEBUG 
 	NAMES assimpD
 	PATHS
-	$ENV{ASSIMPSDIR}/lib
+	$ENV{ASSIMP_ROOT}/lib
+	$ENV{ASSIMP_ROOT}/lib/${CMAKE_CXX_COMPILER_ID}
 	/usr/local/lib
 	/usr/lib
 	/sw/lib
@@ -59,7 +60,8 @@ FIND_LIBRARY(ASSIMP_LIBRARY_DEBUG
 FIND_LIBRARY(ASSIMP_LIBRARY_RELEASE 
 	NAMES assimp
 	PATHS
-	$ENV{ASSIMPSDIR}/lib
+	$ENV{ASSIMP_ROOT}/lib
+	$ENV{ASSIMP_ROOT}/lib/${CMAKE_CXX_COMPILER_ID}
 	/usr/local/lib
 	/usr/lib
 	/sw/lib
