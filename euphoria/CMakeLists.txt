@@ -171,6 +171,7 @@ target_link_libraries(main-sdl2 ${OPENGL_LIBRARIES} ${SDL2_LIBRARY} ${ASSIMP_LIB
 message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
 message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")
 message(STATUS "Linking with Bullet ${BULLET_LIBRARIES}")
+message(STATUS "Linking with extra libs ${extra_libraries}")
 
 if(BUILD_USE_DOXYGEN)
 	message(STATUS "Doxygen exe is ${DOXYGEN_EXECUTABLE} with args ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile in dir ${CMAKE_SOURCE_DIR}/euphoria")
