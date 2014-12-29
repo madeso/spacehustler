@@ -27,17 +27,7 @@ class Patch {
   int width;
   int height;
 
-  enum {
-    UL,
-    UM,
-    UR,
-    ML,
-    MM,
-    MR,
-    LL,
-    LM,
-    LR
-  };
+  enum { UL, UM, UR, ML, MM, MR, LL, LM, LR };
 };
 
 class Ninepatch {

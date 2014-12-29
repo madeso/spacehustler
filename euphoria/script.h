@@ -307,8 +307,7 @@ ScriptRegister* GetGlobalScriptRegister();
       func(&params);                                    \
       params.Post();                                    \
       return params.number_of_returns();                \
-    }                                                   \
-    catch (...) {                                       \
+    } catch (...) {                                     \
       return internal::HandleLuaException(name, state); \
     }                                                   \
   }

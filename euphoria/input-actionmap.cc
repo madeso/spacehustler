@@ -36,8 +36,8 @@ void InputActionMap::Add(const std::string& name,
   }
 }
 
-std::shared_ptr<InputAction> InputActionMap::Get(const std::string& name)
-    const {
+std::shared_ptr<InputAction> InputActionMap::Get(
+    const std::string& name) const {
   assert(this);
   auto res = actions_.find(name);
   if (res == actions_.end()) {

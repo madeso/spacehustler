@@ -9,7 +9,9 @@ Functions for binding basic types to lua.
 
 #include "euphoria/math.h"
 
-extern "C" { struct lua_State; }
+extern "C" {
+struct lua_State;
+}
 
 namespace euphoria {
 

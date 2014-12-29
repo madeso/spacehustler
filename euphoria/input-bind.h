@@ -16,10 +16,7 @@ namespace input {
 class InputAction;
 class GlobalToggle;
 
-enum class BindType {
-  RANGE,
-  AXIS
-};
+enum class BindType { RANGE, AXIS };
 
 std::string ToString(const BindType& bt);
 

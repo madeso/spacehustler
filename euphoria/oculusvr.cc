@@ -177,10 +177,7 @@ ovrTexture GetOvrTexture(const EyeSetup& eye) {
   return tex;
 }
 
-enum {
-  INDEX_LEFT = 0,
-  INDEX_RIGHT = 1
-};
+enum { INDEX_LEFT = 0, INDEX_RIGHT = 1 };
 
 class OculusVr::OculusVrPimpl {
  private:

@@ -19,8 +19,8 @@ TextureLoadingInstruction::TextureLoadingInstruction(const std::string& file,
   assert(this);
 }
 
-bool TextureLoadingInstruction::operator<(const TextureLoadingInstruction& rhs)
-    const {
+bool TextureLoadingInstruction::operator<(
+    const TextureLoadingInstruction& rhs) const {
   assert(this);
   if (wraps != rhs.wraps) {
     return wraps < rhs.wraps;

@@ -19,10 +19,7 @@ class NinepatchInstance;
 class Ninepatch;
 namespace ui {
 
-enum class ProgressbarLayout {
-  HORIZONTAL,
-  VERTICAL
-};
+enum class ProgressbarLayout { HORIZONTAL, VERTICAL };
 
 class ProgressbarWidget : public Widget {
  public:

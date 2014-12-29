@@ -11,8 +11,8 @@
 
 namespace euphoria {
 
-std::string StringMerger::Generate(const std::vector<std::string>& strings)
-    const {
+std::string StringMerger::Generate(
+    const std::vector<std::string>& strings) const {
   assert(this);
 
   if (strings.empty()) {

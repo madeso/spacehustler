@@ -10,17 +10,13 @@ namespace euphoria {
 std::string GrabExceptionInformation() {
   try {
     throw;
-  }
-  catch (const std::exception& e) {
+  } catch (const std::exception& e) {
     return e.what();
-  }
-  catch (const char* const err) {
+  } catch (const char* const err) {
     return err;
-  }
-  catch (const std::string& err) {
+  } catch (const std::string& err) {
     return err;
-  }
-  catch (...) {
+  } catch (...) {
     return "unknown error";
   }
   return "missing exception";
