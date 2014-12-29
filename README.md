@@ -40,8 +40,12 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
+* remove std::strings for resource id/crc32 hashes, http://cowboyprogramming.com/2007/01/04/practical-hash-ids/ http://bitsquid.blogspot.se/2010/10/static-hash-values.html
+* look into custom stl allocators http://www.gamedev.net/topic/353479-the-stl-for-game-engine-architecture/?whichpage=1%25EF%25BF%25BD
 * add a no-exception build
+* move graphical code into a graphics namespace
 * change from json to yaml/protobuf?
+* use common resources and write a tool to check for missing resources http://bitsquid.blogspot.se/2010/10/dependency-checker.html#comment-form
 * curved ui + safe area in 2d display
 * replace lua with angelscript, easier api, static typed, like c++ so could easily write a converter, https://github.com/BlindMindStudios/AngelScript-JIT-Compiler http://accu.org/index.php/journals/1608 http://damianpaz.wordpress.com/2012/04/30/adding-angelscript-scripting-to-your-c-application/ http://www.gamedev.net/topic/627784-overrid-c-methods-from-angelscript-possible-alternatives/ or typescrip/javascript
 * hud<->game script access
