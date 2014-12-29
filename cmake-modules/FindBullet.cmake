@@ -79,11 +79,12 @@ MACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME DIRNAME )
         )
     FIND_LIBRARY( BULLET_${LIBNAME}_LIBRARY_debug
         NAMES
-            ${LIBNAME}
+            # ${LIBNAME} # don't link to the release
             ${LIBNAME}_Debug # on my (win) system, cmake generates a _Debug build instead
         PATHS
             ${BULLET_ROOT}
             $ENV{BULLET_ROOT}
+			$ENV{BULLET_ROOT}/${CMAKE_CXX_COMPILER_ID}
             ${BULLET_BUILD_DIR}
             $ENV{BULLET_BUILD_DIR}
             "C:/Program Files/BULLET_PHYSICS"
@@ -105,16 +106,16 @@ MACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME DIRNAME )
         )
 #    message( STATUS ${BULLET_${LIBNAME}_LIBRARY} ${BULLET_${LIBNAME}_LIBRARY_debug} )
 #    message( SEND_ERROR ${LIBNAME} )
-    IF( BULLET_${LIBNAME}_LIBRARY )
-        SET( BULLET_LIBRARIES ${BULLET_LIBRARIES}
-            "optimized" ${BULLET_${LIBNAME}_LIBRARY}
-        )
-    ENDIF( BULLET_${LIBNAME}_LIBRARY )
     IF( BULLET_${LIBNAME}_LIBRARY_debug )
         SET( BULLET_LIBRARIES ${BULLET_LIBRARIES}
             "debug" ${BULLET_${LIBNAME}_LIBRARY_debug}
         )
     ENDIF( BULLET_${LIBNAME}_LIBRARY_debug )
+	IF( BULLET_${LIBNAME}_LIBRARY )
+        SET( BULLET_LIBRARIES ${BULLET_LIBRARIES}
+            "optimized" ${BULLET_${LIBNAME}_LIBRARY}
+        )
+    ENDIF( BULLET_${LIBNAME}_LIBRARY )
 ENDMACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME )
 
 MACRO( FIND_BULLET_LIBRARY LIBNAME )
