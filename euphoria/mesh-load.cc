@@ -143,7 +143,8 @@ Mesh LoadMesh(const std::string& path) {
 
   const aiScene* scene = importer.ReadFile(path, kAssimpFlags);
   if (!scene) {
-    throw importer.GetErrorString();
+    const std::string error = importer.GetErrorString();
+    throw error;
   }
   return ConvertScene(scene);
 }
