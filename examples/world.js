@@ -1,4 +1,4 @@
 {
-	"collisionmesh":"world.dae",
-	"meshes" : ["world.dae"]
+	"collisionmesh":"world.obj",
+	"meshes" : ["world.obj"]
 }
