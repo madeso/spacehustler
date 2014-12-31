@@ -134,6 +134,9 @@ struct StaticMesh {
              std::shared_ptr<btDiscreteDynamicsWorld> dynamicsWorld) {
     mesh.reset(new btTriangleMesh());
 
+    unsigned int invalid_triangles_count = 0;
+    unsigned int added_triangles_count = 0;
+
     const unsigned int facecount = part.faces.size() / 3;
     for (unsigned int f = 0; f < facecount; ++f) {
       const unsigned int fb = f * 3;
@@ -143,8 +146,23 @@ struct StaticMesh {
       const Vec3 v1 = part.GetVertex(p1);
       const Vec3 v2 = part.GetVertex(p2);
       const Vec3 v3 = part.GetVertex(p3);
-      mesh->addTriangle(C(v1), C(v2), C(v3));
+
+      const auto c1 = C(v1);
+      const auto c2 = C(v2);
+      const auto c3 = C(v3);
+
+      const auto normal = (c1 - c2).cross(c3 - c2);
+      const auto l2 = normal.length2();
+
+      if (l2 > 0) {
+        mesh->addTriangle(c1, c2, c3);
+        ++added_triangles_count;
+      } else {
+        ++invalid_triangles_count;
+      }
     }
+
+    assert(invalid_triangles_count == 0);
 
     shape.reset(new btBvhTriangleMeshShape(mesh.get(), true));
 
