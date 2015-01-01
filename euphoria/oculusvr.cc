@@ -239,7 +239,7 @@ class OculusVr::OculusVrPimpl {
       ovrSizei textureSize =
           EnsureRendertargetAtLeastThisBig(ovrEye_Left, recommenedTexSize);
 
-      left_eye_.reset(new EyeSetup(CreateIdentityMat44(), CreateIdentityMat44(),
+      left_eye_.reset(new EyeSetup(Mat44Identity(), Mat44Identity(),
                                    textureSize.w, textureSize.h,
                                    settings.mipmap_eye_textures()));
 
@@ -269,9 +269,8 @@ class OculusVr::OculusVrPimpl {
         // limits.
         rtSize = EnsureRendertargetAtLeastThisBig(ovrEye_Left, rtSize);
 
-        left_eye_.reset(new EyeSetup(CreateIdentityMat44(),
-                                     CreateIdentityMat44(), rtSize.w, rtSize.h,
-                                     settings.mipmap_eye_textures()));
+        left_eye_.reset(new EyeSetup(Mat44Identity(), Mat44Identity(), rtSize.w,
+                                     rtSize.h, settings.mipmap_eye_textures()));
 
         // Don't draw more then recommended size; this also ensures that
         // resolution reported
@@ -299,12 +298,12 @@ class OculusVr::OculusVrPimpl {
             ovrEye_Right, recommenedTexRightSize);
 
         // setup eye textures and stuff
-        left_eye_.reset(new EyeSetup(
-            CreateIdentityMat44(), CreateIdentityMat44(), texLeftSize.w,
-            texLeftSize.h, settings.mipmap_eye_textures()));
-        right_eye_.reset(new EyeSetup(
-            CreateIdentityMat44(), CreateIdentityMat44(), texRightSize.w,
-            texRightSize.h, settings.mipmap_eye_textures()));
+        left_eye_.reset(new EyeSetup(Mat44Identity(), Mat44Identity(),
+                                     texLeftSize.w, texLeftSize.h,
+                                     settings.mipmap_eye_textures()));
+        right_eye_.reset(new EyeSetup(Mat44Identity(), Mat44Identity(),
+                                      texRightSize.w, texRightSize.h,
+                                      settings.mipmap_eye_textures()));
 
         eye_render_size_[INDEX_LEFT] =
             SizeiMin(texLeftSize, recommenedTexleftSize);

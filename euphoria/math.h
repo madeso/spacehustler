@@ -68,7 +68,7 @@ Mat44 CreateMat44(const Quat& q);
 /** Create a identity matrix.
 @returns the identity matrix.
  */
-Mat44 CreateIdentityMat44();
+Mat44 Mat44Identity();
 
 /** Combine a translation and a rotation into a translation/rototation matrix.
 @param v the translation.

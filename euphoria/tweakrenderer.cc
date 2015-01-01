@@ -78,7 +78,7 @@ void TweakRenderer::Render(const Camera& cam) {
   program_->Bind();
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
-  program_->SetUniform("model", CreateIdentityMat44());
+  program_->SetUniform("model", Mat44Identity());
   fbo_->BindTexture(0);
 
   glClear(GL_DEPTH_BUFFER_BIT);

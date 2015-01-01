@@ -54,7 +54,7 @@ Camera CreateCameraPerspective(float fov, int width, int height,
   cml::matrix_perspective_xfov_RH(projection, fov, CreateAspect(width, height),
                                   nearfar.near(), nearfar.far(),
                                   cml::z_clip_zero);
-  return Camera(CreateIdentityMat44(), projection);
+  return Camera(Mat44Identity(), projection);
 }
 
 Camera CreateCameraOrtho(int width, int height, const NearFar& nearfar) {
@@ -62,7 +62,7 @@ Camera CreateCameraOrtho(int width, int height, const NearFar& nearfar) {
   cml::matrix_orthographic_RH(projection, static_cast<float>(width),
                               static_cast<float>(height), nearfar.near(),
                               nearfar.far(), cml::z_clip_zero);
-  return Camera(CreateIdentityMat44(), projection);
+  return Camera(Mat44Identity(), projection);
 }
 
 }  // namespace euphoria

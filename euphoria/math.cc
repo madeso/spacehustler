@@ -23,7 +23,7 @@ Mat44 CreateMat44(const Quat& q) {
   return ret;
 }
 
-Mat44 CreateIdentityMat44() {
+Mat44 Mat44Identity() {
   Mat44 ret;
   ret.identity();
   return ret;
