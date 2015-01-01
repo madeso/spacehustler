@@ -51,8 +51,11 @@ class Sdl : NonCopyable {
  public:
   explicit Sdl(const Settings& settings) {
     assert(this);
+	const Uint32 haptic
+		= 0;
+		// = SDL_INIT_HAPTIC;
     const Uint32 flags = settings.support_joystick()
-                             ? SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK |
+                             ? haptic | SDL_INIT_JOYSTICK |
                                    SDL_INIT_VIDEO | SDL_INIT_EVENTS
                              : SDL_INIT_VIDEO | SDL_INIT_EVENTS;
     HandleStatus(SDL_Init(flags));
