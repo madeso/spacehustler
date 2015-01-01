@@ -52,7 +52,7 @@ Game::Game(const Settings& settings)
       last_tweak_action_(false),
       lock_mouse_(true),
       istweaking_(false),
-      camera_(CreateCameraPerspective(45, 10, 10, NearFar(0.1f, 10.0f))) {
+      camera_(CreateCameraPerspective(45, 10, 10, NearFar(1.0f, 100.0f))) {
   assert(this);
 
   // @todo move this to a press enter to play screen
@@ -92,7 +92,7 @@ Game::Game(const Settings& settings)
 
   tweakaction_ = inputsystem_.GetAction("enable_tweak");
 
-  camera_ = CreateCameraPerspective(45, width_, height_, NearFar(0.1f, 800.0f));
+  camera_ = CreateCameraPerspective(45, width_, height_, NearFar(1.0f, 800.0f));
 
   container_.reset(new SystemContainer());
   LoadSystems("systemdefs.js",
