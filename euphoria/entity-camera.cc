@@ -15,16 +15,25 @@ const std::string CameraSystemType = "Camera";
 
 class CameraType : public ComponentType {
  public:
-  explicit CameraType(const Json::Value& data) {}
+  explicit CameraType(const Json::Value& data)
+      : fov(data.get("fov", 45.0f).asFloat()),
+        nearfar(data.get("near", 1.0f).asFloat(),
+                data.get("far", 100.0f).asFloat()) {}
+
+  float fov;
+  NearFar nearfar;
 };
 
 struct CameraObject {
  public:
-  CameraObject(Entity* ent, const CameraType& t) : entity(ent) {
+  CameraObject(Entity* ent, const CameraType& t)
+      : entity(ent), fov(t.fov), nearfar(t.nearfar) {
     assert(entity);
   }
 
   Entity* entity;
+  float fov;
+  NearFar nearfar;
 };
 
 class CameraSystem : public System {
@@ -37,6 +46,7 @@ class CameraSystem : public System {
   ComponentType* AddType(const Json::Value& data) override {
     assert(this);
     std::shared_ptr<CameraType> type(new CameraType(data));
+
     types_.push_back(type);
     return type.get();
   }
@@ -58,6 +68,8 @@ class CameraSystem : public System {
       temp.conjugate();
       camera_->set_view(CreateMat44(temp) *
                         CreateMat44(Vec3(-o.entity->position)));
+      camera_->set_projection(CreateCameraPerspective(
+          o.fov, camera_->width(), camera_->height(), o.nearfar));
     }
   }
 

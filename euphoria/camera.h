@@ -29,7 +29,7 @@ class Camera {
  public:
   /** Constructs a new camera.
    */
-  Camera(const Mat44& view, const Mat44& projection);
+  Camera(const Mat44& view, const Mat44& projection, int width, int height);
 
   /** Gets the view matrix.
   @returns the view matrix.
@@ -51,19 +51,22 @@ class Camera {
    */
   void set_projection(const Mat44& projection);
 
-  /** Set the new Field of view.
-  @param fov the new FOV.
-   */
-  void set_fov(float fov);
+  int width() const;
+  void set_width(int width);
+
+  int height() const;
+  void set_height(int height);
 
  private:
   Mat44 view_;
   Mat44 projection_;
+  int width_;
+  int height_;
 };
 
-Camera CreateCameraPerspective(float fov, int width, int height,
-                               const NearFar& nearfar);
-Camera CreateCameraOrtho(int width, int height, const NearFar& nearfar);
+Mat44 CreateCameraPerspective(float fov, int width, int height,
+                              const NearFar& nearfar);
+Mat44 CreateCameraOrtho(int width, int height, const NearFar& nearfar);
 
 }  // namespace euphoria
 

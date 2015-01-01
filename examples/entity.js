@@ -11,7 +11,7 @@
 	
 	,{ "name" : "camera",  "data": [
 		 {"system": "Camera",
-			"data" : {}}
+			"data" : {"fov": 45, "near": 5, "far": 1500}}
 		,{"system": "3rdperson", "data":{}}
 		,{"system": "Player", "data": {"name":"Player"}}
 	] }
