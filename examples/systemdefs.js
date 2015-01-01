@@ -1,5 +1,6 @@
 [
-	 {"system":"Player", "data" : {}}
+	 {"system":"Physics", "data" : {}}
+	, {"system":"Player", "data" : {}}
 	,{"system":"Script", "data" : {
 		  "name":"test"
 		, "typefunction":"test_type"
@@ -14,7 +15,6 @@
 		, "stepfunction":"thirdperson_step"
 		}
 	 }
-	, {"system":"Physics", "data" : {}}
 	,{"system":"Rendering", "data" : {}}
 	,{"system":"Camera", "data" : {}}
 	,{"system":"Name", "data" : {}}
