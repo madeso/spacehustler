@@ -40,6 +40,7 @@ Optional tools
 
 Planned Features and stuff that needs to be done
 =======
+* move gfx code into graphic namespace
 * rewrite anttweakbar
 * remove std::strings for resource id/crc32 hashes, http://cowboyprogramming.com/2007/01/04/practical-hash-ids/ http://bitsquid.blogspot.se/2010/10/static-hash-values.html
 * look into custom stl allocators http://www.gamedev.net/topic/353479-the-stl-for-game-engine-architecture/?whichpage=1%25EF%25BF%25BD
