@@ -10,7 +10,7 @@ Texture cache related code.
 #include <memory>
 #include <string>
 #include <map>
-#include "euphoria/texture.h"
+#include "euphoria/graphics/texture.h"
 
 namespace euphoria {
 

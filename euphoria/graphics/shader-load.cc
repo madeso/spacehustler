@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/shader.h"
+#include "euphoria/graphics/shader.h"
 #include <string>
 #include <fstream>  // NOLINT for loading data
 #include <sstream>

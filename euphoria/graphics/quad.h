@@ -9,7 +9,7 @@ Quad related code.
 
 #include <memory>
 
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/mesh.h"
 
 namespace euphoria {
 

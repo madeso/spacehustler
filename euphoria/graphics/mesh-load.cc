@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/mesh.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

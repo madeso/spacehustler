@@ -1,11 +1,11 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/ogldebug.h"
+#include "euphoria/graphics/ogldebug.h"
 
 #include <string>
 #include <stdexcept>
 
-#include "euphoria/opengl.h"
+#include "euphoria/graphics/opengl.h"
 #include "euphoria/str.h"
 
 namespace euphoria {

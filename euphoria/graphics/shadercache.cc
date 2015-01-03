@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/shadercache.h"
+#include "euphoria/graphics/shadercache.h"
 #include <cassert>
 #include <string>
 

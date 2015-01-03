@@ -1,13 +1,13 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/shader.h"
+#include "euphoria/graphics/shader.h"
 
 #include <memory>
 #include <cassert>
 #include <algorithm>
 #include <string>
 
-#include "euphoria/ogldebug.h"
+#include "euphoria/graphics/ogldebug.h"
 #include "euphoria/str.h"
 
 namespace euphoria {

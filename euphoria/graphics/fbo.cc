@@ -1,13 +1,13 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/fbo.h"
+#include "euphoria/graphics/fbo.h"
 
 #include <cassert>
 #include <string>
 
-#include "euphoria/opengl.h"
+#include "euphoria/graphics/opengl.h"
 #include "euphoria/str.h"
-#include "euphoria/texture.h"
+#include "euphoria/graphics/texture.h"
 
 namespace euphoria {
 

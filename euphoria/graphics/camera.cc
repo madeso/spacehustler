@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/camera.h"
+#include "euphoria/graphics/camera.h"
 
 #include <cassert>
 

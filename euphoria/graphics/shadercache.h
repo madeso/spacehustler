@@ -10,7 +10,7 @@ Shader cache related code.
 #include <memory>
 #include <string>
 #include <map>
-#include "euphoria/shader.h"
+#include "euphoria/graphics/shader.h"
 
 namespace euphoria {
 

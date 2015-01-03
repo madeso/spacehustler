@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/quad.h"
+#include "euphoria/graphics/quad.h"
 
 #include <cassert>
 

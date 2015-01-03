@@ -9,7 +9,7 @@ Logic for the textures.
 
 #include <string>
 
-#include "euphoria/opengl.h"
+#include "euphoria/graphics/opengl.h"
 #include "euphoria/noncopyable.h"
 
 namespace euphoria {

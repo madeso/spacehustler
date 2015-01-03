@@ -5,8 +5,8 @@
 #include <fstream>  // NOLINT for loading data
 
 #include "euphoria/str.h"
-#include "euphoria/ninepatch.h"
-#include "euphoria/ogldebug.h"
+#include "euphoria/graphics/ninepatch.h"
+#include "euphoria/graphics/ogldebug.h"
 #include "euphoria/stringutils.h"
 #include "euphoria/path.h"
 #include "json/json.h"

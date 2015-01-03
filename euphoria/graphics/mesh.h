@@ -10,13 +10,13 @@ Mesh related code.
 #include <vector>
 #include <string>
 
-#include "euphoria/opengl.h"
-#include "euphoria/shader.h"
-#include "euphoria/texture.h"
-#include "euphoria/camera.h"
-#include "euphoria/texturecache.h"
-#include "euphoria/shadercache.h"
-#include "euphoria/openglraii.h"
+#include "euphoria/graphics/opengl.h"
+#include "euphoria/graphics/shader.h"
+#include "euphoria/graphics/texture.h"
+#include "euphoria/graphics/camera.h"
+#include "euphoria/graphics/texturecache.h"
+#include "euphoria/graphics/shadercache.h"
+#include "euphoria/graphics/openglraii.h"
 
 namespace euphoria {
 

@@ -4,8 +4,8 @@
 Utility code for debugging OpenGL.
  */
 
-#ifndef EUPHORIA_OGLDEBUG_H_
-#define EUPHORIA_OGLDEBUG_H_
+#ifndef EUPHORIA_GRAPHICS_OGLDEBUG_H_
+#define EUPHORIA_GRAPHICS_OGLDEBUG_H_
 
 #include "euphoria/noncopyable.h"
 

@@ -5,8 +5,8 @@
 #include <fstream>  // NOLINT for loading data
 
 #include "euphoria/str.h"
-#include "euphoria/dynamicquad.h"
-#include "euphoria/ogldebug.h"
+#include "euphoria/graphics/dynamicquad.h"
+#include "euphoria/graphics/ogldebug.h"
 
 #include "euphoria/tweak.h"
 

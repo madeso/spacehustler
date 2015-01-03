@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/openglraii.h"
+#include "euphoria/graphics/openglraii.h"
 #include <cassert>
 
 namespace euphoria {

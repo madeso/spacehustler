@@ -11,10 +11,10 @@ Debug rendering.
 
 #include "euphoria/color.h"
 #include "euphoria/math.h"
-#include "euphoria/openglraii.h"
-#include "euphoria/shader.h"
-#include "euphoria/shadercache.h"
-#include "euphoria/camera.h"
+#include "euphoria/graphics/openglraii.h"
+#include "euphoria/graphics/shader.h"
+#include "euphoria/graphics/shadercache.h"
+#include "euphoria/graphics/camera.h"
 
 namespace euphoria {
 

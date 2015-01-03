@@ -11,7 +11,7 @@ Camera related code.
 #include <string>
 
 #include "euphoria/math.h"
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/mesh.h"
 
 namespace euphoria {
 class Texture;

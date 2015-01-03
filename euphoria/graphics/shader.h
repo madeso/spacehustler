@@ -11,7 +11,7 @@ Contains the shader logic.
 #include <vector>
 #include <string>
 
-#include "euphoria/opengl.h"
+#include "euphoria/graphics/opengl.h"
 #include "euphoria/math.h"
 #include "euphoria/noncopyable.h"
 

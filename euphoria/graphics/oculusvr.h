@@ -11,7 +11,7 @@ Oculus VR related integration code.
 #include <string>
 
 #include "euphoria/math.h"
-#include "euphoria/fbo.h"
+#include "euphoria/graphics/fbo.h"
 #include "euphoria/noncopyable.h"
 
 namespace euphoria {

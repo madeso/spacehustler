@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/debugrenderer.h"
+#include "euphoria/graphics/debugrenderer.h"
 #include <cassert>
 #include <vector>
 

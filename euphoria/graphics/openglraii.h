@@ -7,7 +7,7 @@ Raii elements for opengl.
 #ifndef EUPHORIA_GRAPHICS_OPENGLRAII_H_
 #define EUPHORIA_GRAPHICS_OPENGLRAII_H_
 
-#include "euphoria/opengl.h"
+#include "euphoria/graphics/opengl.h"
 
 namespace euphoria {
 

@@ -1,10 +1,10 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/mesh.h"
 #include <cassert>
 #include <vector>
 #include <limits>
-#include "euphoria/shader.h"
+#include "euphoria/graphics/shader.h"
 
 namespace euphoria {
 

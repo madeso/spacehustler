@@ -1,6 +1,6 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/tweakrenderer.h"
+#include "euphoria/graphics/tweakrenderer.h"
 
 #include <cassert>
 
@@ -10,12 +10,12 @@
 #include <AntTweakBar.h>  // NOLINT this is where to include this
 #endif
 
-#include "euphoria/fbo.h"
-#include "euphoria/quad.h"
-#include "euphoria/shader.h"
-#include "euphoria/camera.h"
+#include "euphoria/graphics/fbo.h"
+#include "euphoria/graphics/quad.h"
+#include "euphoria/graphics/shader.h"
+#include "euphoria/graphics/camera.h"
 #include "euphoria/math.h"
-#include "euphoria/ogldebug.h"
+#include "euphoria/graphics/ogldebug.h"
 
 namespace euphoria {
 

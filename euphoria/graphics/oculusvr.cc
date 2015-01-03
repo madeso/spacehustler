@@ -1,11 +1,11 @@
 // Euphoria - Copyright (c) Gustav
 
-#include "euphoria/oculusvr.h"
+#include "euphoria/graphics/oculusvr.h"
 
 #include <cassert>
 #include <string>
 
-#include "euphoria/texture.h"
+#include "euphoria/graphics/texture.h"
 #include "euphoria/log.h"
 #include "euphoria/settings.h"
 
