@@ -1,7 +1,8 @@
 FILE(GLOB game_src_glob *.cc;*.h;*.inl)
+FILE(GLOB graphics_src_glob graphics/*.cc;graphics/*.h;graphics/*.inl)
 FILE(GLOB game_input_src_glob input*.cc;input*.h)
 FILE(GLOB game_ui_src_glob ui-*.cc;ui-*.h)
-set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h")
+set(game_src ${game_src_glob} "${PROJECT_BINARY_DIR}/euphoria-config.h" ${graphics_src_glob})
 
 #libovr requires unicode support
 add_definitions(-DUNICODE -D_UNICODE)
@@ -89,6 +90,7 @@ set ( src_lua
 source_group("" FILES ${game_src})
 source_group(glew FILES ${src_glew})
 source_group(soil FILES ${src_soil})
+source_group(graphics FILES ${graphics_src_glob})
 source_group(lua FILES ${src_lua})
 source_group(jsoncpp FILES ${src_jsoncpp})
 source_group(cmake FILES "${PROJECT_SOURCE_DIR}/euphoria-config-in.h")
