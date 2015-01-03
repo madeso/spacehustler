@@ -4,8 +4,8 @@
 Logic for the textures.
  */
 
-#ifndef EUPHORIA_TEXTURE_H_
-#define EUPHORIA_TEXTURE_H_
+#ifndef EUPHORIA_GRAPHICS_TEXTURE_H_
+#define EUPHORIA_GRAPHICS_TEXTURE_H_
 
 #include <string>
 
@@ -189,4 +189,4 @@ class Texture : NonCopyable {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_TEXTURE_H_
+#endif  // EUPHORIA_GRAPHICS_TEXTURE_H_

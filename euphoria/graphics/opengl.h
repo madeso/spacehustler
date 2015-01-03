@@ -7,9 +7,9 @@ Basic header for OpenGl.
 https://bitbucket.org/alfonse/glloadgen/wiki/Home
  */
 
-#ifndef EUPHORIA_OPENGL_H_
-#define EUPHORIA_OPENGL_H_
+#ifndef EUPHORIA_GRAPHICS_OPENGL_H_
+#define EUPHORIA_GRAPHICS_OPENGL_H_
 
 #include <GL/glew.h>
 
-#endif  // EUPHORIA_OPENGL_H_
+#endif  // EUPHORIA_GRAPHICS_OPENGL_H_

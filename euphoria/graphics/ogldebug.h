@@ -40,4 +40,4 @@ class OglDebug : NonCopyable {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_OGLDEBUG_H_
+#endif  // EUPHORIA_GRAPHICS_OGLDEBUG_H_

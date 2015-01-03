@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_DYNAMICQUAD_H_
-#define EUPHORIA_DYNAMICQUAD_H_
+#ifndef EUPHORIA_GRAPHICS_DYNAMICQUAD_H_
+#define EUPHORIA_GRAPHICS_DYNAMICQUAD_H_
 
 #include <memory>
 #include <string>
@@ -43,4 +43,4 @@ class DynamicQuad {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_DYNAMICQUAD_H_
+#endif  // EUPHORIA_GRAPHICS_DYNAMICQUAD_H_

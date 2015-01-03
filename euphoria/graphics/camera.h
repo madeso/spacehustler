@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_CAMERA_H_
-#define EUPHORIA_CAMERA_H_
+#ifndef EUPHORIA_GRAPHICS_CAMERA_H_
+#define EUPHORIA_GRAPHICS_CAMERA_H_
 
 #include "euphoria/math.h"
 
@@ -70,4 +70,4 @@ Mat44 CreateCameraOrtho(int width, int height, const NearFar& nearfar);
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_CAMERA_H_
+#endif  // EUPHORIA_GRAPHICS_CAMERA_H_

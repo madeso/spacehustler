@@ -4,8 +4,8 @@
 Shader cache related code.
  */
 
-#ifndef EUPHORIA_SHADERCACHE_H_
-#define EUPHORIA_SHADERCACHE_H_
+#ifndef EUPHORIA_GRAPHICS_SHADERCACHE_H_
+#define EUPHORIA_GRAPHICS_SHADERCACHE_H_
 
 #include <memory>
 #include <string>
@@ -38,4 +38,4 @@ class ShaderCache {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_SHADERCACHE_H_
+#endif  // EUPHORIA_GRAPHICS_SHADERCACHE_H_

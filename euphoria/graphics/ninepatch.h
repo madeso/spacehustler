@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_NINEPATCH_H_
-#define EUPHORIA_NINEPATCH_H_
+#ifndef EUPHORIA_GRAPHICS_NINEPATCH_H_
+#define EUPHORIA_GRAPHICS_NINEPATCH_H_
 
 #include <memory>
 #include <string>
@@ -92,4 +92,4 @@ std::shared_ptr<NinepatchInstance> CreateNinepatchInstance(
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_NINEPATCH_H_
+#endif  // EUPHORIA_GRAPHICS_NINEPATCH_H_

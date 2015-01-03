@@ -4,8 +4,8 @@
 Quad related code.
  */
 
-#ifndef EUPHORIA_QUAD_H_
-#define EUPHORIA_QUAD_H_
+#ifndef EUPHORIA_GRAPHICS_QUAD_H_
+#define EUPHORIA_GRAPHICS_QUAD_H_
 
 #include <memory>
 
@@ -24,4 +24,4 @@ std::unique_ptr<internal::CompiledMeshPart> MakeQuad(
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_QUAD_H_
+#endif  // EUPHORIA_GRAPHICS_QUAD_H_

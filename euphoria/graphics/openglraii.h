@@ -4,8 +4,8 @@
 Raii elements for opengl.
  */
 
-#ifndef EUPHORIA_OPENGLRAII_H_
-#define EUPHORIA_OPENGLRAII_H_
+#ifndef EUPHORIA_GRAPHICS_OPENGLRAII_H_
+#define EUPHORIA_GRAPHICS_OPENGLRAII_H_
 
 #include "euphoria/opengl.h"
 
@@ -92,4 +92,4 @@ class ElementArrayBuffer : public BufferObject {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_OPENGLRAII_H_
+#endif  // EUPHORIA_GRAPHICS_OPENGLRAII_H_

@@ -4,8 +4,8 @@
 Camera related code.
  */
 
-#ifndef EUPHORIA_TWEAKRENDERER_H_
-#define EUPHORIA_TWEAKRENDERER_H_
+#ifndef EUPHORIA_GRAPHICS_TWEAKRENDERER_H_
+#define EUPHORIA_GRAPHICS_TWEAKRENDERER_H_
 
 #include <memory>
 
@@ -40,4 +40,4 @@ class TweakRenderer {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_TWEAKRENDERER_H_
+#endif  // EUPHORIA_GRAPHICS_TWEAKRENDERER_H_

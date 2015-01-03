@@ -4,8 +4,8 @@
 Texture cache related code.
  */
 
-#ifndef EUPHORIA_TEXTURECACHE_H_
-#define EUPHORIA_TEXTURECACHE_H_
+#ifndef EUPHORIA_GRAPHICS_TEXTURECACHE_H_
+#define EUPHORIA_GRAPHICS_TEXTURECACHE_H_
 
 #include <memory>
 #include <string>
@@ -75,4 +75,4 @@ class TextureCache {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_TEXTURECACHE_H_
+#endif  // EUPHORIA_GRAPHICS_TEXTURECACHE_H_

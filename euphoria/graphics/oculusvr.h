@@ -4,8 +4,8 @@
 Oculus VR related integration code.
  */
 
-#ifndef EUPHORIA_OCULUSVR_H_
-#define EUPHORIA_OCULUSVR_H_
+#ifndef EUPHORIA_GRAPHICS_OCULUSVR_H_
+#define EUPHORIA_GRAPHICS_OCULUSVR_H_
 
 #include <memory>
 #include <string>
@@ -80,4 +80,4 @@ class OculusVr : NonCopyable {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_OCULUSVR_H_
+#endif  // EUPHORIA_GRAPHICS_OCULUSVR_H_

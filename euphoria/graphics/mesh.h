@@ -4,8 +4,8 @@
 Mesh related code.
  */
 
-#ifndef EUPHORIA_MESH_H_
-#define EUPHORIA_MESH_H_
+#ifndef EUPHORIA_GRAPHICS_MESH_H_
+#define EUPHORIA_GRAPHICS_MESH_H_
 
 #include <vector>
 #include <string>
@@ -244,4 +244,4 @@ class CompiledMesh {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_MESH_H_
+#endif  // EUPHORIA_GRAPHICS_MESH_H_

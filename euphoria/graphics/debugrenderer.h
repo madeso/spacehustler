@@ -4,8 +4,8 @@
 Debug rendering.
  */
 
-#ifndef EUPHORIA_DEBUGRENDERER_H_
-#define EUPHORIA_DEBUGRENDERER_H_
+#ifndef EUPHORIA_GRAPHICS_DEBUGRENDERER_H_
+#define EUPHORIA_GRAPHICS_DEBUGRENDERER_H_
 
 #include <vector>
 
@@ -71,4 +71,4 @@ void Debug(DebugRenderer* debug, const Mat44& mat);
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_DEBUGRENDERER_H_
+#endif  // EUPHORIA_GRAPHICS_DEBUGRENDERER_H_

@@ -4,8 +4,8 @@
 Contains the shader logic.
  */
 
-#ifndef EUPHORIA_SHADER_H_
-#define EUPHORIA_SHADER_H_
+#ifndef EUPHORIA_GRAPHICS_SHADER_H_
+#define EUPHORIA_GRAPHICS_SHADER_H_
 
 #include <memory>
 #include <vector>
@@ -151,4 +151,4 @@ std::shared_ptr<Program> LoadShaderFromFile(const std::string& filename);
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_SHADER_H_
+#endif  // EUPHORIA_GRAPHICS_SHADER_H_

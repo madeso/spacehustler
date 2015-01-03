@@ -4,8 +4,8 @@
 FBO related code.
  */
 
-#ifndef EUPHORIA_FBO_H_
-#define EUPHORIA_FBO_H_
+#ifndef EUPHORIA_GRAPHICS_FBO_H_
+#define EUPHORIA_GRAPHICS_FBO_H_
 
 #include <memory>
 
@@ -115,4 +115,4 @@ class TextureUpdator : NonCopyable {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_FBO_H_
+#endif  // EUPHORIA_GRAPHICS_FBO_H_
