@@ -8,9 +8,9 @@
 
 #include "euphoria/str.h"
 #include "euphoria/stringutils.h"
-#include "euphoria/texturecache.h"
-#include "euphoria/shadercache.h"
-#include "euphoria/ninepatch.h"
+#include "euphoria/graphics/texturecache.h"
+#include "euphoria/graphics/shadercache.h"
+#include "euphoria/graphics/ninepatch.h"
 
 #include "euphoria/ui-container-fill.h"
 #include "euphoria/ui-container-table.h"

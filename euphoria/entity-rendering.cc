@@ -7,10 +7,10 @@
 
 #include "euphoria/entity.h"
 #include "euphoria/world.h"
-#include "euphoria/texturecache.h"
-#include "euphoria/shadercache.h"
+#include "euphoria/graphics/texturecache.h"
+#include "euphoria/graphics/shadercache.h"
 
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/mesh.h"
 
 namespace euphoria {
 

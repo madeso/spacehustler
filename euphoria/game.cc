@@ -10,27 +10,27 @@
 #include <string>
 
 #include "euphoria/script.h"
-#include "euphoria/opengl.h"
-#include "euphoria/shader.h"
-#include "euphoria/texture.h"
-#include "euphoria/ogldebug.h"
-#include "euphoria/shadercache.h"
-#include "euphoria/texturecache.h"
+#include "euphoria/graphics/opengl.h"
+#include "euphoria/graphics/shader.h"
+#include "euphoria/graphics/texture.h"
+#include "euphoria/graphics/ogldebug.h"
+#include "euphoria/graphics/shadercache.h"
+#include "euphoria/graphics/texturecache.h"
 #include "euphoria/world.h"
 #include "euphoria/lua.h"
 #include "euphoria/entity.h"
 #include "euphoria/systems.h"
 #include "euphoria/settings.h"
 #include "euphoria/tweak.h"
-#include "euphoria/oculusvr.h"
-#include "euphoria/fbo.h"
+#include "euphoria/graphics/oculusvr.h"
+#include "euphoria/graphics/fbo.h"
 #include "euphoria/input-globaltoggle.h"
 #include "euphoria/str.h"
 #include "euphoria/log.h"
 #include "euphoria/ui-display.h"
 
 #ifdef USE_TWEAKABLES
-#include "euphoria/tweakrenderer.h"
+#include "euphoria/graphics/tweakrenderer.h"
 #endif
 
 namespace euphoria {

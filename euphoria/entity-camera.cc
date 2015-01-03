@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 #include "euphoria/entity.h"
-#include "euphoria/camera.h"
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/camera.h"
+#include "euphoria/graphics/mesh.h"
 #include "euphoria/tweak.h"
 
 namespace euphoria {

@@ -14,7 +14,7 @@
 #include "euphoria/exception.h"
 #include "euphoria/settings.h"
 #include "euphoria/str.h"
-#include "euphoria/oculusvr.h"
+#include "euphoria/graphics/oculusvr.h"
 #include "euphoria/noncopyable.h"
 
 #ifdef WIN32

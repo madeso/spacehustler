@@ -4,8 +4,8 @@
 
 #include "euphoria/ui-widget-image.h"
 
-#include "euphoria/dynamicquad.h"
-#include "euphoria/shadercache.h"
+#include "euphoria/graphics/dynamicquad.h"
+#include "euphoria/graphics/shadercache.h"
 
 namespace euphoria {
 namespace ui {

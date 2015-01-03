@@ -4,9 +4,9 @@
 
 #include <cassert>
 
-#include "euphoria/opengl.h"
-#include "euphoria/ogldebug.h"
-#include "euphoria/camera.h"
+#include "euphoria/graphics/opengl.h"
+#include "euphoria/graphics/ogldebug.h"
+#include "euphoria/graphics/camera.h"
 
 #include "euphoria/ui-container.h"
 

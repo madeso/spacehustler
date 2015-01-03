@@ -11,12 +11,12 @@ World related code.
 #include <vector>
 #include <string>
 
-#include "euphoria/mesh.h"
+#include "euphoria/graphics/mesh.h"
 #include "euphoria/math.h"
-#include "euphoria/camera.h"
-#include "euphoria/debugrenderer.h"
-#include "euphoria/texturecache.h"
-#include "euphoria/shadercache.h"
+#include "euphoria/graphics/camera.h"
+#include "euphoria/graphics/debugrenderer.h"
+#include "euphoria/graphics/texturecache.h"
+#include "euphoria/graphics/shadercache.h"
 
 namespace euphoria {
 

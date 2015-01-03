@@ -13,7 +13,7 @@ Game related code.
 #include "euphoria/input-system.h"
 
 #include "euphoria-config.h"  // NOLINT this is the default way to include cmake files
-#include "euphoria/camera.h"
+#include "euphoria/graphics/camera.h"
 
 namespace euphoria {
 

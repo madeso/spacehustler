@@ -4,7 +4,7 @@
 
 #include <cassert>
 
-#include "euphoria/ninepatch.h"
+#include "euphoria/graphics/ninepatch.h"
 #include "euphoria/scalar.h"
 
 namespace euphoria {
