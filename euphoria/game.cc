@@ -16,7 +16,7 @@
 #include "euphoria/graphics/ogldebug.h"
 #include "euphoria/graphics/shadercache.h"
 #include "euphoria/graphics/texturecache.h"
-#include "euphoria/world.h"
+#include "euphoria/graphics/world.h"
 #include "euphoria/lua.h"
 #include "euphoria/entity.h"
 #include "euphoria/systems.h"

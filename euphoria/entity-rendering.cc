@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "euphoria/entity.h"
-#include "euphoria/world.h"
+#include "euphoria/graphics/world.h"
 #include "euphoria/graphics/texturecache.h"
 #include "euphoria/graphics/shadercache.h"
 

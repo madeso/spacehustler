@@ -1,5 +1,5 @@
 // Euphoria - Copyright (c) Gustav
-#include "euphoria/world.h"
+#include "euphoria/graphics/world.h"
 #include <cassert>
 #include <string>
 #include <fstream>  // NOLINT for loading data

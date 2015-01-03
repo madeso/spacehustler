@@ -7,7 +7,7 @@
 #include <map>
 
 #include "euphoria/entity.h"
-#include "euphoria/world.h"
+#include "euphoria/graphics/world.h"
 #include "euphoria/tweak.h"
 #include "euphoria/script.h"
 #include "euphoria/scriptlib.h"
