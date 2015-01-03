@@ -4,8 +4,8 @@
 World related code.
  */
 
-#ifndef EUPHORIA_WORLD_H_
-#define EUPHORIA_WORLD_H_
+#ifndef EUPHORIA_GRAPHICS_WORLD_H_
+#define EUPHORIA_GRAPHICS_WORLD_H_
 
 #include <memory>
 #include <vector>
@@ -96,4 +96,4 @@ class World {
 
 }  // namespace euphoria
 
-#endif  // EUPHORIA_WORLD_H_
+#endif  // EUPHORIA_GRAPHICS_WORLD_H_
