@@ -1,5 +1,5 @@
 function thirdperson_type(self, json)
-	self.distance = Json.Get(json, "distance", 50)
+	self.distance = Json.Get(json, "distance", 100)
 end
 
 function thirdperson_component(self, object, ctype)
