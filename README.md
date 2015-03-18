@@ -38,6 +38,10 @@ Optional tools
 * Doxygen, for building documentation
 * clang-format, for styling the code
 
+Demo projects
+=======
+* Twin stick shooter: https://www.youtube.com/watch?v=AA6OdxeDIJU
+
 Planned Features and stuff that needs to be done
 =======
 * rewrite anttweakbar
