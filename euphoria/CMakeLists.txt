@@ -33,9 +33,14 @@ set ( src_jsoncpp
 	../external/jsoncpp/json_writer.cpp
 )
 
+# util executables
+# ../external/glew/GL/visualinfo.c
+# ../external/glew/GL/glewinfo.c
 set ( src_glew
+	../external/glew/GL/eglew.h
 	../external/glew/GL/glew.c
 	../external/glew/GL/glew.h
+	../external/glew/GL/glxew.h
 	../external/glew/GL/wglew.h
 )
 
@@ -127,6 +132,7 @@ add_executable(main-sdl2 WIN32 ${all_src} "main/main-sdl2.cc")
 GET_FILENAME_COMPONENT(mainsrc "main/main-sdl2.cc" ABSOLUTE)
 
 if(BUILD_USE_CLANG_FORMAT)
+
 	add_custom_command(TARGET main-sdl2
 				   PRE_BUILD
 				   COMMAND ./call-clang-format.py ${CMAKE_CURRENT_SOURCE_DIR}/*.cc ${CMAKE_CURRENT_SOURCE_DIR}/*.h
@@ -168,7 +174,7 @@ endif(BUILD_USE_LUADOCGEN)
 
 message(STATUS "Linking with launcher sdl2 ${SDL2_LIBRARY}")
 
-target_link_libraries(main-sdl2 ${OPENGL_LIBRARIES} ${SDL2_LIBRARY} ${ASSIMP_LIBRARIES} ${BULLET_LIBRARIES} ${extra_libraries})
+target_link_libraries(main-sdl2 ${BULLET_LIBRARIES} ${extra_libraries} ${OPENGL_LIBRARIES} ${SDL2_LIBRARY} ${ASSIMP_LIBRARIES})
 
 message(STATUS "Linking with OpenGL ${OPENGL_LIBRARIES}")
 message(STATUS "Linking with AssImp ${ASSIMP_LIBRARIES}")

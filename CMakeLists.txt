@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(euphoria)
 
+
+set( CMAKE_VERBOSE_MAKEFILE on )
+
 # these properties help when cmake can't find local data
 #set(GMOCK_CMAKE_DEBUG ON)
 #set(PHYSFS_DEBUG ON)
@@ -13,15 +16,15 @@ set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake-modules")
 
-option(BUILD_USE_CLANG_FORMAT "Add clang format to the build" ON)
-option(BUILD_USE_CPPLINT "Add cpplint to the build" ON)
-option(BUILD_USE_DOXYGEN "Add doxygen to the build" ON)
-option(BUILD_USE_LUADOCGEN "parse all sources and build lua doc from it" ON)
-option(BUILD_USE_CPPCHECK "run cppcheck on all source" ON)
-option(BUILD_USE_CLOC "Update code stat files" ON)
+option(BUILD_USE_CLANG_FORMAT "Add clang format to the build" OFF)
+option(BUILD_USE_CPPLINT "Add cpplint to the build" OFF)
+option(BUILD_USE_DOXYGEN "Add doxygen to the build" OFF)
+option(BUILD_USE_LUADOCGEN "parse all sources and build lua doc from it" OFF)
+option(BUILD_USE_CPPCHECK "run cppcheck on all source" OFF)
+option(BUILD_USE_CLOC "Update code stat files" OFF)
 
 option(USE_TWEAKABLES "Use tweakables" ON)
-option(USE_OCULUS "Add oculus support" ON)
+option(USE_OCULUS "Add oculus support" OFF)
 
 # compiler flags
 if(${MSVC})

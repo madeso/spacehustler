@@ -2,6 +2,7 @@
 
 #include "euphoria/input-director.h"
 #include <cassert>
+#include <algorithm>
 
 #include "euphoria/input-keyboardactiveunit.h"
 #include "euphoria/input-mouseactiveunit.h"

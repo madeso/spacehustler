@@ -10,21 +10,6 @@
 
 namespace euphoria {
 
-// definitions shamelessly stolen from glew headers
-/* <winnt.h> */
-#ifndef CALLBACK
-#define GLEW_CALLBACK_DEFINED
-#if defined(__MINGW32__) || defined(__CYGWIN__)
-#define CALLBACK __attribute__((__stdcall__))
-#elif(defined(_M_MRX000) || defined(_M_IX86) || defined(_M_ALPHA) || \
-      defined(_M_PPC)) &&                                            \
-    !defined(MIDL_PASS)  // NOLINT
-#define CALLBACK __stdcall
-#else
-#define CALLBACK
-#endif
-#endif
-
 /**
 @throws a std::logic_error when a error has occurred.
  */
@@ -75,9 +60,9 @@ void OglDebug::Verify() {
   }
 }
 
-void CALLBACK MyDebugCallback(GLenum source, GLenum type, GLuint id,
+void GLAPIENTRY MyDebugCallback(GLenum source, GLenum type, GLuint id,
                               GLenum severity, GLsizei length,
-                              const GLchar* message, GLvoid* userParam) {
+                              const GLchar* message, const GLvoid* userParam) {
   std::string mes = message;
   throw mes;
 }

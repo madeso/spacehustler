@@ -9,6 +9,9 @@ Oculus VR related integration code.
 
 #include <memory>
 #include <string>
+#include <euphoria/settings.h>
+
+#include "euphoria-config.h"
 
 #include "euphoria/math.h"
 #include "euphoria/graphics/fbo.h"

@@ -15,6 +15,7 @@
 #include "TwFonts.h"
 //#include "TwOpenGL.h"
 #include "TwOpenGLCore.h"
+#include "euphoria/stringutils.h"
 #ifdef ANT_WINDOWS
 //#   include "TwDirect3D9.h"
 //#   include "TwDirect3D10.h"
@@ -27,7 +28,14 @@
 
 #if !defined(ANT_WINDOWS)
 #   define _snprintf snprintf
+#define _strdup strdup
 #endif  // defined(ANT_WINDOWS)
+
+int _stricmp(const char* lhs, const char* rhs) {
+    const std::string l = euphoria::ToLower(lhs);
+    const std::string r = euphoria::ToLower(rhs);
+    return strcmp(l.c_str(), r.c_str());
+}
 
 
 using namespace std;

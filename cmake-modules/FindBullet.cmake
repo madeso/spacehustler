@@ -63,6 +63,7 @@ MACRO( FIND_BULLET_LIBRARY_DIRNAME LIBNAME DIRNAME )
             $ENV{BULLET_BUILD_DIR}
             "C:/Program Files/BULLET_PHYSICS"
             /usr/lib
+            /usr/lib/x86_64-linux-gnu
             /usr/local/lib
             /opt/local/lib
             NO_DEFAULT_PATH

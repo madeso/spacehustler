@@ -9,8 +9,10 @@
 #include "euphoria/log.h"
 #include "euphoria/settings.h"
 
+#ifdef USE_OCULUS
 #include "OVR.h"  // NOLINT this is how you should include OVR
 #include "../Src/OVR_CAPI_GL.h"
+#endif
 
 namespace euphoria {
 
@@ -53,6 +55,7 @@ Fbo* EyeSetup::GetFboPtr() {
   return &fbo_;
 }
 
+#ifdef USE_OCULUS
 Mat44 C(const OVR::Matrix4f& m) {
   // matrix4f is row-major
   // mat44 is col major
@@ -63,7 +66,6 @@ Mat44 C(const OVR::Matrix4f& m) {
 }
 
 Vec3 C(const ovrVector3f& vec) { return 25 * Vec3(-vec.x, -vec.y, -vec.z); }
-
 Quat C(const ovrQuatf& q) { return Quat(Vec3(-q.x, -q.y, -q.z), q.w); }
 
 ovrSizei Sizei(int w, int h) {
@@ -176,10 +178,12 @@ ovrTexture GetOvrTexture(const EyeSetup& eye) {
 
   return tex;
 }
+#endif
 
 enum { INDEX_LEFT = 0, INDEX_RIGHT = 1 };
 
 class OculusVr::OculusVrPimpl {
+#ifdef USE_OCULUS
  private:
   ovrHmd hmd_;
   ovrSizei window_size_;
@@ -442,21 +446,27 @@ class OculusVr::OculusVrPimpl {
       }
     }
   }
+#endif
 };
 
 OculusVr::OculusVr() {
   assert(this);
+#ifdef USE_OCULUS
   ovr_Initialize();
+#endif
 }
 
 OculusVr::~OculusVr() {
   assert(this);
   pimpl_.reset();
+#ifdef USE_OCULUS
   ovr_Shutdown();
+#endif
 }
 
 bool OculusVr::Detect(const Settings& settings, bool detect_debug_device) {
   assert(this);
+#if defined(USE_OCULUS)
   ovrHmd hmd = DetectHmdOrNull(detect_debug_device);
   if (hmd) {
     pimpl_.reset(new OculusVrPimpl(settings, hmd));
@@ -464,6 +474,10 @@ bool OculusVr::Detect(const Settings& settings, bool detect_debug_device) {
   } else {
     return false;
   }
+#else
+  pimpl_.reset();
+  return false;
+#endif
 }
 
 bool OculusVr::IsHmdDetected() {
@@ -474,42 +488,65 @@ bool OculusVr::IsHmdDetected() {
 const Vec2i OculusVr::GetWindowSize() const {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   return pimpl_->window_size();
+#else
+  return Vec2i();
+#endif
 }
 
 void OculusVr::Begin() {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   pimpl_->Begin();
+#endif
 }
 
 int OculusVr::GetNumberOfEyes() const {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   return ovrEye_Count;
+#else
+  return 2;
+#endif
 }
 
 EyeSetup& OculusVr::GetEyeIndex(int eyeIndex) {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   return pimpl_->GetEyeIndex(eyeIndex);
+#else
+  static EyeSetup setup(Mat44Identity(), Mat44Identity(), 10, 10, false);
+  return setup;
+#endif
 }
 
 void OculusVr::End() {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   pimpl_->End();
+#endif
 }
 
 bool OculusVr::IsDisplayingWarning() const {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   return pimpl_->IsDisplayingWarning();
+#else
+  return false;
+#endif
 }
 
 void OculusVr::DismissWarning() {
   assert(this);
   assert(pimpl_ && "hmd must be detected");
+#ifdef USE_OCULUS
   pimpl_->DismissWarning();
+#endif
 }
 }  // namespace euphoria

@@ -14,6 +14,7 @@ Classes for common input def loading.
 
 #include "euphoria/input-binddef.h"
 #include "euphoria/input-bind.h"
+#include "euphoria/input-bindmap.h"
 
 namespace Json {  // no-doxygen-namechecks
 class Value;
