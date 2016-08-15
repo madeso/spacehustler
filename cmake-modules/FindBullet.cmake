@@ -32,6 +32,7 @@ FIND_PATH( BULLET_INCLUDE_DIR btBulletCollisionCommon.h
         $ENV{BULLET_SOURCE_DIR}
         "C:/Program Files/BULLET_PHYSICS"
         /usr/include
+        /usr/include/bullet
         /usr/local/include
         /opt/local/include
         /opt/local/include/bullet

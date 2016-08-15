@@ -1,10 +1,13 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.0.2)
 project(euphoria)
 
 # these properties help when cmake can't find local data
 #set(GMOCK_CMAKE_DEBUG ON)
 #set(PHYSFS_DEBUG ON)
 #set(ASSIMP_DEBUG True)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 
@@ -21,15 +24,12 @@ option(USE_TWEAKABLES "Use tweakables" ON)
 option(USE_OCULUS "Add oculus support" ON)
 
 # compiler flags
-if(WIN32)
+if(${MSVC})
 	ADD_DEFINITIONS(/D _CRT_SECURE_NO_WARNINGS)
 	
 	# character set to Not Set=ASCII/SBCS http://public.kitware.com/Bug/view.php?id=12189
 	ADD_DEFINITIONS(/D _SBCS)
-else(WIN32)
-	#also add c++11 flags
-	SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ ${CMAKE_CXX_FLAGS}")
-endif(WIN32)
+endif(${MSVC})
 
 # force visual studio and the like to only have debug and release builds
 if(CMAKE_CONFIGURATION_TYPES)
@@ -46,8 +46,10 @@ find_package(AssImp REQUIRED)
 set(BUILD_SHARED_LIBS OFF)
 
 # add a target to generate API documentation with Doxygen
-find_package(Doxygen REQUIRED)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.ini ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+IF(BUILD_USE_DOXYGEN)
+	find_package(Doxygen REQUIRED)
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.ini ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+ENDIF(BUILD_USE_DOXYGEN)
 
 configure_file ("${PROJECT_SOURCE_DIR}/euphoria-config-in.h" "${PROJECT_BINARY_DIR}/euphoria-config.h")
 
@@ -87,12 +89,14 @@ IF(BUILD_USE_CLOC)
 					   COMMENT "Running cloc on input only" VERBATIM)
 ENDIF(BUILD_USE_CLOC)
 
-add_custom_target(doxygen ALL
-					${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-					WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					COMMENT "Running Doxygen" VERBATIM)
+IF(BUILD_USE_DOXYGEN)
+	add_custom_target(doxygen ALL
+						${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+						WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						COMMENT "Running Doxygen" VERBATIM)
 
-add_custom_target(check-doxygen ALL
-					${CMAKE_SOURCE_DIR}/check-doxygen-xml.py
-					WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-					COMMENT "Checking doxygen xml against google cpp style" VERBATIM)
+	add_custom_target(check-doxygen ALL
+						${CMAKE_SOURCE_DIR}/check-doxygen-xml.py
+						WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+						COMMENT "Checking doxygen xml against google cpp style" VERBATIM)
+ENDIF(BUILD_USE_DOXYGEN)

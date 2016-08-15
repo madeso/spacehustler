@@ -24,3 +24,5 @@ examples/*.dll
 design.dot
 design.dot.png
 examples/#world.wings#
+
+.idea/*
