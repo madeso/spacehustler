@@ -65,12 +65,11 @@ Game::Game(const Settings& settings)
     throw msg;
   }
 
-#ifdef USE_TWEAKABLES
+  Status("Creating tweakable");
   const int twintitresult = TwInit(TW_OPENGL_CORE, NULL);  // 3.2 core profile
   if (twintitresult == 0) {
     throw TwGetLastError();
   }
-#endif
 
   ogldebug_.reset(new OglDebug(OglDebug::IsSupported()));
 
@@ -135,7 +134,12 @@ Game::~Game() {
   assert(this == GameInstance());
   GameInstance() = 0;
 
+  Status("Closing tweakcode");
+  RUNTWEAKCODE(tweakers_.reset());
+  RUNTWEAKCODE(tweak_renderer_.reset());
+  Status("Terminating tweak system");
   RUNTWEAKCODE(TwTerminate());
+  Status("Tweak system closed");
 }
 
 bool Game::keep_running() const {

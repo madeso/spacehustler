@@ -36,6 +36,9 @@ class TweakerStore;
 class TweakRenderer;
 #endif
 
+// todo: move this to a proper header
+void Status(const std::string& status);
+
 namespace ui {
 class Display;
 }  // namespace ui

@@ -36,6 +36,10 @@ void Error(const std::string& title, const std::string& text) {
   }
 }
 
+void Status(const std::string& status) {
+  SDL_Log("%s", status.c_str());
+}
+
 void ReportFail() {
   const std::string error = SDL_GetError();
   throw error;
@@ -1031,10 +1035,13 @@ int TwEventSDL2(const SDL_Event* event) {
 }
 
 void MainFunction() {
-  SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
+  SDL_LogSetAllPriority(SDL_LOG_PRIORITY_INFO);
+
+  Status("Loading settings");
   Settings settings;
   settings.Load();
 
+  Status("Starting SDL");
   Sdl sdl(settings);
   SDL_DisableScreenSaver();
   VideoDisplays displays;
@@ -1098,6 +1105,8 @@ void MainFunction() {
     throw "Unable to find primary screen";
   }
 
+  Status("Creating context");
+
   Context context(primaryscreen.get());
   if (settings.fullscreen()) {
     /* Setting the black windows fullscreen messes with the primary fullscreen
@@ -1124,6 +1133,8 @@ void MainFunction() {
   Timer timer;
 
   context.MakeCurrent();
+
+  Status("Creating game");
   Game game(settings);
 
   if (game.oculusvr().IsHmdDetected()) {
@@ -1132,6 +1143,8 @@ void MainFunction() {
   }
 
   bool inside = false;
+
+  Status("Starting game loop");
 
   while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();
@@ -1201,6 +1214,8 @@ void MainFunction() {
     game.InputOnMouseAxis(Axis::X, dx * sensitivity);
     game.InputOnMouseAxis(Axis::Y, dy * sensitivity);
   }
+
+  Status("Game loop completed");
 }
 
 }  // namespace euphoria
