@@ -45,7 +45,7 @@ Demo projects
 Planned Features and stuff that needs to be done
 =======
 * rewrite anttweakbar
-* remove std::strings for resource id/crc32 hashes, http://cowboyprogramming.com/2007/01/04/practical-hash-ids/ http://bitsquid.blogspot.se/2010/10/static-hash-values.html
+* remove std::strings for resource id/crc32 hashes, http://cowboyprogramming.com/2007/01/04/practical-hash-ids/ http://bitsquid.blogspot.se/2010/10/static-hash-values.html http://aras-p.info/blog/2016/08/02/Hash-Functions-all-the-way-down/
 * look into custom stl allocators http://www.gamedev.net/topic/353479-the-stl-for-game-engine-architecture/?whichpage=1%25EF%25BF%25BD
 * add a no-exception build
 * move graphical code into a graphics namespace
