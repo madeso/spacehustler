@@ -33,6 +33,8 @@ class TweakRenderer {
   void Render(const Camera& cam);
 
  private:
+  int window_width_;
+  int window_height_;
   std::unique_ptr<internal::CompiledMeshPart> quad_;
   std::unique_ptr<Fbo> fbo_;
   std::shared_ptr<Program> program_;

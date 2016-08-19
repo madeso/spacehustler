@@ -3,7 +3,7 @@
 #include "euphoria/game.h"
 
 #ifdef USE_TWEAKABLES
-#include <AntTweakBar.h>
+#include "imgui/imgui.h"
 #endif
 
 #include <cassert>
@@ -63,12 +63,6 @@ Game::Game(const Settings& settings)
   if (err != GLEW_OK) {
     std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));
     throw msg;
-  }
-
-  Status("Creating tweakable");
-  const int twintitresult = TwInit(TW_OPENGL_CORE, NULL);  // 3.2 core profile
-  if (twintitresult == 0) {
-    throw TwGetLastError();
   }
 
   ogldebug_.reset(new OglDebug(OglDebug::IsSupported()));
@@ -138,7 +132,7 @@ Game::~Game() {
   RUNTWEAKCODE(tweakers_.reset());
   RUNTWEAKCODE(tweak_renderer_.reset());
   Status("Terminating tweak system");
-  RUNTWEAKCODE(TwTerminate());
+  RUNTWEAKCODE(ImGui::Shutdown());
   Status("Tweak system closed");
 }
 

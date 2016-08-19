@@ -10,19 +10,18 @@ add_definitions(-DUNICODE -D_UNICODE)
 INCLUDE(LibOVR.cmake)
 
 if(USE_TWEAKABLES)
-	set ( src_anttweakbar
-		../external/anttweakbar/src/TwBar.cpp
-		../external/anttweakbar/src/TwBar.h
-		../external/anttweakbar/src/TwColors.cpp
-		../external/anttweakbar/src/TwColors.h
-		../external/anttweakbar/src/TwFonts.cpp
-		../external/anttweakbar/src/TwFonts.h
-		../external/anttweakbar/src/TwGraph.h
-		../external/anttweakbar/src/TwMgr.cpp
-		../external/anttweakbar/src/TwMgr.h
-		../external/anttweakbar/src/TwOpenGLCore.cpp
-		../external/anttweakbar/src/TwOpenGLCore.h
-		../external/anttweakbar/src/TwPrecomp.h
+	set ( src_dearimgui
+		../external/imgui/imconfig.h
+		../external/imgui/imgui.cpp
+		../external/imgui/imgui.h
+		../external/imgui/imgui_demo.cpp
+		../external/imgui/imgui_draw.cpp
+		../external/imgui/imgui_internal.h
+		../external/imgui/stb_rect_pack.h
+		../external/imgui/stb_textedit.h
+		../external/imgui/stb_truetype.h
+		../external/imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.cpp
+		../external/imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h
 	)
 	ADD_DEFINITIONS( -DTW_STATIC )
 endif(USE_TWEAKABLES)
@@ -105,8 +104,8 @@ source_group(ui FILES ${game_ui_src_glob})
 set(all_src ${game_src} "${PROJECT_SOURCE_DIR}/euphoria-config-in.h" ${src_glew} ${src_soil} ${src_jsoncpp} ${src_lua})
 
 if(USE_TWEAKABLES)
-	source_group(anttweakbar FILES ${src_anttweakbar})
-	set(all_src ${all_src} ${src_anttweakbar})
+	source_group("dear imgui" FILES ${src_dearimgui})
+	set(all_src ${all_src} ${src_dearimgui})
 endif(USE_TWEAKABLES)
 
 set(extra_libraries)

@@ -4,11 +4,23 @@
 
 #ifdef USE_TWEAKABLES
 
-#include <AntTweakBar.h>
-
 #include <cassert>
 #include <string>
 #include <algorithm>
+
+#define TwSetParam(a, b, c, d, e, f)
+#define TwRemoveVar(a, b)
+#define TwAddVarCB(a, b, c, d, e, f, g)
+#define TwCopyStdStringToLibrary(a, b)
+#define TwNewBar(a) NULL
+#define TwDeleteBar(a)
+#define TW_CALL
+#define TW_PARAM_CSTRING 1
+#define TW_PARAM_INT32 1
+#define TW_TYPE_BOOLCPP 1
+
+#define TwType int
+#define TW_TYPE_QUAT4F 1
 
 namespace euphoria {
 
@@ -72,8 +84,8 @@ class IntTweakable : public tweaks::Tweakable {
       : Tweakable(bar, id, name), data(0) {
     assert(this);
 
-    TwSetVarCallback set = SetCallback<TweakableType, TInt>;
-    TwGetVarCallback get = GetCallback<TweakableType, TInt>;
+    // TwSetVarCallback set = SetCallback<TweakableType, TInt>;
+    // TwGetVarCallback get = GetCallback<TweakableType, TInt>;
 
     TwAddVarCB(bar, id.c_str(), IntType, set, get, this, "");
     label(name);
@@ -107,8 +119,8 @@ class QuatTweakable : public tweaks::Tweakable {
       : Tweakable(bar, id, name), data() {
     assert(this);
 
-    TwSetVarCallback set = QuatSetCallback;
-    TwGetVarCallback get = QuatGetCallback;
+    // TwSetVarCallback set = QuatSetCallback;
+    // TwGetVarCallback get = QuatGetCallback;
 
     TwAddVarCB(bar, id.c_str(), TW_TYPE_QUAT4F, set, get, this,
                "axisx=x axisy=y axisz=-z");
@@ -124,8 +136,8 @@ class StringTweakable : public tweaks::Tweakable {
       : Tweakable(bar, id, name) {
     assert(this);
 
-    TwSetVarCallback set = SetCallback<StringTweakable, std::string>;
-    TwGetVarCallback get = GetCallbackString;
+    // TwSetVarCallback set = SetCallback<StringTweakable, std::string>;
+    // TwGetVarCallback get = GetCallbackString;
 
     TwAddVarCB(bar, id.c_str(), TW_TYPE_STDSTRING, set, get, this, "");
     label(name);
@@ -139,10 +151,12 @@ struct svec3 {
 };
 
 TwType CreateVec3Struct() {
+  /*
   TwStructMember vec3members[] = {{"x", TW_TYPE_FLOAT, offsetof(svec3, x), ""},
                                   {"y", TW_TYPE_FLOAT, offsetof(svec3, y), ""},
                                   {"z", TW_TYPE_FLOAT, offsetof(svec3, z), ""}};
   return TwDefineStruct("vec3", vec3members, 3, sizeof(svec3), NULL, NULL);
+  */
 }
 
 void TW_CALL SetCallbackVec3(const void* value, void* clientData);
@@ -205,10 +219,10 @@ bool IsDead(const TweakerStore::Tweakables::value_type& x) {
   CLASS::CLASS(TwBar* bar, const std::string& id, const std::string& name) \
       : Tweakable(bar, id, name), data(DEFAULT) {                          \
     assert(this);                                                          \
-    TwSetVarCallback set = SetCallback<CLASS, TYPE>;                       \
+    /*TwSetVarCallback set = SetCallback<CLASS, TYPE>;                       \
     TwGetVarCallback get = GetCallback<CLASS, TYPE>;                       \
     TwAddVarCB(bar, id.c_str(), ANTTYPE, set, get, this, "");              \
-    label(name);                                                           \
+    */label(name);                                                           \
   }                                                                        \
   CLASS::~CLASS() {}
 
@@ -268,8 +282,8 @@ tweaks::Vec3Tweakable::Vec3Tweakable(TwBar* bar, const std::string& id,
       name(name) {
   assert(this);
 
-  TwSetVarCallback set = SetCallbackVec3;
-  TwGetVarCallback get = GetCallbackVec3;
+  // TwSetVarCallback set = SetCallbackVec3;
+  // TwGetVarCallback get = GetCallbackVec3;
 
   TwAddVarCB(bar, id.c_str(), Vec3Struct(), set, get, this, "");
   label(name);
@@ -288,8 +302,8 @@ tweaks::Vec3Tweakable& tweaks::Vec3Tweakable::isDirection(bool b) {
     TwAddVarCB(bar, id.c_str(), TW_TYPE_DIR3F, SetCallbackFloat3,
                GetCallbackFloat3, this, "");
   } else {
-    TwSetVarCallback set = SetCallbackVec3;
-    TwGetVarCallback get = GetCallbackVec3;
+    // TwSetVarCallback set = SetCallbackVec3;
+    // TwGetVarCallback get = GetCallbackVec3;
     TwAddVarCB(bar, id.c_str(), Vec3Struct(), set, get, this, "");
   }
   label(name);
