@@ -48,24 +48,6 @@ class Tweakable {
    */
   virtual ~Tweakable();
 
-  /** Changes the label of the tweakable.
-  @param value the new label
-  @returns this object for chaining
-   */
-  Tweakable& label(const std::string& value);
-
-  /** Changes the group of the tweakable.
-  @param value the new group name
-  @returns this object for chaining
-   */
-  Tweakable& group(const std::string& value);
-
-  /** Changes the readonly status of the tweakable.
-  @param readonly the readonly status
-  @returns this object for chaining
-   */
-  Tweakable& readonly(bool readonly);
-
   /** macro helping function.
   @see TWEAK
   @returns true.

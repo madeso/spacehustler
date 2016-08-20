@@ -18,7 +18,7 @@
 #define TW_PARAM_CSTRING 1
 #define TW_PARAM_INT32 1
 #define TW_TYPE_BOOLCPP 1
-
+#define label(x)
 #define TwType int
 #define TW_TYPE_QUAT4F 1
 
@@ -35,25 +35,6 @@ tweaks::Tweakable::Tweakable(TwBar* bar, const std::string& id,
 }
 
 tweaks::Tweakable::~Tweakable() { TwRemoveVar(bar, id.c_str()); }
-
-tweaks::Tweakable& tweaks::Tweakable::label(const std::string& value) {
-  assert(this);
-  TwSetParam(bar, id.c_str(), "label", TW_PARAM_CSTRING, 1, value.c_str());
-  return *this;
-}
-
-tweaks::Tweakable& tweaks::Tweakable::group(const std::string& value) {
-  assert(this);
-  TwSetParam(bar, id.c_str(), "group", TW_PARAM_CSTRING, 1, value.c_str());
-  return *this;
-}
-
-tweaks::Tweakable& tweaks::Tweakable::readonly(bool readonly) {
-  assert(this);
-  int param = readonly ? 1 : 0;
-  TwSetParam(bar, id.c_str(), "readonly", TW_PARAM_INT32, 1, &param);
-  return *this;
-}
 
 tweaks::Tweakable::operator bool() const { return true; }
 
@@ -88,7 +69,6 @@ class IntTweakable : public tweaks::Tweakable {
     // TwGetVarCallback get = GetCallback<TweakableType, TInt>;
 
     TwAddVarCB(bar, id.c_str(), IntType, set, get, this, "");
-    label(name);
   }
 };
 
@@ -124,7 +104,6 @@ class QuatTweakable : public tweaks::Tweakable {
 
     TwAddVarCB(bar, id.c_str(), TW_TYPE_QUAT4F, set, get, this,
                "axisx=x axisy=y axisz=-z");
-    label(name);
   }
 };
 
