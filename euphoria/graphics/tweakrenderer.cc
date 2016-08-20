@@ -3,6 +3,7 @@
 #include "euphoria/graphics/tweakrenderer.h"
 
 #include <cassert>
+#include <euphoria/tweak.h>
 
 #include "euphoria-config.h"  // NOLINT this is the default way to include cmake files
 
@@ -69,12 +70,17 @@ void TweakRenderer::PreRender() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   TwDraw();
   OglDebug::Verify();*/
-
-  ImGui_ImplSdlGL3_NewFrame(window_width_, window_height_, window_width_, window_height_, -1, -1, false, false, false);
 }
 
 void TweakRenderer::Render(const Camera& cam) {
   assert(this);
+
+  ImGui_ImplSdlGL3_NewFrame(window_width_, window_height_, window_width_, window_height_, -1, -1, false, false, false);
+
+  if( ImGui::Begin("Tweak") ) {
+    RunAllTweaks();
+  }
+  ImGui::End();
 
   ImGui::ShowTestWindow();
 

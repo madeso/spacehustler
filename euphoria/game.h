@@ -32,7 +32,6 @@ class Quad;
 class Program;
 
 #ifdef USE_TWEAKABLES
-class TweakerStore;
 class TweakRenderer;
 #endif
 
@@ -149,7 +148,6 @@ class Game {
   std::unique_ptr<ui::Display> hud_;
 #ifdef USE_TWEAKABLES
   std::unique_ptr<TweakRenderer> tweak_renderer_;
-  std::unique_ptr<TweakerStore> tweakers_;
 #endif
 };
 
