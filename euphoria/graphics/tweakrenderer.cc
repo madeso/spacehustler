@@ -49,7 +49,7 @@ TweakRenderer::TweakRenderer(ShaderCache* shadercache, const Settings& settings,
   TwWindowSize(fbo_->width(), fbo_->height());
   */
   auto& io = ImGui::GetIO();
-  io.IniFilename = NULL;
+  // io.IniFilename = NULL;
 
   ImGui_ImplSdlGL3_Init();
 }

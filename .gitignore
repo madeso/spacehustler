@@ -26,3 +26,5 @@ design.dot.png
 examples/#world.wings#
 
 .idea/*
+
+examples/imgui.ini
