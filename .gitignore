@@ -1,19 +1,5 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-
 #build files
-build/*
+build/
 doc/*
 examples/*.dll
 
@@ -25,6 +11,6 @@ design.dot
 design.dot.png
 examples/#world.wings#
 
-.idea/*
+.idea/
 
 examples/imgui.ini
