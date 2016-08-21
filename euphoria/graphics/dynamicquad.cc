@@ -38,6 +38,8 @@ DynamicQuad::DynamicQuad(std::shared_ptr<Program> program,
                          std::shared_ptr<Texture> texture)
     : texture_(texture),
       program_(program),
+      position_(0,0),
+      size_(1,1),
       mesh_(CreateQuadMesh(), program, texture) {
   assert(this);
 }

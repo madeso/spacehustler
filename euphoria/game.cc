@@ -116,6 +116,7 @@ Game::Game(const Settings& settings)
 #ifdef USE_TWEAKABLES
   tweak_renderer_.reset(
       new TweakRenderer(shadercache_.get(), settings, ovr, width_, height_));
+  tweak_store_.reset(new TweakerStore());
 #endif
 
   assert(GameInstance() == 0);
@@ -129,6 +130,7 @@ Game::~Game() {
 
   Status("Closing tweakcode");
   RUNTWEAKCODE(tweak_renderer_.reset());
+  RUNTWEAKCODE(tweak_store_.reset());
   Status("Terminating tweak system");
   RUNTWEAKCODE(ImGui::Shutdown());
   Status("Tweak system closed");

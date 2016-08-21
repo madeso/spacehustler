@@ -33,6 +33,8 @@ class Tweakable {
   Tweakable(const std::string& label);
   virtual ~Tweakable();
 
+  virtual void Run() = 0;
+
   const std::string& label() const;
   Tweakable& set_label(const std::string& label);
 
@@ -46,6 +48,8 @@ class TweakableString : public Tweakable {
  public:
   TweakableString(const std::string& label, std::string* str);
   ~TweakableString();
+
+  void Run();
  private:
   std::string* str_;
 };
@@ -54,19 +58,38 @@ class TweakableVec3 : public Tweakable {
  public:
   TweakableVec3(const std::string& label, Vec3* vec);
   ~TweakableVec3();
+
+  void Run();
+
+  TweakableVec3& readonly();
  private:
   Vec3* vec_;
+  bool readonly_;
 };
 
 class TweakableBool : public Tweakable {
  public:
   TweakableBool(const std::string& label, bool* b);
   ~TweakableBool();
+
+  void Run();
  private:
   bool* bool_;
 };
 
 }  // namespace tweaks
+
+class TweakerStore {
+ public:
+  TweakerStore();
+  ~TweakerStore();
+
+  void Add(std::shared_ptr<tweaks::Tweakable> t);
+  void RunAll();
+
+ private:
+  std::vector<std::shared_ptr<tweaks::Tweakable> > tweaks_;
+};
 
 void RunAllTweaks();
 tweaks::TweakableString& Tweak(const std::string& name, std::string* data);

@@ -82,8 +82,6 @@ void TweakRenderer::Render(const Camera& cam) {
   }
   ImGui::End();
 
-  ImGui::ShowTestWindow();
-
   ImGui::Render();
   /*
   if (fbo_.get() == nullptr) {
