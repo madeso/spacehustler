@@ -295,7 +295,7 @@ void NinepatchInstance::Render(const Camera& camera) {
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
   Vec3 p3(position_, 0);
-  TWEAK(p3);
+  TWEAK(p3,);
   program_->SetUniform("model", CreateMat44(p3));
   texture_->Bind(0);
 

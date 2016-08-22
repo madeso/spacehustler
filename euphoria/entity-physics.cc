@@ -296,7 +296,7 @@ class PhysicsSystem : public System {
       o.Update();
     }
     bool debugPhysics = false;
-    TWEAK(debugPhysics);
+    TWEAK(debugPhysics,);
     if (debugPhysics) {
       dynamics_world_->debugDrawWorld();
     }

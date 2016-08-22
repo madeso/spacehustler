@@ -100,10 +100,11 @@ tweaks::TweakableBool& Tweak(const std::string& name, bool* data);
 /** Add/update a variable for tweaking.
 @see Tweakable
 @param x the variable for tweaking.
+@param cmds the extra cmds to apply
 @returns a suitable Tweakable.
  */
-#define TWEAK(x)                \
-  ::euphoria::Tweak(#x, &x)
+#define TWEAK(x,cmds)                \
+  ::euphoria::Tweak(#x, &x) cmds
 
 /** Util macro for running tweak code.
 Runs the code only if tweaking is enabled.

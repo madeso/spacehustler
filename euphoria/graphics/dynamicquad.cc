@@ -111,7 +111,7 @@ void DynamicQuad::Render(const Camera& camera) {
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
   Vec3 pp(position_, 0);
-  TWEAK(pp);
+  TWEAK(pp,);
   program_->SetUniform("model", CreateMat44(pp));
   texture_->Bind(0);
 
