@@ -101,7 +101,7 @@ tweaks::TweakableVec3::~TweakableVec3() {
 void tweaks::TweakableVec3::Run() {
   int flags = 0;
   if( readonly_ ) flags |= ImGuiInputTextFlags_ReadOnly;
-  ImGui::InputFloat3(label().c_str(), vec_->data(), -1, flags);
+  ImGui::DragFloat3(label().c_str(), vec_->data(), -1, flags);
 }
 
 tweaks::TweakableVec3& tweaks::TweakableVec3::readonly() {
@@ -124,7 +124,7 @@ tweaks::TweakableVec2::~TweakableVec2() {
 void tweaks::TweakableVec2::Run() {
   int flags = 0;
   // if( readonly_ ) flags |= ImGuiInputTextFlags_ReadOnly;
-  ImGui::InputFloat2(label().c_str(), vec_->data(), -1, flags);
+  ImGui::DragFloat2(label().c_str(), vec_->data(), -1, flags);
 }
 
 tweaks::TweakableVec2& Tweak(const std::string& name, Vec2* data) {
