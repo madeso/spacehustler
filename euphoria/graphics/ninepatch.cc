@@ -294,9 +294,8 @@ void NinepatchInstance::Render(const Camera& camera) {
   program_->Bind();
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
-  Vec3 p3(position_, 0);
-  TWEAK(p3,);
-  program_->SetUniform("model", CreateMat44(p3));
+  TWEAK(position_,.set_label("ninepatch pos"));
+  program_->SetUniform("model", CreateMat44(Vec3(position_, 0)) );
   texture_->Bind(0);
 
   glClear(GL_DEPTH_BUFFER_BIT);

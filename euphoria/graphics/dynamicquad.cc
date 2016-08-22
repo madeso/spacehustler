@@ -110,9 +110,8 @@ void DynamicQuad::Render(const Camera& camera) {
   program_->Bind();
   program_->SetUniform("camera", camera.view());
   program_->SetUniform("projection", camera.projection());
-  Vec3 pp(position_, 0);
-  TWEAK(pp,);
-  program_->SetUniform("model", CreateMat44(pp));
+  TWEAK(position_,.set_label("dynamic quad position"));
+  program_->SetUniform("model", CreateMat44( Vec3(position_, 0) ) );
   texture_->Bind(0);
 
   glClear(GL_DEPTH_BUFFER_BIT);

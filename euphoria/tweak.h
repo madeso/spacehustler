@@ -67,6 +67,16 @@ class TweakableVec3 : public Tweakable {
   bool readonly_;
 };
 
+class TweakableVec2 : public Tweakable {
+ public:
+  TweakableVec2(const std::string& label, Vec2* vec);
+  ~TweakableVec2();
+
+  void Run();
+ private:
+  Vec2* vec_;
+};
+
 class TweakableBool : public Tweakable {
  public:
   TweakableBool(const std::string& label, bool* b);
@@ -94,6 +104,7 @@ class TweakerStore {
 void RunAllTweaks();
 tweaks::TweakableString& Tweak(const std::string& name, std::string* data);
 tweaks::TweakableVec3& Tweak(const std::string& name, Vec3* data);
+tweaks::TweakableVec2& Tweak(const std::string& name, Vec2* data);
 tweaks::TweakableBool& Tweak(const std::string& name, bool* data);
 
 

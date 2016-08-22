@@ -115,6 +115,24 @@ tweaks::TweakableVec3& Tweak(const std::string& name, Vec3* data) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+tweaks::TweakableVec2::TweakableVec2(const std::string& label, Vec2* vec) : Tweakable(label), vec_(vec) {
+}
+
+tweaks::TweakableVec2::~TweakableVec2() {
+}
+
+void tweaks::TweakableVec2::Run() {
+  int flags = 0;
+  // if( readonly_ ) flags |= ImGuiInputTextFlags_ReadOnly;
+  ImGui::InputFloat2(label().c_str(), vec_->data(), -1, flags);
+}
+
+tweaks::TweakableVec2& Tweak(const std::string& name, Vec2* data) {
+  return Tweak(new tweaks::TweakableVec2(name, data));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 tweaks::TweakableBool::TweakableBool(const std::string& label, bool* b) : Tweakable(label), bool_(b) {
 }
