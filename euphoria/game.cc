@@ -59,12 +59,6 @@ Game::Game(const Settings& settings)
   // @todo move this to a press enter to play screen
   inputsystem_.SetUnitForPlayer("Player", settings.control_scheme());
 
-  const GLenum err = glewInit();
-  if (err != GLEW_OK) {
-    std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));
-    throw msg;
-  }
-
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
   glEnable(GL_CULL_FACE);

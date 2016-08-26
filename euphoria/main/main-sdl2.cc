@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>  // NOLINT for error reporting when messagebox has failed.
 #include <euphoria/graphics/ogldebug.h>
+#include "euphoria/graphics/opengl.h"
 
 #include "euphoria/game.h"
 #include "euphoria/exception.h"
@@ -953,6 +954,8 @@ void MainFunction() {
   std::vector<std::shared_ptr<Window>> windows;
   std::vector<std::shared_ptr<BlackRenderer>> blacks;
 
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+
 #ifdef EUPHORIA_MESA_COMPABILITY
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -964,9 +967,6 @@ void MainFunction() {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                       SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 #endif
-
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                      SDL_GL_CONTEXT_DEBUG_FLAG);
   // The core profile causes http://www.opengl.org/wiki/GLAPI/glGenVertexArrays
   // to crash, weird...
 
@@ -1031,8 +1031,6 @@ void MainFunction() {
     primaryscreen->SetFullscreen(true);
   }
 
-  std::unique_ptr<OglDebug> ogldebug_(new OglDebug(OglDebug::IsSupported()));
-
   std::vector<std::shared_ptr<Joystick>> joysticks;
 
   const int numberofjoysticks = SDL_NumJoysticks();
@@ -1048,6 +1046,21 @@ void MainFunction() {
   Timer timer;
 
   context.MakeCurrent();
+
+  const GLenum err = glewInit();
+  if (err != GLEW_OK) {
+    std::string msg = reinterpret_cast<const char*>(glewGetErrorString(err));
+    throw msg;
+  }
+
+#define PRINT_GLSTRING(X) Status(std::string(#X ": ") + reinterpret_cast<const char*>(glGetString(X)))
+  PRINT_GLSTRING(GL_VENDOR);
+  PRINT_GLSTRING(GL_RENDERER);
+  PRINT_GLSTRING(GL_VERSION);
+  PRINT_GLSTRING(GL_SHADING_LANGUAGE_VERSION);
+#undef PRINT_GLSTRING
+
+  std::unique_ptr<OglDebug> ogldebug_(new OglDebug(true));
 
   Status("Creating game");
   Game game(settings);
