@@ -72,7 +72,7 @@ bool OglDebug::IsSupported() { return GLEW_ARB_debug_output == GL_TRUE; }
 OglDebug::OglDebug(bool d) : debug_enabled_(d) {
   if (debug_enabled_) {
     if (IsSupported() == false) {
-      const std::string error = Str() << "No debug supported";
+      const std::string error = Str() << "OpenGL debug NOT supported";
       throw error;
     }
     Verify();
