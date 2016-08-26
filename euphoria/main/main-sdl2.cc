@@ -8,6 +8,7 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>  // NOLINT for error reporting when messagebox has failed.
+#include <euphoria/graphics/ogldebug.h>
 
 #include "euphoria/game.h"
 #include "euphoria/exception.h"
@@ -963,6 +964,9 @@ void MainFunction() {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                       SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 #endif
+
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                      SDL_GL_CONTEXT_DEBUG_FLAG);
   // The core profile causes http://www.opengl.org/wiki/GLAPI/glGenVertexArrays
   // to crash, weird...
 
@@ -1026,6 +1030,8 @@ void MainFunction() {
     }*/
     primaryscreen->SetFullscreen(true);
   }
+
+  std::unique_ptr<OglDebug> ogldebug_(new OglDebug(OglDebug::IsSupported()));
 
   std::vector<std::shared_ptr<Joystick>> joysticks;
 

@@ -17,7 +17,6 @@ Game related code.
 
 namespace euphoria {
 
-class OglDebug;
 class TextureCache;
 class ShaderCache;
 class World;
@@ -137,7 +136,6 @@ class Game {
   bool lock_mouse_;
   bool istweaking_;
   input::InputSystem inputsystem_;
-  std::unique_ptr<OglDebug> ogldebug_;
   std::unique_ptr<TextureCache> texturecache_;
   std::unique_ptr<ShaderCache> shadercache_;
   std::unique_ptr<World> world_;

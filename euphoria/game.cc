@@ -65,8 +65,6 @@ Game::Game(const Settings& settings)
     throw msg;
   }
 
-  ogldebug_.reset(new OglDebug(OglDebug::IsSupported()));
-
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
   glEnable(GL_CULL_FACE);
