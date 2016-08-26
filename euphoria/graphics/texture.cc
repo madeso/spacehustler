@@ -2,8 +2,11 @@
 
 #include "euphoria/graphics/texture.h"
 
+#include "euphoria-config.h"
+
 #include <cassert>
 #include <string>
+#include <euphoria/game.h>
 
 #include "soil/SOIL.h"
 #include "euphoria/str.h"
@@ -150,6 +153,7 @@ Texture::Texture(const ImageData& data, ImageStorage textureType,
                  float anisotropic)
     : width_(data.width()), height_(data.height()) {
   assert(this);
+
   glBindTexture(GL_TEXTURE_2D, texture_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, C(filter));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, C(filter));
@@ -157,8 +161,15 @@ Texture::Texture(const ImageData& data, ImageStorage textureType,
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, C(wrapt));
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropic);
 
+#ifdef EUPHORIA_MESA_COMPABILITY
+  if( filter == TextureFilter::MIPMAP) {
+    Status("Ignoring mipmap b/c gl enum error, try it again?");
+  }
+#else
   glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP,
                   filter == TextureFilter::MIPMAP ? GL_TRUE : GL_FALSE);
+#endif
+
   glTexImage2D(GL_TEXTURE_2D, 0, C(textureType), (GLsizei)data.width(),
                (GLsizei)data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
                data.pixels());

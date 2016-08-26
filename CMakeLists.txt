@@ -22,6 +22,7 @@ option(BUILD_USE_DOXYGEN "Add doxygen to the build" OFF)
 option(BUILD_USE_LUADOCGEN "parse all sources and build lua doc from it" OFF)
 option(BUILD_USE_CPPCHECK "run cppcheck on all source" OFF)
 option(BUILD_USE_CLOC "Update code stat files" OFF)
+option(EUPHORIA_MESA_COMPABILITY "Mesa workaround" OFF)
 
 option(USE_TWEAKABLES "Use tweakables" ON)
 option(USE_OCULUS "Add oculus support" OFF)

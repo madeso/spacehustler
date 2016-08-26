@@ -16,6 +16,7 @@
 #include "euphoria/graphics/oculusvr.h"
 #include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
 #include "euphoria/noncopyable.h"
+#include "euphoria-config.h"
 
 #ifdef WIN32
 // unresolved external symbol _GetFileVersionInfoA@16 referenced in function
@@ -951,10 +952,17 @@ void MainFunction() {
   std::vector<std::shared_ptr<Window>> windows;
   std::vector<std::shared_ptr<BlackRenderer>> blacks;
 
+#ifdef EUPHORIA_MESA_COMPABILITY
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                      SDL_GL_CONTEXT_PROFILE_CORE);
+#else
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                       SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+#endif
   // The core profile causes http://www.opengl.org/wiki/GLAPI/glGenVertexArrays
   // to crash, weird...
 
