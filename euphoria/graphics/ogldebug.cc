@@ -62,12 +62,54 @@ void OglDebug::Verify() {
   }
 }
 
+std::string ClassifySource(GLenum source) {
+  switch(source) {
+    case GL_DEBUG_SOURCE_API_ARB: return "API";
+    case GL_DEBUG_SOURCE_SHADER_COMPILER_ARB: return "shader compiler";
+    case GL_DEBUG_SOURCE_WINDOW_SYSTEM_ARB: return "window system";
+    case GL_DEBUG_SOURCE_THIRD_PARTY_ARB : return "third party";
+    case GL_DEBUG_SOURCE_APPLICATION_ARB: return "application";
+    case GL_DEBUG_SOURCE_OTHER_ARB: return "other";
+    default: return "unknown";
+  }
+}
+
+std::string ClassifyType(GLenum type) {
+  switch(type) {
+    case GL_DEBUG_TYPE_ERROR_ARB: return "error";
+    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB: return "deprecated behaviour";
+    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB: return "undefined behaviour";
+    case GL_DEBUG_TYPE_PERFORMANCE_ARB: return "performance warning";
+    case GL_DEBUG_TYPE_PORTABILITY_ARB: return "portability warning";
+    case GL_DEBUG_TYPE_OTHER_ARB: return "other";
+    default: return "unknown";
+  }
+}
+
+std::string ClassifySeverity(GLenum severity) {
+  switch(severity) {
+    case GL_DEBUG_SEVERITY_HIGH_ARB: return "high";
+    case GL_DEBUG_SEVERITY_MEDIUM_ARB: return "medium";
+    case GL_DEBUG_SEVERITY_LOW_ARB: return "low";
+    case GL_DEBUG_SEVERITY_NOTIFICATION: return "notification";
+    default: return "unknown";
+  }
+}
+
 void GLAPIENTRY MyDebugCallback(GLenum source, GLenum type, GLuint id,
                               GLenum severity, GLsizei length,
                               const GLchar* message, const GLvoid* userParam) {
-  std::string mes = message;
-  LOGINFO(mes);
-  throw mes;
+  const auto src = ClassifySource(source);
+  const auto t = ClassifyType(type);
+  const auto sev = ClassifySeverity(severity);
+  const std::string mes = Str() << "GL " << t << "(" << sev << "): " << src << ": " << message;
+  if( severity == GL_DEBUG_SEVERITY_HIGH_ARB) {
+    LogError(mes);
+    throw mes;
+  }
+  else {
+    LogInfo(mes);
+  }
 }
 
 bool OglDebug::IsSupported() { return GLEW_ARB_debug_output == GL_TRUE; }
