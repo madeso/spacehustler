@@ -171,10 +171,18 @@ bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event)
         }
         case SDL_MOUSEMOTION:
         {
-          g_mx += event->motion.xrel;
-          g_my += event->motion.yrel;
-          io.MousePos = ImVec2(g_mx, g_my);
-          return true;
+            g_mx += event->motion.xrel;
+            g_my += event->motion.yrel;
+
+            ImGuiIO& io = ImGui::GetIO();
+            const auto& size = io.DisplaySize;
+
+            if( g_mx<0) g_mx = 0;
+            if( g_my<0) g_my = 0;
+            if( g_mx > size.x) g_mx = size.x;
+            if( g_my > size.y) g_my = size.y;
+            io.MousePos = ImVec2(g_mx, g_my);
+            return true;
         }
 
         /*
