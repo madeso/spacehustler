@@ -5,6 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <euphoria/game.h>
+#include <euphoria/log.h>
 
 #include "euphoria/graphics/opengl.h"
 #include "euphoria/str.h"
@@ -65,14 +66,14 @@ void GLAPIENTRY MyDebugCallback(GLenum source, GLenum type, GLuint id,
                               GLenum severity, GLsizei length,
                               const GLchar* message, const GLvoid* userParam) {
   std::string mes = message;
-  Status(mes);
+  LOGINFO(mes);
   throw mes;
 }
 
 bool OglDebug::IsSupported() { return GLEW_ARB_debug_output == GL_TRUE; }
 
 OglDebug::OglDebug(bool d) : debug_enabled_(d) {
-  Status("Starting OpenGL debug");
+  LOGINFO("Starting OpenGL debug");
   if (debug_enabled_) {
     if (IsSupported() == false) {
       const std::string error = Str() << "OpenGL debug NOT supported";

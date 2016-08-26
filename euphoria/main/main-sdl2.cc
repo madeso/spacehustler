@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>  // NOLINT for error reporting when messagebox has failed.
 #include <euphoria/graphics/ogldebug.h>
+#include <euphoria/log.h>
 #include "euphoria/graphics/opengl.h"
 
 #include "euphoria/game.h"
@@ -37,10 +38,6 @@ void Error(const std::string& title, const std::string& text) {
   if (result < 0) {
     std::cerr << "ERROR: " << title << "\n" << text << "\n";
   }
-}
-
-void Status(const std::string& status) {
-  SDL_Log("%s", status.c_str());
 }
 
 void ReportFail() {
@@ -351,10 +348,6 @@ Posi GetHatValues(Uint8 hat) {
       assert(0 && "Invalid hat value");
       return Posi(0, 0);
   }
-}
-
-void LogInfo(const std::string& info) {
-  SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "%s", info.c_str());
 }
 
 class Joystick {
@@ -941,11 +934,11 @@ MouseButton ToKey(SDL_MouseButtonEvent mb) {
 void MainFunction() {
   SDL_LogSetAllPriority(SDL_LOG_PRIORITY_INFO);
 
-  Status("Loading settings");
+  euphoria::LogInfo("Loading settings");
   Settings settings;
   settings.Load();
 
-  Status("Starting SDL");
+  euphoria::LogInfo("Starting SDL");
   Sdl sdl(settings);
   SDL_DisableScreenSaver();
   VideoDisplays displays;
@@ -1018,7 +1011,7 @@ void MainFunction() {
     throw "Unable to find primary screen";
   }
 
-  Status("Creating context");
+  LOGINFO("Creating context");
 
   Context context(primaryscreen.get());
   if (settings.fullscreen()) {
@@ -1053,7 +1046,7 @@ void MainFunction() {
     throw msg;
   }
 
-#define PRINT_GLSTRING(X) Status(std::string(#X ": ") + reinterpret_cast<const char*>(glGetString(X)))
+#define PRINT_GLSTRING(X) LOGINFO(#X ": "<<  reinterpret_cast<const char*>(glGetString(X)))
   PRINT_GLSTRING(GL_VENDOR);
   PRINT_GLSTRING(GL_RENDERER);
   PRINT_GLSTRING(GL_VERSION);
@@ -1062,7 +1055,7 @@ void MainFunction() {
 
   std::unique_ptr<OglDebug> ogldebug_(new OglDebug(true));
 
-  Status("Creating game");
+  LOGINFO("Creating game");
   Game game(settings);
 
   if (game.oculusvr().IsHmdDetected()) {
@@ -1072,7 +1065,7 @@ void MainFunction() {
 
   bool inside = false;
 
-  Status("Starting game loop");
+  LOGINFO("Starting game loop");
 
   while (game.keep_running()) {
     const float delta = timer.GetElapsedSeconds<float>();
@@ -1143,7 +1136,7 @@ void MainFunction() {
     game.InputOnMouseAxis(Axis::Y, dy * sensitivity);
   }
 
-  Status("Game loop completed");
+  LOGINFO("Game loop completed");
 }
 
 }  // namespace euphoria

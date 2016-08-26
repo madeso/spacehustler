@@ -120,12 +120,12 @@ Game::~Game() {
   assert(this == GameInstance());
   GameInstance() = 0;
 
-  Status("Closing tweakcode");
+  LOGINFO("Closing tweakcode");
   RUNTWEAKCODE(tweak_renderer_.reset());
   RUNTWEAKCODE(tweak_store_.reset());
-  Status("Terminating tweak system");
+  LOGINFO("Terminating tweak system");
   RUNTWEAKCODE(ImGui::Shutdown());
-  Status("Tweak system closed");
+  LOGINFO("Tweak system closed");
 }
 
 bool Game::keep_running() const {

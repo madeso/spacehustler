@@ -7,6 +7,7 @@
 #include <cassert>
 #include <string>
 #include <euphoria/game.h>
+#include <euphoria/log.h>
 
 #include "soil/SOIL.h"
 #include "euphoria/str.h"
@@ -163,7 +164,7 @@ Texture::Texture(const ImageData& data, ImageStorage textureType,
 
 #ifdef EUPHORIA_MESA_COMPABILITY
   if( filter == TextureFilter::MIPMAP) {
-    Status("Ignoring mipmap b/c gl enum error, try it again?");
+    LOGINFO("Ignoring mipmap b/c gl enum error, try it again?");
   }
 #else
   glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP,
