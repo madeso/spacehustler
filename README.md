@@ -47,7 +47,7 @@ Planned Features and stuff that needs to be done
 * rewrite anttweakbar
 * remove std::strings for resource id/crc32 hashes, http://cowboyprogramming.com/2007/01/04/practical-hash-ids/ http://bitsquid.blogspot.se/2010/10/static-hash-values.html http://aras-p.info/blog/2016/08/02/Hash-Functions-all-the-way-down/
 * look into custom stl allocators http://www.gamedev.net/topic/353479-the-stl-for-game-engine-architecture/?whichpage=1%25EF%25BF%25BD
-* add a no-exception build
+* add a no-exception build http://stackoverflow.com/questions/6049563/with-fno-exceptions-what-happens-with-new-t http://stackoverflow.com/questions/7249378/disabling-c-exceptions-how-can-i-make-any-std-throw-immediately-terminate
 * move graphical code into a graphics namespace
 * change from json to yaml/protobuf?
 * use common resources and write a tool to check for missing resources http://bitsquid.blogspot.se/2010/10/dependency-checker.html#comment-form
@@ -102,6 +102,10 @@ Fonts: http://www.fontspace.com/sil-international/scheherazade http://www.fontsp
 * culling + world editor with gameplay analytics http://www.gamedev.net/blog/832/entry-2259290-the-poor-mans-gameplay-analytics/ http://opengameart.org/content/alien-buildingbase-set
 * heightmap system
 * add loading of shaders from files with preprocessor, shader editor? http://www.acegikmo.com/shaderforge/ https://code.google.com/p/wxworkspaceview/ http://sourceforge.net/projects/wxsf/ https://code.google.com/p/junkyardcode/source/browse/#svn/trunk/connex
+* improve graphics and add various settings
+ - https://www.youtube.com/watch?v=1UcBwsQTwwI
+ - https://www.youtube.com/watch?v=1MuCGwoAH-U
+ - https://www.youtube.com/watch?v=2-84Bfvh0Pc
 * splines for cloth and camera movements? http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/real-time-cloth-simulation-with-b-spline-surfaces-r3814
 * benchmark system
 * lights and shaddows
